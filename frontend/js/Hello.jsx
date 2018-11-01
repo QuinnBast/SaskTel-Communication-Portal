@@ -1,4 +1,5 @@
 import React from "react";
+import { Button } from 'reactstrap';
 var $ = require('jquery');
 
 export default class Hello extends React.Component {
@@ -32,7 +33,7 @@ export default class Hello extends React.Component {
             <div>
             <h1>{this.state.greetings}</h1>
                 <hr/>
-                <button onClick={this.getPythonHello}>Say Hello!</button>
+                <Button onClick={this.getPythonHello}>Say Hello!</Button>
             </div>
         );
     }
