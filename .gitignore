@@ -5,3 +5,5 @@
 venv/
 
 frontend/dist/bundle\.js
+
+frontend/dist/
