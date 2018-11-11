@@ -42,5 +42,5 @@ In order to execute the project, all of the javascript dependencies, css librari
     2. It will monitor for changes to files until `Ctrl + C` is pressed.
     3. For production, this should be change to a `build once` model.
 3. Configure the flask environmental variable by executing `set FLASK_APP=REST/server.py`
-4. Run the server from the teriminal by executing `python -m flask run`
+4. Run the server from the teriminal by executing `flask run`
 5. Click the link in the PyCharm terminal, or Navigate to `127.0.0.1:5000` in your browser.
