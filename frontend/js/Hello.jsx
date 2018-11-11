@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from 'reactstrap';
-var $ = require('jquery');
+let $ = require('jquery');
 
 export default class Hello extends React.Component {
 
@@ -11,7 +11,7 @@ export default class Hello extends React.Component {
         // Set the greeting to the passed in name
         this.state = {greetings: 'Hello ' + this.props.name};
 
-        // Binding is nessecary to make 'this' work in the callback
+        // Binding is necessary to make 'this' work in the callback
         // sets the "getPythonHello" function to this object's reference.
         this.getPythonHello = this.getPythonHello.bind(this);
     }
