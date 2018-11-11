@@ -2,3 +2,5 @@ requests
 flask
 xmltodict
 flask_restful
+flask-jwt-extended
+passlib
