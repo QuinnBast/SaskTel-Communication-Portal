@@ -2,14 +2,14 @@ from flask import Flask
 from flask_restful import Api
 from REST.endpoints.auth.Authenticator import Authenticator
 from flask_jwt_extended import JWTManager
-import datetime.timedelta
+from datetime import timedelta
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
 api = Api(app)
 
 # Configure JSON Web Tokens (JWT)
 app.config['JWT_SECRET_KEY'] = 'jwt-secret-key'     # THIS NEEDS TO CHANGE TO A MORE SECURE TOKEN/KEY
-app.config['JWT_EXPIRATION_DELTA'] = datetime.timedelta()
+app.config['JWT_EXPIRATION_DELTA'] = timedelta(minutes=30)
 jwt = JWTManager(app)
 
 # Add REST endpoints to access them through a route
