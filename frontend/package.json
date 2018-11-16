@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack-cli --progress -d --config webpack.config.js --watch"
+    "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
+    "dev": "webpack --config webpack.config.js --progress --hide-modules",
+    "prod": "webpack -d --config webpack.config.js --progress --hide-modules"
   },
   "author": "",
   "license": "ISC",
