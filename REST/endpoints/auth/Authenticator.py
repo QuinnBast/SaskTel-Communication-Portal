@@ -5,7 +5,8 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_r
 import xmltodict
 from flask import jsonify
 
-class Authenticator():
+
+class Authenticator:
 
     class UserLogin(Resource):
         def post(self):
@@ -65,11 +66,8 @@ class Authenticator():
         @jwt_required
         def post(self):
             response = jsonify({'message':'Logout Successful', 'logout':True})
-            try:
-                unset_jwt_cookies(response)
-            except:
-                return {'message':'Unable to remove cookie!','logout':False}, 501
-            return response, 200
+            unset_jwt_cookies(response)
+            return response
 
     class TokenRefresh(Resource):
         # Can only access this path using the refresh token.
@@ -84,7 +82,7 @@ class Authenticator():
             # Set the JWT token and enforce the response in the cookie.
             # Also sets the CSRF double submit protection cookies in this response
             set_access_cookies(response, access_token)
-            return response, 200
+            return response
 
     class AuthenticationTest(Resource):
         @jwt_required

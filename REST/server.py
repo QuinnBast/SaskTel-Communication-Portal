@@ -30,8 +30,8 @@ app.config['JWT_COOKIE_CSRF_PROTECT'] = True
 # to the refresh endpoint. Technically this is optional, but it is in
 # your best interest to not send additional cookies in the request if
 # they aren't needed.
-app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
-app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
+# app.config['JWT_ACCESS_COOKIE_PATH'] = '/api/'
+# app.config['JWT_REFRESH_COOKIE_PATH'] = '/token/refresh'
 
 jwt = JWTManager(app)
 
