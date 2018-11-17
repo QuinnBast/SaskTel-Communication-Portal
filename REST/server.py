@@ -1,9 +1,9 @@
 from flask import Flask
 from flask_restful import Api
 from REST.endpoints.auth.Authenticator import Authenticator
-from flask_jwt_extended import JWTManager
-from datetime import timedelta
+from flask_jwt_extended import JWTManager, get_jwt_identity
 from REST.config.ConfigManager import ConfigManager
+from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
 api = Api(app)
@@ -19,6 +19,7 @@ api.add_resource(Authenticator.UserLogin, "/login")
 api.add_resource(Authenticator.UserLogout, "/logout")
 api.add_resource(Authenticator.TokenRefresh, "/token/refresh")
 api.add_resource(Authenticator.AuthenticationTest, "/test")
+api.add_resource(BroadsoftConnector.getEndpoint, "/broadsoft")
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS
