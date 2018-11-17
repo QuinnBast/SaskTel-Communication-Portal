@@ -1,9 +1,8 @@
 from flask_restful import Resource, reqparse
-from passlib.hash import pbkdf2_sha256 as sha256
-from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
+from REST.endpoints.auth.User import User
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity, get_raw_jwt, set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
-import xmltodict
 from flask import jsonify
+import jsonpickle
 
 
 class Authenticator:
@@ -27,40 +26,35 @@ class Authenticator:
             # Use the parser to parse arguments the user has sent.
             data = parser.parse_args()
 
-            # Send the username and password to broadsoft and check that a token can be obtained from the endpoint.
-            response = BroadsoftConnector(data['username'], data['password']).getToken()
-            if response.status_code == 201 or response.status_code == 200:
-                # Try to extract the broadsoft token from the response
-                try:
-                    broadsoft_token = xmltodict.parse(response.content)['LoginToken']['token']
-                except:
-                    return \
-                        {
-                            'message': '501: Internal Server Error. Successful response but token not found.',
-                            'login':False,
+            # Create a user profile from the information obtained from the data sent.
+            user = User(
+                username=data['username'],
+                password=data['password'],
+                )
 
-                        }
+            # Attempt to log the user into broadsoft
+            login_status, bad_response = user.login()
 
-                # Login was successful, store the information into a JWT
-                access_token = create_access_token(identity={'id':data['username'],'pass':sha256.hash(data['password'])})
-                refresh_token = create_refresh_token(identity={'id':data['username'],'pass':sha256.hash(data['password'])})
-                response = jsonify({
-                        'message':'User Login successful.',
-                        'login':True,
-                        'broadsoft_token': str(broadsoft_token)
-                    })
+            # Check if the login was successful
+            if login_status == False:
+                # If the login failed, return the HttpResponse that was returned from broadsoft.
+                return bad_response
 
-                # Enforces the refresh and access cookies to be stored in a cookie instead of returning the cookies to
-                # to the frontend.
-                # Also sets the CSRF double submit protection cookies in this response
-                set_refresh_cookies(response, refresh_token)
-                set_access_cookies(response, access_token)
-                return response
-            else:
-                return \
-                    {
-                        'message': response.content if response.content else "Error"
-                    }, response.status_code
+            serializedUser = jsonpickle.encode(user)
+
+            access_token = create_access_token(identity=serializedUser)
+            refresh_token = create_refresh_token(identity=serializedUser)
+            response = jsonify({
+                    'message':'User Login successful.',
+                    'login':True
+                })
+
+            # Enforces the refresh and access cookies to be stored in a cookie instead of returning the cookies to
+            # to the frontend.
+            # Also sets the CSRF double submit protection cookies in this response
+            set_refresh_cookies(response, refresh_token)
+            set_access_cookies(response, access_token)
+            return response
 
     class UserLogout(Resource):
         @jwt_required
