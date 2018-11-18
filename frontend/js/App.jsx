@@ -6,6 +6,11 @@ import {
   Redirect,
   withRouter
 } from "react-router-dom";
+import {Button} from "reactstrap";
+
+import Interface from "./interface";
+
+import Login from "./login";
 
 ////////////////////////////////////////////////////////////
 // 1. Click the public page
@@ -13,25 +18,28 @@ import {
 // 3. Log in
 // 4. Click the back button, note the URL each time
 
-function AuthExample() {
-  return (
-    <Router>
-      <div>
-        <AuthButton />
-        <ul>
-          <li>
-            <Link to="/public">Public Page</Link>
-          </li>
-          <li>
-            <Link to="/protected">Protected Page</Link>
-          </li>
-        </ul>
-        <Route path="/public" component={Public} />
-        <Route path="/login" component={Login} />
-        <PrivateRoute path="/protected" component={Protected} />
-      </div>
-    </Router>
-  );
+export default class App extends React.Component {
+      render () {
+      return (
+          <Router>
+              <div>
+                  <AuthButton/>
+                  <ul>
+                      <li>
+                          <Button color="primary" tag={Link} to="/app/public">Public Page</Button>
+                      </li>
+                      <li>
+                          <Button color="success" tag={Link} to="/app/protected">Protected Page</Button>
+                      </li>
+                  </ul>
+                  <Route path="/app/public" component={Public}/>
+                  <Route path="/app/login" component={LLogin}/>
+                   <Route path="/app/login" component={Interface}/>
+                  <PrivateRoute path="/app/protected" component={Protected}/>
+              </div>
+          </Router>
+      );
+  }
 }
 
 const fakeAuth = {
@@ -74,7 +82,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/login",
+              pathname: "/app/login",
               state: { from: props.location }
             }}
           />
@@ -92,7 +100,7 @@ function Protected() {
   return <h3>Protected</h3>;
 }
 
-class Login extends React.Component {
+class LLogin extends React.Component {
   state = { redirectToReferrer: false };
 
   login = () => {
@@ -115,5 +123,3 @@ class Login extends React.Component {
     );
   }
 }
-
-export default AuthExample;
