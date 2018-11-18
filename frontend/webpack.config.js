@@ -7,6 +7,7 @@ const config = {
     output: {
         path: __dirname + '/dist',
         filename: 'bundle.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css']
@@ -17,14 +18,20 @@ const config = {
              test: /\.jsx?/,
              exclude: /node_modules/,
              loaders: 'babel-loader',
+             options: {
+             presets: ['@babel/preset-env',
+                          '@babel/react',{'plugins': ['@babel/plugin-proposal-class-properties']}
+                      ]
+            }
             },
-            // {
+            //{
             //     test: /\.(css)$/,
             //     use: [{
             //         loader: 'style-loader', //injects CSS into pages
             //     }, {
             //         loader: 'css-loader',   //translates CSS into the javascript bundle
-            //     }, {
+            //     },
+            //         {
             //         loader: 'postcss-loader', //Runs post CSS actions
             //         options: {
             //             plugins: function() {
@@ -34,8 +41,9 @@ const config = {
             //                 ];
             //             }
             //         }
-            //     }, {
-            //         loader: 'sass-loader'   //Compiles sass into css to bundle
+            //     },
+            //         {
+            //         loader: 'sass-loader'   //Compiles scss into css to bundle
             //     }]
             // },
             {
@@ -45,6 +53,9 @@ const config = {
             }
         ]
     },
+    devServer: {
+    historyApiFallback: true,
+  },
 };
 
 module.exports = config;
