@@ -4,38 +4,54 @@ import {
   Route,
   Link,
   Redirect,
+    Switch,
   withRouter
 } from "react-router-dom";
-import {Button} from "reactstrap";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav, Button,
+  NavItem, NavLink,
+ } from 'reactstrap';
 
 import Interface from "./interface";
 
 import Login from "./login";
-
-////////////////////////////////////////////////////////////
-// 1. Click the public page
-// 2. Click the protected page
-// 3. Log in
-// 4. Click the back button, note the URL each time
-
 export default class App extends React.Component {
+    constructor(props) {
+    super(props);
+
+    this.toggle = this.toggle.bind(this);
+    this.state = {
+      isOpen: false
+    };
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    });
+  }
       render () {
       return (
           <Router>
-              <div>
-                  <AuthButton/>
-                  <ul>
-                      <li>
-                          <Button color="primary" tag={Link} to="/app/public">Public Page</Button>
-                      </li>
-                      <li>
-                          <Button color="success" tag={Link} to="/app/protected">Protected Page</Button>
-                      </li>
-                  </ul>
-                  <Route path="/app/public" component={Public}/>
-                  <Route path="/app/login" component={LLogin}/>
-                   <Route path="/app/login" component={Interface}/>
-                  <PrivateRoute path="/app/protected" component={Protected}/>
+              <div><Navbar color="dark" dark expand="md">
+                  <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
+                  <NavbarToggler onClick={this.toggle} />
+                  <Collapse isOpen={this.state.isOpen} navbar>
+                      <Nav className="ml-auto" navbar>
+                          <NavItem>
+                            <AuthButton/>
+                          </NavItem>
+                      </Nav>
+                  </Collapse>
+              </Navbar>
+                  <Switch>
+                      <PrivateRoute exact path="/" component={Interface}/>
+                      <Route path="/login" component={LLogin}/>
+                      <Route path="*" component={NoMatch}/>
+                  </Switch>
               </div>
           </Router>
       );
@@ -54,23 +70,16 @@ const fakeAuth = {
   }
 };
 
-const AuthButton = withRouter(
-  ({ history }) =>
-    fakeAuth.isAuthenticated ? (
-      <p>
-        Welcome!{" "}
-        <button
-          onClick={() => {
-            fakeAuth.signout(() => history.push("/"));
-          }}
-        >
-          Sign out
-        </button>
-      </p>
-    ) : (
-      <p>You are not logged in.</p>
+class AuthButton extends React.Component{
+ render() {
+   return (
+       fakeAuth.isAuthenticated
+       ? (<NavLink tag={Link} to="/" onClick={() => {fakeAuth.signout();}}>Sign out</NavLink>)
+       : ( <NavLink tag={Link} to="/login">Log in</NavLink>
     )
 );
+}
+}
 
 function PrivateRoute({ component: Component, ...rest }) {
   return (
@@ -82,7 +91,7 @@ function PrivateRoute({ component: Component, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: "/app/login",
+              pathname: "/login",
               state: { from: props.location }
             }}
           />
@@ -123,3 +132,10 @@ class LLogin extends React.Component {
     );
   }
 }
+
+const NoMatch = ({ location }) => (
+  <div>
+    <h3>No match for <code>{location.pathname}</code></h3>
+  </div>
+)
+
