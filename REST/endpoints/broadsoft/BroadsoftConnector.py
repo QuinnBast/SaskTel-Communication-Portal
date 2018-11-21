@@ -18,14 +18,14 @@ class BroadsoftConnector(Resource):
         # The base url for endpoints calls
         self.url = "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0"
 
-    def getToken(self, user):
+    def getToken(self, username, password):
         """
         Sends a request to generate a token from broadsoft to check if the user is valid.
         :return: A dictionary response of the xml
         """
 
-        response = requests.post(self.url + "/user/" + user.username + "/profile/loginToken",
-                                auth=(user.username, user.password))
+        response = requests.post(self.url + "/user/" + username + "/profile/loginToken",
+                                auth=(username, password))
 
         return response
 
