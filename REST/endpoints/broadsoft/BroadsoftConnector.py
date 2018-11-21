@@ -2,7 +2,6 @@ import requests
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import xmltodict
-import jsonpickle
 from flask import jsonify, make_response
 
 
@@ -33,7 +32,7 @@ class BroadsoftConnector(Resource):
         # Require a java web token to access broadsoft endpoints other than the login token.
         @jwt_required
         def post(self):
-            user = jsonpickle.decode(get_jwt_identity())
+            user = get_jwt_identity()
 
             if user is None:
                 return {'message':'Not logged in'}, 401
