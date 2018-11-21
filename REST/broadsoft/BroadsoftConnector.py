@@ -1,21 +1,12 @@
-import requests
-from flask_restful import Resource, reqparse
+from flask_restful import reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
-import xmltodict
-from flask import jsonify, make_response
+from flask import jsonify, make_response, json
+import xmltodict, dicttoxml, requests
+from REST.auth.Proxy import Proxy
+from REST.broadsoft.BroadsoftResource import BroadsoftResource
 
 
-class BroadsoftConnector(Resource):
-    """
-    A class to allow endpoints API calls
-    """
-    def __init__(self):
-        """
-        Constructor for the endpoints API to allow connections to the API
-        """
-
-        # The base url for endpoints calls
-        self.url = "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0"
+class BroadsoftConnector(BroadsoftResource):
 
     def getToken(self, username, password):
         """
@@ -28,10 +19,11 @@ class BroadsoftConnector(Resource):
 
         return response
 
-    class getEndpoint(Resource):
-        # Require a java web token to access broadsoft endpoints other than the login token.
+    class getEndpoint(BroadsoftResource):
+        # Require user to be logged in to access this endpoint.
         @jwt_required
         def post(self):
+            from flask import request
             user = get_jwt_identity()
 
             if user is None:
@@ -50,22 +42,21 @@ class BroadsoftConnector(Resource):
                 required=True,
                 type=str)
 
+            parser.add_argument(
+                name='method',
+                help='Missing method type. ex) method:GET/PUT/POST...',
+                required=True)
+
             args = parser.parse_args()
+            url = self.url + args['endpoint']
+            try:
+                data = dicttoxml.dicttoxml(json.loads(args['data']))
+            except:
+                data = None
+            method = args['method']
 
-            # Check if the user's broadsoft token has expired
-            if not user.isTokenValid():
-                # Attempt to generate a new token.
-                if user.getNewToken() == False:
-                    # If the token was unable to be generated, return an error.
-                    return {'message':'An authentication error occurred.'}, 200
-
-            # Once a valid token has been verified/generated, send the broadsoft request with the token.
-
-            response = requests.post(
-                            url="https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0" + args['endpoint'],
-                            data=args['data'],
-                            headers={'Authorization': 'access_token ' + user.broadsoft_token}
-                            )
+            # Ensure broadsoft cookies are stripped and re-formatted.
+            response = Proxy().to_broadsoft(method, url, data, request.cookies)
 
             if response.status_code == 200 or response.status_code == 201:
                 # Get the XML response and return the response as a JSON string.

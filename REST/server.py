@@ -3,7 +3,7 @@ from flask_restful import Api
 from REST.auth.Authenticator import Authenticator
 from flask_jwt_extended import JWTManager
 from REST.config.ConfigManager import ConfigManager
-from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
+from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
 api = Api(app)

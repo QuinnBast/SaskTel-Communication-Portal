@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
 from flask import jsonify
-from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
+from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 from REST.auth.Proxy import Proxy
 
 
@@ -25,7 +25,12 @@ class Authenticator:
             )
 
             # Use the parser to parse arguments the user has sent.
-            data = parser.parse_args()
+            try:
+                data = parser.parse_args()
+            except reqparse.exceptions.BadRequest as e:
+                # If there are any errors, ensure that login=False is sent.
+                return {'login':False,'message':e.data['message']}, e.code
+
             username = data["username"] + "@imstas.stb1.com"
             password = data["password"]
 
@@ -47,12 +52,14 @@ class Authenticator:
 
                 return response
             else:
-                return False, broadsoft_response
+                return {'login':False}, broadsoft_response.status_code
 
     class UserLogout(Resource):
         @jwt_required
         def post(self):
-            response = jsonify({'message':'Logout Successful', 'logout':True})
+            response = Proxy().to_client()
+            response.data = jsonify({'message':'Logout Successful', 'logout':True})
+            response.delete_cookie("JSESSIONID")
             unset_jwt_cookies(response)
             return response
 
@@ -74,4 +81,10 @@ class Authenticator:
     class AuthenticationTest(Resource):
         @jwt_required
         def post(self):
-            return {'message':'Authentication Test Success'}
+            # Update the broadsoft cookie
+
+            # Create a request to broadsoft
+            import requests
+            broadsoft_response = requests.get(url="https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190073@imstas.stb1.com/profile", cookies={"JSESSIONID":request.cookies["JSESSIONID"]})
+            response = Proxy().to_client(broadsoft_response)
+            return response
