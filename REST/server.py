@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
-from REST.endpoints.auth.Authenticator import Authenticator
-from flask_jwt_extended import JWTManager, get_jwt_identity
+from REST.auth.Authenticator import Authenticator
+from flask_jwt_extended import JWTManager
 from REST.config.ConfigManager import ConfigManager
 from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
 
@@ -23,7 +23,6 @@ api.add_resource(BroadsoftConnector.getEndpoint, "/broadsoft")
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS
-from REST.controllers import IndexController, LoginController
 
 if __name__ == '__main__':
     app.run()
