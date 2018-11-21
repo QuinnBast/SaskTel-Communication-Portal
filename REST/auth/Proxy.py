@@ -1,11 +1,12 @@
-import requests
-from flask import Response
+import xmltodict, dicttoxml
+from flask import Response, json
 
 class Proxy:
 
     def to_broadsoft(self, request):
         # Create a flask response to send back
         response = Response(request.content)
+        response.data = dicttoxml.dicttoxml(json.load(request.content))
 
         # Convert the JSESSIONID Cookie to the broadsoft domain.
         for cookie in request.cookies:
@@ -23,7 +24,9 @@ class Proxy:
 
     def to_client(self, request):
         # Create a flask response to send back
-        response = Response(request.content)
+        response = Response()
+        dict = xmltodict.parse(request.content)
+        response.data = json.dumps(dict)
 
         # Convert cookies to our domain.
         for cookie in request.cookies:
