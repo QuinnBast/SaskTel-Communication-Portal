@@ -4,6 +4,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_r
 from flask import jsonify, Response
 from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
 import xmltodict
+from REST.auth.Proxy import Proxy
 
 
 class Authenticator:
@@ -34,23 +35,7 @@ class Authenticator:
 
             if broadsoft_response.status_code == 201 or broadsoft_response.status_code == 200:
 
-                response_content = xmltodict.parse(broadsoft_response.content)
-
-                content = {
-                    'data': jsonify(response_content),
-                    'login': 'true'
-                }
-
-                response = Response(content)
-                for cookie in broadsoft_response.cookies:
-                    response.set_cookie(
-                        key=cookie.name,
-                        value=cookie.value,
-                        expires=cookie.expires,
-                        domain=cookie.domain,
-                        secure=cookie.secure,
-                        path=cookie.path,
-                        httponly=True)
+                response = Proxy().to_client(broadsoft_response)
 
                 # Create a JWT for this server.
                 # Enforces the refresh and access cookies to be stored in a cookie instead of returning the cookies to
