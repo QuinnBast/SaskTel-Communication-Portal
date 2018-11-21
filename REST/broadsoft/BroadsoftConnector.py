@@ -4,6 +4,8 @@ from flask import jsonify, make_response, json
 import xmltodict, dicttoxml, requests
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
+from REST.auth.User import User
+
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -23,8 +25,7 @@ class BroadsoftConnector(BroadsoftResource):
         # Require user to be logged in to access this endpoint.
         @jwt_required
         def post(self):
-            from flask import request
-            user = get_jwt_identity()
+            user = User().from_identity(get_jwt_identity())
 
             if user is None:
                 return {'message':'Not logged in'}, 401
@@ -56,7 +57,7 @@ class BroadsoftConnector(BroadsoftResource):
             method = args['method']
 
             # Ensure broadsoft cookies are stripped and re-formatted.
-            response = Proxy().to_broadsoft(method, url, data, request.cookies)
+            response = Proxy().to_broadsoft(method, url, data, user)
 
             if response.status_code == 200 or response.status_code == 201:
                 # Get the XML response and return the response as a JSON string.

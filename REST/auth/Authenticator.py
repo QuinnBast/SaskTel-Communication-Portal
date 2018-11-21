@@ -1,9 +1,10 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
-from flask import jsonify
+from flask import jsonify, Response
 from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 from REST.auth.Proxy import Proxy
+from REST.auth.User import User
 
 
 class Authenticator:
@@ -45,8 +46,8 @@ class Authenticator:
                 # Enforces the refresh and access cookies to be stored in a cookie instead of returning the cookies to
                 # to the frontend.
                 # Also sets the CSRF double submit protection cookies in this response
-                access_token = create_access_token(identity=username)
-                refresh_token = create_refresh_token(identity=username)
+                access_token = create_access_token(identity=User(username, broadsoft_response.cookies["JSESSIONID"]).to_json())
+                refresh_token = create_refresh_token(identity=User(username, broadsoft_response.cookies["JSESSIONID"]).to_json())
                 set_refresh_cookies(response, refresh_token)
                 set_access_cookies(response, access_token)
 
@@ -59,7 +60,6 @@ class Authenticator:
         def post(self):
             response = Proxy().to_client()
             response.data = jsonify({'message':'Logout Successful', 'logout':True})
-            response.delete_cookie("JSESSIONID")
             unset_jwt_cookies(response)
             return response
 
@@ -69,22 +69,11 @@ class Authenticator:
         def post(self):
             # This endpoint will create and send back a new JWT access token.
             # The JWT refresh token is valid for 30 days. This allows user's to refresh their session
-            current_user = get_jwt_identity()
+            current_user = str(get_jwt_identity())
             access_token = create_access_token(identity=current_user)
 
             response = jsonify({'message':'Access token refreshed.'})
             # Set the JWT token and enforce the response in the cookie.
             # Also sets the CSRF double submit protection cookies in this response
             set_access_cookies(response, access_token)
-            return response
-
-    class AuthenticationTest(Resource):
-        @jwt_required
-        def post(self):
-            # Update the broadsoft cookie
-
-            # Create a request to broadsoft
-            import requests
-            broadsoft_response = requests.get(url="https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190073@imstas.stb1.com/profile", cookies={"JSESSIONID":request.cookies["JSESSIONID"]})
-            response = Proxy().to_client(broadsoft_response)
             return response
