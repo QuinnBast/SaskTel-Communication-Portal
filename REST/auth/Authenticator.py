@@ -1,9 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
-from flask import jsonify, Response
+from flask import jsonify
 from REST.endpoints.broadsoft.BroadsoftConnector import BroadsoftConnector
-import xmltodict
 from REST.auth.Proxy import Proxy
 
 
