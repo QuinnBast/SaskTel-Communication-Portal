@@ -8,10 +8,10 @@ from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
 api = Api(app)
 
-# Set the application configuration settings from the configuration file.
 ConfigManager(app)
-
 # Setup the JWT token manager on the application
+# Set the application configuration settings from the configuration file.
+
 jwt = JWTManager(app)
 
 # Add REST endpoints to access them through a route
