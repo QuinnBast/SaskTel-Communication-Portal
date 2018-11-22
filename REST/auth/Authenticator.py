@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (create_access_token, create_refresh_token, jwt_required, jwt_refresh_token_required, get_jwt_identity,
                                 set_access_cookies, set_refresh_cookies, unset_jwt_cookies)
-from flask import jsonify, Response
+from flask import jsonify, json
 from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 from REST.auth.Proxy import Proxy
 from REST.auth.User import User
@@ -59,7 +59,7 @@ class Authenticator:
         @jwt_required
         def post(self):
             response = Proxy().to_client()
-            response.data = jsonify({'message':'Logout Successful', 'logout':True})
+            response.data = json.dumps({'message':'Logout Successful', 'logout':True})
             unset_jwt_cookies(response)
             return response
 

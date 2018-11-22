@@ -1,7 +1,6 @@
 from configparser import ConfigParser
-from REST.config.config import config, config_static
+from REST.config.DevelopmentConfig import DevelopmentConfig
 
 class ConfigManager:
     def __init__(self, app):
-        app.config.update(config)
-        app.config.update(config_static)
+        app.config.from_object('REST.config.DevelopmentConfig.DevelopmentConfig')
