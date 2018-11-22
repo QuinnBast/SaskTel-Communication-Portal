@@ -8,6 +8,8 @@ import {
   withRouter
 } from "react-router-dom";
 import {
+    Col,
+    Row,
   Collapse,
   Navbar,
   NavbarToggler,
@@ -17,6 +19,7 @@ import {
  } from 'reactstrap';
 
 import Interface from "./interface";
+import Call from "./call/call";
 
 import Login from "./login";
 export default class App extends React.Component {
@@ -34,26 +37,30 @@ export default class App extends React.Component {
     });
   }
       render () {
-      return (
-          <Router>
-              <div><Navbar color="dark" dark expand="md">
-                  <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
-                  <NavbarToggler onClick={this.toggle} />
-                  <Collapse isOpen={this.state.isOpen} navbar>
-                      <Nav className="ml-auto" navbar>
-                          <NavItem>
-                            <AuthButton/>
-                          </NavItem>
-                      </Nav>
-                  </Collapse>
-              </Navbar>
-                  <Switch>
-                      <PrivateRoute exact path="/" component={Interface}/>
-                      <Route path="/login" component={LLogin}/>
-                      <Route path="*" component={NoMatch}/>
-                  </Switch>
-              </div>
-          </Router>
+          return (
+              <Router>
+                  <div>
+                      <Navbar color="dark" dark expand="md">
+
+                          <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
+                          <NavbarToggler onClick={this.toggle} />
+                          <Collapse isOpen={this.state.isOpen} navbar>
+                              <Nav className="ml-auto" navbar>
+                                  <NavItem>
+                                      <AuthButton/>
+                                  </NavItem>
+                              </Nav>
+                          </Collapse>
+                      </Navbar>
+                      <Col>
+                          <Switch>
+                              <PrivateRoute exact path="/" component={Call}/>
+                              <Route path="/login" component={LLogin}/>
+                              <Route path="*" component={NoMatch}/>
+                          </Switch>
+                      </Col>
+                  </div>
+              </Router>
       );
   }
 }
@@ -63,6 +70,7 @@ const fakeAuth = {
   authenticate(cb) {
     this.isAuthenticated = true;
     setTimeout(cb, 100); // fake async
+      return cb;
   },
   signout(cb) {
     this.isAuthenticated = false;

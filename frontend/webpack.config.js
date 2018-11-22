@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = {
     entry: {
         "indexPage": __dirname + '/js/index.jsx',
@@ -24,38 +24,12 @@ const config = {
                       ]
             }
             },
-            //{
-            //     test: /\.(css)$/,
-            //     use: [{
-            //         loader: 'style-loader', //injects CSS into pages
-            //     }, {
-            //         loader: 'css-loader',   //translates CSS into the javascript bundle
-            //     },
-            //         {
-            //         loader: 'postcss-loader', //Runs post CSS actions
-            //         options: {
-            //             plugins: function() {
-            //                 return [
-            //                     require('precss'),
-            //                     require('autoprefixer')
-            //                 ];
-            //             }
-            //         }
-            //     },
-            //         {
-            //         loader: 'sass-loader'   //Compiles scss into css to bundle
-            //     }]
-            // },
-            {
-                test: /\.css$/,
-                include: /node_modules/,
-                loaders: ['style-loader', 'css-loader'],
-            }
+             {
+                 test:/\.(s*)css$/,
+                 use:['style-loader','css-loader', 'sass-loader']
+              }
         ]
     },
-    devServer: {
-    historyApiFallback: true,
-  },
 };
 
 module.exports = config;
