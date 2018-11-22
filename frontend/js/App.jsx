@@ -79,7 +79,7 @@ export default class App extends React.Component {
                             <Col>
                                 <Switch>
                                     <PrivateRoute exact path="/" component={Call}/>
-                                    <Route path="/login" component={LLogin}/>
+                                    <Route path="/login" component={Login}/>
                                     <Route path="*" component={NoMatch}/>
                                 </Switch>
                             </Col>
