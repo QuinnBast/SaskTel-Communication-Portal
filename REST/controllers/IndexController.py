@@ -10,4 +10,4 @@ def index():
 @app.route("/hello")
 def hello():
     greeting_list = ['Hello', 'Hey', 'Sup', 'Yo', 'How you doing']
-    return random.choice(greeting_list);
+    return random.choice(greeting_list)

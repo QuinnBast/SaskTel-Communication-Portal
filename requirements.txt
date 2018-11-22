@@ -1,6 +1,7 @@
-requests
-flask
-xmltodict
-flask_restful
-flask-jwt-extended
-passlib
+requests == 2.20.0
+flask == 1.0.2
+xmltodict == 0.11.0
+flask_restful == 0.3.6
+flask-jwt-extended == 3.13.1
+passlib == 1.7.1
+dicttoxml == 1.7.4
