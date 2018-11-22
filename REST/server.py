@@ -22,6 +22,8 @@ api.add_resource(BroadsoftConnector.getEndpoint, "/broadsoft")
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS
+from REST.controllers import IndexController
+
 
 if __name__ == '__main__':
     app.run()
