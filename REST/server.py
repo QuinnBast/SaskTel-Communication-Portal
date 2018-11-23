@@ -19,7 +19,7 @@ jwt = JWTManager(app)
 api.add_resource(Authenticator.UserLogin, "/rest/login")
 api.add_resource(Authenticator.UserLogout, "/rest/logout")
 api.add_resource(Authenticator.TokenRefresh, "/rest/token/refresh")
-api.add_resource(Authenticator.AuthenticationTest, "/rest/test")
+api.add_resource(BroadsoftConnector.getEndpoint, "/rest/broadsoft")
 
 
 # Initialize the controllers.
