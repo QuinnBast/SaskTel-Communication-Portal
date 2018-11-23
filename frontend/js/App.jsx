@@ -23,8 +23,6 @@ import {
 } from 'reactstrap';
 
 import Interface from "./interface";
-import Call from "./call/call";
-
 import Login from "./login";
 
 
@@ -78,7 +76,7 @@ export default class App extends React.Component {
                         <Row>
                             <Col>
                                 <Switch>
-                                    <PrivateRoute exact path="/" component={Call}/>
+                                    <Route exact path="/" component={Interface}/>
                                     <Route path="/login" component={Login}/>
                                     <Route path="*" component={NoMatch}/>
                                 </Switch>
