@@ -1,11 +1,12 @@
 import React from "react";
 import {render} from "react-dom";
-import {BrowserRouter} from "react-router-dom";
+import {Router} from "react-router-dom";
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap/dist/css/bootstrap.min.css";
+import history from "./router/history";
 
 render((
-  <BrowserRouter>
+  <Router history={history}>
     <App />
-  </BrowserRouter>
-), document.getElementById('content'))
+  </Router>
+    ),document.getElementById('content'));

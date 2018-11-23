@@ -59,7 +59,7 @@ export default class App extends React.Component {
                         <Row>
                             <Col>
                                 <Switch>
-                                    <ProtectedRoute exact path="/" component={Call}/>
+                                    <ProtectedRoute exact path="/" component={Interface}/>
                                     <Route path="/login" component={Login}/>
                                     <Route path="*" component={NoMatch}/>
                                 </Switch>

@@ -1,3 +1,5 @@
+import history from "../router/history";
+
 
 let $ = require('jquery');
 
@@ -15,33 +17,25 @@ class Auth {
     }
 
     login () {
-        this.authenticated = true;
         let object = {
-            "username":this.username,
-            "password":this.password,
+            "username": this.username,
+            "password": this.password,
         };
         let json = JSON.stringify(object);
         //Call server's login function
+        let tmp;
         $.ajax({
+            context: this,
             type: "POST",
             url: "/rest/login",
             contentType: "application/json",
             data: json,
             dataType: "json",
-            success: (data) => {
-                if(data["login"] === true){
-                    //A cookie has already been set.
-                    this.authenticated = true;
-                    props.history.push("/");
-                    //!!!! STORE THE CSRF TOKEN IN REACT STORE HERE!!!!!///
-                }
-            },
-            failure: (data) => {
-                console.log(data)
+            success: function(response){
+                this.authenticated = true;
+                history.push("/");
             }
         });
-
-
     };
 
     logout() {
