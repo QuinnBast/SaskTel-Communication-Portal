@@ -1,4 +1,5 @@
 import history from "../router/history";
+import * as Cookies from "js-cookie";
 
 
 let $ = require('jquery');
@@ -31,15 +32,21 @@ class Auth {
             contentType: "application/json",
             data: json,
             dataType: "json",
-            success: function(response){
+            success: function(responseText, textStatus, jqxhr){
                 this.authenticated = true;
+                this.token = Cookies.get('csrf_access_token');
                 history.push("/");
-            }
+            },
+            error: function(jqxhr, textStatus, errorThrown){
+                console.log(errorThrown);
+            },
         });
     };
 
     logout() {
         this.authenticated = false;
+        this.username = "";
+        this.password = "";
     };
 
     isAuthenticated() {
