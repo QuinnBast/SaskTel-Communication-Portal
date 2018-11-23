@@ -6,6 +6,7 @@ from REST.config.ConfigManager import ConfigManager
 from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
+
 api = Api(app)
 
 ConfigManager(app)
@@ -15,10 +16,11 @@ ConfigManager(app)
 jwt = JWTManager(app)
 
 # Add REST endpoints to access them through a route
-api.add_resource(Authenticator.UserLogin, "/login")
-api.add_resource(Authenticator.UserLogout, "/logout")
-api.add_resource(Authenticator.TokenRefresh, "/token/refresh")
-api.add_resource(BroadsoftConnector.getEndpoint, "/broadsoft")
+api.add_resource(Authenticator.UserLogin, "/rest/login")
+api.add_resource(Authenticator.UserLogout, "/rest/logout")
+api.add_resource(Authenticator.TokenRefresh, "/rest/token/refresh")
+api.add_resource(BroadsoftConnector.getEndpoint, "/rest/broadsoft")
+
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS

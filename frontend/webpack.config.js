@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = {
     entry: {
         "indexPage": __dirname + '/js/index.jsx',
@@ -7,6 +7,7 @@ const config = {
     output: {
         path: __dirname + '/dist',
         filename: 'bundle.js',
+        publicPath: '/'
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css']
@@ -17,32 +18,16 @@ const config = {
              test: /\.jsx?/,
              exclude: /node_modules/,
              loaders: 'babel-loader',
-            },
-            // {
-            //     test: /\.(css)$/,
-            //     use: [{
-            //         loader: 'style-loader', //injects CSS into pages
-            //     }, {
-            //         loader: 'css-loader',   //translates CSS into the javascript bundle
-            //     }, {
-            //         loader: 'postcss-loader', //Runs post CSS actions
-            //         options: {
-            //             plugins: function() {
-            //                 return [
-            //                     require('precss'),
-            //                     require('autoprefixer')
-            //                 ];
-            //             }
-            //         }
-            //     }, {
-            //         loader: 'sass-loader'   //Compiles sass into css to bundle
-            //     }]
-            // },
-            {
-                test: /\.css$/,
-                include: /node_modules/,
-                loaders: ['style-loader', 'css-loader'],
+             options: {
+             presets: ['@babel/preset-env',
+                          '@babel/react',{'plugins': ['@babel/plugin-proposal-class-properties']}
+                      ]
             }
+            },
+             {
+                 test:/\.(s*)css$/,
+                 use:['style-loader','css-loader', 'sass-loader']
+              }
         ]
     },
 };
