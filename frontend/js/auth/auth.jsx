@@ -1,5 +1,5 @@
 import history from "../router/history";
-import * as Cookies from "js-cookie";
+let Cookies = require("js-cookie");
 
 
 let $ = require('jquery');
@@ -35,6 +35,16 @@ class Auth {
             success: function(responseText, textStatus, jqxhr){
                 this.authenticated = true;
                 this.token = Cookies.get('csrf_access_token');
+
+                // Configure future AJAX requests to send the csrf token along in the header.
+                $.ajaxSetup({
+                    beforeSend: function(xhr, settings){
+                        if(!this.crossDomain){
+                            xhr.setRequestHeader("X-CSRF-TOKEN", auth.csrfToken);
+                        }
+                    }
+                });
+
                 history.push("/");
             },
             error: function(jqxhr, textStatus, errorThrown){
