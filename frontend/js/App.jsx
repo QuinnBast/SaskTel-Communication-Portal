@@ -16,7 +16,8 @@ import {
     Nav,
     NavItem
 } from 'reactstrap';
-import Call from "./call/call";
+
+import Interface from "./interface";
 import Login from "./login";
 import {ProtectedRoute} from "./auth/protectedroute";
 import AuthButton from "./auth/authbutton";
