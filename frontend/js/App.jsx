@@ -1,6 +1,6 @@
 import React from "react";
 import {
-    BrowserRouter as Router,
+    Router,
     Route,
     Link,
     Switch,
@@ -21,6 +21,7 @@ import Interface from "./interface";
 import Login from "./login";
 import {ProtectedRoute} from "./auth/protectedroute";
 import AuthButton from "./auth/authbutton";
+import history from "./router/history";
 
 const UpperMargin = {
     marginTop: '5em',
@@ -42,7 +43,7 @@ export default class App extends React.Component {
     }
     render () {
         return (
-            <Router>
+            <Router history={history}>
                 <div>
                     <Navbar color="dark" dark expand="md">
                         <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
