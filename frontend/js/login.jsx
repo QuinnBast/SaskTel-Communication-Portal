@@ -39,7 +39,7 @@ export default class Login extends React.Component {
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
                                                 <InputGroupAddon addonType="prepend" >Phone Number</InputGroupAddon>
-                                                <Input onChange={auth.handleUsernameChange} placeholder="#######"/>
+                                                <Input type="number" onChange={auth.handleUsernameChange} placeholder="#######"/>
                                             </InputGroup>
                                         </FormGroup>
                                         <FormGroup style={UpperMarginForm}>
