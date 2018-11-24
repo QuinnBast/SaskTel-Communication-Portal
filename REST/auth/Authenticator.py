@@ -40,7 +40,7 @@ class Authenticator:
 
             if broadsoft_response.status_code == 201 or broadsoft_response.status_code == 200:
 
-                response = Proxy().to_client(broadsoft_response)
+                response = Proxy().to_client()
 
                 # Create a JWT for this server.
                 # Enforces the refresh and access cookies to be stored in a cookie instead of returning the cookies to
@@ -50,6 +50,10 @@ class Authenticator:
                 refresh_token = create_refresh_token(identity=User(username, broadsoft_response.cookies["JSESSIONID"]).to_json())
                 set_refresh_cookies(response, refresh_token)
                 set_access_cookies(response, access_token)
+
+                response.data = json.dumps({
+                    'login': True,
+                })
 
                 return response
             else:
