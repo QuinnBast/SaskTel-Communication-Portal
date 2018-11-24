@@ -24,6 +24,8 @@ class Auth {
         };
         let json = JSON.stringify(object);
         //Call server's login function
+        // store auth in a variable to reference inside ajaxSetup
+        let currAuth = this;
         $.ajax({
             context: this,
             type: "POST",
@@ -32,14 +34,14 @@ class Auth {
             data: json,
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
+               $("#alert").get(0).hidden = true;
                 this.authenticated = true;
-                this.token = Cookies.get('csrf_access_token');
-
+                this.csrfToken = Cookies.get('csrf_access_token');
                 // Configure future AJAX requests to send the csrf token along in the header.
                 $.ajaxSetup({
                     beforeSend: function(xhr, settings){
                         if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", auth.csrfToken);
+                            xhr.setRequestHeader("X-CSRF-TOKEN", currAuth.csrfToken);
                         }
                     }
                 });
@@ -48,6 +50,7 @@ class Auth {
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
+                $("#alert").get(0).hidden = false;
             },
         });
     };
