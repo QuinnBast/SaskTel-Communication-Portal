@@ -19,7 +19,7 @@ class Auth {
 
     login () {
         let object = {
-            "username": this.username.replace(/-/g, ''),
+            "username": this.username.replace(/[()-]/g, ''),
             "password": this.password,
         };
         let json = JSON.stringify(object);
