@@ -19,12 +19,11 @@ class Auth {
 
     login () {
         let object = {
-            "username": this.username,
+            "username": this.username.replace(/-/g, ''),
             "password": this.password,
         };
         let json = JSON.stringify(object);
         //Call server's login function
-        let tmp;
         $.ajax({
             context: this,
             type: "POST",
