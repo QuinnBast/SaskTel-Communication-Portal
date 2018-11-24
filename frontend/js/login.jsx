@@ -1,4 +1,5 @@
 import React from "react";
+import MaskedInput from 'react-text-mask'
 import {
     Col,
     Row,
@@ -24,39 +25,48 @@ const Padding = {
 
 export default class Login extends React.Component {
 
-        render(){
+    render(){
         return (
             <Container>
                 <Row>
-                    <Col sm="2"/>
-                    <Col sm="8">
-                         <Card outline color="info" style={Padding}>
+                    <Col md="2"/>
+                    <Col md="8">
+                        <Card outline color="info" style={Padding}>
                             <CardHeader tag="h3" className="text-center">Welcome to TelPort!</CardHeader>
                             <Form style={UpperMarginForm}>
                                 <Row>
-                                    <Col sm="2"/>
-                                    <Col sm="8">
+                                    <Col md="2"/>
+                                    <Col md="8">
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
-                                                <InputGroupAddon addonType="prepend" >Phone Number</InputGroupAddon>
-                                                <Input type="number" onChange={auth.handleUsernameChange} placeholder="#######"/>
+                                                <InputGroupAddon style={{width: "10em",}} addonType="prepend" >Phone Number</InputGroupAddon>
+                                                <MaskedInput
+                                                    mask={[/\d/, /\d/, /\d/, '-',/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                                                    placeholder="___-___-____"
+                                                    id="username"
+                                                    guide = {true}
+                                                    onChange={auth.handleUsernameChange}
+                                                    render={(ref, props) => (
+                                                        <Input type="text" innerRef={ref} {...props}/>
+                                                    )}
+                                                />
                                             </InputGroup>
                                         </FormGroup>
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
-                                                <InputGroupAddon addonType="prepend" >Password</InputGroupAddon>
+                                                <InputGroupAddon style={{width: "10em"}} className={'mx-auto'} addonType="prepend" >Password</InputGroupAddon>
                                                 <Input onChange={auth.handlePasswordChange} type="password" placeholder="**********"/>
                                             </InputGroup>
                                         </FormGroup>
                                     </Col>
-                                    <Col sm="2"/>
+                                    <Col md="2"/>
                                 </Row>
 
                             </Form>
-                                <Button onClick={auth.login}>Log in</Button>
+                            <Button onClick={auth.login}>Log in</Button>
                         </Card>
                     </Col>
-                    <Col sm="2"/>
+                    <Col md="2"/>
                 </Row>
             </Container>
         );
