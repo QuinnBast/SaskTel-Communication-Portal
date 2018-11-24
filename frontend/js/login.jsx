@@ -5,7 +5,7 @@ import {
     Row,
     Container,
     Card,
-    CardHeader,Button,
+    CardHeader,Button, Alert,
     Form, FormGroup, Input, InputGroup, InputGroupAddon
 } from 'reactstrap';
 
@@ -15,7 +15,7 @@ let $ = require('jquery');
 
 const UpperMarginForm = {
     marginTop: '1em',
-}
+};
 
 const Padding = {
     paddingRight: '2em',
@@ -37,9 +37,12 @@ export default class Login extends React.Component {
                                 <Row>
                                     <Col md="2"/>
                                     <Col md="8">
+                                        <Alert hidden={true} id="alert" color="danger">
+                                            Invalid Login Credentials. Try Again
+                                        </Alert>
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
-                                                <InputGroupAddon style={{width: "10em",}} addonType="prepend" >Phone Number</InputGroupAddon>
+                                                <InputGroupAddon style={{width: "8em",}} className={'mx-auto'} addonType="prepend" ><span style={{width: '100%',}} className={'input-group-text'}>Phone Number</span></InputGroupAddon>
                                                 <MaskedInput
                                                     mask={[/\d/, /\d/, /\d/, '-',/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
                                                     placeholder="___-___-____"
@@ -54,16 +57,16 @@ export default class Login extends React.Component {
                                         </FormGroup>
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
-                                                <InputGroupAddon style={{width: "10em"}} className={'mx-auto'} addonType="prepend" >Password</InputGroupAddon>
+                                                <InputGroupAddon style={{width: "8em"}} className={'mx-auto'} addonType="prepend"><span style={{width: '100%',}} className={'input-group-text'}>Password </span></InputGroupAddon>
                                                 <Input onChange={auth.handlePasswordChange} type="password" placeholder="**********"/>
                                             </InputGroup>
                                         </FormGroup>
+                                        <Button style={{width: '100%',}} className={'mx-auto'} onClick={auth.login}>Log in</Button>
                                     </Col>
                                     <Col md="2"/>
                                 </Row>
 
                             </Form>
-                            <Button onClick={auth.login}>Log in</Button>
                         </Card>
                     </Col>
                     <Col md="2"/>

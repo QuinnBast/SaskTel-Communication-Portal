@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Card, CardHeader, CardBody, CardTitle, CardText, Button, Collapse} from "reactstrap";
 
-var margin = {
+let margin = {
     marginBottom: '40px',
-}
+};
 
 
 export default class Property extends Component {
@@ -19,15 +19,13 @@ export default class Property extends Component {
         };
     };
 
-    content = () => {
-        return;
-    }
+    content = () => {};
 
     toggle = () => {
         this.setState({
             'collapse': !this.state.collapse
         });
-    }
+    };
 
     render() {
         return (
