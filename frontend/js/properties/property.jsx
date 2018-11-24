@@ -19,6 +19,10 @@ export default class Property extends Component {
         };
     };
 
+    content = () => {
+        return;
+    }
+
     toggle = () => {
         this.setState({
             'collapse': !this.state.collapse
