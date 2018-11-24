@@ -44,8 +44,8 @@ export default class Login extends React.Component {
                                             <InputGroup>
                                                 <InputGroupAddon style={{width: "8em",}} className={'mx-auto'} addonType="prepend" ><span style={{width: '100%',}} className={'input-group-text'}>Phone Number</span></InputGroupAddon>
                                                 <MaskedInput
-                                                    mask={[/\d/, /\d/, /\d/, '-',/\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-                                                    placeholder="___-___-____"
+                                                    mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                                    placeholder="(___)-___-____"
                                                     id="username"
                                                     guide = {true}
                                                     onChange={auth.handleUsernameChange}
