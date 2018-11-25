@@ -5,7 +5,7 @@ import {
     Row,
     Container,
     Card,
-    CardHeader,Button, Alert,
+    CardHeader,Button, Alert, FormFeedback,
     Form, FormGroup, Input, InputGroup, InputGroupAddon
 } from 'reactstrap';
 
@@ -40,7 +40,7 @@ export default class Login extends React.Component {
                                         <Alert hidden={true} id="alert" color="danger">
                                             Invalid Login Credentials. Try Again
                                         </Alert>
-                                        <FormGroup style={UpperMarginForm}>
+                                        <FormGroup id='usernameGroup' style={UpperMarginForm}>
                                             <InputGroup>
                                                 <InputGroupAddon style={{width: "8em",}} className={'mx-auto'} addonType="prepend" ><span style={{width: '100%',}} className={'input-group-text'}>Phone Number</span></InputGroupAddon>
                                                 <MaskedInput
@@ -49,11 +49,15 @@ export default class Login extends React.Component {
                                                     id="username"
                                                     guide = {true}
                                                     onChange={auth.handleUsernameChange}
+                                                    onBlur={auth.handleUsernameBlur}
                                                     render={(ref, props) => (
                                                         <Input type="text" innerRef={ref} {...props}/>
                                                     )}
                                                 />
                                             </InputGroup>
+                                            <p style={{visibility: "hidden", color : '#e74c3c'}} align="right" id="usernameAlert">
+                                                Phone number should be exactly 10 digits.
+                                            </p>
                                         </FormGroup>
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
