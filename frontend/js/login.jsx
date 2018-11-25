@@ -62,8 +62,11 @@ export default class Login extends React.Component {
                                         <FormGroup style={UpperMarginForm}>
                                             <InputGroup>
                                                 <InputGroupAddon style={{width: "8em"}} className={'mx-auto'} addonType="prepend"><span style={{width: '100%',}} className={'input-group-text'}>Password </span></InputGroupAddon>
-                                                <Input onChange={auth.handlePasswordChange} type="password" placeholder="**********"/>
+                                                <Input onBlur={auth.handlePasswordBlur} onChange={auth.handlePasswordChange} id="password" type="password" placeholder="**********"/>
                                             </InputGroup>
+                                            <p style={{visibility: "hidden", color : '#e74c3c'}} align="right" id="passwordAlert">
+                                                A password is required to log in.
+                                            </p>
                                         </FormGroup>
                                         <Button style={{width: '100%',}} className={'mx-auto'} onClick={auth.login}>Log in</Button>
                                     </Col>
