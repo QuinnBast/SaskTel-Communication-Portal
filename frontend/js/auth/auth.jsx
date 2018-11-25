@@ -23,12 +23,21 @@ class Auth {
             "password": this.password,
         };
         // if the username isn't a full phone number, return.
-        if (object.username < 10)
+        if (object.username.length  < 10 || object.password.length === 0)
         {
-            $('#username').get(0).style.borderColor = '#e74c3c';
-            $('#usernameAlert').get(0).style.visibility = 'visible';
+            if(object.username.length  < 10)
+            {
+                $('#username').get(0).style.borderColor = '#e74c3c';
+                $('#usernameAlert').get(0).style.visibility = 'visible';
+            }
+            if(object.password.length === 0)
+            {
+                $('#password').get(0).style.borderColor = '#e74c3c';
+                $('#passwordAlert').get(0).style.visibility = 'visible';
+            }
             return;
         }
+
 
         let json = JSON.stringify(object);
         //Call server's login function
@@ -82,8 +91,7 @@ class Auth {
     };
 
     handleUsernameBlur(ev) {
-        let len = ev.target.value.replace(/[()_-]/g,'').length;
-        if(len < 10){
+        if( ev.target.value.replace(/[()_-]/g,'').length < 10){
             $('#username').get(0).style.borderColor = '#e74c3c';
             $('#usernameAlert').get(0).style.visibility = 'visible';
         }
@@ -93,7 +101,22 @@ class Auth {
             $('#usernameAlert').get(0).style.visibility = 'hidden';
         }
 
-    }
+    };
+        handlePasswordBlur(ev) {
+        if(ev.target.value.length === 0){
+            $('#password').get(0).style.borderColor = '#e74c3c';
+            $('#passwordAlert').get(0).style.visibility = 'visible';
+        }
+        else
+        {
+            $('#password').get(0).style.borderColor = '';
+            $('#passwordAlert').get(0).style.visibility = 'hidden';
+        }
+
+    };
+
+
+
 }
 
 export default new Auth();
