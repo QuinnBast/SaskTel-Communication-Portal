@@ -22,6 +22,14 @@ class Auth {
             "username": this.username.replace(/[()-]/g, ''),
             "password": this.password,
         };
+        // if the username isn't a full phone number, return.
+        if (object.username < 10)
+        {
+            $('#username').get(0).style.borderColor = '#e74c3c';
+            $('#usernameAlert').get(0).style.visibility = 'visible';
+            return;
+        }
+
         let json = JSON.stringify(object);
         //Call server's login function
         // store auth in a variable to reference inside ajaxSetup
@@ -34,7 +42,7 @@ class Auth {
             data: json,
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
-               $("#alert").get(0).hidden = true;
+                $("#alert").get(0).hidden = true;
                 this.authenticated = true;
                 this.csrfToken = Cookies.get('csrf_access_token');
                 // Configure future AJAX requests to send the csrf token along in the header.
@@ -72,6 +80,20 @@ class Auth {
     handlePasswordChange(ev) {
         this.password = ev.target.value;
     };
+
+    handleUsernameBlur(ev) {
+        let len = ev.target.value.replace(/[()_-]/g,'').length;
+        if(len < 10){
+            $('#username').get(0).style.borderColor = '#e74c3c';
+            $('#usernameAlert').get(0).style.visibility = 'visible';
+        }
+        else
+        {
+            $('#username').get(0).style.borderColor = '';
+            $('#usernameAlert').get(0).style.visibility = 'hidden';
+        }
+
+    }
 }
 
 export default new Auth();
