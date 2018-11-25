@@ -1,6 +1,7 @@
 import React from "react";
 import Property from "../property"
 import {Button, Table} from "reactstrap";
+import Broadsoft from "../../broadsoft/broadsoft";
 
 export default class CallLogs extends Property {
 
@@ -10,31 +11,23 @@ export default class CallLogs extends Property {
         this.state.description = "This property shows the history of all your previous calls.";
         this.state.title = "Call Logs";
         this.state.content = this.content();
+
+        this.loadAsync()
     }
 
     content = () => {
         return(
             <div>
-                <Table striped bordered hover responsive>
-                    <thead>
-                    <tr>
-                        <th>Date Recieved</th>
-                        <th>Call Type</th>
-                        <th>From</th>
-                        <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>November something</td>
-                        <td>Incoming</td>
-                        <td>3065194771</td>
-                        <td>Missed</td>
-                    </tr>
-                    </tbody>
-                </Table>
+                <div id={"CallLogs"}>Loading Call Logs...</div>
             </div>)
     };
+
+        // Asynchronous function that updates the object.
+    loadAsync(){
+        Broadsoft.getCallLogs("All", function(response){
+            $("#CallLogs").get(0).innerHTML = JSON.stringify(response);
+        });
+    }
 
     render() {
         return super.render();

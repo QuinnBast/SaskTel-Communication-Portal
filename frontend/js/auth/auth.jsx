@@ -1,5 +1,5 @@
 import history from "../router/history";
-let Cookies = require("js-cookie");
+import Broadsoft from "../broadsoft/broadsoft"
 
 
 let $ = require('jquery');
@@ -18,64 +18,40 @@ class Auth {
     }
 
     login () {
-        let object = {
-            "username": this.username.replace(/[()-]/g, ''),
-            "password": this.password,
-        };
+        //Validate the user's input.
         // if the username isn't a full phone number, return.
-        if (object.username.length  < 10 || object.password.length === 0)
+        if(this.username.replace(/[()-]/g, '').length  < 10)
         {
-            if(object.username.length  < 10)
-            {
-                $('#username').get(0).style.borderColor = '#e74c3c';
-                $('#usernameAlert').get(0).style.visibility = 'visible';
-            }
-            if(object.password.length === 0)
-            {
-                $('#password').get(0).style.borderColor = '#e74c3c';
-                $('#passwordAlert').get(0).style.visibility = 'visible';
-            }
+            $('#username').get(0).style.borderColor = '#e74c3c';
+            $('#usernameAlert').get(0).style.visibility = 'visible';
             return;
         }
 
+        if(this.password.length === 0)
+        {
+            $('#password').get(0).style.borderColor = '#e74c3c';
+            $('#passwordAlert').get(0).style.visibility = 'visible';
+            return;
+        }
 
-        let json = JSON.stringify(object);
-        //Call server's login function
-        // store auth in a variable to reference inside ajaxSetup
-        let currAuth = this;
-        $.ajax({
-            context: this,
-            type: "POST",
-            url: "/rest/login",
-            contentType: "application/json",
-            data: json,
-            dataType: "json",
-            success: function(responseText, textStatus, jqxhr){
+        //Async login call
+        Broadsoft.login(function(result){
+            if(result){
                 $("#alert").get(0).hidden = true;
-                this.authenticated = true;
-                this.csrfToken = Cookies.get('csrf_access_token');
-                // Configure future AJAX requests to send the csrf token along in the header.
-                $.ajaxSetup({
-                    beforeSend: function(xhr, settings){
-                        if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", currAuth.csrfToken);
-                        }
-                    }
-                });
-
                 history.push("/");
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
+            } else {
                 $("#alert").get(0).hidden = false;
-            },
+            }
         });
     };
 
     logout() {
+        Broadsoft.logout();
+        // Don't wait for the server's response to logout.
         this.authenticated = false;
         this.username = "";
         this.password = "";
+        history.push("/login");
     };
 
     isAuthenticated() {

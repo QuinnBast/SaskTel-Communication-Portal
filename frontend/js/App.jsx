@@ -17,6 +17,9 @@ import {
     NavItem
 } from 'reactstrap';
 
+// Globally include jQuery
+window.$ = window.jQuery = require("jquery");
+
 import Interface from "./interface";
 import Login from "./login";
 import {ProtectedRoute} from "./auth/protectedroute";
