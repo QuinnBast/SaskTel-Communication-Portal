@@ -49,7 +49,7 @@ class BroadsoftConnector(BroadsoftResource):
                 required=True)
 
             args = parser.parse_args()
-            url = self.url + args['endpoint']
+            url = self.url + args['endpoint'].replace("<user>", user.username)
             try:
                 data = dicttoxml.dicttoxml(json.loads(args['data']))
             except:
@@ -64,4 +64,8 @@ class BroadsoftConnector(BroadsoftResource):
                 string = xmltodict.parse(response.content)
                 return make_response(jsonify({'data':string}), 200)
             else:
-                return make_response(response.content if response.content else "", response.status_code)
+                if response.content:
+                    string = xmltodict.parse(response.content)
+                else:
+                    string = ""
+                return make_response(jsonify(string), response.status_code)

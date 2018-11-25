@@ -1,6 +1,7 @@
 import React from "react";
 import Property from "../property"
 import {Button, Table} from "reactstrap";
+import Broadsoft from "../../broadsoft/broadsoft";
 
 export default class CallDirectory extends Property {
 
@@ -10,29 +11,23 @@ export default class CallDirectory extends Property {
         this.state.description = "This property shows a call directory for possible contacts and groups.";
         this.state.title = "Call Directory";
         this.state.content = this.content();
+
+        this.loadAsync();
     }
 
     content = () => {
         return(
             <div>
-                <Table striped bordered hover responsive>
-                    <thead>
-                    <tr>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Number</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Quinn</td>
-                        <td>Bast</td>
-                        <td>3065194771</td>
-                    </tr>
-                    </tbody>
-                </Table>
+                <div id={"CallDirectory"}>Loading Directories...</div>
             </div>)
     };
+
+        // Asynchronous function that updates the object.
+    loadAsync(){
+        Broadsoft.getDirectory(function(response){
+            $("#CallDirectory").get(0).innerHTML = JSON.stringify(response);
+        });
+    }
 
     render() {
         return super.render();
