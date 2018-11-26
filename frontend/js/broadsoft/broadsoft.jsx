@@ -75,11 +75,28 @@ class Broadsoft {
         });
     }
 
-    getEndpoint(endpoint, callback){
-        let data = {
-            "endpoint":endpoint,
-            "data":"",
-            "method":"GET"
+    sendRequest(args){
+        if(args['endpoint'] === undefined){
+            return;
+        }
+
+        if(args['data'] === undefined){
+            args['data'] = "";
+        }
+
+        if(args['method'] === undefined){
+            args['method'] = "GET";
+        }
+
+        let callback = function(){return};
+        if(args['callback'] !== undefined) {
+            callback = args['callback'];
+        }
+
+        let request_data = {
+            "endpoint":args['endpoint'],
+            "data":args['data'],
+            "method":args['method'],
         };
 
         // Call Forwarding always
@@ -89,108 +106,7 @@ class Broadsoft {
             url: "/rest/broadsoft",
             contentType: "application/json",
             dataType: "json",
-            data: JSON.stringify(data),
-            success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callback(jqxhr.responseText)
-            },
-        });
-    }
-
-    getCallForwarding(type, callback) {
-
-        let data = {
-            "endpoint":"/user/<user>/services/CallForwarding" + type,
-            "data":"",
-            "method":"GET"
-        };
-
-        // Call Forwarding always
-        $.ajax({
-            context: auth,
-            type: "POST",
-            url: "/rest/broadsoft",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callback(jqxhr.responseText)
-            },
-        });
-    }
-
-    getCallReject(type, callback){
-        let data = {
-            "endpoint":"/user/<user>/services/" + type + "CallRejection",
-            "data":"",
-            "method":"GET"
-        };
-
-        // Call Forwarding always
-        $.ajax({
-            context: auth,
-            type: "POST",
-            url: "/rest/broadsoft",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callback(jqxhr.responseText)
-            },
-        });
-    }
-
-    getCallLogs(type, callback){
-        let data = {
-            "endpoint":"/user/<user>/directories/CallLogs" + (type === "All" ? "" : type),
-            "data":"",
-            "method":"GET"
-        };
-
-        // Call Forwarding always
-        $.ajax({
-            context: auth,
-            type: "POST",
-            url: "/rest/broadsoft",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(data),
-            success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callback(jqxhr.responseText)
-            },
-        });
-    }
-
-    getDirectory(callback){
-        let data = {
-            "endpoint":"/user/<user>/directories/CustomContact",
-            "data":"",
-            "method":"GET"
-        };
-
-        // Call Forwarding always
-        $.ajax({
-            context: auth,
-            type: "POST",
-            url: "/rest/broadsoft",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(data),
+            data: JSON.stringify(request_data),
             success: function(responseText, textStatus, jqxhr){
                 callback(responseText);
             },

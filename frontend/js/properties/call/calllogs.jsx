@@ -24,8 +24,11 @@ export default class CallLogs extends Property {
 
         // Asynchronous function that updates the object.
     loadAsync(){
-        Broadsoft.getCallLogs("All", function(response){
-            $("#CallLogs").get(0).innerHTML = JSON.stringify(response);
+        Broadsoft.sendRequest({
+            endpoint:"/user/<user>/directories/CallLogs",
+            callback: function(response) {
+                $("#CallLogs").get(0).innerHTML = JSON.stringify(response);
+            }
         });
     }
 

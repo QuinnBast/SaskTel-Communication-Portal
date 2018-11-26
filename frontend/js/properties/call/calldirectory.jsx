@@ -24,8 +24,11 @@ export default class CallDirectory extends Property {
 
         // Asynchronous function that updates the object.
     loadAsync(){
-        Broadsoft.getDirectory(function(response){
-            $("#CallDirectory").get(0).innerHTML = JSON.stringify(response);
+        Broadsoft.sendRequest({
+            endpoint: "/user/<user>/directories/CustomContact",
+            callback: function(response) {
+                $("#CallDirectory").get(0).innerHTML = JSON.stringify(response);
+            }
         });
     }
 
