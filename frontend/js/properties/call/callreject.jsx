@@ -25,11 +25,17 @@ export default class CallReject extends Property {
 
     // Asynchronous function that updates the object.
     loadAsync(){
-        Broadsoft.getCallReject("Anonymous", function(response){
-            $("#CallRejectAnonymous").get(0).innerHTML = JSON.stringify(response);
+        Broadsoft.sendRequest({
+            endpoint: "/user/<user>/services/AnonymousCallRejection",
+            callback: function(response) {
+                $("#CallRejectAnonymous").get(0).innerHTML = JSON.stringify(response);
+            }
         });
-        Broadsoft.getCallReject("Selective", function(response){
-            $("#CallRejectSelective").get(0).innerHTML = JSON.stringify(response);
+        Broadsoft.sendRequest({
+            endpoint: "/user/<user>/services/SelectiveCallRejection",
+            callback: function(response) {
+                $("#CallRejectSelective").get(0).innerHTML = JSON.stringify(response);
+            }
         });
     }
 
