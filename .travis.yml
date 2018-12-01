@@ -1,0 +1,25 @@
+sudo: required
+language: node_js
+node_js:
+  - 8.12.0
+python:
+  - "3.6"
+env:
+  - FLASK_APP=REST/server.py
+before_install:
+  - sudo apt-get -y install python3-pip python-dev
+  - sudo pip3 install -U setuptools
+install:
+  - sudo pip3 install -r requirements.txt
+  - cd frontend
+  - npm install
+  - npm install newman
+  - npm run dev
+script:
+  - cd ..
+  - set FLASK_APP=REST/server.py
+  - nohup flask run &
+  - sleep 5s
+  - cat nohup.out
+  - cd frontend
+  - node_modules/.bin/newman run tests/postman/4YP.postman_collection.json -e tests/postman/4YP.postman_environment.json
