@@ -425,7 +425,7 @@
 						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
 						"exec": [
 							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202,409]);",
 							"});",
 							"",
 							"pm.test(\"Cookies OK\", function () {",
