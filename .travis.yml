@@ -20,6 +20,5 @@ script:
   - set FLASK_APP=REST/server.py
   - nohup flask run &
   - sleep 5s
-  - cat nohup.out
   - cd frontend
   - node_modules/.bin/newman run tests/postman/4YP.postman_collection.json -e tests/postman/4YP.postman_environment.json --global-var postman_username=$postman_username --global-var postman_password=$postman_password
