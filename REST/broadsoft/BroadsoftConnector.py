@@ -57,7 +57,7 @@ class BroadsoftConnector(BroadsoftResource):
                     #data = """<?xml version="1.0" encoding="ISO-8859-1"?>"""
                     data += str(xmltodict.unparse(jsonData))
                 except:
-                    data = None
+                    data = ""
             method = args['method']
 
             # Ensure broadsoft cookies are stripped and re-formatted.
@@ -71,4 +71,9 @@ class BroadsoftConnector(BroadsoftResource):
                 else:
                     return make_response("", 200)
             else:
+                print("Sent url: " + url)
+                print("Send method: " + method)
+                print("Sent data: " + data)
+                print("Response status: " + str(response.status_code))
+                print("Response content: " + str(response.content) if response.content else "")
                 return make_response(response.content if response.content else "", response.status_code)
