@@ -60,7 +60,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"username\":\"3067190074\",\n\"password\":\"Abcdefg.1234\"\n}"
+					"raw": "{\n\"username\":\"{{postman_username}}\",\n\"password\":\"{{postman_password}}\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/login",
@@ -162,7 +162,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/profile\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/profile\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
@@ -325,7 +325,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
@@ -453,7 +453,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":{\n        \"CallForwardingAlways\": {\n            \"@xmlns\": \"http://schema.broadsoft.com/xsi\",\n            \"active\": \"true\",\n            \"forwardToPhoneNumber\": \"+91-3065194771\",\n            \"ringSplash\": \"false\"\n        }\n    },\n\"method\":\"PUT\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":{\n        \"CallForwardingAlways\": {\n            \"@xmlns\": \"http://schema.broadsoft.com/xsi\",\n            \"active\": \"true\",\n            \"forwardToPhoneNumber\": \"+91-3065194771\",\n            \"ringSplash\": \"false\"\n        }\n    },\n\"method\":\"PUT\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
@@ -634,7 +634,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190073@imstas.stb1.com/services/CallForwardingAlways",
+					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways",
 					"protocol": "https",
 					"host": [
 						"sdibcportal",
@@ -646,7 +646,7 @@
 						"com.broadsoft.xsi-actions",
 						"v2.0",
 						"user",
-						"3067190073@imstas.stb1.com",
+						"{{postman_username}}@imstas.stb1.com",
 						"services",
 						"CallForwardingAlways"
 					]
@@ -671,7 +671,7 @@
 					"raw": "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n<CallForwardingAlways xmlns=\"http://schema.broadsoft.com/xsi\">\n\t<active>true</active>\n\t<forwardToPhoneNumber>3065194771</forwardToPhoneNumber>\n\t<ringSplash>false</ringSplash>\n</CallForwardingAlways>"
 				},
 				"url": {
-					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190073@imstas.stb1.com/services/CallForwardingAlways",
+					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways",
 					"protocol": "https",
 					"host": [
 						"sdibcportal",
@@ -683,7 +683,7 @@
 						"com.broadsoft.xsi-actions",
 						"v2.0",
 						"user",
-						"3067190073@imstas.stb1.com",
+						"{{postman_username}}@imstas.stb1.com",
 						"services",
 						"CallForwardingAlways"
 					]
@@ -716,7 +716,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190073@imstas.stb1.com/profile/loginToken",
+					"raw": "https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/{{postman_username}}@imstas.stb1.com/profile/loginToken",
 					"protocol": "https",
 					"host": [
 						"sdibcportal",
@@ -728,13 +728,35 @@
 						"com.broadsoft.xsi-actions",
 						"v2.0",
 						"user",
-						"3067190073@imstas.stb1.com",
+						"{{postman_username}}@imstas.stb1.com",
 						"profile",
 						"loginToken"
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d349f6e8-b069-4f6b-a9fd-29fdf999ca75",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3cd89b61-a4dc-463b-a55e-38f6829ee401",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
