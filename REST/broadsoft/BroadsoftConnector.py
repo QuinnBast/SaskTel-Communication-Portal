@@ -5,6 +5,7 @@ import xmltodict, requests
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
+import logging
 
 
 
@@ -71,9 +72,10 @@ class BroadsoftConnector(BroadsoftResource):
                 else:
                     return make_response("", 200)
             else:
-                print("Sent url: " + url)
-                print("Send method: " + method)
-                print("Sent data: " + data)
-                print("Response status: " + str(response.status_code))
-                print("Response content: " + str(response.content) if response.content else "")
+                from ..server import app
+                app.logger.log(logging.ERROR, "Sent url: " + url)
+                app.logger.log(logging.ERROR, "Send method: " + method)
+                app.logger.log(logging.ERROR, "Sent data: " + data)
+                app.logger.log(logging.ERROR, "Response status: " + str(response.status_code))
+                app.logger.log(logging.ERROR, "Response content: " + str(response.content) if response.content else "")
                 return make_response(response.content if response.content else "", response.status_code)

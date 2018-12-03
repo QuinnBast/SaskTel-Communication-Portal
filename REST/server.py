@@ -7,6 +7,16 @@ from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
 
+
+import logging
+from logging.handlers import RotatingFileHandler
+file_handler = RotatingFileHandler('REST/logs/output.log')
+app.logger.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+app.logger.addHandler(file_handler)
+logging.getLogger('werkzeug').addHandler(file_handler)
+
 api = Api(app)
 
 ConfigManager(app)

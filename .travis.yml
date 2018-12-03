@@ -18,7 +18,7 @@ install:
 before_script:
   - cd ..
   - set FLASK_APP=REST/server.py
-  - nohup flask run >output &
+  - python3 -m flask run > output &
   - sleep 5s
   - cd frontend
 script:
