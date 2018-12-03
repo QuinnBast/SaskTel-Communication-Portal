@@ -371,7 +371,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"<?xml version=\\\"1.0\\\" encoding=\\\"ISO-8859-1\\\"?>\\n<CallForwardingAlways xmlns=\\\"http://schema.broadsoft.com/xsi\\\"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>false</ringSplash></CallForwardingAlways>\",\n\"method\":\"PUT\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"{\\\"CallForwardingAlways\\\": {\\\"@xmlns\\\": \\\"http://schema.broadsoft.com/xsi\\\", \\\"active\\\": \\\"true\\\", \\\"forwardToPhoneNumber\\\": \\\"+91-3065194771\\\", \\\"ringSplash\\\": \\\"false\\\"}}\",\n\"method\":\"PUT\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
