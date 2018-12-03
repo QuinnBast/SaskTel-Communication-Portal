@@ -7,5 +7,3 @@ venv/
 frontend/dist/bundle\.js
 
 frontend/dist/
-
-REST/logs/
