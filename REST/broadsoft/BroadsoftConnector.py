@@ -53,6 +53,8 @@ class BroadsoftConnector(BroadsoftResource):
             method = args['method']
             if(args['data']):
                 try:
+                    from ..server import app
+                    app.logger.log(logging.INFO, "Incoming data: " + str(args['data']))
                     jsonData = json.loads(args['data'])
                     data = str(xmltodict.unparse(jsonData))
                 except:
