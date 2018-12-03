@@ -6,6 +6,7 @@ from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
 import logging
+from collections import OrderedDict
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -55,7 +56,7 @@ class BroadsoftConnector(BroadsoftResource):
                 try:
                     from ..server import app
                     app.logger.log(logging.INFO, "Incoming data: " + str(args['data']))
-                    jsonData = json.loads(args['data'])
+                    jsonData = json.loads(args['data'], object_pairs_hook=OrderedDict)
                     data = str(xmltodict.unparse(jsonData))
                 except:
                     data = None
