@@ -1,7 +1,7 @@
 from flask_restful import reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from flask import jsonify, make_response
-import requests
+import requests, json, xmltodict
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
@@ -40,7 +40,7 @@ class BroadsoftConnector(BroadsoftResource):
             parser.add_argument(
                 name='data',
                 type=str,
-                help='XML data needs to be a string')
+                help='JSON data needs to be a string')
 
             parser.add_argument(
                 name='method',
@@ -52,7 +52,11 @@ class BroadsoftConnector(BroadsoftResource):
             data = ""
             method = args['method']
             if(args['data']):
-                    data = args['data']
+                try:
+                    jsonData = json.loads(args['data'])
+                    data = str(xmltodict.unparse(jsonData))
+                except:
+                    data = None
 
             # Ensure broadsoft cookies are stripped and re-formatted.
             response = Proxy().to_broadsoft(method, url, data, user)
@@ -66,16 +70,14 @@ class BroadsoftConnector(BroadsoftResource):
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
                 app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
 
-                # Get the XML response and return the response as a JSON string.
-                if response.content:
-                    return make_response(jsonify({'data':response.content.decode('ISO-8859-1')}), 200)
-                else:
-                    return make_response("", 200)
+                return make_response(Proxy().to_client(response), 200)
             else:
                 from ..server import app
                 app.logger.log(logging.INFO, "Sent url: " + url)
                 app.logger.log(logging.INFO, "Send method: " + method)
                 app.logger.log(logging.INFO, "Sent data: " + data)
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
-                app.logger.log(logging.INFO, "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
-                return make_response(response.content.decode('ISO-8859-1') if response.content else "", response.status_code)
+                app.logger.log(logging.INFO,
+                               "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
+
+                return make_response(Proxy().to_client(response), response.status_code)

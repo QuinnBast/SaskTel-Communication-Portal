@@ -1,5 +1,6 @@
 import xmltodict, dicttoxml, requests
-from flask import Response, json
+from flask import Response, jsonify, json
+from collections import OrderedDict
 
 class Proxy:
 
@@ -21,6 +22,11 @@ class Proxy:
         if request is None:
             response = Response()
         else:
-            response = Response(request.content)
+            if request.content:
+                response = Response(request.content)
+                dict = xmltodict.parse(request.content.decode('UTF-8'))
+                response.data = json.dumps({'data':json.dumps(dict)})
+            else:
+                response = Response()
 
         return response
