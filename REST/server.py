@@ -1,4 +1,5 @@
 from flask import Flask
+from flask.logging import default_handler
 from flask_restful import Api
 from REST.auth.Authenticator import Authenticator
 from flask_jwt_extended import JWTManager
@@ -12,8 +13,9 @@ import logging
 from logging.handlers import RotatingFileHandler
 file_handler = RotatingFileHandler('REST/logs/output.log')
 app.logger.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+formatter = logging.Formatter("        %(asctime)s - %(message)s")
 file_handler.setFormatter(formatter)
+default_handler.setFormatter(formatter)
 app.logger.addHandler(file_handler)
 logging.getLogger('werkzeug').addHandler(file_handler)
 

@@ -5,6 +5,7 @@ import xmltodict, requests
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
+from collections import OrderedDict
 import logging
 
 
@@ -54,7 +55,7 @@ class BroadsoftConnector(BroadsoftResource):
             data = ""
             if(args['data']):
                 try:
-                    jsonData = json.loads(args['data'].replace("'", '"'))
+                    jsonData = json.loads(args['data'].replace("'", '"'), object_pairs_hook=OrderedDict)
                     #data = """<?xml version="1.0" encoding="ISO-8859-1"?>"""
                     data += str(xmltodict.unparse(jsonData))
                 except:
@@ -65,6 +66,14 @@ class BroadsoftConnector(BroadsoftResource):
             response = Proxy().to_broadsoft(method, url, data, user)
 
             if response.status_code == 200 or response.status_code == 201:
+                # Log the sent content
+                from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
+
                 # Get the XML response and return the response as a JSON string.
                 if response.content:
                     string = xmltodict.parse(response.content)
@@ -73,9 +82,9 @@ class BroadsoftConnector(BroadsoftResource):
                     return make_response("", 200)
             else:
                 from ..server import app
-                app.logger.log(logging.ERROR, "Sent url: " + url)
-                app.logger.log(logging.ERROR, "Send method: " + method)
-                app.logger.log(logging.ERROR, "Sent data: " + data)
-                app.logger.log(logging.ERROR, "Response status: " + str(response.status_code))
-                app.logger.log(logging.ERROR, "Response content: " + str(response.content) if response.content else "")
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
                 return make_response(response.content if response.content else "", response.status_code)
