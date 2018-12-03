@@ -41,9 +41,9 @@ class BroadsoftConnector(BroadsoftResource):
 
             parser.add_argument(
                 name='data',
+                type=OrderedDict,
                 help='Missing JSON formatted data to send to the broadsoft API.',
-                required=True,
-                type=str)
+                required=True)
 
             parser.add_argument(
                 name='method',
@@ -55,9 +55,7 @@ class BroadsoftConnector(BroadsoftResource):
             data = ""
             if(args['data']):
                 try:
-                    jsonData = json.loads(args['data'].replace("'", '"'), object_pairs_hook=OrderedDict)
-                    #data = """<?xml version="1.0" encoding="ISO-8859-1"?>"""
-                    data += str(xmltodict.unparse(jsonData))
+                    data += str(xmltodict.unparse(args['data']))
                 except:
                     data = ""
             method = args['method']
