@@ -1,13 +1,11 @@
 from flask_restful import reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import jsonify, make_response, json
-import xmltodict, requests
+from flask import jsonify, make_response
+import requests
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
-from collections import OrderedDict
 import logging
-
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -41,9 +39,8 @@ class BroadsoftConnector(BroadsoftResource):
 
             parser.add_argument(
                 name='data',
-                type=OrderedDict,
-                help='Missing JSON formatted data to send to the broadsoft API.',
-                required=True)
+                type=str,
+                help='XML data needs to be a string')
 
             parser.add_argument(
                 name='method',
@@ -53,14 +50,9 @@ class BroadsoftConnector(BroadsoftResource):
             args = parser.parse_args()
             url = self.url + args['endpoint'].replace("<user>", user.username)
             data = ""
-            if(args['data']):
-                try:
-                    from ..server import app
-                    app.logger.log(logging.INFO, "Args data: " + str(args['data']))
-                    data += str(xmltodict.unparse(args['data']))
-                except:
-                    data = ""
             method = args['method']
+            if(args['data']):
+                    data = args['data']
 
             # Ensure broadsoft cookies are stripped and re-formatted.
             response = Proxy().to_broadsoft(method, url, data, user)
@@ -76,8 +68,7 @@ class BroadsoftConnector(BroadsoftResource):
 
                 # Get the XML response and return the response as a JSON string.
                 if response.content:
-                    string = xmltodict.parse(response.content)
-                    return make_response(jsonify({'data':string}), 200)
+                    return make_response(jsonify({'data':response.content.decode('ISO-8859-1')}), 200)
                 else:
                     return make_response("", 200)
             else:
@@ -86,5 +77,5 @@ class BroadsoftConnector(BroadsoftResource):
                 app.logger.log(logging.INFO, "Send method: " + method)
                 app.logger.log(logging.INFO, "Sent data: " + data)
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
-                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
-                return make_response(response.content if response.content else "", response.status_code)
+                app.logger.log(logging.INFO, "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
+                return make_response(response.content.decode('ISO-8859-1') if response.content else "", response.status_code)
