@@ -1,0 +1,133 @@
+2018-12-02 18:41:45,183 - werkzeug - INFO -  * Restarting with stat
+2018-12-02 18:41:45,709 - werkzeug - WARNING -  * Debugger is active!
+2018-12-02 18:41:45,711 - werkzeug - INFO -  * Debugger PIN: 234-161-847
+2018-12-02 18:41:45,716 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:41:46,677 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:41:46] "GET / HTTP/1.1" 200 -
+2018-12-02 18:41:53,257 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:41:53] "POST /rest/login HTTP/1.1" 200 -
+2018-12-02 18:41:56,979 - flask.app - INFO - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:41:56,980 - flask.app - INFO - Send method: PUT
+2018-12-02 18:41:56,980 - flask.app - INFO - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+2018-12-02 18:41:56,980 - flask.app - INFO - Response status: 409
+2018-12-02 18:41:56,980 - flask.app - INFO - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+2018-12-02 18:41:56,980 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:41:56] "POST /rest/broadsoft HTTP/1.1" 409 -
+2018-12-02 18:42:24,994 - flask.app - INFO - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:42:24,994 - flask.app - INFO - Send method: PUT
+2018-12-02 18:42:24,994 - flask.app - INFO - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>false</ringSplash></CallForwardingAlways>
+2018-12-02 18:42:24,994 - flask.app - INFO - Response status: 200
+2018-12-02 18:42:24,995 - flask.app - INFO - 
+2018-12-02 18:42:24,995 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:42:24] "POST /rest/broadsoft HTTP/1.1" 200 -
+2018-12-02 18:43:05,532 - werkzeug - INFO -  * Restarting with stat
+2018-12-02 18:43:06,042 - werkzeug - WARNING -  * Debugger is active!
+2018-12-02 18:43:06,045 - werkzeug - INFO -  * Debugger PIN: 234-161-847
+2018-12-02 18:43:06,050 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:43:08,985 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:43:08] "POST /rest/login HTTP/1.1" 200 -
+2018-12-02 18:43:12,419 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:43:12] "POST /rest/broadsoft HTTP/1.1" 200 -
+2018-12-02 18:43:21,912 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:43:21] "POST /rest/broadsoft HTTP/1.1" 409 -
+2018-12-02 18:43:41,160 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Quinn\\PycharmProjects\\flaskreact\\REST\\server.py', reloading
+2018-12-02 18:43:41,196 - werkzeug - INFO -  * Restarting with stat
+2018-12-02 18:43:41,695 - werkzeug - WARNING -  * Debugger is active!
+2018-12-02 18:43:41,697 - werkzeug - INFO -  * Debugger PIN: 234-161-847
+2018-12-02 18:43:41,701 - werkzeug - INFO -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:44:04,901 - flask.app - INFO - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:44:04,901 - flask.app - INFO - Send method: PUT
+2018-12-02 18:44:04,902 - flask.app - INFO - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+2018-12-02 18:44:04,902 - flask.app - INFO - Response status: 409
+2018-12-02 18:44:04,902 - flask.app - INFO - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+2018-12-02 18:44:04,902 - werkzeug - INFO - 127.0.0.1 - - [02/Dec/2018 18:44:04] "POST /rest/broadsoft HTTP/1.1" 409 -
+2018-12-02 18:44:05,401 - werkzeug - INFO -  * Detected change in 'C:\\Users\\Quinn\\PycharmProjects\\flaskreact\\REST\\server.py', reloading
+2018-12-02 18:44:05,440 - werkzeug - INFO -  * Restarting with stat
+2018-12-02 18:44:05,939 - werkzeug - -  * Debugger is active!
+2018-12-02 18:44:05,941 - werkzeug - -  * Debugger PIN: 234-161-847
+2018-12-02 18:44:05,946 - werkzeug - -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:44:27,231 - werkzeug - - 127.0.0.1 - - [02/Dec/2018 18:44:27] "POST /rest/login HTTP/1.1" 200 -
+2018-12-02 18:44:32,545 - flask.app - - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:44:32,545 - flask.app - - Send method: PUT
+2018-12-02 18:44:32,545 - flask.app - - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+2018-12-02 18:44:32,545 - flask.app - - Response status: 409
+2018-12-02 18:44:32,545 - flask.app - - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+2018-12-02 18:44:32,545 - werkzeug - - 127.0.0.1 - - [02/Dec/2018 18:44:32] "POST /rest/broadsoft HTTP/1.1" 409 -
+/t 2018-12-02 18:44:48,924 - werkzeug - -  * Restarting with stat
+/t 2018-12-02 18:44:49,415 - werkzeug - -  * Debugger is active!
+/t 2018-12-02 18:44:49,417 - werkzeug - -  * Debugger PIN: 234-161-847
+/t 2018-12-02 18:44:49,422 - werkzeug - -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+/t 2018-12-02 18:44:51,426 - flask.app - - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+/t 2018-12-02 18:44:51,426 - flask.app - - Send method: PUT
+/t 2018-12-02 18:44:51,426 - flask.app - - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+/t 2018-12-02 18:44:51,426 - flask.app - - Response status: 409
+/t 2018-12-02 18:44:51,427 - flask.app - - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+/t 2018-12-02 18:44:51,427 - werkzeug - - 127.0.0.1 - - [02/Dec/2018 18:44:51] "POST /rest/broadsoft HTTP/1.1" 409 -
+2018-12-02 18:45:17,918 -  * Restarting with stat
+2018-12-02 18:45:18,435 -  * Debugger is active!
+2018-12-02 18:45:18,437 -  * Debugger PIN: 234-161-847
+2018-12-02 18:45:18,441 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:45:20,681 - 127.0.0.1 - - [02/Dec/2018 18:45:20] "POST /rest/login HTTP/1.1" 200 -
+2018-12-02 18:45:24,340 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:45:24,341 - Send method: PUT
+2018-12-02 18:45:24,341 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+2018-12-02 18:45:24,342 - Response status: 409
+2018-12-02 18:45:24,342 - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+2018-12-02 18:45:24,343 - 127.0.0.1 - - [02/Dec/2018 18:45:24] "POST /rest/broadsoft HTTP/1.1" 409 -
+2018-12-02 18:47:26,344 -  * Restarting with stat
+2018-12-02 18:47:26,835 -  * Debugger is active!
+2018-12-02 18:47:26,838 -  * Debugger PIN: 234-161-847
+2018-12-02 18:47:26,842 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2018-12-02 18:47:29,885 - 127.0.0.1 - - [02/Dec/2018 18:47:29] "POST /rest/login HTTP/1.1" 200 -
+2018-12-02 18:47:34,444 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+2018-12-02 18:47:34,444 - Send method: PUT
+2018-12-02 18:47:34,444 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+2018-12-02 18:47:34,444 - Response status: 409
+2018-12-02 18:47:34,445 - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+2018-12-02 18:47:34,445 - 127.0.0.1 - - [02/Dec/2018 18:47:34] "POST /rest/broadsoft HTTP/1.1" 409 -
+/t 2018-12-02 18:47:46,994 -  * Restarting with stat
+/t 2018-12-02 18:47:47,517 -  * Debugger is active!
+/t 2018-12-02 18:47:47,520 -  * Debugger PIN: 234-161-847
+/t 2018-12-02 18:47:47,523 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+/t 2018-12-02 18:47:49,548 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+/t 2018-12-02 18:47:49,548 - Send method: PUT
+/t 2018-12-02 18:47:49,549 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+/t 2018-12-02 18:47:49,549 - Response status: 409
+/t 2018-12-02 18:47:49,549 - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+/t 2018-12-02 18:47:49,549 - 127.0.0.1 - - [02/Dec/2018 18:47:49] "POST /rest/broadsoft HTTP/1.1" 409 -
+/t 2018-12-02 18:48:02,463 -  * Detected change in 'C:\\Users\\Quinn\\PycharmProjects\\flaskreact\\REST\\server.py', reloading
+/t 2018-12-02 18:48:02,503 -  * Restarting with stat
+2018-12-02 18:48:03,024 -  * Debugger is active!
+2018-12-02 18:48:03,026 -  * Debugger PIN: 234-161-847
+2018-12-02 18:48:03,031 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+        2018-12-02 18:48:08,852 -  * Restarting with stat
+        2018-12-02 18:48:09,360 -  * Debugger is active!
+        2018-12-02 18:48:09,363 -  * Debugger PIN: 234-161-847
+        2018-12-02 18:48:09,367 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+        2018-12-02 18:48:12,082 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+        2018-12-02 18:48:12,082 - Send method: PUT
+        2018-12-02 18:48:12,082 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>falsee</ringSplash></CallForwardingAlways>
+        2018-12-02 18:48:12,083 - Response status: 409
+        2018-12-02 18:48:12,083 - Response content: b'<?xml version="1.0" encoding="ISO-8859-1"?>\n<ErrorInfo xmlns="http://schema.broadsoft.com/xsi"><summary>Invalid Xml</summary><summaryEnglish>Invalid Xml</summaryEnglish><errorCode>1116</errorCode></ErrorInfo>'
+        2018-12-02 18:48:12,083 - 127.0.0.1 - - [02/Dec/2018 18:48:12] "POST /rest/broadsoft HTTP/1.1" 409 -
+        2018-12-02 18:48:39,875 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+        2018-12-02 18:48:39,875 - Send method: PUT
+        2018-12-02 18:48:39,875 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>false</ringSplash></CallForwardingAlways>
+        2018-12-02 18:48:39,876 - Response status: 200
+        2018-12-02 18:48:39,876 - 
+        2018-12-02 18:48:39,876 - 127.0.0.1 - - [02/Dec/2018 18:48:39] "POST /rest/broadsoft HTTP/1.1" 200 -
+        2018-12-02 18:54:31,209 -  * Restarting with stat
+        2018-12-02 18:54:31,729 -  * Debugger is active!
+        2018-12-02 18:54:31,731 -  * Debugger PIN: 234-161-847
+        2018-12-02 18:54:31,735 -  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+        2018-12-02 18:54:36,740 - 127.0.0.1 - - [02/Dec/2018 18:54:36] "POST /rest/login HTTP/1.1" 200 -
+        2018-12-02 18:54:39,550 - Sent url: https://sdibcportal.ims.tsisd.ca/com.broadsoft.xsi-actions/v2.0/user/3067190074@imstas.stb1.com/services/CallForwardingAlways
+        2018-12-02 18:54:39,551 - Send method: PUT
+        2018-12-02 18:54:39,552 - Sent data: <?xml version="1.0" encoding="utf-8"?>
+<CallForwardingAlways xmlns="http://schema.broadsoft.com/xsi"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber><ringSplash>false</ringSplash></CallForwardingAlways>
+        2018-12-02 18:54:39,552 - Response status: 200
+        2018-12-02 18:54:39,552 - 
+        2018-12-02 18:54:39,554 - 127.0.0.1 - - [02/Dec/2018 18:54:39] "POST /rest/broadsoft HTTP/1.1" 200 -
