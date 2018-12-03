@@ -22,7 +22,5 @@ class Proxy:
             response = Response()
         else:
             response = Response(request.content)
-            dict = xmltodict.parse(request.content)
-            response.data = json.dumps(dict)
 
         return response
