@@ -55,6 +55,8 @@ class BroadsoftConnector(BroadsoftResource):
             data = ""
             if(args['data']):
                 try:
+                    from ..server import app
+                    app.logger.log(logging.INFO, "Args data: " + str(args['data']))
                     data += str(xmltodict.unparse(args['data']))
                 except:
                     data = ""
