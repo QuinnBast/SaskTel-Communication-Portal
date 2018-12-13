@@ -1,7 +1,7 @@
 import React from "react";
 import Property from "../property"
 import {Button, Table} from "reactstrap";
-import Broadsoft from "../../broadsoft/broadsoft";
+import Broadsoft from "../../../broadsoft/broadsoft";
 
 export default class CallDirectory extends Property {
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Property from "../property"
 import {Button} from "reactstrap";
-import Broadsoft from "../../broadsoft/broadsoft"
+import Broadsoft from "../../../broadsoft/broadsoft"
 
 let $ = require('jquery');
 
