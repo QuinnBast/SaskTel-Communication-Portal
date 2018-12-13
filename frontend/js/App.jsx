@@ -5,25 +5,16 @@ import {
     Link,
     Switch,
 } from "react-router-dom";
-import {
-    Col,
-    Row,
-    Container,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem
-} from 'reactstrap';
 
+import Interface from "./routes/interface";
+import Login from "./routes/login";
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");
 
 import Interface from "./interface";
 import Login from "./login";
 import {ProtectedRoute} from "./auth/protectedroute";
-import AuthButton from "./auth/authbutton";
+import  NavBar from "./components/navbar";
 import history from "./router/history";
 
 const UpperMargin = {
@@ -31,45 +22,16 @@ const UpperMargin = {
 };
 
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            isOpen: false
-        };
-    }
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
     render () {
         return (
             <Router history={history}>
                 <div>
-                    <Navbar color="dark" dark expand="md">
-                        <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
-                        <NavbarToggler onClick={this.toggle} />
-                        <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav className="ml-auto" navbar>
-                                <NavItem>
-                                    <AuthButton/>
-                                </NavItem>
-                            </Nav>
-                        </Collapse>
-                    </Navbar>
-                    <Container style={UpperMargin}>
-                        <Row>
-                            <Col>
+                       <NavBar/>
                                 <Switch>
                                     <ProtectedRoute exact path="/" component={Interface}/>
                                     <Route path="/login" component={Login}/>
                                     <Route path="*" component={NoMatch}/>
                                 </Switch>
-                            </Col>
-                        </Row>
-                    </Container>
                 </div>
             </Router>
         );

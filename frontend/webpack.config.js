@@ -27,7 +27,22 @@ const config = {
              {
                  test:/\.(s*)css$/,
                  use:['style-loader','css-loader', 'sass-loader']
-              }
+              },
+            {
+            test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+            loader: require.resolve("url-loader"),
+            options: {
+                limit: 10000,
+                name: "/dist/[name].[hash:8].[ext]",
+            },
+        },
+        {
+            test: [/\.eot$/, /\.ttf$/, /\.svg$/, /\.woff$/, /\.woff2$/],
+            loader: require.resolve("file-loader"),
+            options: {
+                name: "/dist/[name].[hash:8].[ext]",
+            },
+        }
         ]
     },
 };

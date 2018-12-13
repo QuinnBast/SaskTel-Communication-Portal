@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-import CallForward from "./properties/call/callforward";
-import CallReject from "./properties/call/callreject";
-import CallLogs from "./properties/call/calllogs";
-import CallDirectory from "./properties/call/calldirectory";
+import CallForward from "../components/properties/call/callforward";
+import CallReject from "../components/properties/call/callreject";
+import CallLogs from "../components/properties/call/calllogs";
+import CallDirectory from "../components/properties/call/calldirectory";
 
 export default class Interface extends Component {
 
@@ -22,3 +22,4 @@ export default class Interface extends Component {
         );
     }
 }
+
