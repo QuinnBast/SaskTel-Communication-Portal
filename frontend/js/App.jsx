@@ -6,13 +6,11 @@ import {
     Switch,
 } from "react-router-dom";
 
-import Interface from "./routes/interface";
-import Login from "./routes/login";
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");
 
-import Interface from "./interface";
-import Login from "./login";
+import Interface from "./routes/interface";
+import Login from "./routes/login";
 import {ProtectedRoute} from "./auth/protectedroute";
 import  NavBar from "./components/navbar";
 import history from "./router/history";
