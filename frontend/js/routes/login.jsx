@@ -9,7 +9,7 @@ import {
     Form, FormGroup, Input, InputGroup, InputGroupAddon
 } from 'reactstrap';
 
-import auth from "./auth/auth";
+import auth from "../auth/auth";
 
 let $ = require('jquery');
 
