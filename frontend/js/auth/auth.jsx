@@ -37,10 +37,10 @@ class Auth {
         //Async login call
         Broadsoft.login(function(result){
             if(result){
-                $("#alert").get(0).style.style.visibility = 'hidden';
+                $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
             } else {
-                $("#alert").get(0).style.style.visibility = 'visible';
+                $("#alert").get(0).style.visibility = 'visible';
             }
         });
     };

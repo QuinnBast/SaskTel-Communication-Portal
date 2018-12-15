@@ -5,6 +5,8 @@ import App from "./App";
 import 'semantic-ui-css/semantic.min.css';
 import history from "./router/history";
 
+require("../css/main.css"); //Requires the CSS file
+
 render((
   <Router history={history}>
     <App />
