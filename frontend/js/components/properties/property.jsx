@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, CardHeader, CardBody, CardTitle, CardText, Button, Collapse} from "reactstrap";
+import {Accordion, Icon} from 'semantic-ui-react'
 
 let margin = {
     marginBottom: '40px',
@@ -29,21 +29,17 @@ export default class Property extends Component {
 
     render() {
         return (
-            <Card style={margin}>
-                <CardHeader>
-                    {this.state.name}
-                    <Button color="primary" onClick={this.toggle} style={{float:'right'}}>
-                    Toggle
-                    </Button>
-                </CardHeader>
-                <Collapse  isOpen={this.state.collapse}>
-                    <CardBody>
-                        <CardTitle>{this.state.title}</CardTitle>
-                        <CardText>{this.state.description}</CardText>
-                        <div>{this.state.content}</div>
-                    </CardBody>
-                </Collapse>
-            </Card>
+            <Accordion style={margin}>
+                <Accordion.Title onClick={this.toggle} active={this.state.collapse === true}>
+                    <Icon name='dropdown'/>
+                    {this.state.title}
+                </Accordion.Title>
+                <Accordion.Content active={this.state.collapse === true}>
+                    <div>{this.state.name}</div>
+                    <div>{this.state.description}</div>
+                    <div>{this.state.content}</div>
+                </Accordion.Content>
+            </Accordion>
         );
     }
 }
