@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import Property from "../property"
-import {Button} from "reactstrap";
 import Broadsoft from "../../../broadsoft/broadsoft";
 
 export default class CallReject extends Property {
