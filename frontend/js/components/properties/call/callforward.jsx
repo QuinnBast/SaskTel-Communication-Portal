@@ -1,6 +1,7 @@
 import React from "react";
 import Property from "../property"
 import Broadsoft from "../../../broadsoft/broadsoft"
+import { Table } from 'semantic-ui-react'
 
 let $ = require('jquery');
 
@@ -8,70 +9,132 @@ export default class CallForward extends Property {
 
     constructor(props){
         super(props);
-        this.state.name = "Call Forwarding";
+        this.state.forwarding = [];
+        this.state.name = 'Call Forwarding';
         this.state.description = "This property allows you to forward calls to a different phone number during specific hours.";
         this.state.title = "Call Forwarding";
         this.state.content = this.content();
-        this.state.asyncData = null;
 
         this.loadAsync();
     }
 
+    componentDidUpdate(prevProps, prevState){
+        if(this.state.forwarding !== prevState.forwarding){
+            this.setState({content: this.content()})
+        }
+    }
+
     content = () => {
+
+        let tableRows = [];
+        for(let property of this.state.forwarding){
+            tableRows.push(<Table.Row>
+                            <Table.Cell>{property['type']}</Table.Cell>
+                            <Table.Cell>{property['active']}</Table.Cell>
+                            <Table.Cell>{property['forwardToPhoneNumber']}</Table.Cell>
+                            <Table.Cell>{property['ringSplash']}</Table.Cell>
+                        </Table.Row>);
+        }
+
         return (
             <div>
-                <div id={"CallForwardAlways"}>
-                    <div>Loading Call Forward Always...</div>
-                </div>
-                <div id={"CallForwardBusy"}>
-                    <div>Loading Call Forward Busy...</div>
-                </div>
-                <div id={"CallForwardNoAnswer"}>
-                    <div>Loading Call Forward No Answer...</div>
-                </div>
-                <div id={"CallForwardNotReachable"}>
-                    <div>Loading Call Forward Not Reachable...</div>
-                </div>
-                <div id={"CallForwardSelective"}>
-                    <div>Loading Call Forward Selective...</div>
-                </div>
+                <Table striped id={"CallForwarding"}>
+                    <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell>Type</Table.HeaderCell>
+                        <Table.HeaderCell>Active</Table.HeaderCell>
+                        <Table.HeaderCell>Forwarding To</Table.HeaderCell>
+                        <Table.HeaderCell>Ring Splash</Table.HeaderCell>
+                    </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                    {tableRows}
+                    </Table.Body>
+                </Table>
             </div>
         );
     };
 
     // Asynchronous function that updates the object.
-    loadAsync(){
+    loadAsync = () => {
+        let self = this;
         Broadsoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingAlways",
             callback: function(response){
-            $("#CallForwardAlways").get(0).innerHTML = JSON.stringify(response);
+
+                let data = response['data']['CallForwardingAlways'];
+
+                let property = {
+                    type: "Always",
+                    active: data['active'],
+                    forwardToPhoneNumber: data['forwardToPhoneNumber'],
+                    ringSplash: data['ringSplash'] ? data['ringSplash'] : "false"
+                };
+                self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
+
         Broadsoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingBusy",
             callback: function(response){
-            $("#CallForwardBusy").get(0).innerHTML = JSON.stringify(response);
+
+                var data = response['data']['CallForwardingBusy'];
+
+                var property = {
+                    type: "Busy",
+                    active: data['active'],
+                    forwardToPhoneNumber: data['forwardToPhoneNumber'],
+                    ringSplash: data['ringSplash'] ? data['ringSplash'] : "false"
+                };
+                self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
         Broadsoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNoAnswer",
             callback: function(response) {
-                $("#CallForwardNoAnswer").get(0).innerHTML = JSON.stringify(response);
+
+                var data = response['data']['CallForwardingNoAnswer'];
+
+                var property = {
+                    type: "No Answer",
+                    active: data['active'],
+                    forwardToPhoneNumber: data['forwardToPhoneNumber'],
+                    ringSplash: data['ringSplash'] ? data['ringSplash'] : "false"
+                };
+                self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
         Broadsoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNotReachable",
             callback: function(response) {
-                $("#CallForwardNotReachable").get(0).innerHTML = JSON.stringify(response);
+
+                var data = response['data']['CallForwardingNotReachable'];
+
+                var property = {
+                    type: "Not Reachable",
+                    active: data['active'],
+                    forwardToPhoneNumber: data['forwardToPhoneNumber'],
+                    ringSplash: data['ringSplash'] ? data['ringSplash'] : "false",
+                };
+                self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
         Broadsoft.sendRequest({
             endpoint:"/user/<user>/services/CallForwardingSelective",
             callback: function(response) {
-                $("#CallForwardSelective").get(0).innerHTML = JSON.stringify(response);
+
+                var data = response['data']['CallForwardingSelective'];
+
+                var property = {
+                    type: "Selective",
+                    active: data['active'],
+                    forwardToPhoneNumber: data['forwardToPhoneNumber'],
+                    ringSplash: data['ringSplash'] ? data['ringSplash'] : "false"
+                };
+                self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
-    }
+    };
 
     render() {
         return super.render();
