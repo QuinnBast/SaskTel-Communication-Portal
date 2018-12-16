@@ -1,11 +1,12 @@
 from flask_restful import reqparse
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import jsonify, make_response, json
-import xmltodict, dicttoxml, requests
+from flask import jsonify, make_response
+import requests, json, xmltodict
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
-
+import logging
+from collections import OrderedDict
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -39,9 +40,8 @@ class BroadsoftConnector(BroadsoftResource):
 
             parser.add_argument(
                 name='data',
-                help='Missing JSON formatted data to send to the broadsoft API.',
-                required=True,
-                type=str)
+                type=str,
+                help='JSON data needs to be a string')
 
             parser.add_argument(
                 name='method',
@@ -49,19 +49,38 @@ class BroadsoftConnector(BroadsoftResource):
                 required=True)
 
             args = parser.parse_args()
-            url = self.url + args['endpoint']
-            try:
-                data = dicttoxml.dicttoxml(json.loads(args['data']))
-            except:
-                data = None
+            url = self.url + args['endpoint'].replace("<user>", user.username)
+            data = ""
             method = args['method']
+            if(args['data']):
+                try:
+                    from ..server import app
+                    app.logger.log(logging.INFO, "Incoming data: " + str(args['data']))
+                    jsonData = json.loads(args['data'], object_pairs_hook=OrderedDict)
+                    data = str(xmltodict.unparse(jsonData))
+                except:
+                    data = None
 
             # Ensure broadsoft cookies are stripped and re-formatted.
             response = Proxy().to_broadsoft(method, url, data, user)
 
             if response.status_code == 200 or response.status_code == 201:
-                # Get the XML response and return the response as a JSON string.
-                string = xmltodict.parse(response.content)
-                return make_response(jsonify({'data':string}), 200)
+                # Log the sent content
+                from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
+
+                return make_response(Proxy().to_client(response), 200)
             else:
-                return make_response(response.content if response.content else "", response.status_code)
+                from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO,
+                               "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
+
+                return make_response(Proxy().to_client(response), response.status_code)
