@@ -67,8 +67,12 @@ class BroadsoftConnector(BroadsoftResource):
                 # Get the XML response and return the response as a JSON string.
                 if response.content:
                     string = xmltodict.parse(response.content)
-                    return make_response(jsonify({'data':string}), 200)
+                    return make_response(jsonify({'data':string, 'error':'false'}), 200)
                 else:
-                    return make_response("", 200)
+                    return make_response(jsonify({'error':'false'}), 200)
             else:
-                return make_response(response.content if response.content else "", response.status_code)
+                if response.content:
+                    string = xmltodict.parse(response.content)
+                    return make_response(jsonify({'data': string, 'error':'true'}), response.status_code)
+                else:
+                    return make_response(jsonify({'error': 'true'}), response.status_code)
