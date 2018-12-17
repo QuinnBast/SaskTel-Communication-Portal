@@ -36,6 +36,10 @@ In order to use the project, a python virtual environment must be created in ord
 3. Execute `cd frontend`
 4. Execute `npm install`
 
+### Step 4 - Change Configuration files
+1. Within the project navigate to the `/REST/config/ProductionConfig.py` file.
+2. [Generate a secret key](https://passwordsgenerator.net/) of any length and change the JWT_SECRET_KEY field.
+
 ### Step 4 -Executing the project
 In order to execute the project, all of the javascript dependencies, css libraries, etc must be packed into a bundle in order to prevent chain dependencies.
 1. `cd frontend`

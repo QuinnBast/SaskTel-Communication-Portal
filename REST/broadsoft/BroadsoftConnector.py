@@ -65,15 +65,18 @@ class BroadsoftConnector(BroadsoftResource):
             response = Proxy().to_broadsoft(method, url, data, user)
 
             if response.status_code == 200 or response.status_code == 201:
+                app.logger.log(logging.INFO, "Sent url: " + url)
                 # Log the sent content
                 from ..server import app
-                app.logger.log(logging.INFO, "Sent url: " + url)
                 app.logger.log(logging.INFO, "Send method: " + method)
                 app.logger.log(logging.INFO, "Sent data: " + data)
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
                 app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
-
-                return make_response(Proxy().to_client(response), 200)
+                if response.content:
+                    string = xmltodict.parse(response.content)
+                    return make_response(jsonify({'data':string, 'error':'false'}), 200)
+                else:
+                    return make_response(jsonify({'error':'false'}), 200)
             else:
                 from ..server import app
                 app.logger.log(logging.INFO, "Sent url: " + url)
@@ -82,5 +85,8 @@ class BroadsoftConnector(BroadsoftResource):
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
                 app.logger.log(logging.INFO,
                                "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
-
-                return make_response(Proxy().to_client(response), response.status_code)
+                if response.content:
+                    string = xmltodict.parse(response.content)
+                    return make_response(jsonify({'data': string, 'error':'true'}), response.status_code)
+                else:
+                    return make_response(jsonify({'error': 'true'}), response.status_code)
