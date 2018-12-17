@@ -1,6 +1,7 @@
 import React from "react";
 import MaskedInput from 'react-text-mask'
 import {Form, Button, Message} from "semantic-ui-react";
+import LoadingIcon from "../components/LoadingIcon"
 
 
 import auth from "../auth/auth";
