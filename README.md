@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/QuinnBast/SaskTel-Communication-Portal.svg?token=WPMw3ZqHaY9rAP8BGwXg&branch=master)](https://travis-ci.com/QuinnBast/SaskTel-Communication-Portal)
+
 # SaskTel-Communication-Portal 
  A communication portal for SaskTel
  Quinn Bast and Dakota Fisher
