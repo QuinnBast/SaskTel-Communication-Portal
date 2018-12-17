@@ -65,9 +65,9 @@ class BroadsoftConnector(BroadsoftResource):
             response = Proxy().to_broadsoft(method, url, data, user)
 
             if response.status_code == 200 or response.status_code == 201:
-                app.logger.log(logging.INFO, "Sent url: " + url)
                 # Log the sent content
                 from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
                 app.logger.log(logging.INFO, "Send method: " + method)
                 app.logger.log(logging.INFO, "Sent data: " + data)
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
