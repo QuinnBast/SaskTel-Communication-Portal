@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = {
     entry: {
         "indexPage": __dirname + '/js/index.jsx',
@@ -45,6 +46,12 @@ const config = {
         }
         ]
     },
+    plugins: [
+        // Copy all images/files from the assets folder into the dist/assets folder for bundling.
+        new CopyWebpackPlugin([
+            { from: 'assets/', to: 'assets/'}
+        ])
+    ]
 };
 
 module.exports = config;
