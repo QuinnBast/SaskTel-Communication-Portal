@@ -3,7 +3,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const config = {
     entry: {
-        "indexPage": __dirname + '/js/index.jsx',
+        "indexPage": __dirname + '/js/App.jsx',
     },
     output: {
         path: __dirname + '/dist',
