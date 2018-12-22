@@ -49,7 +49,6 @@ export default class CallForward extends CallProperties {
                 <Table.Cell>{property['forwardToPhoneNumber']}</Table.Cell>
                 <Table.Cell><Checkbox toggle checked={property['ringSplash'] === 'true'}/></Table.Cell>
                 <Table.Cell><Checkbox toggle checked={property['active'] === 'true'}/></Table.Cell>
-                <Table.Cell><Button primary>Edit</Button></Table.Cell>
             </Table.Row>);
         }
 
@@ -75,7 +74,6 @@ export default class CallForward extends CallProperties {
                             <Table.HeaderCell><Popup trigger={<div>Forwarding To</div>} content={"If present, this indicates what phone number calls of this type are being forwarded to."}/></Table.HeaderCell>
                             <Table.HeaderCell><Popup trigger={<div>Ring Splash</div>} content={"A short chime plays from your devices anytime a call of this type is forwarded."}/></Table.HeaderCell>
                             <Table.HeaderCell><Popup trigger={<div>Active</div>} content={"If the services is currently activate."}/></Table.HeaderCell>
-                            <Table.HeaderCell>Edit Settings</Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
