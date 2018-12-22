@@ -31,7 +31,7 @@ class BroadSoft {
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
 
-                this.Authenticated = true;
+                this.authenticated = true;
                 this.csrfToken = Cookies.get('csrf_access_token');
                 // Configure future AJAX requests to send the csrf token along in the header.
                 $.ajaxSetup({
@@ -63,7 +63,7 @@ class BroadSoft {
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
 
-                this.Authenticated = false;
+                this.authenticated = false;
 
                 //Clear the ajax configuration so that it no longer sends the CSRF token.
                 $.ajaxSetup({

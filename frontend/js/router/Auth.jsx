@@ -13,7 +13,7 @@ let $ = require('jquery');
 
 class Auth {
     constructor() {
-        this.Authenticated = false;
+        this.authenticated = false;
         this.username = "";
         this.password ="";
         this.csrfToken =  "";
@@ -55,14 +55,14 @@ class Auth {
     logout() {
         BroadSoft.logout();
         // Don't wait for the server's response to logout.
-        this.Authenticated = false;
+        this.authenticated = false;
         this.username = "";
         this.password = "";
         history.push("/login");
     };
 
     isAuthenticated() {
-        return this.Authenticated;
+        return this.authenticated;
     };
 
     handleUsernameChange(ev) {
