@@ -8,6 +8,7 @@ import React from "react";
  *  Component Imports
  */
 import CallProperties from "./call/CallProperties"
+import CallToggle from "./call/CallToggle";
 
 /**
  *  REST API Imports
@@ -47,8 +48,8 @@ export default class CallForward extends CallProperties {
             tableRows.push(<Table.Row>
                 <Table.Cell>{property['type']}</Table.Cell>
                 <Table.Cell>{property['forwardToPhoneNumber']}</Table.Cell>
-                <Table.Cell><Checkbox toggle checked={property['ringSplash'] === 'true'}/></Table.Cell>
-                <Table.Cell><Checkbox toggle checked={property['active'] === 'true'}/></Table.Cell>
+                <Table.Cell><CallToggle checked={property['ringSplash'] === 'true'}/></Table.Cell>
+                <Table.Cell><CallToggle checked={property['active'] === 'true'} /></Table.Cell>
             </Table.Row>);
         }
 
