@@ -6,7 +6,7 @@ import React, {Component} from "react";
 /**
  *  Style Imports
  */
-import {Accordion, Icon} from 'semantic-ui-react'
+import {Accordion, Icon, Container} from 'semantic-ui-react'
 
 
 
@@ -41,7 +41,8 @@ export default class CallProperties extends Component {
 
     render() {
         return (
-            <Accordion style={margin}>
+            <Container>
+            <Accordion styled fluid>
                 <Accordion.Title onClick={this.toggle} active={this.state.collapse === true}>
                     <Icon name='dropdown'/>
                     {this.state.title}
@@ -52,6 +53,7 @@ export default class CallProperties extends Component {
                     <div>{this.state.content}</div>
                 </Accordion.Content>
             </Accordion>
+            </Container>
         );
     }
 }
