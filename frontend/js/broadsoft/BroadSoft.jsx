@@ -1,9 +1,14 @@
 let Cookies = require("js-cookie");
-import auth from "../auth/auth"
+
+
+/**
+ *  Authentication Imports
+ */
+import Auth from "../router/Auth"
 
 let $ = require('jquery');
 
-class Broadsoft {
+class BroadSoft {
 
     constructor(){
 
@@ -11,14 +16,14 @@ class Broadsoft {
 
     login(callback) {
         let object = {
-            "username": auth.username.replace(/[()-]/g, ''),
-            "password": auth.password,
+            "username": Auth.username.replace(/[()-]/g, ''),
+            "password": Auth.password,
         };
 
         let json = JSON.stringify(object);
         //Call server's login function
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/login",
             contentType: "application/json",
@@ -26,16 +31,16 @@ class Broadsoft {
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
 
-                this.authenticated = true;
+                this.Authenticated = true;
                 this.csrfToken = Cookies.get('csrf_access_token');
                 // Configure future AJAX requests to send the csrf token along in the header.
                 $.ajaxSetup({
                     beforeSend: function(xhr, settings){
                         if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", auth.csrfToken);
+                            xhr.setRequestHeader("X-CSRF-TOKEN", Auth.csrfToken);
                         }
                     },
-                    data: {"CSRFToken":auth.csrfToken}
+                    data: {"CSRFToken":Auth.csrfToken}
                 });
 
                 callback(true);
@@ -51,14 +56,14 @@ class Broadsoft {
 
         //Call server's login function
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/logout",
             contentType: "application/json",
             dataType: "json",
             success: function(responseText, textStatus, jqxhr){
 
-                this.authenticated = false;
+                this.Authenticated = false;
 
                 //Clear the ajax configuration so that it no longer sends the CSRF token.
                 $.ajaxSetup({
@@ -101,7 +106,7 @@ class Broadsoft {
 
         // Call Forwarding always
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/broadsoft",
             contentType: "application/json",
@@ -118,4 +123,4 @@ class Broadsoft {
     }
 }
 
-export default new Broadsoft();
+export default new BroadSoft();

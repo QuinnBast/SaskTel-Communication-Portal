@@ -1,8 +1,19 @@
+/**
+ *  React Imports
+ */
 import React, {Component} from "react";
-import Property from "../property"
-import Broadsoft from "../../../broadsoft/broadsoft";
 
-export default class CallReject extends Property {
+/**
+ *  Component Imports
+ */
+import CallProperties from "./call/CallProperties"
+
+/**
+ *  REST API Imports
+ */
+import BroadSoft from "../BroadSoft/BroadSoft";
+
+export default class CallReject extends CallProperties {
 
     constructor(props){
         super(props);
@@ -24,13 +35,13 @@ export default class CallReject extends Property {
 
     // Asynchronous function that updates the object.
     loadAsync(){
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/AnonymousCallRejection",
             callback: function(response) {
                 $("#CallRejectAnonymous").get(0).innerHTML = JSON.stringify(response);
             }
         });
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/SelectiveCallRejection",
             callback: function(response) {
                 $("#CallRejectSelective").get(0).innerHTML = JSON.stringify(response);

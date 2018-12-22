@@ -1,17 +1,29 @@
+/**
+ *  React Imports
+ */
 import React, {Component} from "react";
+
+/**
+ *  Style Imports
+ */
 import {Accordion, Icon} from 'semantic-ui-react'
 
+
+
+/**
+ *  Local Style Definitions
+ */
 let margin = {
     marginBottom: '40px',
 };
 
 
-export default class Property extends Component {
+export default class CallProperties extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            'name':'Default Property',
+            'name':'Default CallProperties',
             'title':'Default Title',
             'description':'Default Description',
             'content':'Default Content',

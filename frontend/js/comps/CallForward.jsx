@@ -1,11 +1,27 @@
+
+/**
+ *  React Imports
+ */
 import React from "react";
-import Property from "../property"
-import Broadsoft from "../../../broadsoft/broadsoft"
+
+/**
+ *  Component Imports
+ */
+import CallProperties from "./call/CallProperties"
+
+/**
+ *  REST API Imports
+ */
+import BroadSoft from "../BroadSoft/BroadSoft"
+
+/**
+ *  Style Imports
+ */
 import { Table } from 'semantic-ui-react'
 
 let $ = require('jquery');
 
-export default class CallForward extends Property {
+export default class CallForward extends CallProperties {
 
     constructor(props){
         super(props);
@@ -58,7 +74,7 @@ export default class CallForward extends Property {
     // Asynchronous function that updates the object.
     loadAsync = () => {
         let self = this;
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingAlways",
             callback: function(response){
 
@@ -74,7 +90,7 @@ export default class CallForward extends Property {
             }
         });
 
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingBusy",
             callback: function(response){
 
@@ -89,7 +105,7 @@ export default class CallForward extends Property {
                 self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNoAnswer",
             callback: function(response) {
 
@@ -104,7 +120,7 @@ export default class CallForward extends Property {
                 self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNotReachable",
             callback: function(response) {
 
@@ -119,7 +135,7 @@ export default class CallForward extends Property {
                 self.setState(prevState => ({forwarding: [...prevState.forwarding, property] }));
             }
         });
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint:"/user/<user>/services/CallForwardingSelective",
             callback: function(response) {
 

@@ -1,3 +1,7 @@
+
+/**
+ *  React Imports
+ */
 import React, {Component} from 'react';
 
 export default class LoadingIcon extends Component {

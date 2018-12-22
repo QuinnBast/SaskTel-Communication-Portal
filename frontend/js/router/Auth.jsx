@@ -1,12 +1,19 @@
-import history from "../router/history";
-import Broadsoft from "../broadsoft/broadsoft"
+/**
+ *  Navigation Imports
+ */
+import history from "./history";
+
+/**
+ *  REST API Imports
+ */
+import BroadSoft from "../BroadSoft/BroadSoft"
 
 
 let $ = require('jquery');
 
 class Auth {
     constructor() {
-        this.authenticated = false;
+        this.Authenticated = false;
         this.username = "";
         this.password ="";
         this.csrfToken =  "";
@@ -35,7 +42,7 @@ class Auth {
         }
 
         //Async login call
-        Broadsoft.login(function(result){
+        BroadSoft.login(function(result){
             if(result){
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
@@ -46,16 +53,16 @@ class Auth {
     };
 
     logout() {
-        Broadsoft.logout();
+        BroadSoft.logout();
         // Don't wait for the server's response to logout.
-        this.authenticated = false;
+        this.Authenticated = false;
         this.username = "";
         this.password = "";
         history.push("/login");
     };
 
     isAuthenticated() {
-        return this.authenticated;
+        return this.Authenticated;
     };
 
     handleUsernameChange(ev) {
