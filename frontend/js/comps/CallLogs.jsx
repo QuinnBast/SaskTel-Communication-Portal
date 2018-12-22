@@ -1,16 +1,31 @@
+/**
+ *  React Imports
+ */
 import React from "react";
-import Property from "../property"
-import Broadsoft from "../../../broadsoft/broadsoft";
+
+/**
+ *  Component Imports
+ */
+import CallProperties from "./call/CallProperties";
+
+/**
+ *  REST API Imports
+ */
+import BroadSoft from "../BroadSoft/BroadSoft";
+
+/**
+ *  Style Imports
+ */
 import { Table } from 'semantic-ui-react'
 
-export default class CallLogs extends Property {
+export default class CallLogs extends CallProperties {
 
     constructor(props){
         super(props);
         this.state.logs = [];
-        this.state.name = "Call Logs";
+        this.state.name = "Call CallLogs";
         this.state.description = "This property shows the history of all your previous calls.";
-        this.state.title = "Call Logs";
+        this.state.title = "Call CallLogs";
         this.state.content = this.content();
 
         this.loadAsync()
@@ -54,7 +69,7 @@ export default class CallLogs extends Property {
         // Asynchronous function that updates the object.
     loadAsync(){
         let self= this;
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint:"/user/<user>/directories/CallLogs",
             callback: function(response) {
                 let data = response['data']['CallLogs'];

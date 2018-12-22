@@ -1,14 +1,25 @@
+/**
+ *  React Imports
+ */
 import React from "react";
-import Property from "../property"
-import Broadsoft from "../../../broadsoft/broadsoft";
 
-export default class CallDirectory extends Property {
+/**
+ *  Component Imports
+ */
+import CallProperties from "./call/CallProperties"
+
+/**
+ *  REST API Imports
+ */
+import BroadSoft from "../BroadSoft/BroadSoft";
+
+export default class CallDirectory extends CallProperties {
 
     constructor(props){
         super(props);
-        this.state.name = "Call Directory";
+        this.state.name = "Call CallDirectory";
         this.state.description = "This property shows a call directory for possible contacts and groups.";
-        this.state.title = "Call Directory";
+        this.state.title = "Call CallDirectory";
         this.state.content = this.content();
 
         this.loadAsync();
@@ -23,7 +34,7 @@ export default class CallDirectory extends Property {
 
         // Asynchronous function that updates the object.
     loadAsync(){
-        Broadsoft.sendRequest({
+        BroadSoft.sendRequest({
             endpoint: "/user/<user>/directories/CustomContact",
             callback: function(response) {
                 $("#CallDirectory").get(0).innerHTML = JSON.stringify(response);
