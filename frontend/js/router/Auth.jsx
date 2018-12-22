@@ -21,7 +21,7 @@ class Auth {
         this.logout = this.logout.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.isAuthenticated = this.isAuthenticated.bind(this);
+        this.isauthenticated = this.isauthenticated.bind(this);
     }
 
     login () {
@@ -85,7 +85,7 @@ class Auth {
         }
 
     };
-        handlePasswordBlur(ev) {
+    handlePasswordBlur(ev) {
         if(ev.target.value.length === 0){
             $('#password').get(0).style.borderColor = '#e74c3c';
             $('#passwordAlert').get(0).style.visibility = 'visible';
