@@ -13,7 +13,7 @@ let $ = require('jquery');
 
 class Auth {
     constructor() {
-        this.Authenticated = false;
+        this.authenticated = false;
         this.username = "";
         this.password ="";
         this.csrfToken =  "";
@@ -21,7 +21,7 @@ class Auth {
         this.logout = this.logout.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
-        this.isAuthenticated = this.isAuthenticated.bind(this);
+        this.isauthenticated = this.isauthenticated.bind(this);
     }
 
     login () {
@@ -55,14 +55,14 @@ class Auth {
     logout() {
         BroadSoft.logout();
         // Don't wait for the server's response to logout.
-        this.Authenticated = false;
+        this.authenticated = false;
         this.username = "";
         this.password = "";
         history.push("/login");
     };
 
     isAuthenticated() {
-        return this.Authenticated;
+        return this.authenticated;
     };
 
     handleUsernameChange(ev) {
@@ -85,7 +85,7 @@ class Auth {
         }
 
     };
-        handlePasswordBlur(ev) {
+    handlePasswordBlur(ev) {
         if(ev.target.value.length === 0){
             $('#password').get(0).style.borderColor = '#e74c3c';
             $('#passwordAlert').get(0).style.visibility = 'visible';
