@@ -18,7 +18,6 @@ class UpdateQueue {
 
     }
 
-
     addUpdate(update){
 
         // Stringify any data and replace slashes
@@ -36,7 +35,6 @@ class UpdateQueue {
                 return;
             }
         }
-
         this.queue.push(update);
 
         console.log("Added to Queue: " + update.endpoint)
@@ -45,6 +43,13 @@ class UpdateQueue {
     hasUpdates(){
         return this.queue.length > 0;
     }
+
+    deQueue(){
+        // pop's head and return it.
+        return this.queue.shift();
+    }
+
+
 }
 
 export default new UpdateQueue();
