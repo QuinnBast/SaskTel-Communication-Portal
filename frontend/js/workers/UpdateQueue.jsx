@@ -41,16 +41,14 @@ class UpdateQueue {
         }
 
         //Determine if the endpoint already exists in the queue.
-        for(var i = 0; i < this.queue.length; i++){
-
+        for(let item of Array.from(this.queue)){
             // If the endpoint is already in the queue, overwrite the element in the queue with the new request.
-            if(this.queue[i].endpoint === update.endpoint){
-                this.queue[i] = update;
-                console.log("Updated queue for: " + update.endpoint);
+            if(item.endpoint === update.endpoint){
+                item = update;
+                console.log("Updated item: " + update.endpoint);
                 return;
             }
         }
-
         this.queue.push(update);
 
         console.log("Added to Queue: " + update.endpoint);
@@ -59,6 +57,13 @@ class UpdateQueue {
     hasUpdates(){
         return this.queue.length > 0;
     }
+
+    deQueue(){
+        // pop's head and return it.
+        return this.queue.shift();
+    }
+
+
 }
 
 export default new UpdateQueue();

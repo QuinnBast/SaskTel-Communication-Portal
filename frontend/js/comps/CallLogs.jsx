@@ -22,11 +22,13 @@ export default class CallLogs extends CallProperties {
 
     constructor(props){
         super(props);
-        this.state.logs = [];
-        this.state.name = "Call CallLogs";
-        this.state.description = "This property shows the history of all your previous calls.";
-        this.state.title = "Call CallLogs";
-        this.state.content = this.content();
+        this.state = {
+            logs : [],
+            name : "Call CallLogs",
+            description : "This property shows the history of all your previous calls.",
+            title : "Call CallLogs",
+            content : this.content
+        };
 
         this.loadAsync()
     }
@@ -74,44 +76,34 @@ export default class CallLogs extends CallProperties {
             callback: function(response) {
                 let data = response['data']['CallLogs'];
 
-                if(data['missed']) {
-                    for (let missedCall of data['missed']['callLogsEntry']) {
-                        self.setState(prevState => (
-                            {
-                                logs: [...prevState.logs,
-                                    {
-                                        type: "Missed",
-                                        phoneNumber: missedCall['phoneNumber'],
-                                        time: missedCall['time']
-                                    }]
-                            }));
-                    }
+                for (let missedCall of Array.from(data['missed']['callLogsEntry'])){
+                    self.setState(prevState => (
+                        {logs: [...prevState.logs,
+                                {type:  "Missed",
+                                    phoneNumber:missedCall['phoneNumber'],
+                                    time:missedCall['time']
+                                }]
+                        }));
                 }
-                if(data['placed']) {
-                    for (let placedCall of data['placed']['callLogsEntry']) {
-                        self.setState(prevState => (
-                            {
-                                logs: [...prevState.logs,
-                                    {
-                                        type: "Outgoing",
-                                        phoneNumber: placedCall['phoneNumber'],
-                                        time: placedCall['time']
-                                    }]
-                            }));
-                    }
+
+                for(let placedCall of Array.from(data['placed']['callLogsEntry'])){
+                    self.setState(prevState => (
+                        {logs: [...prevState.logs,
+                                {type:  "Outgoing",
+                                    phoneNumber:placedCall['phoneNumber'],
+                                    time:placedCall['time']
+                                }]
+                        }));
                 }
-                if(data['received']) {
-                    for (let recievedCall of data['received']['callLogsEntry']) {
-                        self.setState(prevState => (
-                            {
-                                logs: [...prevState.logs,
-                                    {
-                                        type: "Received",
-                                        phoneNumber: recievedCall['phoneNumber'],
-                                        time: recievedCall['time']
-                                    }]
-                            }));
-                    }
+
+                for(let receivedCall of Array.from(data['received']['callLogsEntry'])){
+                    self.setState(prevState => (
+                        {logs: [...prevState.logs,
+                                {type:  "Received",
+                                    phoneNumber:receivedCall['phoneNumber'],
+                                    time:receivedCall['time']
+                                }]
+                        }));
                 }
             }
         });

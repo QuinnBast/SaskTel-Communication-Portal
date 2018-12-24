@@ -18,7 +18,7 @@ import BroadSoft from "../BroadSoft/BroadSoft"
 /**
  *  Style Imports
  */
-import { Table, Popup, Button, Checkbox } from 'semantic-ui-react'
+import { Table, Popup } from 'semantic-ui-react'
 
 let $ = require('jquery');
 
@@ -51,7 +51,7 @@ export default class CallForward extends CallProperties {
                                 <Popup trigger={<div>Type</div>}>
                                     <Popup.Content>
                                         <div>
-                                            "The type of call forwarding.<br/>
+                                            The type of call forwarding.<br/>
                                             <b>Not Reachable:</b> Forward calls when your devices is not accessible or turned off.<br/>
                                             <b>No Answer:</b> Forwards calls when you do not answer.<br/>
                                             <b>Busy:</b> Forwards calls when your phone is in use.<br/>

@@ -75,7 +75,7 @@ export default class CallForwardData extends React.Component {
             data: data,
             callback: function(response){
                 if(response.error === 'true') {
-                    // Permanatly change background to red to indicate error to user.
+                    // Permanently change background to red to indicate error to user.
                     jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
                     // Reset the state of the component by fetching the current state.
 
@@ -104,14 +104,14 @@ export default class CallForwardData extends React.Component {
     };
 
     changePhone = (event) => {
-      // Validate phone number.
+        // Validate phone number.
         if(event.target.value.replace(/[()-]/g, '').length  < 10)
         {
             // Show alert popup.
             return;
         }
 
-      // If valid, change state.
+        // If valid, change state.
         this.setState({forwardToPhoneNumber: event.target.value})
     };
 
