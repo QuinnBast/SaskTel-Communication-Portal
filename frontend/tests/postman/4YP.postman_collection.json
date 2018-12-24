@@ -141,7 +141,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was recieved from the cookie",
+								"value": "The csrf-access-token that was received from the cookie",
 								"type": "text"
 							},
 							{
@@ -153,7 +153,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
@@ -269,7 +269,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was recieved from the cookie",
+								"value": "The csrf-access-token that was received from the cookie",
 								"type": "text"
 							},
 							{
@@ -281,7 +281,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
@@ -397,7 +397,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was recieved from the cookie",
+								"value": "The csrf-access-token that was received from the cookie",
 								"type": "text"
 							},
 							{
@@ -409,7 +409,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
