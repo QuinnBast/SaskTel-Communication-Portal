@@ -104,7 +104,6 @@ class BroadSoft {
             "method":args['method'],
         };
 
-        // Call Forwarding always
         $.ajax({
             context: Auth,
             type: "POST",
@@ -117,7 +116,8 @@ class BroadSoft {
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                callback(jqxhr.responseText)
+                var response = JSON.parse(jqxhr.responseText);
+                callback(response)
             },
         });
     }
