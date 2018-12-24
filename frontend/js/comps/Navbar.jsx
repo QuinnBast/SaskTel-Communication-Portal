@@ -22,7 +22,7 @@ export default class Navbar extends Component {
 
     return (
       <Menu attached inverted>
-        <Menu.Item name='telPort' active={activeItem === 'TelPort'} />
+        <Menu.Item name='telPort' active={(activeItem === 'TelPort').toString()} />
             <LogButton/>
       </Menu>
     )

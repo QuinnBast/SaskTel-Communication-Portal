@@ -22,7 +22,7 @@ export default class Interface extends Component {
     }
 
     componentDidMount() {
-        setTimeout(this.checkQueue, 60000);
+        setInterval(this.checkQueue, 60000);
     }
 
     checkQueue = () => {
@@ -30,15 +30,15 @@ export default class Interface extends Component {
         if (!UpdateQueue.hasUpdates()) return;
 
         // If items are in the queue, process them and send requests to broadsoft.
-        for (let i = 0; i < UpdateQueue.queue.length; i++) {
+        while(UpdateQueue.queue.length > 0){
             // Send broadsoft requests for each update.
-                BroadSoft.sendRequest(UpdateQueue.queue[i]);
+            BroadSoft.sendRequest(UpdateQueue.queue[0]);
 
             // Remove the item from the queue.
-            UpdateQueue.queue.splice(i, 1);
+            UpdateQueue.queue.splice(0, 1);
         }
         console.log("Queue Completed.");
-    }
+    };
 
     render() {
         return (

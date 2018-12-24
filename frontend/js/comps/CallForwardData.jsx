@@ -14,6 +14,8 @@ import { Table, Checkbox, Input } from 'semantic-ui-react'
  */
 import UpdateQueue from "../workers/UpdateQueue"
 
+let $ = require('jquery');
+
 export default class CallForwardData extends React.Component {
 
     constructor(props){
@@ -28,6 +30,10 @@ export default class CallForwardData extends React.Component {
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
+
+        // Permanatly change background to red to indicate error to user.
+        jQuery("#" + nextProps.info.type).get(0).style.background = '#fff7e6';
+
         // Use the provided data format and update the changed components.
         let data = nextProps.dataformat;
         data[nextProps.info.type].ringSplash = nextState.ringSplash.toString();
@@ -38,6 +44,17 @@ export default class CallForwardData extends React.Component {
             endpoint: nextProps.info.endpoint,
             method: "PUT",
             data: data,
+            callback: function(response){
+                if(response.error === 'true') {
+                    // Permanatly change background to red to indicate error to user.
+                    jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
+                    // Reset the state of the component by fetching the current state.
+
+                } else {
+                    // Revert to original background
+                    jQuery("#" + nextProps.info.type).get(0).style.background = "";
+                }
+            }
         };
 
         UpdateQueue.addUpdate(request);
@@ -71,7 +88,7 @@ export default class CallForwardData extends React.Component {
 
     render(){
         return (
-            <Table.Row>
+            <Table.Row id={this.props.info.type}>
                 <Table.Cell>{this.props.info.name}</Table.Cell>
                 <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
                 <Table.Cell><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/></Table.Cell>
