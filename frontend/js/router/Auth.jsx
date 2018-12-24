@@ -24,7 +24,8 @@ class Auth {
         this.isAuthenticated = this.isAuthenticated.bind(this);
     }
 
-    login () {
+    login (e) {
+        e.preventDefault();
         //Validate the user's input.
         // if the username isn't a full phone number, return.
         if(this.username.replace(/[()-]/g, '').length  < 10)

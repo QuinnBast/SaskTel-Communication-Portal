@@ -21,7 +21,7 @@ export default class CallForwardData extends React.Component {
     constructor(props){
         super(props);
 
-        // Set changable props to the state.
+        // Set changeable props to the state.
         this.state = {
             forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
             ringSplash: this.props.dataformat[this.props.info.type].ringSplash === 'true',
@@ -31,7 +31,7 @@ export default class CallForwardData extends React.Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
 
-        // Permanatly change background to red to indicate error to user.
+        // Permanently change background to red to indicate error to user.
         jQuery("#" + nextProps.info.type).get(0).style.background = '#fff7e6';
 
         // Use the provided data format and update the changed components.
@@ -46,7 +46,7 @@ export default class CallForwardData extends React.Component {
             data: data,
             callback: function(response){
                 if(response.error === 'true') {
-                    // Permanatly change background to red to indicate error to user.
+                    // Permanently change background to red to indicate error to user.
                     jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
                     // Reset the state of the component by fetching the current state.
 
@@ -74,25 +74,31 @@ export default class CallForwardData extends React.Component {
     };
 
     changePhone = (event) => {
-      // Validate phone number.
+        // Validate phone number.
         if(event.target.value.replace(/[()-]/g, '').length  < 10)
         {
             // Show alert popup.
             return;
         }
 
-      // If valid, change state.
+        // If valid, change state.
         this.setState({forwardToPhoneNumber: event.target.value})
     };
 
 
     render(){
         return (
-            <Table.Row id={this.props.info.type}>
-                <Table.Cell>{this.props.info.name}</Table.Cell>
-                <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                <Table.Cell><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/></Table.Cell>
-                <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+            <Table.Row key={this.props.info.type + "Row"} id={this.props.info.type}>
+                <Table.Cell key={this.props.info.name + "NameCell"}>{this.props.info.name}</Table.Cell>
+                <Table.Cell key={this.props.info.name + "InputCell"}>
+                    <Input key={this.props.info.name + "Input"} defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/>
+                </Table.Cell>
+                <Table.Cell key={this.props.info.name + "RingSplashCell"}>
+                    <Checkbox key={this.props.info.name + "RingSplash"} toggle checked={this.state.ringSplash} onClick={this.toggleRing}/>
+                </Table.Cell>
+                <Table.Cell key={this.props.info.name + "ActiveCell"}>
+                    <Checkbox key={this.props.info.name + "Active"} toggle checked={this.state.active} onClick={this.toggleActive}/>
+                </Table.Cell>
             </Table.Row>
         );
     }

@@ -22,11 +22,13 @@ export default class CallLogs extends CallProperties {
 
     constructor(props){
         super(props);
-        this.state.logs = [];
-        this.state.name = "Call CallLogs";
-        this.state.description = "This property shows the history of all your previous calls.";
-        this.state.title = "Call CallLogs";
-        this.state.content = this.content();
+        this.state = {
+            logs : [],
+            name : "Call CallLogs",
+            description : "This property shows the history of all your previous calls.",
+            title : "Call CallLogs",
+            content : this.content
+        };
 
         this.loadAsync()
     }
@@ -74,7 +76,7 @@ export default class CallLogs extends CallProperties {
             callback: function(response) {
                 let data = response['data']['CallLogs'];
 
-                for (let missedCall of data['missed']['callLogsEntry']){
+                for (let missedCall of Array.from(data['missed']['callLogsEntry'])){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Missed",
@@ -84,7 +86,7 @@ export default class CallLogs extends CallProperties {
                         }));
                 }
 
-                for(let placedCall of data['placed']['callLogsEntry']){
+                for(let placedCall of Array.from(data['placed']['callLogsEntry'])){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Outgoing",
@@ -94,12 +96,12 @@ export default class CallLogs extends CallProperties {
                         }));
                 }
 
-                for(let recievedCall of data['recieved']['callLogsEntry']){
+                for(let receivedCall of Array.from(data['received']['callLogsEntry'])){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
-                                {type:  "Recieved",
-                                    phoneNumber:recievedCall['phoneNumber'],
-                                    time:recievedCall['time']
+                                {type:  "Received",
+                                    phoneNumber:receivedCall['phoneNumber'],
+                                    time:receivedCall['time']
                                 }]
                         }));
                 }
