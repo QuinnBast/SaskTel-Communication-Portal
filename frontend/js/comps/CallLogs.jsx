@@ -74,34 +74,44 @@ export default class CallLogs extends CallProperties {
             callback: function(response) {
                 let data = response['data']['CallLogs'];
 
-                for (let missedCall of data['missed']['callLogsEntry']){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Missed",
-                                    phoneNumber:missedCall['phoneNumber'],
-                                    time:missedCall['time']
-                                }]
-                        }));
+                if(data['missed']) {
+                    for (let missedCall of data['missed']['callLogsEntry']) {
+                        self.setState(prevState => (
+                            {
+                                logs: [...prevState.logs,
+                                    {
+                                        type: "Missed",
+                                        phoneNumber: missedCall['phoneNumber'],
+                                        time: missedCall['time']
+                                    }]
+                            }));
+                    }
                 }
-
-                for(let placedCall of data['placed']['callLogsEntry']){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Outgoing",
-                                    phoneNumber:placedCall['phoneNumber'],
-                                    time:placedCall['time']
-                                }]
-                        }));
+                if(data['placed']) {
+                    for (let placedCall of data['placed']['callLogsEntry']) {
+                        self.setState(prevState => (
+                            {
+                                logs: [...prevState.logs,
+                                    {
+                                        type: "Outgoing",
+                                        phoneNumber: placedCall['phoneNumber'],
+                                        time: placedCall['time']
+                                    }]
+                            }));
+                    }
                 }
-
-                for(let recievedCall of data['recieved']['callLogsEntry']){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Recieved",
-                                    phoneNumber:recievedCall['phoneNumber'],
-                                    time:recievedCall['time']
-                                }]
-                        }));
+                if(data['received']) {
+                    for (let recievedCall of data['received']['callLogsEntry']) {
+                        self.setState(prevState => (
+                            {
+                                logs: [...prevState.logs,
+                                    {
+                                        type: "Received",
+                                        phoneNumber: recievedCall['phoneNumber'],
+                                        time: recievedCall['time']
+                                    }]
+                            }));
+                    }
                 }
             }
         });

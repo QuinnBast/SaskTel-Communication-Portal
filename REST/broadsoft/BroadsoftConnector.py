@@ -60,7 +60,8 @@ class BroadsoftConnector(BroadsoftResource):
                     data = str(xmltodict.unparse(jsonData))
                 except:
                     app.logger.log(logging.INFO, "Cannot parse data into XML!")
-                    data = None
+                    return make_response(jsonify({'error': 'true'}), 409)
+                    # Return an error
 
             # Ensure broadsoft cookies are stripped and re-formatted.
             response = Proxy().to_broadsoft(method, url, data, user)
