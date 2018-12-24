@@ -26,18 +26,14 @@ export default class Interface extends Component {
     }
 
     checkQueue = () => {
-        // Are items in the queue?
-        if (!UpdateQueue.hasUpdates()) return;
-
         // If items are in the queue, process them and send requests to broadsoft.
-        while(UpdateQueue.queue.length > 0){
+        let i = 0;
+        while(UpdateQueue.hasUpdates()){
             // Send broadsoft requests for each update.
-            BroadSoft.sendRequest(UpdateQueue.queue[0]);
-
-            // Remove the item from the queue.
-            UpdateQueue.queue.splice(0, 1);
+            BroadSoft.sendRequest(UpdateQueue.deQueue());
+            console.log("sending element " + (++i).toString());
         }
-        console.log("Queue Completed.");
+        console.log("Queue Empty. Processed " + i.toString() + " elements.");
     };
 
     render() {
