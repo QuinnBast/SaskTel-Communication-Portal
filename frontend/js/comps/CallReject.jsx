@@ -17,10 +17,12 @@ export default class CallReject extends CallProperties {
 
     constructor(props){
         super(props);
-        this.state.name = "Call Blocking";
-        this.state.description = "This setting allows you to block calls from specific phone numbers.";
-        this.state.title = "Call Blocking";
-        this.state.content = this.content();
+        this.state = {
+            name : "Call Blocking",
+            description : "This setting allows you to block calls from specific phone numbers.",
+            title : "Call Blocking",
+            content : this.content()
+        };
 
         this.loadAsync()
     }

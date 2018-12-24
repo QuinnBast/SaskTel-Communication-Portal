@@ -1,7 +1,7 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 
 /**
  *  Style/UI Imports
@@ -14,6 +14,7 @@ import LoadingIcon from "../comps/LoadingIcon"
  *  Authentication Imports
  */
 import Auth from "../router/Auth";
+
 
 
 /**
@@ -30,14 +31,13 @@ const Padding = {
 };
 
 export default class Login extends React.Component {
-
     render(){
         return (
-            <div>
+            <Fragment>
                 <Message negative style={{visibility: "hidden"}} id="alert">
                     Invalid Login Credentials. Try Again
                 </Message>
-                <Form  autocomplete="off" style={UpperMarginForm}>
+                <Form  autoComplete="off" style={UpperMarginForm} onSubmit={Auth.login}>
 
                     <Form.Field  id='usernameGroup' style={UpperMarginForm}>
                         <Form.Input label="Phone Number">
@@ -60,9 +60,9 @@ export default class Login extends React.Component {
                             A password is required to log in.
                         </p>
                     </Form.Field>
-                    <Button style={{width: '100%',}} className={'mx-auto'} onClick={Auth.login}>Log in</Button>
+                    <Button type={'submit'} style={{width: '100%',}} className={'mx-auto'}>Log in</Button>
                 </Form>
-            </div>
+            </Fragment>
         );
 
     }

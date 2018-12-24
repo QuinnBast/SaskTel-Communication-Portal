@@ -2,7 +2,8 @@
  *  React Imports
  */
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
+
 
 /**
  *  Style Imports
@@ -14,14 +15,12 @@ import {Menu} from "semantic-ui-react";
  */
 import Auth from "../router/Auth";
 
-export default class LogButton extends React.Component{
-    render() {
-        if(Auth.isAuthenticated())
-            return (
-                <Menu.Menu inverted position='right'>
-                    <Menu.Item as={Link} to="/login" onClick={Auth.logout}>Sign out</Menu.Item>
-                </Menu.Menu>);
-        else
-            return ("");
-    }
-}
+export const LogButton = withRouter(() => (
+        Auth.isAuthenticated() ? (
+            <Menu.Menu position='right'>
+                <Menu.Item as={Link} to="/login" onClick={Auth.logout}>Sign out</Menu.Item>
+            </Menu.Menu>
+        ) : (
+            ""
+        )
+    ));

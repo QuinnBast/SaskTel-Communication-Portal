@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch": "webpack-cli --progress -d --config webpack.config.js --watch --output ./dist/main.js",
+    "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
   },
@@ -49,7 +49,7 @@
     "postcss-loader": "^3.0.0",
     "react-loadable": "^5.5.0",
     "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^4.4.0-beta.6",
     "react-text-mask": "^5.4.3",
     "sass-loader": "^7.1.0",
     "semantic-ui-css": "^2.4.1",
