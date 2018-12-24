@@ -21,17 +21,25 @@ class UpdateQueue {
 
     addUpdate(update){
 
+        // Stringify any data and replace slashes
+        if(update.data) {
+            update.data = JSON.stringify(update.data);
+        }
+
         //Determine if the endpoint already exists in the queue.
         for(var i = 0; i < this.queue.length; i++){
-            // If the endpoint is already in the queue, overwrite the element in the queue with the new request.
 
+            // If the endpoint is already in the queue, overwrite the element in the queue with the new request.
             if(this.queue[i].endpoint === update.endpoint){
+                update.data = JSON.stringify(update.data).replace("'", '"');
                 this.queue[i] = update;
                 return;
             }
         }
 
-        this.queue.push(update)
+        this.queue.push(update);
+
+        console.log("Added to Queue: " + update.endpoint)
     }
 
     hasUpdates(){
