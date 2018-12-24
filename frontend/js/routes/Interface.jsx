@@ -22,12 +22,10 @@ export default class Interface extends Component {
     }
 
     componentDidMount() {
-        setTimeout(this.checkQueue(), 60000);
+        setTimeout(this.checkQueue, 60000);
     }
 
-    checkQueue() {
-        console.log("Worker was executed.");
-
+    checkQueue = () => {
         // Are items in the queue?
         if (!UpdateQueue.hasUpdates()) return;
 
@@ -39,6 +37,7 @@ export default class Interface extends Component {
             // Remove the item from the queue.
             UpdateQueue.queue.splice(i, 1);
         }
+        console.log("Queue Completed.");
     }
 
     render() {

@@ -59,6 +59,7 @@ class BroadsoftConnector(BroadsoftResource):
                     jsonData = json.loads(args['data'], object_pairs_hook=OrderedDict)
                     data = str(xmltodict.unparse(jsonData))
                 except:
+                    app.logger.log(logging.INFO, "Cannot parse data into XML!")
                     data = None
 
             # Ensure broadsoft cookies are stripped and re-formatted.
