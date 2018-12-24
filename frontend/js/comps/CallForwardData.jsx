@@ -7,7 +7,8 @@ import React from "react";
 /**
  *  Style Imports
  */
-import { Table, Checkbox, Input } from 'semantic-ui-react'
+import { Table, Checkbox, Input, Popup } from 'semantic-ui-react'
+import MaskedInput from 'react-text-mask'
 
 /**
  *  Worker Queue Imports
@@ -21,24 +22,52 @@ export default class CallForwardData extends React.Component {
     constructor(props){
         super(props);
 
-        // Set changable props to the state.
-        this.state = {
-            forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
-            ringSplash: this.props.dataformat[this.props.info.type].ringSplash === 'true',
-            active: this.props.dataformat[this.props.info.type].active === 'true'
+        let type = this.props.info.type;
+
+        // Determine the type of call forwarding to determine which state to apply:
+        if(type === "CallForwardingAlways") {
+            this.state = {
+                active: this.props.dataformat[this.props.info.type].active === 'true',
+                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
+                ringSplash: this.props.dataformat[this.props.info.type].ringSplash === 'true',
+            }
+        } else if (type === "CallForwardingBusy" || type === "CallForwardingNotReachable"){
+            this.state = {
+                active: this.props.dataformat[this.props.info.type].active === 'true',
+                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
+            }
+        } else if (type === "CallForwardingSelective"){
+            this.state = {
+                active: this.props.dataformat[this.props.info.type].active === 'true',
+                defaultForwardToPhone: this.props.dataformat[this.props.info.type].defaultForwardToPhone,
+            }
+        } else if (type === "CallForwardingNoAnswer") {
+            this.state = {
+                active: this.props.dataformat[this.props.info.type].active === 'true',
+                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
+                numberOfRings: this.props.dataformat[this.props.info.type].numberOfRings,
+            }
         }
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
 
-        // Permanatly change background to red to indicate error to user.
+        // Permanatly change background to yellow to indicate that a change is pending.
         jQuery("#" + nextProps.info.type).get(0).style.background = '#fff7e6';
 
-        // Use the provided data format and update the changed components.
+
+        // Use the recieved data format and replace changes.
         let data = nextProps.dataformat;
-        data[nextProps.info.type].ringSplash = nextState.ringSplash.toString();
-        data[nextProps.info.type].active = nextState.active.toString();
-        data[nextProps.info.type].forwardToPhoneNumber = nextState.forwardToPhoneNumber;
+
+        // Loop through the state keys and set the data keys
+        for(let key of Object.keys(nextState)){
+            let value =  nextState[key];
+            if(value != null) {
+                data[nextProps.info.type][key] = value.toString();
+            } else {
+                data[nextProps.info.type][key] = '';
+            }
+        }
 
         let request = {
             endpoint: nextProps.info.endpoint,
@@ -71,6 +100,7 @@ export default class CallForwardData extends React.Component {
 
     toggleActive = () => {
         this.setState({active: !this.state.active});
+        // If the state is set to active, ensure that a phone number is provided!
     };
 
     changePhone = (event) => {
@@ -85,15 +115,48 @@ export default class CallForwardData extends React.Component {
         this.setState({forwardToPhoneNumber: event.target.value})
     };
 
+    changeNumberOfRings = (event) => {
+        this.setState({numberOfRings: event.target.value})
+    };
+
 
     render(){
-        return (
-            <Table.Row id={this.props.info.type}>
-                <Table.Cell>{this.props.info.name}</Table.Cell>
-                <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                <Table.Cell><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/></Table.Cell>
-                <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
-            </Table.Row>
-        );
+
+        let type = this.props.info.type;
+
+
+        if(type === "CallForwardingAlways") {
+            return (
+                <Table.Row id={this.props.info.type}>
+                    <Table.Cell>{this.props.info.name}</Table.Cell>
+                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
+                    <Table.Cell><Popup trigger ={<div>Ring Splash</div>} content={"When a call is forwarded, a chime will play on the main phone to indicate a call was forwarded."}/><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/></Table.Cell>
+                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                </Table.Row>
+            );
+        } else if (type === "CallForwardingBusy" || type === "CallForwardingNotReachable"){
+            return (
+                <Table.Row id={this.props.info.type}>
+                    <Table.Cell>{this.props.info.name}</Table.Cell>
+                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
+                    <Table.Cell><div></div></Table.Cell>
+                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                </Table.Row>
+            );
+        } else if (type === "CallForwardingSelective"){
+            // TODO: Implement call fowarding selective
+            return(
+                <Table.Row></Table.Row>
+            );
+        } else if (type === "CallForwardingNoAnswer"){
+                    return (
+                        <Table.Row id={this.props.info.type}>
+                    <Table.Cell>{this.props.info.name}</Table.Cell>
+                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
+                    <Table.Cell><Popup trigger ={<div>Number of Rings</div>} content={"The number of times the phone should ring before forwarding the call."}/><div><MaskedInput mask={[/\d*/]} defaultValue={this.state.numberOfRings} onChange={(e) => this.changeNumberOfRings(e)}/></div></Table.Cell>
+                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                </Table.Row>
+                    );
+        }
     }
 }
