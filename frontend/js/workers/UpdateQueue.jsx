@@ -26,12 +26,12 @@ class UpdateQueue {
         }
 
         //Determine if the endpoint already exists in the queue.
-        for(var i = 0; i < this.queue.length; i++){
-
+        for(let item of Array.from(this.queue)){
             // If the endpoint is already in the queue, overwrite the element in the queue with the new request.
-            if(this.queue[i].endpoint === update.endpoint){
+            if(item.endpoint === update.endpoint){
                 update.data = JSON.stringify(update.data).replace("'", '"');
-                this.queue[i] = update;
+                item = update;
+                console.log("Updated item: " + update.endpoint);
                 return;
             }
         }
