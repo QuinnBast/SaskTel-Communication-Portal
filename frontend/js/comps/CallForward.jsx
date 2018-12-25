@@ -26,12 +26,13 @@ export default class CallForward extends CallProperties {
 
     constructor(props){
         super(props);
-        this.state.forwarding = [];
-        this.state.name = 'Call Forwarding';
-        this.state.description = "This property allows you to forward calls to a different phone number during specific hours.";
-        this.state.title = "Call Forwarding";
-        this.state.content = this.content();
-
+        this.state = {
+            forwarding: [],
+            name: "Call Forwarding",
+            description: "This property allows you to forward calls to a different phone number during specific hours.",
+            title: "Call Forwarding",
+            content: this.content
+        };
         this.loadAsync();
     }
 
@@ -80,8 +81,8 @@ export default class CallForward extends CallProperties {
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingAlways",
             callback: function(response){
-                var dataFormat = response['data'];
-                var data = {
+                let dataFormat = response['data'];
+                let data = {
                     endpoint: "/user/<user>/services/CallForwardingAlways",
                     name: "Always",
                     type: "CallForwardingAlways"
@@ -94,8 +95,8 @@ export default class CallForward extends CallProperties {
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingBusy",
             callback: function(response){
-                var dataFormat = response['data'];
-                var data = {
+                let dataFormat = response['data'];
+                let data = {
                     endpoint: "/user/<user>/services/CallForwardingBusy",
                     name: "Busy",
                     type: "CallForwardingBusy"
@@ -108,8 +109,8 @@ export default class CallForward extends CallProperties {
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNoAnswer",
             callback: function(response) {
-                var dataFormat = response['data'];
-                var data = {
+                let dataFormat = response['data'];
+                let data = {
                     endpoint: "/user/<user>/services/CallForwardingNoAnswer",
                     name: "No Answer",
                     type: "CallForwardingNoAnswer"
@@ -121,8 +122,8 @@ export default class CallForward extends CallProperties {
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/CallForwardingNotReachable",
             callback: function(response) {
-                var dataFormat = response['data'];
-                var data = {
+                let dataFormat = response['data'];
+                let data = {
                     endpoint: "/user/<user>/services/CallForwardingNotReachable",
                     name: "Not Reachable",
                     type: "CallForwardingNotReachable"
@@ -134,8 +135,8 @@ export default class CallForward extends CallProperties {
         BroadSoft.sendRequest({
             endpoint:"/user/<user>/services/CallForwardingSelective",
             callback: function(response) {
-                var dataFormat = response['data'];
-                var data = {
+                let dataFormat = response['data'];
+                let data = {
                     endpoint: "/user/<user>/services/CallForwardingSelective",
                     name: "Selective",
                     type: "CallForwardingSelective"
