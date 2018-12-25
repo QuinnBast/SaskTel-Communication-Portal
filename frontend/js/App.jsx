@@ -35,7 +35,7 @@ import Login from "./routes/Login";
 /**
  *  Component Imports
  */
-import  Navbar from "./comps/Navbar";
+import  NavBar from "./comps/NavBar";
 
 
 // Globally include jQuery
@@ -46,14 +46,14 @@ export default class App extends React.Component {
         return (
             <Router history={history}>
                 <div>
-                    <Navbar/>
+                    <NavBar/>
                     <Switch>
                         /*render the interface page if the user is logged in*/
                         <ProtectedRoute exact path="/" component={Interface}/>
                         /*render the login page if the user isn't logged in*/
                         <UnprotectedRoute exact path="/login" component={Login}/>
                         /*Catch all, invalid address, redirect to interface page*/
-                        <Route path="*" component={<Route render={() => <Redirect to="/" />} />}/>
+                        <Route path="*" render={() => <Redirect to="/" />}/>
                     </Switch>
                 </div>
             </Router>

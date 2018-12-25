@@ -1,3 +1,4 @@
+
 /**
  *  React Imports
  */
@@ -27,9 +28,9 @@ export default class CallLogs extends CallProperties {
             name : "Call CallLogs",
             description : "This property shows the history of all your previous calls.",
             title : "Call CallLogs",
-            content : this.content
+            content : "" // Can't set to this.content() here, because it creates an unbounded loop.
         };
-
+        // this.loadAsync() triggers componentDidUpdate() and the contents are loaded.
         this.loadAsync()
     }
 
@@ -40,10 +41,10 @@ export default class CallLogs extends CallProperties {
     }
 
     content = () => {
-
+        let i = 0;
         let tableRows = [];
-        for(let property of this.state.logs){
-            tableRows.push(<Table.Row>
+        for(let property of Array.from(this.state.logs)){
+            tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
                             <Table.Cell>{property['type']}</Table.Cell>
                             <Table.Cell>{property['phoneNumber']}</Table.Cell>
                             <Table.Cell>{property['time']}</Table.Cell>

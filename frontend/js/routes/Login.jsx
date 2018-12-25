@@ -46,6 +46,7 @@ export default class Login extends React.Component {
                                 placeholder="(___)-___-____"
                                 id="username"
                                 guide = {true}
+                                autoComplete="off"
                                 onChange={Auth.handleUsernameChange}
                                 onBlur={Auth.handleUsernameBlur}
                             />
@@ -55,7 +56,7 @@ export default class Login extends React.Component {
                         </p>
                     </Form.Field>
                     <Form.Field style={UpperMarginForm}>
-                        <Form.Input label="Password" onBlur={Auth.handlePasswordBlur} onChange={Auth.handlePasswordChange} id="password" type="password" placeholder="**********"/>
+                        <Form.Input label="Password" onBlur={Auth.handlePasswordBlur} onChange={Auth.handlePasswordChange} id="password" type="password" autoComplete="off" placeholder="**********"/>
                         <p style={{visibility: "hidden", color : '#e74c3c'}} align="right" id="passwordAlert">
                             A password is required to log in.
                         </p>
