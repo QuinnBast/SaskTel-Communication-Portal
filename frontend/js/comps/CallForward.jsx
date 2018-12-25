@@ -31,7 +31,7 @@ export default class CallForward extends CallProperties {
             name: "Call Forwarding",
             description: "This property allows you to forward calls to a different phone number during specific hours.",
             title: "Call Forwarding",
-            content: this.content
+            content: this.content()
         };
         this.loadAsync();
     }
@@ -67,7 +67,7 @@ export default class CallForward extends CallProperties {
                             <Table.HeaderCell><Popup trigger={<div>Active</div>} content={"If the services is currently activate."}/></Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
-                    <Table.Body>
+                    <Table.Body key={"CallForwardKey"}>
                         {this.state.forwarding}
                     </Table.Body>
                 </Table>
@@ -87,7 +87,7 @@ export default class CallForward extends CallProperties {
                     name: "Always",
                     type: "CallForwardingAlways"
                 };
-                let newData = <CallForwardData info={data} dataformat={dataFormat}/>;
+                let newData = <CallForwardData key={data.name + data.type} info={data} dataformat={dataFormat}/>;
                 self.setState((prevState) => ({ forwarding: [...prevState.forwarding, newData]}));
             }
         });
@@ -102,7 +102,7 @@ export default class CallForward extends CallProperties {
                     type: "CallForwardingBusy"
                 };
 
-                let newData = <CallForwardData info={data} dataformat={dataFormat}/>;
+                let newData = <CallForwardData key={data.name + data.type} info={data} dataformat={dataFormat}/>;
                 self.setState((prevState) => ({ forwarding: [...prevState.forwarding, newData]}));
             }
         });
@@ -115,7 +115,7 @@ export default class CallForward extends CallProperties {
                     name: "No Answer",
                     type: "CallForwardingNoAnswer"
                 };
-                let newData = <CallForwardData info={data} dataformat={dataFormat}/>;
+                let newData = <CallForwardData key={data.name + data.type} info={data} dataformat={dataFormat}/>;
                 self.setState((prevState) => ({ forwarding: [...prevState.forwarding, newData]}));
             }
         });
@@ -128,7 +128,7 @@ export default class CallForward extends CallProperties {
                     name: "Not Reachable",
                     type: "CallForwardingNotReachable"
                 };
-                let newData = <CallForwardData info={data} dataformat={dataFormat}/>;
+                let newData = <CallForwardData key={data.name + data.type} info={data} dataformat={dataFormat}/>;
                 self.setState((prevState) => ({ forwarding: [...prevState.forwarding, newData]}));
             }
         });
@@ -141,7 +141,7 @@ export default class CallForward extends CallProperties {
                     name: "Selective",
                     type: "CallForwardingSelective"
                 };
-                let newData = <CallForwardData info={data} dataformat={dataFormat}/>;
+                let newData = <CallForwardData key={data.name + data.type} info={data} dataformat={dataFormat}/>;
                 self.setState((prevState) => ({ forwarding: [...prevState.forwarding, newData]}));
             }
         });

@@ -14,15 +14,11 @@ import { Menu } from 'semantic-ui-react'
  */
 import {LogButton} from "./LogButton"
 
-export default class Navbar extends Component {
-    state = { activeItem: 'TelPort' };
-
+export default class NavBar extends Component {
     render() {
-        const { activeItem } = this.state;
-
         return (
             <Menu attached inverted={true}>
-                <Menu.Item name='telPort' active={activeItem === 'TelPort'} />
+                <Menu.Item header name='Tel Port'/>
                 <LogButton/>
             </Menu>
         )
