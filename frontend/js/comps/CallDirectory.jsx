@@ -37,8 +37,11 @@ content = () => {
 loadAsync(){
     BroadSoft.sendRequest({
         endpoint: "/user/<user>/directories/CustomContact",
-        callback: function(response) {
+        success: function(response) {
             $("#CallDirectory").get(0).innerHTML = JSON.stringify(response);
+        },
+        error: function(response) {
+            // User does not have access to the endpoint.
         }
     });
 }

@@ -13,6 +13,7 @@ import CallProperties from "./call/CallProperties";
  *  REST API Imports
  */
 import BroadSoft from "../BroadSoft/BroadSoft";
+import { getTag } from "../BroadSoft/xmlParse";
 
 /**
  *  Style Imports
@@ -74,35 +75,36 @@ export default class CallLogs extends CallProperties {
         let self= this;
         BroadSoft.sendRequest({
             endpoint:"/user/<user>/directories/CallLogs",
-            callback: function(response) {
-                let data = response['data']['CallLogs'];
+            success: function(response) {
 
-                for (let missedCall of Array.from(data['missed']['callLogsEntry'])){
+                let data = getTag(response, ["CallLogs"]);
+
+                for (let missedCall of Array.from(getTag(data, ['missed', 'callLogsEntry']))){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Missed",
-                                    phoneNumber:missedCall['phoneNumber'],
-                                    time:missedCall['time']
+                                    phoneNumber:getTag(missedCall, ['phoneNumber']),
+                                    time:getTag(missedCall,['time'])
                                 }]
                         }));
                 }
 
-                for(let placedCall of Array.from(data['placed']['callLogsEntry'])){
+                for(let placedCall of Array.from(getTag(data, ['placed', 'callLogsEntry']))){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Outgoing",
-                                    phoneNumber:placedCall['phoneNumber'],
-                                    time:placedCall['time']
+                                    phoneNumber:getTag(placedCall, ['phoneNumber']),
+                                    time:getTag(placedCall, ['time'])
                                 }]
                         }));
                 }
 
-                for(let receivedCall of Array.from(data['received']['callLogsEntry'])){
+                for(let receivedCall of Array.from(getTag(data, ['received', 'callLogsEntry']))){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Received",
-                                    phoneNumber:receivedCall['phoneNumber'],
-                                    time:receivedCall['time']
+                                    phoneNumber:getTag(receivedCall, ['phoneNumber']),
+                                    time:getTag(receivedCall, ['time'])
                                 }]
                         }));
                 }
