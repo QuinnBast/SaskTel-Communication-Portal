@@ -48,7 +48,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"username\":\"{{postman_username}}\",\n\"password\":\"{{postman_password}}\"\n}"
+					"raw": "{\n\"username\":\"3067190074\",\n\"password\":\"Abcdefg.1234\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/login",
@@ -115,7 +115,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/profile\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/profile\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
@@ -141,7 +141,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was received from the cookie",
+								"value": "The csrf-access-token that was recieved from the cookie",
 								"type": "text"
 							},
 							{
@@ -153,7 +153,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
@@ -269,7 +269,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was received from the cookie",
+								"value": "The csrf-access-token that was recieved from the cookie",
 								"type": "text"
 							},
 							{
@@ -281,7 +281,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
@@ -371,7 +371,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"{\\\"CallForwardingAlways\\\": {\\\"@xmlns\\\": \\\"http://schema.broadsoft.com/xsi\\\", \\\"active\\\": \\\"true\\\", \\\"forwardToPhoneNumber\\\": \\\"+91-3065194771\\\", \\\"ringSplash\\\": \\\"false\\\"}}\",\n\"method\":\"PUT\"\n}"
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"<?xml version=\\\"1.0\\\" encoding=\\\"ISO-8859-1\\\"?><CallForwardingAlways xmlns=\\\"http://schema.broadsoft.com/xsi\\\"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber>    <ringSplash>false</ringSplash></CallForwardingAlways>\",\n\"method\":\"PUT\"\n}"
 				},
 				"url": {
 					"raw": "http://127.0.0.1:5000/rest/broadsoft",
@@ -397,7 +397,7 @@
 						"header": [
 							{
 								"key": "X-CSRF-TOKEN",
-								"value": "The csrf-access-token that was received from the cookie",
+								"value": "The csrf-access-token that was recieved from the cookie",
 								"type": "text"
 							},
 							{
@@ -409,7 +409,135 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was received in the cookie.\"\n}"
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.14.1 Python/3.6.3"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Nov 2018 23:13:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
+				}
+			]
+		},
+		{
+			"name": "[REST] [GET] CallForwardBusy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9008d136-b63a-4008-8dc4-2a7ff7b296b1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies OK\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample CSRF Request Format",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "The csrf-access-token that was recieved from the cookie",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
 						},
 						"url": {
 							"raw": "http://127.0.0.1:5000/test",
@@ -466,39 +594,6 @@
 							"",
 							"pm.test(\"Cookies Deleted\", function () {",
 							"    pm.expect(pm.cookies.count()).to.be.eql(0);",
-							"});",
-							"",
-							"var schema = {",
-							"    \"data\": {",
-							"        \"Profile\": {",
-							"            \"@xmlns\": \"http://schema.broadsoft.com/xsi\",",
-							"            \"additionalDetails\": null,",
-							"            \"countryCode\": \"1\",",
-							"            \"details\": {",
-							"                \"extension\": \"0073\",",
-							"                \"firstName\": \"3067190073\",",
-							"                \"groupId\": \"UofRStudentLab-Grp1\",",
-							"                \"hiranganaFirstName\": \"3067190073\",",
-							"                \"hiranganaLastName\": \"3067190073\",",
-							"                \"lastName\": \"3067190073\",",
-							"                \"number\": \"3067190073\",",
-							"                \"serviceProvider\": {",
-							"                    \"#text\": \"UofR-StudentLab\",",
-							"                    \"@isEnterprise\": \"false\"",
-							"                },",
-							"                \"userId\": \"3067190073@imstas.stb1.com\"",
-							"            },",
-							"            \"fac\": \"/v2.0/user/3067190073@imstas.stb1.com/profile/Fac\",",
-							"            \"passwordExpiresDays\": \"2147483647\",",
-							"            \"portalPasswordChange\": \"/v2.0/user/3067190073@imstas.stb1.com/profile/Password/Portal\",",
-							"            \"registrations\": \"/v2.0/user/3067190073@imstas.stb1.com/profile/Registrations\",",
-							"            \"scheduleList\": \"/v2.0/user/3067190073@imstas.stb1.com/profile/Schedule\"",
-							"        }",
-							"    }",
-							"};",
-							"",
-							"pm.test('Schema is valid', function() {",
-							"  pm.expect(tv4.validate(pm.response.json(), schema)).to.be.true;",
 							"});"
 						],
 						"type": "text/javascript"
@@ -511,13 +606,13 @@
 					{
 						"key": "Content-Type",
 						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
+						"type": "text",
+						"value": "application/json"
 					},
 					{
 						"key": "X-CSRF-TOKEN",
-						"value": "{{xsrf-token}}",
-						"type": "text"
+						"type": "text",
+						"value": "{{xsrf-token}}"
 					}
 				],
 				"body": {

@@ -43,11 +43,12 @@ class Auth {
         }
 
         //Async login call
-        BroadSoft.login(function(result){
-            if(result){
+        BroadSoft.login({
+            success: function(result){
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
-            } else {
+            },
+            error: function(result){
                 $("#alert").get(0).style.visibility = 'visible';
             }
         });

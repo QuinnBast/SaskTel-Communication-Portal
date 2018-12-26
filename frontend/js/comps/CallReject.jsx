@@ -39,13 +39,13 @@ export default class CallReject extends CallProperties {
     loadAsync(){
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/AnonymousCallRejection",
-            callback: function(response) {
+            success: function(response) {
                 $("#CallRejectAnonymous").get(0).innerHTML = JSON.stringify(response);
             }
         });
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/SelectiveCallRejection",
-            callback: function(response) {
+            success: function(response) {
                 $("#CallRejectSelective").get(0).innerHTML = JSON.stringify(response);
             }
         });

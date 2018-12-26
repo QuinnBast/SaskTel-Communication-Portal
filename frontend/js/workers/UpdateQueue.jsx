@@ -18,28 +18,7 @@ class UpdateQueue {
 
     }
 
-    getKeyArray(object){
-
-        let keyList = [];
-
-        for(let key of Object.keys(object)){
-            keyList.push(key);
-            // access the key
-            if(typeof object[key] === 'object'){
-                keyList.push(this.getKeyArray(object[key]))
-            }
-        }
-        return keyList
-    }
-
-
     addUpdate(update){
-
-        // Stringify any data and replace slashes
-        if(update.data) {
-            update.data = JSON.stringify(update.data, this.getKeyArray(update.data)).replace("'", '"');
-        }
-
         //Determine if the endpoint already exists in the queue.
         for(let item of Array.from(this.queue)){
             // If the endpoint is already in the queue, overwrite the element in the queue with the new request.

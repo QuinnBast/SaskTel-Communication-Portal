@@ -15,6 +15,11 @@ import MaskedInput from 'react-text-mask'
  */
 import UpdateQueue from "../workers/UpdateQueue"
 
+/**
+ * Broadsoft imports
+ */
+import { getTag, setTag } from "../BroadSoft/xmlParse";
+
 let $ = require('jquery');
 
 export default class CallForwardData extends React.Component {
@@ -27,25 +32,25 @@ export default class CallForwardData extends React.Component {
         // Determine the type of call forwarding to determine which state to apply:
         if(type === "CallForwardingAlways") {
             this.state = {
-                active: this.props.dataformat[this.props.info.type].active === 'true',
-                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
-                ringSplash: this.props.dataformat[this.props.info.type].ringSplash === 'true',
+                active: getTag(this.props.dataformat, [type, 'active']) === 'true',
+                forwardToPhoneNumber: getTag(this.props.dataformat, [type, 'forwardToPhoneNumber']),
+                ringSplash: getTag(this.props.dataformat, [type, 'ringSplash']) === 'true',
             }
         } else if (type === "CallForwardingBusy" || type === "CallForwardingNotReachable"){
             this.state = {
-                active: this.props.dataformat[this.props.info.type].active === 'true',
-                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
+                active: getTag(this.props.dataformat, [type, 'active']) === 'true',
+                forwardToPhoneNumber: getTag(this.props.dataformat, [type, 'forwardToPhoneNumber']),
             }
         } else if (type === "CallForwardingSelective"){
             this.state = {
-                active: this.props.dataformat[this.props.info.type].active === 'true',
-                defaultForwardToPhone: this.props.dataformat[this.props.info.type].defaultForwardToPhone,
+                active: getTag(this.props.dataformat, [type, 'active']) === 'true',
+                defaultForwardToPhone: getTag(this.props.dataformat, [type, 'defaultForwardToPhone']),
             }
         } else if (type === "CallForwardingNoAnswer") {
             this.state = {
-                active: this.props.dataformat[this.props.info.type].active === 'true',
-                forwardToPhoneNumber: this.props.dataformat[this.props.info.type].forwardToPhoneNumber,
-                numberOfRings: this.props.dataformat[this.props.info.type].numberOfRings,
+                active: getTag(this.props.dataformat, [type, 'active']) === 'true',
+                forwardToPhoneNumber: getTag(this.props.dataformat, [type, 'forwardToPhoneNumber']),
+                numberOfRings: getTag(this.props.dataformat, [type, 'numberOfRings']),
             }
         }
     }
@@ -63,9 +68,9 @@ export default class CallForwardData extends React.Component {
         for(let key of Object.keys(nextState)){
             let value =  nextState[key];
             if(value != null) {
-                data[nextProps.info.type][key] = value.toString();
+                setTag(data, [this.props.info.type, key], value.toString());
             } else {
-                data[nextProps.info.type][key] = '';
+                setTag(data, [this.props.info.type, key], '');
             }
         }
 
@@ -73,16 +78,13 @@ export default class CallForwardData extends React.Component {
             endpoint: nextProps.info.endpoint,
             method: "PUT",
             data: data,
-            callback: function(response){
-                if(response.error === 'true') {
-                    // Permanently change background to red to indicate error to user.
-                    jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
-                    // Reset the state of the component by fetching the current state.
-
-                } else {
-                    // Revert to original background
-                    jQuery("#" + nextProps.info.type).get(0).style.background = "";
-                }
+            success: function(response){
+                jQuery("#" + nextProps.info.type).get(0).style.background = "";
+            },
+            error: function(response){
+                // Permanently change background to red to indicate error to user.
+                jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
+                // Reset the state of the component by fetching the current state.
             }
         };
 

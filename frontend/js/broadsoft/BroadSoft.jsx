@@ -1,4 +1,5 @@
 let Cookies = require("js-cookie");
+let xmljs = require('xml-js');
 
 
 /**
@@ -14,7 +15,18 @@ class BroadSoft {
 
     }
 
-    login(callback) {
+    login(callbacks) {
+        /**
+         * Reaches the server's login endpoint.
+         * The server will contact Broadsoft to determine if the user credentials are valid.
+         * If valid, the server will generate and return a user authentication token whihc validates the user.
+         *
+         * @param callbacks: {success: function(), error: function()}
+         *
+         *          The successful callback function will be executed on successful login.
+         *          The failure callback function will be executed on failed login.
+         */
+
         let object = {
             "username": Auth.username.replace(/[()-]/g, ''),
             "password": Auth.password,
@@ -28,7 +40,7 @@ class BroadSoft {
             url: "/rest/login",
             contentType: "application/json",
             data: json,
-            dataType: "json",
+            dataType: "text",
             success: function(responseText, textStatus, jqxhr){
 
                 this.authenticated = true;
@@ -43,16 +55,25 @@ class BroadSoft {
                     data: {"CSRFToken":Auth.csrfToken}
                 });
 
-                callback(true);
+                callbacks.success();
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                callback(false);
+                callbacks.error();
             },
         });
     }
 
-    logout(callback) {
+    logout(callbacks) {
+        /**
+         * This function will contact the broadsoft logout endpoint and remove the user's auth tokens
+         * This will ensure the user can no longer access information with their tokens.
+         *
+         * @param callbacks: {success: function(), error: function()}
+         *
+         *      The success function will be executed with a successful logout
+         *      The error function will be executed with a failed logout
+         */
 
         //Call server's login function
         $.ajax({
@@ -60,7 +81,7 @@ class BroadSoft {
             type: "POST",
             url: "/rest/logout",
             contentType: "application/json",
-            dataType: "json",
+            dataType: "text",
             success: function(responseText, textStatus, jqxhr){
 
                 this.authenticated = false;
@@ -71,16 +92,29 @@ class BroadSoft {
                     data: undefined
                 });
 
-                callback(true);
+                callbacks.success();
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                callback(false);
+                callbacks.error();
             },
         });
     }
 
     sendRequest(args){
+        /**
+         * This function will access any of the broadsoft endpoints.
+         *
+         * @param args:
+         * {
+         *  endpoint: "broadsoftEndpoint",
+         *  data: "A JS object to send to broadsoft as data. Data will be converted to XML.",
+         *  method: "GET/PUT/DELETE/..."
+         *  success: function(),
+         *  error: function(),
+         * }
+         */
+
         if(args['endpoint'] === undefined){
             return;
         }
@@ -93,14 +127,19 @@ class BroadSoft {
             args['method'] = "GET";
         }
 
-        let callback = function(){return};
-        if(args['callback'] !== undefined) {
-            callback = args['callback'];
+        let success = function(){return};
+        if(args['success'] !== undefined) {
+            success = args['success'];
+        }
+
+        let error = function(){return};
+        if(args['error'] !== undefined) {
+            error = args['error'];
         }
 
         let request_data = {
             "endpoint":args['endpoint'],
-            "data":args['data'],
+            "data":xmljs.js2xml(args['data']),
             "method":args['method'],
         };
 
@@ -109,15 +148,17 @@ class BroadSoft {
             type: "POST",
             url: "/rest/broadsoft",
             contentType: "application/json",
-            dataType: "json",
+            dataType: "text",
             data: JSON.stringify(request_data),
             success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
+                // Convert XML response to a JS object.
+                let response = xmljs.xml2js(responseText);
+                success(response);
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                var response = JSON.parse(jqxhr.responseText);
-                callback(response)
+                let response = xmljs.xml2js(jqxhr.responseText);
+                error(response)
             },
         });
     }
