@@ -58,7 +58,7 @@ class Auth {
             $('#passwordAlert').get(0).style.visibility = 'visible';
             return;
         }
-
+        $('#LoginButton:first').addClass('loading');
         //Async login call
         let self = this;
         BroadSoft.login({
