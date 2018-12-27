@@ -3,7 +3,7 @@
     padding: 10px;
 }
 
-.loading {
+.lloading {
     animation-name: ring;
     animation-iteration-count: infinite;
     animation-duration: 0.5s;
