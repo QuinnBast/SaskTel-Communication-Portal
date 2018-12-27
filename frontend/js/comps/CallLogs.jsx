@@ -79,7 +79,7 @@ export default class CallLogs extends CallProperties {
 
                 let data = getTag(response, ["CallLogs"]);
 
-                for (let missedCall of Array.from(getTag(data, ['missed', 'callLogsEntry']))){
+                for (let missedCall of Array.from(getTag(data, ['missed']).elements)){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Missed",
@@ -89,7 +89,7 @@ export default class CallLogs extends CallProperties {
                         }));
                 }
 
-                for(let placedCall of Array.from(getTag(data, ['placed', 'callLogsEntry']))){
+                for(let placedCall of Array.from(getTag(data, ['placed']).elements)){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Outgoing",
@@ -99,7 +99,7 @@ export default class CallLogs extends CallProperties {
                         }));
                 }
 
-                for(let receivedCall of Array.from(getTag(data, ['received', 'callLogsEntry']))){
+                for(let receivedCall of Array.from(getTag(data, ['received']).elements)){
                     self.setState(prevState => (
                         {logs: [...prevState.logs,
                                 {type:  "Received",
