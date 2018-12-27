@@ -22,6 +22,13 @@ class Auth {
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.isAuthenticated = this.isAuthenticated.bind(this);
+
+        // Check if a session is set
+        if(localStorage.getItem("authenticated") === "true"){
+            this.authenticated = localStorage.getItem("authenticated")
+            this.username = localStorage.getItem("username")
+            this.csrfToken = localStorage.getItem("csrfToken")
+        };
     }
 
     login (e) {
@@ -45,10 +52,15 @@ class Auth {
         //Async login call
         BroadSoft.login({
             success: function(result){
+                this.authenticated = true;
+                localStorage.setItem("authenticated", this.authenticated.toString());
+                localStorage.setItem("username", this.username);
+                localStorage.setItem("csrfToken", this.csrfToken);
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
             },
             error: function(result){
+                localStorage.setItem("authenticated", "false");
                 $("#alert").get(0).style.visibility = 'visible';
             }
         });
@@ -60,6 +72,9 @@ class Auth {
         this.authenticated = false;
         this.username = "";
         this.password = "";
+        localStorage.removeItem("authenticated");
+        localStorage.removeItem("username");
+        localStorage.removeItem("csrfToken");
         history.push("/login");
     };
 
