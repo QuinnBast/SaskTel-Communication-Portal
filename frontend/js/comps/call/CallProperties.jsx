@@ -33,6 +33,10 @@ export default class CallProperties extends Component {
 
     content = () => {};
 
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        this.state.content = this.content();
+    }
+
     toggle = () => {
         this.setState({
             collapse : !this.state.collapse
