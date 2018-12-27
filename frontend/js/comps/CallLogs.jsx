@@ -1,4 +1,4 @@
-
+import _ from 'lodash'
 /**
  *  React Imports
  */
@@ -29,7 +29,9 @@ export default class CallLogs extends CallProperties {
             name : "Call CallLogs",
             description : "This property shows the history of all your previous calls.",
             title : "Call CallLogs",
-            content : "" // Can't set to this.content() here, because it creates an unbounded loop.
+            content : "", // Can't set to this.content() here, because it creates an unbounded loop.
+            column : null,
+            direction : null
         };
         // this.loadAsync() triggers componentDidUpdate() and the contents are loaded.
         this.loadAsync()
@@ -41,36 +43,83 @@ export default class CallLogs extends CallProperties {
         }
     }
 
+    handleSort = clickedColumn => () => {
+        let column = this.state.column;
+        let logs = [];
+        let direction = null;
+
+        // if column isn't current column, sort by ascending order
+        if (this.state.column !== clickedColumn) {
+            column = clickedColumn;
+            logs = _.sortBy(this.state.logs, [clickedColumn]);
+            direction = 'ascending';
+        }
+        // if column is currently selected, sort by opposite order
+        else {
+            if(this.state.direction === 'ascending') {
+                logs = _.sortBy(this.state.logs, [clickedColumn]).reverse();
+                direction = 'descending';
+            }
+            else {
+                logs = _.sortBy(this.state.logs, [clickedColumn]);
+                direction = 'ascending';
+            }
+        }
+        // save the state to trigger  rerender
+        this.setState({
+            logs: logs,
+            direction: direction,
+            column : column
+        })
+    };
+
+
+
+
     content = () => {
         let i = 0;
         let tableRows = [];
         for(let property of Array.from(this.state.logs)){
             tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
-                            <Table.Cell>{property['type']}</Table.Cell>
-                            <Table.Cell>{property['phoneNumber']}</Table.Cell>
-                            <Table.Cell>{property['time']}</Table.Cell>
-                        </Table.Row>);
+                <Table.Cell>{property['type']}</Table.Cell>
+                <Table.Cell>{property['phoneNumber']}</Table.Cell>
+                <Table.Cell>{property['time']}</Table.Cell>
+            </Table.Row>);
         }
-
         return (
             <div>
-                <Table striped id={"CallLogs"}>
+                <Table sortable striped id={"CallLogs"}>
                     <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>Type</Table.HeaderCell>
-                        <Table.HeaderCell>Phone Number</Table.HeaderCell>
-                        <Table.HeaderCell>Time</Table.HeaderCell>
-                    </Table.Row>
+                        <Table.Row>
+                            <Table.HeaderCell
+                                sorted={this.state.column === 'type' ? this.state.direction : null}
+                                onClick={this.handleSort('type')}
+                            >
+                                Type
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                sorted={this.state.column === 'phoneNumber' ? this.state.direction : null}
+                                onClick={this.handleSort('phoneNumber')}
+                            >
+                                Phone Number
+                            </Table.HeaderCell>
+                            <Table.HeaderCell
+                                sorted={this.state.column === 'time' ? this.state.direction : null}
+                                onClick={this.handleSort('time')}
+                            >
+                                Time
+                            </Table.HeaderCell>
+                        </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                    {tableRows}
+                        {tableRows}
                     </Table.Body>
                 </Table>
             </div>
         );
     };
 
-        // Asynchronous function that updates the object.
+    // Asynchronous function that updates the object.
     loadAsync(){
         let self= this;
         BroadSoft.sendRequest({
