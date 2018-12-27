@@ -25,9 +25,19 @@ class Auth {
 
         // Check if a session is set
         if(localStorage.getItem("authenticated") === "true"){
-            this.authenticated = localStorage.getItem("authenticated")
-            this.username = localStorage.getItem("username")
-            this.csrfToken = localStorage.getItem("csrfToken")
+            this.authenticated = localStorage.getItem("authenticated");
+            this.username = localStorage.getItem("username");
+            this.csrfToken = localStorage.getItem("csrfToken");
+
+            // Configure requests to have csrf token in the header.
+            $.ajaxSetup({
+                    beforeSend: function(xhr, settings){
+                        if(!this.crossDomain){
+                            xhr.setRequestHeader("X-CSRF-TOKEN", this.csrfToken);
+                        }
+                    },
+                    data: {"CSRFToken":this.csrfToken}
+                });
         };
     }
 
@@ -50,12 +60,12 @@ class Auth {
         }
 
         //Async login call
+        let self = this;
         BroadSoft.login({
             success: function(result){
-                this.authenticated = true;
-                localStorage.setItem("authenticated", this.authenticated.toString());
-                localStorage.setItem("username", this.username);
-                localStorage.setItem("csrfToken", this.csrfToken);
+                localStorage.setItem("authenticated", self.authenticated.toString());
+                localStorage.setItem("username", self.username);
+                localStorage.setItem("csrfToken", self.csrfToken);
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
             },
