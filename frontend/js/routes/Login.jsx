@@ -38,7 +38,7 @@ export default class Login extends React.Component {
                     <Message negative style={{visibility: "hidden"}} id="alert">
                         Invalid Login Credentials. Try Again
                     </Message>
-                    <Form  autoComplete="off" style={UpperMarginForm} onSubmit={Auth.login}>
+                    <Form id="LoginForm" autoComplete="off" style={UpperMarginForm} onSubmit={Auth.login}>
 
                         <Form.Field  id='usernameGroup' style={UpperMarginForm}>
                             <Form.Input label="Phone Number">
@@ -62,7 +62,7 @@ export default class Login extends React.Component {
                                 A password is required to log in.
                             </p>
                         </Form.Field>
-                        <Button type={'submit'} style={{width: '100%',}} className={'mx-auto'}>Log in</Button>
+                        <Button id="LoginButton" type={'submit'} style={{width: '100%',}} className={'mx-auto'}>Log in</Button>
                     </Form>
                 </Container>
             </Fragment>
