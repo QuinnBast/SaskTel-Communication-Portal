@@ -64,7 +64,7 @@ class BroadSoft {
         });
     }
 
-    logout(callbacks) {
+    logout() {
         /**
          * This function will contact the broadsoft logout endpoint and remove the user's auth tokens
          * This will ensure the user can no longer access information with their tokens.
@@ -81,23 +81,7 @@ class BroadSoft {
             type: "POST",
             url: "/rest/logout",
             contentType: "application/json",
-            dataType: "text",
-            success: function(responseText, textStatus, jqxhr){
-
-                this.authenticated = false;
-
-                //Clear the ajax configuration so that it no longer sends the CSRF token.
-                $.ajaxSetup({
-                    beforeSend: undefined,
-                    data: undefined
-                });
-
-                callbacks.success();
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callbacks.error();
-            },
+            dataType: "text"
         });
     }
 

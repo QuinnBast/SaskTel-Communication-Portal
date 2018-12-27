@@ -79,12 +79,24 @@ class Auth {
     logout() {
         BroadSoft.logout();
         // Don't wait for the server's response to logout.
+
+        //Clear the ajax configuration so that it no longer sends the CSRF token.
+        $.ajaxSetup({
+            beforeSend: undefined,
+            data: undefined
+        });
+
+        // Reset the Auth
         this.authenticated = false;
         this.username = "";
         this.password = "";
+
+        // Remove the localStorage settings.
         localStorage.removeItem("authenticated");
         localStorage.removeItem("username");
         localStorage.removeItem("csrfToken");
+
+        // Prevent the user navigating back.
         history.push("/login");
     };
 
