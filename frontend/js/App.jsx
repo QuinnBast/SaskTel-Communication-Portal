@@ -45,7 +45,6 @@ export default class App extends React.Component {
     render () {
         return (
             <Router history={history}>
-                <div>
                     <NavBar/>
                     <Switch>
                         /*render the interface page if the user is logged in*/
@@ -55,7 +54,6 @@ export default class App extends React.Component {
                         /*Catch all, invalid address, redirect to interface page*/
                         <Route path="*" render={() => <Redirect to="/" />}/>
                     </Switch>
-                </div>
             </Router>
         );
     }
