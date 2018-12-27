@@ -151,14 +151,19 @@ export default class CallForwardData extends React.Component {
                 <Table.Row></Table.Row>
             );
         } else if (type === "CallForwardingNoAnswer"){
-                    return (
-                        <Table.Row id={this.props.info.type}>
+            return (
+                <Table.Row id={this.props.info.type}>
                     <Table.Cell>{this.props.info.name}</Table.Cell>
                     <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                    <Table.Cell><Popup trigger ={<div>Number of Rings</div>} content={"The number of times the phone should ring before forwarding the call."}/><div><MaskedInput mask={[/\d*/]} defaultValue={this.state.numberOfRings} onChange={(e) => this.changeNumberOfRings(e)}/></div></Table.Cell>
+                    <Table.Cell>
+                        <Popup trigger ={<div>Number of Rings</div>} content={"The number of times the phone should ring before forwarding the call."}/>
+                        <Input>
+                            <MaskedInput mask={[/\d*/]} defaultValue={this.state.numberOfRings} onChange={(e) => this.changeNumberOfRings(e)}/>
+                        </Input>
+                    </Table.Cell>
                     <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
                 </Table.Row>
-                    );
+            );
         }
     }
 }
