@@ -83,7 +83,13 @@ export default class CallLogs extends CallProperties {
             tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
                 <Table.Cell>{property['type']}</Table.Cell>
                 <Table.Cell>{property['phoneNumber']}</Table.Cell>
-                <Table.Cell>{property['time']}</Table.Cell>
+                <Table.Cell>{(new Date(property['time']))
+                    .toLocaleString('en-CA',
+                        {   day: 'numeric',
+                            month: 'short',
+                            weekday :'short',
+                            hour: 'numeric',
+                            minute: 'numeric', localeMatcher : "best fit" }).replace('.', '')}</Table.Cell>
             </Table.Row>);
         }
         return (
