@@ -105,6 +105,8 @@ class BroadSoft {
 
         if(args['data'] === undefined){
             args['data'] = "";
+        } else {
+            args['data'] = xmljs.js2xml(args['data']);
         }
 
         if(args['method'] === undefined){
@@ -123,7 +125,7 @@ class BroadSoft {
 
         let request_data = {
             "endpoint":args['endpoint'],
-            "data":xmljs.js2xml(args['data']),
+            "data":args['data'],
             "method":args['method'],
         };
 
