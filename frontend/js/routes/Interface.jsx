@@ -20,6 +20,7 @@ import DoNotDisturb from "../comps/DoNotDisturb";
 import FeatureAccessCodes from "../comps/FeatureAccessCodes";
 import PersonalContacts from "../comps/PersonalContacts";
 import ThirdPartyVoiceMail from "../comps/ThirdPartyVoiceMail";
+import Sip from "../comps/Sip";
 
 import UpdateQueue from "../workers/UpdateQueue";
 import BroadSoft from "../BroadSoft/BroadSoft";
@@ -49,20 +50,7 @@ export default class Interface extends Component {
     render() {
         return (
             <Fragment>
-                <Profile/>
-                <CallReject/>
-                <CallForward/>
-                <CallLogs/>
-                <CallDirectory/>
-                <VoiceMessage/>
-                <Schedules/>
-                <CallingNameDelivery/>
-                <CallingNumberDelivery/>
-                <CallWaiting/>
-                <DoNotDisturb/>
-                <FeatureAccessCodes/>
-                <PersonalContacts/>
-                <ThirdPartyVoiceMail/>
+                <Sip/>
             </Fragment>
         );
     }
