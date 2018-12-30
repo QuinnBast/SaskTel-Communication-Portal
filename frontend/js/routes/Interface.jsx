@@ -22,47 +22,40 @@ import PersonalContacts from "../comps/PersonalContacts";
 import ThirdPartyVoiceMail from "../comps/ThirdPartyVoiceMail";
 
 import UpdateQueue from "../workers/UpdateQueue";
-import BroadSoft from "../BroadSoft/BroadSoft";
+import InfoBox from "../comps/InfoBox";
+
+import { Button} from "semantic-ui-react";
 
 export default class Interface extends Component {
 
     //Create a list of all user properties to show to the user
     constructor(props){
         super(props);
+        this.infoBox = React.createRef();
     }
 
     componentDidMount() {
-        setInterval(this.checkQueue, 60000);
+        setInterval(UpdateQueue.parseQueue, 60000);
     }
-
-    checkQueue = () => {
-        // If items are in the queue, process them and send requests to broadsoft.
-        let i = 0;
-        while(UpdateQueue.hasUpdates()){
-            // Send broadsoft requests for each update.
-            BroadSoft.sendRequest(UpdateQueue.deQueue());
-            console.log("sending element " + (++i).toString());
-        }
-        console.log("Queue Empty. Processed " + i.toString() + " elements.");
-    };
 
     render() {
         return (
             <Fragment>
                 <Profile/>
-                <CallReject/>
+                {/*<CallReject/>*/}
                 <CallForward/>
-                <CallLogs/>
-                <CallDirectory/>
-                <VoiceMessage/>
-                <Schedules/>
-                <CallingNameDelivery/>
-                <CallingNumberDelivery/>
-                <CallWaiting/>
-                <DoNotDisturb/>
-                <FeatureAccessCodes/>
-                <PersonalContacts/>
-                <ThirdPartyVoiceMail/>
+                {/*<CallLogs/>*/}
+                {/*<CallDirectory/>*/}
+                {/*<VoiceMessage/>*/}
+                {/*<Schedules/>*/}
+                {/*<CallingNameDelivery/>*/}
+                {/*<CallingNumberDelivery/>*/}
+                {/*<CallWaiting/>*/}
+                {/*<DoNotDisturb/>*/}
+                {/*<FeatureAccessCodes/>*/}
+                {/*<PersonalContacts/>*/}
+                {/*<ThirdPartyVoiceMail/>*/}
+                <InfoBox updateQueue={UpdateQueue}/>
             </Fragment>
         );
     }
