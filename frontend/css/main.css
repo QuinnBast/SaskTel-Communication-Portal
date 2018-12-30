@@ -63,3 +63,8 @@
         transform: rotate(1deg);
     }
 }
+
+#infoBox {
+    position: fixed;
+    top: -100px !important;
+}
