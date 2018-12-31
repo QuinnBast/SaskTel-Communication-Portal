@@ -1,0 +1,1407 @@
+{
+	"info": {
+		"_postman_id": "63ec8ce1-c5e0-45e3-bcb7-b6e513f1b8ca",
+		"name": "4YP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "[REST] Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "180b793d-4704-4e28-8baa-e2e84816ddc2",
+						"exec": [
+							"pm.environment.set(\"xsrf-token\", decodeURIComponent(pm.cookies.get(\"csrf_access_token\")));",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies Set\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "80c8d9b2-dd81-4bb3-95e4-1257c9fbb72d",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"username\":\"3067190074\",\n\"password\":\"Abcdefg.1234\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/login",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[REST] [GET] Profile",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9008d136-b63a-4008-8dc4-2a7ff7b296b1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies OK\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});",
+							"",
+							"schema = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+							"",
+							"",
+							"",
+							"    <!-- *************************************************************************-->",
+							"    <!--     Copyright (c) 2008 BroadSoft, Inc.  All rights reserved.             -->",
+							"    <!-- *************************************************************************-->",
+							"    <!--                XSI  X M L  S C H E M A                                   -->",
+							"    <!--               *************************                                  -->",
+							"    <!-- This file defines the schema types and elements required by the          -->",
+							"    <!-- PROFILE interface in the http://schema.broadsoft.com/xsi name space.     -->",
+							"    <!--                                                                          -->",
+							"    <!-- The Elements and Types are defined in the Alphabetical Order with        -->",
+							"    <!-- grouping at the Element, Complex and Simple level respectively.          -->",
+							"    <!-- ************************************************************************ -->",
+							"    ",
+							"",
+							"<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://schema.broadsoft.com/xsi\"",
+							"  targetNamespace=\"http://schema.broadsoft.com/xsi\"",
+							"  attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\"",
+							"  version=\"1.0\">",
+							"",
+							"",
+							"",
+							"  <xs:include schemaLocation=\"../XSIDataTypes.xsd\" />",
+							"",
+							"  <!-- **************************************************************-->",
+							"  <!--       Element in Alphabetical Order.                          -->",
+							"  <!-- **************************************************************-->",
+							"",
+							"",
+							"  <xs:element name=\"FAC\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        List of Feature Access Codes.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"featureAccessCode\" type=\"FeatureAccessCodeEntry\"",
+							"          minOccurs=\"0\" maxOccurs=\"unbounded\" />",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"",
+							"  <xs:element name=\"Portal\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Modification of Password for Web Portal Access",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"oldPassword\" type=\"Password\"",
+							"          minOccurs=\"0\" />",
+							"        <xs:element name=\"newPassword\" type=\"Password\" />",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"",
+							"  <xs:element name=\"Profile\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        User Profile. User profile allows you to access",
+							"        information related to",
+							"        particular User's profile",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"details\" type=\"UserDetails\" />",
+							"        <xs:element name=\"additionalDetails\" type=\"UserAdditionalDetails\" />",
+							"        <xs:element name=\"passwordExpiresDays\" type=\"xs:int\"",
+							"          minOccurs=\"0\" />",
+							"        <xs:element name=\"fac\" type=\"xs:anyURI\" minOccurs=\"0\" />",
+							"        <xs:element name=\"registrations\" type=\"xs:anyURI\"",
+							"          minOccurs=\"0\" />",
+							"        <xs:element name=\"scheduleList\" type=\"xs:anyURI\"",
+							"          minOccurs=\"0\" />",
+							"        <xs:element name=\"portalPasswordChange\" type=\"xs:anyURI\"",
+							"          minOccurs=\"0\" />",
+							"        <xs:element name=\"countryCode\" type=\"CountryCode\" minOccurs=\"0\" />",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"",
+							"  <xs:element name=\"IMPProfile\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        IMP Profile. This allows one to access information related to particular User's IM and P profile",
+							"        The serviceNetAddress comes from the serviceDomain attribute for  ",
+							"        Integrated IMP. ",
+							"        Change History:",
+							"        R18.0 - Added",
+							"        R19.0 - Updated, added the element boshURL.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"          <xs:element name=\"serviceNetAddress\" type=\"NetAddress\" minOccurs=\"0\" />  ",
+							"          <xs:element name=\"servicePort\" type=\"Port\" minOccurs=\"0\" />  ",
+							"          <xs:element name=\"impUserId\" type=\"IMPUserId\" minOccurs=\"0\" >  ",
+							"          <xs:annotation>",
+							"              <xs:documentation>",
+							"                 The IM and P userId is present only when ",
+							"                 the Integrated IM and P feature is assigned to the user and   ",
+							"                 active.",
+							"              </xs:documentation>",
+							"            </xs:annotation>",
+							"          </xs:element>",
+							"          <xs:element name=\"boshURL\" type=\"URL\" minOccurs=\"0\" />",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"  ",
+							"  <xs:element name=\"Registrations\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        To get a list of registrations for a user",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"registration\" type=\"RegistrationEntry\"",
+							"          minOccurs=\"0\" maxOccurs=\"unbounded\" />",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"",
+							"  <xs:element name=\"Schedule\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Schedule of either time or holiday or both",
+							"        Added: XSI Actions 8.0",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"scheduleDetail\" type=\"ScheduleDetail\"",
+							"          minOccurs=\"0\" maxOccurs=\"unbounded\" />",
+							"         </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"  ",
+							"  <xs:element name=\"ScheduleUri\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Schedule of either time or holiday or both",
+							"        Added: XSI Actions R20.0",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"          <xs:element name=\"scheduleList\" type=\"ScheduleList\"",
+							"          minOccurs=\"0\" maxOccurs=\"unbounded\" />  ",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>",
+							"  ",
+							"  <xs:element name=\"LoginToken\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Login Token.",
+							"        Change History:",
+							"        R20.0 - Added",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"token\">",
+							"          <xs:simpleType>",
+							"            <xs:restriction base=\"xs:token\">",
+							"              <xs:minLength value=\"1\"/>",
+							"            </xs:restriction>",
+							"          </xs:simpleType>",
+							"        </xs:element>        ",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>  ",
+							"",
+							"  <xs:element name=\"DeviceToken\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Device Login Token.",
+							"        Change History:",
+							"        R21.0 - Added",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexType>",
+							"      <xs:sequence>",
+							"        <xs:element name=\"token\">",
+							"          <xs:simpleType>",
+							"            <xs:restriction base=\"xs:token\">",
+							"              <xs:minLength value=\"1\"/>",
+							"            </xs:restriction>",
+							"          </xs:simpleType>",
+							"        </xs:element>        ",
+							"      </xs:sequence>",
+							"    </xs:complexType>",
+							"  </xs:element>  ",
+							"",
+							"  <!-- **************************************************************-->",
+							"  <!--       Complex in Alphabetical Order.                          -->",
+							"  <!-- **************************************************************-->",
+							"",
+							"  <xs:complexType name=\"EventDetail\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>Event Details</xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"eventName\" type=\"xs:string\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"startDate\" type=\"xs:date\" />",
+							"      <xs:choice>",
+							"        <xs:element name=\"allDayEvent\" type=\"xs:boolean\"",
+							"          fixed=\"true\" />",
+							"        <xs:sequence>",
+							"          <xs:element name=\"startTime\" type=\"HourMinute\" />",
+							"          <xs:element name=\"endTime\" type=\"HourMinute\" />",
+							"        </xs:sequence>",
+							"      </xs:choice>",
+							"      <xs:element name=\"endDate\" type=\"xs:date\" />",
+							"      <xs:element name=\"recurrence\" type=\"Recurrence\"",
+							"        minOccurs=\"0\" />",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"  <xs:complexType name=\"Events\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>Event Detail List</xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"eventDetail\" type=\"EventDetail\"",
+							"        minOccurs=\"0\" maxOccurs=\"unbounded\" />",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"",
+							"",
+							"  <xs:complexType name=\"FeatureAccessCodeEntry\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>Feature Access Code Entry</xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"codeName\" type=\"FeatureAccessCodeName\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"code\" type=\"FeatureAccessCode\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"alternateCode\" type=\"FeatureAccessCode\"",
+							"        nillable=\"true\" minOccurs=\"0\" />",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"  ",
+							"",
+							"  <xs:complexType name=\"HourMinute\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Represents a specific time with hour and minute",
+							"        granularity",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"hour\" type=\"Hour\" />",
+							"      <xs:element name=\"minute\" type=\"Minute\" />",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"",
+							"  <xs:complexType name=\"Recurrence\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines recurrence.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:choice>",
+							"        <xs:element name=\"recurDaily\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurDailyInterval\"",
+							"                minOccurs=\"0\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"        <xs:element name=\"recurWeekly\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurWeeklyInterval\"",
+							"                minOccurs=\"0\" />",
+							"              <xs:element name=\"sunday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"monday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"tuesday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"wednesday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"thursday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"friday\" type=\"xs:boolean\" />",
+							"              <xs:element name=\"saturday\" type=\"xs:boolean\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"        <xs:element name=\"recurMonthlyByDay\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurMonthlyInterval\"",
+							"                minOccurs=\"0\" />",
+							"              <xs:element name=\"dayOfMonth\" type=\"DayOfMonth\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"        <xs:element name=\"recurMonthlyByWeek\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurMonthlyInterval\"",
+							"                minOccurs=\"0\" />",
+							"              <xs:element name=\"dayOfWeekInMonth\" type=\"DayOfWeekInMonth\" />",
+							"              <xs:element name=\"dayOfWeek\" type=\"DayOfWeek\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"        <xs:element name=\"recurYearlyByDay\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurYearlyInterval\"",
+							"                minOccurs=\"0\" />",
+							"              <xs:element name=\"dayOfMonth\" type=\"DayOfMonth\" />",
+							"              <xs:element name=\"month\" type=\"Month\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"        <xs:element name=\"recurYearlyByWeek\">",
+							"          <xs:complexType>",
+							"            <xs:sequence>",
+							"              <xs:element name=\"recurInterval\" type=\"RecurYearlyInterval\"",
+							"                minOccurs=\"0\" />",
+							"              <xs:element name=\"dayOfWeek\" type=\"DayOfWeek\" />",
+							"              <xs:element name=\"dayOfWeekInMonth\" type=\"DayOfWeekInMonth\" />",
+							"              <xs:element name=\"month\" type=\"Month\" />",
+							"            </xs:sequence>",
+							"          </xs:complexType>",
+							"        </xs:element>",
+							"      </xs:choice>",
+							"      <xs:choice>",
+							"        <xs:element name=\"recurForEver\" type=\"xs:boolean\"",
+							"          fixed=\"true\" />",
+							"        <xs:element name=\"recurEndDate\" type=\"xs:date\" />",
+							"        <xs:element name=\"recurEndOccurrence\" type=\"RecurEndOccurrence\" />",
+							"      </xs:choice>",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"  <xs:complexType name=\"RegistrationEntry\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Registration Entry",
+							"",
+							"        Change History:",
+							"        R19.0 - Added publicIP, publicPort, privateIP, privatePort, and userAgent.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"endpointType\" type=\"EndpointType\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"uri\" type=\"SIPURI\" minOccurs=\"0\" />",
+							"      <xs:element name=\"expiration\" type=\"NonEmptyString\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"linePort\" type=\"AccessDeviceEndpointLinePort\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"publicIP\" type=\"NetAddress\" minOccurs=\"0\" >",
+							"        <xs:annotation>",
+							"          <xs:documentation>",
+							"            The public address where the user registration originated.  The address is captured from the Via header in the latest REGISTER request received.",
+							"          </xs:documentation>",
+							"        </xs:annotation>",
+							"      </xs:element>",
+							"      <xs:element name=\"publicPort\" type=\"Port\" minOccurs=\"0\" >",
+							"        <xs:annotation>",
+							"          <xs:documentation>",
+							"            The public port where the user registration originated.  The port is captured from the Via header in the latest REGISTER request received.            ",
+							"          </xs:documentation>",
+							"        </xs:annotation>",
+							"      </xs:element>",
+							"      <xs:element name=\"privateIP\" type=\"NetAddress\" minOccurs=\"0\" >",
+							"        <xs:annotation>",
+							"          <xs:documentation>",
+							"            The private address where the user registration originated, such as when the user device is situated behind a firewall. The address is captured from the Via header in the latest REGISTER request received.",
+							"          </xs:documentation>",
+							"        </xs:annotation>",
+							"      </xs:element>",
+							"      <xs:element name=\"privatePort\" type=\"Port\" minOccurs=\"0\" >",
+							"        <xs:annotation>",
+							"          <xs:documentation>",
+							"            The private port where the user registration originated, such as when the user device is situated behind a firewall. The port is captured from the Via header in the latest REGISTER request received.",
+							"          </xs:documentation>",
+							"        </xs:annotation>",
+							"      </xs:element>  ",
+							"      <xs:element name=\"userAgent\" type=\"UserAgentSipHeader\" minOccurs=\"0\" >",
+							"        <xs:annotation>",
+							"          <xs:documentation>",
+							"            The User-Agent header in the latest REGISTER request received.",
+							"          </xs:documentation>",
+							"        </xs:annotation>",
+							"      </xs:element>   ",
+							"    </xs:sequence>",
+							"  </xs:complexType>",
+							"",
+							"",
+							"",
+							"  <xs:complexType name=\"ScheduleDetail\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>Schedule Detail</xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      <xs:element name=\"name\" type=\"xs:string\" minOccurs=\"0\" />",
+							"      <xs:element name=\"level\" type=\"ScheduleLevel\"",
+							"        minOccurs=\"0\" />",
+							"      <xs:element name=\"events\" type=\"Events\" minOccurs=\"0\" />",
+							"    </xs:sequence>",
+							"    <xs:attribute name=\"type\" type=\"ScheduleType\" use=\"required\">",
+							"      <xs:annotation>",
+							"        <xs:documentation>",
+							"          This is the Schedule Type, either it could",
+							"          be Time or Holiday",
+							"        </xs:documentation>",
+							"      </xs:annotation>",
+							"    </xs:attribute>",
+							"  </xs:complexType>",
+							"  ",
+							" ",
+							"  <xs:complexType name=\"ScheduleList\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>Schedule List</xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:sequence>",
+							"      \t<xs:element name=\"timeSchedule\" type=\"TimeSchedule\"",
+							"        minOccurs=\"0\" nillable=\"true\" />",
+							"      <xs:element name=\"holidaySchedule\" type=\"HolidaySchedule\"",
+							"        minOccurs=\"0\" nillable=\"true\" />",
+							"\t</xs:sequence>",
+							"  </xs:complexType>",
+							" ",
+							"",
+							"  <!-- **************************************************************-->",
+							"  <!--       Simple Type in Alphabetical Order.                      -->",
+							"  <!-- **************************************************************-->",
+							"  <xs:simpleType name=\"DayOfMonth\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        The day of month.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"31\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"",
+							"  <xs:simpleType name=\"DayOfWeek\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Days of the week (Sunday-Saturday).",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:NMTOKEN\">",
+							"      <xs:enumeration value=\"Sunday\" />",
+							"      <xs:enumeration value=\"Monday\" />",
+							"      <xs:enumeration value=\"Tuesday\" />",
+							"      <xs:enumeration value=\"Wednesday\" />",
+							"      <xs:enumeration value=\"Thursday\" />",
+							"      <xs:enumeration value=\"Friday\" />",
+							"      <xs:enumeration value=\"Saturday\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"DayOfWeekInMonth\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines the day of week in the month (First,",
+							"        Second, Third, Fourth, or Last).",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:token\">",
+							"      <xs:enumeration value=\"First\"></xs:enumeration>",
+							"      <xs:enumeration value=\"Second\"></xs:enumeration>",
+							"      <xs:enumeration value=\"Third\"></xs:enumeration>",
+							"      <xs:enumeration value=\"Fourth\"></xs:enumeration>",
+							"      <xs:enumeration value=\"Last\"></xs:enumeration>",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"Hour\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Hour.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"0\" />",
+							"      <xs:maxInclusive value=\"23\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"",
+							"  ",
+							"  <xs:simpleType name=\"Minute\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Minute.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"0\" />",
+							"      <xs:maxInclusive value=\"59\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"Month\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines the month (January - December).",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:token\">",
+							"      <xs:enumeration value=\"January\"></xs:enumeration>",
+							"      <xs:enumeration value=\"February\"></xs:enumeration>",
+							"      <xs:enumeration value=\"March\"></xs:enumeration>",
+							"      <xs:enumeration value=\"April\"></xs:enumeration>",
+							"      <xs:enumeration value=\"May\"></xs:enumeration>",
+							"      <xs:enumeration value=\"June\"></xs:enumeration>",
+							"      <xs:enumeration value=\"July\"></xs:enumeration>",
+							"      <xs:enumeration value=\"August\"></xs:enumeration>",
+							"      <xs:enumeration value=\"September\"></xs:enumeration>",
+							"      <xs:enumeration value=\"October\"></xs:enumeration>",
+							"      <xs:enumeration value=\"November\"></xs:enumeration>",
+							"      <xs:enumeration value=\"December\"></xs:enumeration>",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"RecurDailyInterval\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines daily event recurrence interval.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"999\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"",
+							"  <xs:simpleType name=\"RecurEndOccurrence\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines the number of occurrences of a recurring",
+							"        event.",
+							"       </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"999\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"RecurMonthlyInterval\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines monthly event recurrence interval.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"99\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"RecurWeeklyInterval\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines weekly event recurrence interval.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"999\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"  <xs:simpleType name=\"RecurYearlyInterval\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Defines yearly event recurrence interval.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:restriction base=\"xs:int\">",
+							"      <xs:minInclusive value=\"1\" />",
+							"      <xs:maxInclusive value=\"99\" />",
+							"    </xs:restriction>",
+							"  </xs:simpleType>",
+							"",
+							"</xs:schema>`",
+							"",
+							"",
+							"",
+							"pm.test('Schema is valid', function() {",
+							"  pm.expect(tv4.validate(pm.response, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/profile\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample CSRF Request Format",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "The csrf-access-token that was recieved from the cookie",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.14.1 Python/3.6.3"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Nov 2018 23:13:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
+				}
+			]
+		},
+		{
+			"name": "[REST] [GET] CallForwardAlways",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9008d136-b63a-4008-8dc4-2a7ff7b296b1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies OK\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});",
+							"",
+							"schema = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+							"",
+							"",
+							"<!-- ************************************************************************ -->",
+							"<!--     Copyright (c) 2012 BroadSoft, Inc.  All rights reserved.             -->",
+							"<!-- ************************************************************************ -->",
+							"<!--                XSI  X M L  S C H E M A                                   -->",
+							"<!--               *************************                                  -->",
+							"<!-- This file defines the schema types and elements required by the          -->",
+							"<!-- Call Forwarding Always User Service interface in the                     -->",
+							"<!-- http://schema.broadsoft.com/xsi namespace.                               -->",
+							"<!-- ************************************************************************ -->",
+							"",
+							"",
+							"<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://schema.broadsoft.com/xsi\"",
+							"  targetNamespace=\"http://schema.broadsoft.com/xsi\"",
+							"  attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\"",
+							"  version=\"1.0\">",
+							"",
+							"  <xs:include schemaLocation=\"../XSIDataTypes.xsd\" />",
+							"  ",
+							"  <xs:complexType name=\"CallForwardingAlways\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Contains the Call Forwarding Always service configuration data.",
+							"        Call Forwarding Always allows you to forward all your incoming calls to a different",
+							"        phone number or SIP-URI, such as your home office or cell phone. You can also",
+							"        make your primary phone emit a short ring burst to inform you if you are next to your",
+							"        phone when the call is forwarded by using the Ring Reminder. This is important",
+							"        when you have forgotten the service is turned on and you are at your primary",
+							"        phone waiting to",
+							"        receive calls. Note that the address (phone number or SIP-URI) you forward",
+							"        your calls to must be permitted by your outgoing calling plan. You can also",
+							"        set the phone",
+							"        number or SIP-URI to forward to using the voice portal or on the phone",
+							"        using the feature access code.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexContent>",
+							"      <xs:extension base=\"CallForwarding\">",
+							"        <xs:sequence>",
+							"          <xs:element name=\"ringSplash\" type=\"xs:boolean\"",
+							"            minOccurs=\"0\">",
+							"            <xs:annotation>",
+							"              <xs:documentation>",
+							"                When set to true, indicates that the subscriber should",
+							"                be notified through a ring tone that a call has been forwarded.",
+							"                Only",
+							"                used if CFA is enabled.",
+							"              </xs:documentation>",
+							"            </xs:annotation>",
+							"          </xs:element>",
+							"        </xs:sequence>",
+							"      </xs:extension>",
+							"    </xs:complexContent>",
+							"  </xs:complexType> ",
+							"  ",
+							"    <xs:element name=\"CallForwardingAlways\" type=\"CallForwardingAlways\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        User Call Forwarding Always (CFA) properties. Call Forwarding Always",
+							"        allows you to forward all",
+							"        your incoming calls to a different phone number or SIP-URI, such as your",
+							"        home office or cell",
+							"        phone. You can also make your primary phone emit a short ring burst to",
+							"        inform you if you are",
+							"        next to your phone when the call is forwarded by using the Ring",
+							"        Reminder. This is important when",
+							"        you have forgotten the service is turned on and you are at your primary",
+							"        phone waiting to receive",
+							"        calls. Note that the address (phone number or SIP-URI) you forward your",
+							"        calls to must be",
+							"        permitted by your outgoing calling plan. You can also set the phone number or",
+							"        SIP-URI to forward",
+							"        to using the voice portal or on the phone using the feature access",
+							"        code.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"  </xs:element>",
+							"</xs:schema>`",
+							"",
+							"",
+							"",
+							"pm.test('Schema is valid', function() {",
+							"  pm.expect(tv4.validate(pm.response, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample CSRF Request Format",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "The csrf-access-token that was recieved from the cookie",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.14.1 Python/3.6.3"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Nov 2018 23:13:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
+				}
+			]
+		},
+		{
+			"name": "[REST] [PUT] CallForwardAlways",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9008d136-b63a-4008-8dc4-2a7ff7b296b1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies OK\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingAlways\",\n\"data\":\"<?xml version=\\\"1.0\\\" encoding=\\\"ISO-8859-1\\\"?><CallForwardingAlways xmlns=\\\"http://schema.broadsoft.com/xsi\\\"><active>true</active><forwardToPhoneNumber>+91-3065194771</forwardToPhoneNumber>    <ringSplash>false</ringSplash></CallForwardingAlways>\",\n\"method\":\"PUT\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample CSRF Request Format",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "The csrf-access-token that was recieved from the cookie",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.14.1 Python/3.6.3"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Nov 2018 23:13:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
+				}
+			]
+		},
+		{
+			"name": "[REST] [GET] CallForwardBusy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9008d136-b63a-4008-8dc4-2a7ff7b296b1",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "023f906e-6ae2-4883-a31e-a0995c2ed42a",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies OK\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});",
+							"",
+							"schema = `<?xml version=\"1.0\" encoding=\"UTF-8\"?>",
+							"",
+							"",
+							"<!-- ************************************************************************ -->",
+							"<!--     Copyright (c) 2012 BroadSoft, Inc.  All rights reserved.             -->",
+							"<!-- ************************************************************************ -->",
+							"<!--                XSI  X M L  S C H E M A                                   -->",
+							"<!--               *************************                                  -->",
+							"<!-- This file defines the schema types and elements required by the          -->",
+							"<!-- Call Forwarding Busy User Service interface in the                       -->",
+							"<!-- http://schema.broadsoft.com/xsi namespace.                               -->",
+							"<!-- ************************************************************************ -->",
+							"",
+							"",
+							"<xs:schema xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns=\"http://schema.broadsoft.com/xsi\"",
+							"  targetNamespace=\"http://schema.broadsoft.com/xsi\"",
+							"  attributeFormDefault=\"unqualified\" elementFormDefault=\"qualified\"",
+							"  version=\"1.0\">",
+							"",
+							"  <xs:include schemaLocation=\"../XSIDataTypes.xsd\" />",
+							" ",
+							"  <xs:complexType name=\"CallForwardingBusy\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        Contains the Call Forwarding No Answer service configuration data.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"    <xs:complexContent>",
+							"      <xs:extension base=\"CallForwarding\">",
+							"      </xs:extension>",
+							"    </xs:complexContent>",
+							"  </xs:complexType>",
+							"  ",
+							"  <xs:element name=\"CallForwardingBusy\" type=\"CallForwardingBusy\">",
+							"    <xs:annotation>",
+							"      <xs:documentation>",
+							"        User Call Forward Busy (CFB) properties. Call Forwarding Busy allows you",
+							"        to forward all your",
+							"        incoming calls to a different phone number or SIP-URI if your phone is",
+							"        currently busy. Use this",
+							"        service when you would rather have a secretary or co-worker receive the",
+							"        call instead of the",
+							"        caller being sent to your voice messaging box. Note that the address",
+							"        (phone number or SIP-URI)",
+							"        you forward your calls to must be permitted by your outgoing calling",
+							"        plan. You can also set the",
+							"        phone number or SIP-URI to forward to using the feature access code.",
+							"      </xs:documentation>",
+							"    </xs:annotation>",
+							"  </xs:element>",
+							"  ",
+							"</xs:schema>`",
+							"",
+							"",
+							"",
+							"pm.test('Schema is valid', function() {",
+							"  pm.expect(tv4.validate(pm.response, schema)).to.be.true;",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/{{postman_username}}@imstas.stb1.com/services/CallForwardingBusy\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Sample CSRF Request Format",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-CSRF-TOKEN",
+								"value": "The csrf-access-token that was recieved from the cookie",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"CSRFToken\":\"the csrf-access-token that was recieved in the cookie.\"\n}"
+						},
+						"url": {
+							"raw": "http://127.0.0.1:5000/test",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "5000",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "49"
+						},
+						{
+							"key": "Server",
+							"value": "Werkzeug/0.14.1 Python/3.6.3"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 16 Nov 2018 23:13:41 GMT"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
+				}
+			]
+		},
+		{
+			"name": "[REST] Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f1af2ef7-9312-4c6e-bfe7-79d6537dda48",
+						"exec": [
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies Deleted\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(0);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "X-CSRF-TOKEN",
+						"type": "text",
+						"value": "{{xsrf-token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/logout",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "d349f6e8-b069-4f6b-a9fd-29fdf999ca75",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "3cd89b61-a4dc-463b-a55e-38f6829ee401",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
