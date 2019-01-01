@@ -30,7 +30,8 @@ class Authenticator:
                 data = parser.parse_args()
             except reqparse.exceptions.BadRequest as e:
                 # If there are any errors, ensure that login=False is sent.
-                return {'login':False,'message':e.data['message']}, e.code
+                message = "<login>false</login>"
+                return message, e.code
 
             username = data["username"] + "@imstas.stb1.com"
             password = data["password"]
@@ -51,19 +52,17 @@ class Authenticator:
                 set_refresh_cookies(response, refresh_token)
                 set_access_cookies(response, access_token)
 
-                response.data = json.dumps({
-                    'login': True,
-                })
+                response.data = "<login>true</login>"
 
                 return response
             else:
-                return {'login':False}, broadsoft_response.status_code
+                return "<login>false</login>", broadsoft_response.status_code
 
     class UserLogout(Resource):
         @jwt_required
         def post(self):
             response = Proxy().to_client()
-            response.data = json.dumps({'message':'Logout Successful', 'logout':True})
+            response.data = "<logout>true</logout>"
             unset_jwt_cookies(response)
             return response
 
@@ -76,7 +75,7 @@ class Authenticator:
             current_user = str(get_jwt_identity())
             access_token = create_access_token(identity=current_user)
 
-            response = jsonify({'message':'Access token refreshed.'})
+            response = "<message>Access token refreshed</message>"
             # Set the JWT token and enforce the response in the cookie.
             # Also sets the CSRF double submit protection cookies in this response
             set_access_cookies(response, access_token)

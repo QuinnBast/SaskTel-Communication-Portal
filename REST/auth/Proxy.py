@@ -24,8 +24,6 @@ class Proxy:
         else:
             if request.content:
                 response = Response(request.content)
-                dict = xmltodict.parse(request.content.decode('UTF-8'))
-                response.data = json.dumps({'data':json.dumps(dict)})
             else:
                 response = Response()
 

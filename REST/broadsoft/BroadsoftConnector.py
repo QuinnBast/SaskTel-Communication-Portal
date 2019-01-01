@@ -29,7 +29,7 @@ class BroadsoftConnector(BroadsoftResource):
             user = User().from_identity(get_jwt_identity())
 
             if user is None:
-                return {'message':'Not logged in'}, 401
+                return "<ErrorInfo><message>Not logged in</message><error>true</error></ErrorInfo>", 401
 
             parser = reqparse.RequestParser()
 
@@ -53,13 +53,9 @@ class BroadsoftConnector(BroadsoftResource):
             data = ""
             method = args['method']
             if(args['data']):
-                try:
-                    from ..server import app
-                    app.logger.log(logging.INFO, "Incoming data: " + str(args['data']))
-                    jsonData = json.loads(args['data'], object_pairs_hook=OrderedDict)
-                    data = str(xmltodict.unparse(jsonData))
-                except:
-                    data = None
+                from ..server import app
+                app.logger.log(logging.INFO, "Incoming data: " + str(args['data']))
+                data = args['data']
 
             # Ensure broadsoft cookies are stripped and re-formatted.
             response = Proxy().to_broadsoft(method, url, data, user)
@@ -72,8 +68,10 @@ class BroadsoftConnector(BroadsoftResource):
                 app.logger.log(logging.INFO, "Sent data: " + data)
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
                 app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
-
-                return make_response(Proxy().to_client(response), 200)
+                if response.content:
+                    return make_response(str(response.content.decode('ISO-8859-1')), 200)
+                else:
+                    return make_response("", 200)
             else:
                 from ..server import app
                 app.logger.log(logging.INFO, "Sent url: " + url)
@@ -82,5 +80,7 @@ class BroadsoftConnector(BroadsoftResource):
                 app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
                 app.logger.log(logging.INFO,
                                "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
-
-                return make_response(Proxy().to_client(response), response.status_code)
+                if response.content:
+                    return make_response(response.content.decode('ISO-8859-1'), response.status_code)
+                else:
+                    return make_response("", response.status_code)
