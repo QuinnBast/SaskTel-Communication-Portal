@@ -17,7 +17,9 @@ import Auth from "../router/Auth";
 
 export const LogButton = withRouter(() => (
         Auth.isAuthenticated() ? (
+            <Menu.Menu position='right'>
                 <Menu.Item as={Link} to="/login" onClick={Auth.logout}>Sign out</Menu.Item>
+            </Menu.Menu>
         ) : (
             ""
         )
