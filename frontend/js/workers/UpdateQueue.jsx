@@ -1,7 +1,7 @@
 /**
  * Broadsoft imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft";
+import BroadSoft from "../broadsoft/BroadSoft";
 
 class UpdateQueue {
 

@@ -22,7 +22,6 @@ import PersonalContacts from "../comps/PersonalContacts";
 import ThirdPartyVoiceMail from "../comps/ThirdPartyVoiceMail";
 
 import UpdateQueue from "../workers/UpdateQueue";
-import InfoBox from "../comps/InfoBox";
 
 import { Button} from "semantic-ui-react";
 
@@ -42,20 +41,19 @@ export default class Interface extends Component {
         return (
             <Fragment>
                 <Profile/>
-                {/*<CallReject/>*/}
+                <CallReject/>
                 <CallForward/>
-                {/*<CallLogs/>*/}
-                {/*<CallDirectory/>*/}
-                {/*<VoiceMessage/>*/}
-                {/*<Schedules/>*/}
-                {/*<CallingNameDelivery/>*/}
-                {/*<CallingNumberDelivery/>*/}
-                {/*<CallWaiting/>*/}
-                {/*<DoNotDisturb/>*/}
-                {/*<FeatureAccessCodes/>*/}
-                {/*<PersonalContacts/>*/}
-                {/*<ThirdPartyVoiceMail/>*/}
-                <InfoBox updateQueue={UpdateQueue}/>
+                <CallLogs/>
+                <CallDirectory/>
+                <VoiceMessage/>
+                <Schedules/>
+                <CallingNameDelivery/>
+                <CallingNumberDelivery/>
+                <CallWaiting/>
+                <DoNotDisturb/>
+                <FeatureAccessCodes/>
+                <PersonalContacts/>
+                <ThirdPartyVoiceMail/>
             </Fragment>
         );
     }

@@ -13,7 +13,7 @@ import CallForwardData from "./CallForwardData"
 /**
  *  REST API Imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft"
+import BroadSoft from "../broadsoft/BroadSoft"
 
 /**
  *  Style Imports
