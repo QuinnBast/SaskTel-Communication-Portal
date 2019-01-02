@@ -23,5 +23,4 @@ before_script:
   - cd frontend
 script:
   - node_modules/.bin/newman run tests/postman/4YP.postman_collection.json -e tests/postman/4YP.postman_environment.json --global-var postman_username=$postman_username --global-var postman_password=$postman_password --delay-request 500
-  - cd ../REST/logs
-  - cat output.log
+  - npm test
