@@ -4,7 +4,9 @@
   "description": "Sasktel User Portal Application",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --recursive tests/",
+    "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
+    "enzyme": " cross-env NODE_ENV=test nyc mocha --require tests/jsdomsetup.js --require tests/enzyme/enzymesetup.js 'tests/**/*.{js,jsx}' || exit 0",
+    "test": "nyc mocha --recursive tests/",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
@@ -12,15 +14,24 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.1.2",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.4",
+    "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
     "chromedriver": "^2.45.0",
+    "cross-env": "^5.2.0",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "extract-text-webpack-plugin": "^3.0.2",
+    "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "selenium-webdriver": "^3.6.0",
@@ -35,11 +46,29 @@
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
-    ]
+    ],
+    "env": {
+      "test": {
+        "plugins": [
+          "istanbul"
+        ]
+      }
+    }
+  },
+  "nyc": {
+    "exclude": "/node_modules/*",
+    "require": [
+      "@babel/register"
+    ],
+    "reporter": [
+      "lcov",
+      "text"
+    ],
+    "sourceMap": false,
+    "instrument": false
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
     "babel": "^6.23.0",
     "babel-cli": "^6.23.0",
     "babel-preset-react": "^6.24.1",
@@ -49,6 +78,7 @@
     "history": "^4.7.2",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
+    "jsdom": "^13.1.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
     "lodash": "^4.17.11",
@@ -64,6 +94,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^0.83.0",
+    "sinon": "^7.2.2",
     "style-loader": "^0.23.1",
     "url-loader": "^1.1.2",
     "xml-js": "^1.6.8"
