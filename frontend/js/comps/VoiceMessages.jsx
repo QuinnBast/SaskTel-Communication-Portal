@@ -6,32 +6,19 @@ import React from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties"
+import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 
-export default class VoiceMessages extends CallProperties {
+export default class VoiceMessages extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            name : "Voice Messages",
-            description : "Details about all voice messages that are avaliable.",
-            title : "Voice Messages",
-            content : this.content()
-        };
     this.loadAsync();
 }
-
-content = () => {
-    return(
-        <div>
-            <div id={"VoiceMessages"}>Loading Directories...</div>
-        </div>)
-};
 
 // Asynchronous function that updates the object.
 loadAsync(){
@@ -47,6 +34,12 @@ loadAsync(){
 }
 
 render() {
-    return super.render();
+    return(
+        <AccordionWrap title={"Voice Messages"} description={"Details about all voice messages that are avaliable."}>
+        <div>
+            <div id={"VoiceMessages"}>Loading Directories...</div>
+        </div>
+        </AccordionWrap>
+    )
 }
 }

@@ -7,7 +7,7 @@ import React from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties"
+import AccordionWrap from "./AccordionWrap"
 import CallForwardData from "./CallForwardData"
 
 /**
@@ -22,58 +22,15 @@ import { Table, Popup } from 'semantic-ui-react'
 
 let $ = require('jquery');
 
-export default class CallForward extends CallProperties {
+export default class CallForward extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
             forwarding: [],
-            name: "Call Forwarding",
-            description: "This property allows you to forward calls to a different phone number during specific hours.",
-            title: "Call Forwarding",
-            content: this.content()
         };
         this.loadAsync();
     }
-
-    componentDidUpdate(prevProps, prevState){
-        if(this.state.forwarding !== prevState.forwarding){
-            this.setState({content: this.content()})
-        }
-    }
-
-    content = () => {
-        return (
-            <div>
-                <Table striped id={"CallForwarding"}>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>
-                                <Popup trigger={<div>Type</div>}>
-                                    <Popup.Content>
-                                        <div>
-                                            The type of call forwarding.<br/>
-                                            <b>Not Reachable:</b> Forward calls when your devices is not accessible or turned off.<br/>
-                                            <b>No Answer:</b> Forwards calls when you do not answer.<br/>
-                                            <b>Busy:</b> Forwards calls when your phone is in use.<br/>
-                                            <b>Always:</b> Always forwards calls.<br/>
-                                            <b>Selective:</b> Specify criteria for when calls should be forwarded.
-                                        </div>
-                                    </Popup.Content>
-                                </Popup>
-                            </Table.HeaderCell>
-                            <Table.HeaderCell><Popup trigger={<div>Forwarding To</div>} content={"If present, this indicates what phone number calls of this type are being forwarded to."}/></Table.HeaderCell>
-                            <Table.HeaderCell><Popup trigger={<div>Additional Information</div>} content={"Various settings that can be altered and changed for each option."}/></Table.HeaderCell>
-                            <Table.HeaderCell><Popup trigger={<div>Active</div>} content={"If the services is currently activate."}/></Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body key={"CallForwardKey"}>
-                        {this.state.forwarding}
-                    </Table.Body>
-                </Table>
-            </div>
-    );
-    };
 
     // Asynchronous function that updates the object.
     loadAsync = () => {
@@ -148,6 +105,37 @@ export default class CallForward extends CallProperties {
     };
 
     render() {
-        return super.render();
+        return (
+            <AccordionWrap title={"Call Forwarding"} description={"This property allows you to forward calls to a different phone number during specific hours."}>
+                <div>
+                    <Table striped id={"CallForwarding"}>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell>
+                                    <Popup trigger={<div>Type</div>}>
+                                        <Popup.Content>
+                                            <div>
+                                                The type of call forwarding.<br/>
+                                                <b>Not Reachable:</b> Forward calls when your devices is not accessible or turned off.<br/>
+                                                <b>No Answer:</b> Forwards calls when you do not answer.<br/>
+                                                <b>Busy:</b> Forwards calls when your phone is in use.<br/>
+                                                <b>Always:</b> Always forwards calls.<br/>
+                                                <b>Selective:</b> Specify criteria for when calls should be forwarded.
+                                            </div>
+                                        </Popup.Content>
+                                    </Popup>
+                                </Table.HeaderCell>
+                                <Table.HeaderCell><Popup trigger={<div>Forwarding To</div>} content={"If present, this indicates what phone number calls of this type are being forwarded to."}/></Table.HeaderCell>
+                                <Table.HeaderCell><Popup trigger={<div>Additional Information</div>} content={"Various settings that can be altered and changed for each option."}/></Table.HeaderCell>
+                                <Table.HeaderCell><Popup trigger={<div>Active</div>} content={"If the services is currently activate."}/></Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body key={"CallForwardKey"}>
+                            {this.state.forwarding}
+                        </Table.Body>
+                    </Table>
+                </div>
+            </AccordionWrap>
+        );
     }
 }
