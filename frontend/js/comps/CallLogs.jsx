@@ -12,8 +12,8 @@ import CallProperties from "./call/CallProperties";
 /**
  *  REST API Imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft";
-import { getTag } from "../BroadSoft/xmlParse";
+import BroadSoft from "../broadsoft/BroadSoft";
+import { getTag } from "../broadsoft/xmlParse";
 
 /**
  *  Style Imports
