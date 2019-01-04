@@ -6,39 +6,23 @@ import React, {Component} from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties"
+import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 
-export default class CallReject extends CallProperties {
+export default class CallReject extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            name : "Call Blocking",
-            description : "This setting allows you to block calls from specific phone numbers.",
-            title : "Call Blocking",
-            content : this.content(),
             unauthorized: false
         };
 
         this.loadAsync()
     }
-
-    content = () => {
-        if(this.state.unauthorized){
-            return(<div>Your account is not authorized to access this setting.</div>);
-        } else {
-            return (
-                <div>
-                    <div id={"CallRejectAnonymous"}>Loading Call Reject Anonymous...</div>
-                    <div id={"CallRejectSelective"}>Loading Call Reject Selective...</div>
-                </div>)
-        }
-    };
 
     // Asynchronous function that updates the object.
     loadAsync(){
@@ -58,6 +42,13 @@ export default class CallReject extends CallProperties {
     }
 
     render() {
-        return super.render();
+        return(
+            <AccordionWrap title={"Call Blocking"} description={"This setting allows you to block calls from specific phone numbers."} unauthorized={this.state.unauthorized}>
+                <div>
+                    <div id={"CallRejectAnonymous"}>Loading Call Reject Anonymous...</div>
+                    <div id={"CallRejectSelective"}>Loading Call Reject Selective...</div>
+                </div>
+            </AccordionWrap>
+        )
     }
 }

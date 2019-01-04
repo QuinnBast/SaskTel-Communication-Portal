@@ -6,32 +6,19 @@ import React from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties"
+import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 
-export default class ThirdPartyVoiceMail extends CallProperties {
+export default class ThirdPartyVoiceMail extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            name : "Third Party Voicemail",
-            description : "Third-Party Voice Mail Support allows you to specify how to handle your voice messages. You can choose to send busy and/or unanswered calls to your voice mail, as well as the number of rings before an incoming call is considered unanswered.",
-            title : "Third Party Voicemail",
-            content : this.content()
-        };
     this.loadAsync();
 }
-
-content = () => {
-    return(
-        <div>
-            <div id={"ThirdPartyVoicemail"}>Loading...</div>
-        </div>)
-};
 
 // Asynchronous function that updates the object.
 loadAsync(){
@@ -47,6 +34,12 @@ loadAsync(){
 }
 
 render() {
-    return super.render();
+    return(
+        <AccordionWrap title={"Third Party Voicemail"} description={"Third-Party Voice Mail Support allows you to specify how to handle your voice messages. You can choose to send busy and/or unanswered calls to your voice mail, as well as the number of rings before an incoming call is considered unanswered."}>
+        <div>
+            <div id={"ThirdPartyVoicemail"}>Loading...</div>
+        </div>
+        </AccordionWrap>
+            )
 }
 }
