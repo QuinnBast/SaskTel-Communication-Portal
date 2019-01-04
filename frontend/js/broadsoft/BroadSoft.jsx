@@ -7,6 +7,11 @@ let xmljs = require('xml-js');
  */
 import Auth from "../router/Auth"
 
+/**
+ * Worker imports
+ */
+import UpdateQueue from "../workers/UpdateQueue";
+
 let $ = require('jquery');
 
 class BroadSoft {
@@ -140,11 +145,13 @@ class BroadSoft {
                 // Convert XML response to a JS object.
                 let response = xmljs.xml2js(responseText);
                 success(response);
+                UpdateQueue.addSuccess();
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
                 let response = xmljs.xml2js(jqxhr.responseText);
-                error(response)
+                error(response);
+                UpdateQueue.addFailure();
             },
         });
     }

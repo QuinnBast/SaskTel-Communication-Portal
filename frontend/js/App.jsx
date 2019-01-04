@@ -16,7 +16,7 @@ import {Router, Redirect, Switch, Route} from "react-router-dom";
 /**
  *  Style Imports
  */
-import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-less/semantic.less';
 import "../css/main.css"; //Requires the CSS file
 
 /**

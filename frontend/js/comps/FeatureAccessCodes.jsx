@@ -11,13 +11,13 @@ import CallProperties from "./call/CallProperties"
 /**
  *  REST API Imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft";
+import BroadSoft from "../broadsoft/BroadSoft";
 import {Popup, Table} from "semantic-ui-react";
 
 /**
  * Broadsoft imports
  */
-import { getTag } from "../BroadSoft/xmlParse"
+import { getTag } from "../broadsoft/xmlParse"
 import FeatureAccessCodeData from "./FeatureAccessCodeData";
 
 export default class FeatureAccessCodes extends CallProperties {

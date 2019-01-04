@@ -11,7 +11,7 @@ import CallProperties from "./call/CallProperties"
 /**
  *  REST API Imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft";
+import BroadSoft from "../broadsoft/BroadSoft";
 
 export default class CallReject extends CallProperties {
 
