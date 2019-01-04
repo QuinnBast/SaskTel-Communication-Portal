@@ -6,7 +6,7 @@ import history from "./history";
 /**
  *  REST API Imports
  */
-import BroadSoft from "../BroadSoft/BroadSoft"
+import BroadSoft from "../broadsoft/BroadSoft"
 
 
 let $ = require('jquery');

@@ -18,7 +18,7 @@ import UpdateQueue from "../workers/UpdateQueue"
 /**
  * Broadsoft imports
  */
-import { getTag, setTag } from "../BroadSoft/xmlParse";
+import { getTag, setTag } from "../broadsoft/xmlParse";
 
 let $ = require('jquery');
 
