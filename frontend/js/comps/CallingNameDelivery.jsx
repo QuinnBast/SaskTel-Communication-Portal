@@ -55,7 +55,7 @@ export default class CallingNameDevliery extends React.Component {
                 </AccordionWrap>)
         } else if (this.state.status === "ready"){
             return(
-                <AccordionWrap title={"Calling Name Delivery"} description={"Calling Name Delivery allows the Calling Line name for callers from inside your group or enterprise (Internal) and/or callers from outside your group or enterprise (External) to be displayed. On assignment the Connected Line Identification Presentation service acts as a overlay service for Calling Name Delivery. The Connected Line Identification Presentation allows you to see the connected line identity of the called party. The setting for Calling Name Delivery also controls the Connected Line Identification Presentation service."}>
+                <AccordionWrap title={"Calling Name Delivery"} description={"Calling Name Delivery allows the Calling Line name for callers from inside your group or enterprise (Internal) and/or callers from outside your group or enterprise (External) to be displayed. On assignment the Connected Line Identification Presentation service acts as a overlay service for Calling Name Delivery. The Connected Line Identification Presentation allows you to see the connected line identity of the called party. The setting for Calling Name Delivery also controls the Connected Line Identification Presentation service."} unauthorized={this.state.unauthorized}>
                     <div>
                         {this.state.data}
                     </div>
