@@ -26,11 +26,7 @@ export default class AccordionWrap extends React.Component {
 
     render() {
         if(this.props.unauthorized === true) {
-            return (
-                <Container>
-                    <div>Unauthorized</div>
-                </Container>
-            );
+            return <Container><div>Unauthorized access. (TODO: change this to return null)</div></Container>;
         } else {
             return (
                 <Container>
