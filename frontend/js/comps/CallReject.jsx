@@ -32,12 +32,18 @@ export default class CallReject extends React.Component {
             success: function(response) {
                 $("#CallRejectAnonymous").get(0).innerHTML = JSON.stringify(response);
             },
+            error: function(response){
+                self.setState({unauthorized: true});
+            }
         });
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/services/SelectiveCallRejection",
             success: function(response) {
                 $("#CallRejectSelective").get(0).innerHTML = JSON.stringify(response);
             },
+            error: function(response){
+                self.setState({unauthorized: true});
+            }
         });
     }
 
