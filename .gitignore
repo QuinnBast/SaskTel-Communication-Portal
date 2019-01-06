@@ -11,3 +11,7 @@ frontend/dist/
 REST/logs/*.log
 
 frontend/out/
+
+frontend/\.nyc_output/
+
+frontend/coverage/
