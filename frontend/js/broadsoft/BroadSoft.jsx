@@ -50,6 +50,7 @@ class BroadSoft {
 
                 this.authenticated = true;
                 this.csrfToken = Cookies.get('csrf_access_token');
+                this.refreshToken = Cookies.get('csrf_refresh_token');
                 // Configure future AJAX requests to send the csrf token along in the header.
                 $.ajaxSetup({
                     beforeSend: function(xhr, settings){
@@ -90,7 +91,8 @@ class BroadSoft {
         });
     }
 
-    sendRequest(args){
+
+    sendRequest = (args) => {
         /**
          * This function will access any of the broadsoft endpoints.
          *
@@ -104,18 +106,20 @@ class BroadSoft {
          * }
          */
 
+
+        // Ensure that the args parameter is not modified. This will allow retrying the request if auth tokens are not valid.
         if(args['endpoint'] === undefined){
             return;
         }
 
-        if(args['data'] === undefined){
-            args['data'] = "";
-        } else {
-            args['data'] = xmljs.js2xml(args['data']);
+        let data = "";
+        if(args['data'] !== undefined){
+            data = xmljs.js2xml(args['data']);
         }
 
-        if(args['method'] === undefined){
-            args['method'] = "GET";
+        let method = "GET";
+        if(args['method'] !== undefined){
+            method = args['method'];
         }
 
         let success = function(){return};
@@ -130,9 +134,12 @@ class BroadSoft {
 
         let request_data = {
             "endpoint":args['endpoint'],
-            "data":args['data'],
-            "method":args['method'],
+            "data":data,
+            "method":method,
         };
+
+        let self = this;
+        let auth = Auth;
 
         $.ajax({
             context: Auth,
@@ -151,13 +158,15 @@ class BroadSoft {
                 console.log(errorThrown);
                 let response = xmljs.xml2js(jqxhr.responseText);
 
-                // If the user sent a request but the login token was invalid, log the user out
+                // If the user sent a request but the login token was invalid on the server, attempt to refresh the token.
                 if(response.elements[0] && response.elements[0].elements[0].text === "Unauthorized"){
-                    if(Auth.isAuthenticated()) {
-                        Auth.logout();
-                    }
+                        // Attempt refreshing the user's access token.
+                        // If the refresh is successful, execute the callback function to retry the function
+                        auth.attemptRefresh(self.sendRequest, args);
+                        // Don't call the error function until refresh is attempted
+                        return;
                 }
-                error(response)
+                error(response);
                 UpdateQueue.addFailure();
             },
         });
