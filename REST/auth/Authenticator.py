@@ -107,14 +107,20 @@ class Authenticator:
             try:
                 verify_jwt_refresh_token_in_request()
             except Exception as error:
+                from ..server import app
+                import logging
+                app.logger.log(logging.INFO, error)
                 return make_response("<error>Unauthorized</error>", 401)
 
             # This endpoint will create and send back a new JWT access token.
             # The JWT refresh token is valid for 30 days. This allows user's to refresh their session
-            current_user = str(get_jwt_identity())
+            current_user = get_jwt_identity()
             access_token = create_access_token(identity=current_user)
 
-            response = "<message>Access token refreshed</message>"
+            # Create a new response to the client
+            response = Proxy().to_client()
+            response.data = "<message>Access token refreshed</message>"
+
             # Set the JWT token and enforce the response in the cookie.
             # Also sets the CSRF double submit protection cookies in this response
             set_access_cookies(response, access_token)
