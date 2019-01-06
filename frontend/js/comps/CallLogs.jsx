@@ -143,7 +143,7 @@ export default class CallLogs extends React.Component {
                                     sorted={this.state.column === 'phoneNumber' ? this.state.direction : null}
                                     onClick={this.handleSort('phoneNumber')}
                                 >
-                                    Phone Number
+                                    Number
                                 </Table.HeaderCell>
                                 <Table.HeaderCell
                                     sorted={this.state.column === 'time' ? this.state.direction : null}
