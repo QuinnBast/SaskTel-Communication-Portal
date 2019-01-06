@@ -30,7 +30,8 @@ export default class CallLogs extends React.Component {
             direction : null
         };
         // this.loadAsync() triggers componentDidUpdate() and the contents are loaded.
-        this.loadAsync()
+        this.loadAsync();
+
     }
 
     handleSort = clickedColumn => () => {
@@ -101,7 +102,12 @@ export default class CallLogs extends React.Component {
                                 }]
                         }));
                 }
+                self.setState({
+                    column : 'time',
+                    logs : _.sortBy(self.state.logs, ['time']).reverse(),
+                    direction : 'descending'});
             }
+
         });
     }
 
