@@ -81,8 +81,10 @@ export default class PersonalContacts extends React.Component {
         this.setState({data: newData})
     };
 
-        deleteContact = (index) => {
-        this.state.data.splice(index, 1);
+    deleteContact = (index) => {
+        let currState = this.state.data;
+        currState.splice(index, 1);
+        this.setState({data: currState})
     };
 
     changeNewContactName = (e) => {
@@ -110,25 +112,26 @@ export default class PersonalContacts extends React.Component {
         let index = 0;
         let tableRows = [];
         for(let entry of this.state.data){
+            let currentIndex = index;
             tableRows.push(
-                <Table.Row id={"Contact" + index.toString()}>
+                <Table.Row id={"Contact" + currentIndex.toString()}>
                     <Table.Cell>
-                        <Input value={getTag(entry, ["entry", "name"])} onChange={this.changeName.bind(this, e, index)}/>
+                        <Input value={getTag(entry, ["entry", "name"])} onChange={(e) => {this.changeName(e, currentIndex)}}/>
                     </Table.Cell>
                     <Table.Cell>
-                        <Input value={getTag(entry, ["entry", "number"])} onChange={this.changePhone.bind(this, e, index)}>
+                        <Input value={getTag(entry, ["entry", "number"])} onChange={(e) => {this.changePhone(e, currentIndex)}}>
                             <MaskedInput
                                 mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
                                 placeholder="(___)-___-____"
-                                id={"Contact"+ index.toString() + "Number"}
+                                id={"Contact"+ currentIndex.toString() + "Number"}
                                 guide = {true}
                                 autoComplete="off"
-                                defaultValue={getTag(entry, ["entry", "number"])} onChange={this.changePhone.bind(this, e, index)}
+                                defaultValue={getTag(entry, ["entry", "number"])} onChange={(e) => {this.changePhone(e, currentIndex)}}
                             />
                         </Input>
                     </Table.Cell>
                     <Table.Cell>
-                        <Button onClick={this.deleteContact(index)}>Delete</Button>
+                        <Button onClick={() => {this.deleteContact(currentIndex)}}>Delete</Button>
                     </Table.Cell>
                 </Table.Row>
             );
