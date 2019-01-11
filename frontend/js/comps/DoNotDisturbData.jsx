@@ -66,8 +66,8 @@ export default class DoNotDisturbData extends React.Component {
             },
             error: function(response){
                 // Permanently change background to red to indicate error to user.
-                jQuery("#DoNotDisturbActive").get(0).style.background = '#e74c3c';
-                jQuery("#DoNotDisturbRingSplash").get(0).style.background = '#e74c3c';
+                jQuery("#DoNotDisturbActive").get(0).style.background = jQuery("#DoNotDisturbActive").get(0).style.background === '#fff7e6' ? '#e74c3c' : "";
+                jQuery("#DoNotDisturbRingSplash").get(0).style.background = jQuery("#DoNotDisturbRingSplash").get(0).style.background === '#fff7e6' ? '#e74c3c' : "";
                 // Reset the state of the component by fetching the current state.
             }
         };
