@@ -35,7 +35,7 @@ describe("Login Tests", function(){
     beforeEach(function(done){
         this.timeout(10000);
         // Access our website through the chrome browser.
-        driver.get("http://127.0.0.1:5000/index.html")
+        driver.get("http://127.0.0.1:5000")
             .then(() => {
                 // Wait until the function returns true. This will wait until the login form is displayed.
                 return driver.wait(function(){
