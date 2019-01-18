@@ -114,7 +114,7 @@ export default class CallForwardData extends React.Component {
         }
 
         // If valid, change state.
-        this.setState({forwardToPhoneNumber: event.target.value})
+        this.setState({forwardToPhoneNumber: event.target.value,})
     };
 
     changeNumberOfRings = (event) => {
@@ -130,48 +130,112 @@ export default class CallForwardData extends React.Component {
         if(type === "CallForwardingAlways") {
             return (
                 <Table.Row id={this.props.info.type}>
-                    <Table.Cell><Popup trigger={<div>{this.props.info.name}</div>} content={"Always forwards calls."}/></Table.Cell>
-                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                    <Table.Cell><Popup trigger ={<div>Ring Splash</div>} content={"When a call is forwarded, a chime will play on the main phone to indicate a call was forwarded."}/><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/></Table.Cell>
-                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                    <Table.Cell>
+                        <Popup trigger={<div>{this.props.info.name}</div>} content={"Always forwards calls."}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Input>
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="CallForwardNumber"
+                                guide = {true}
+                                autoComplete="off"
+                                defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}
+                            />
+                        </Input>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Popup trigger ={<div>Ring Splash</div>} content={"When a call is forwarded, a chime will play on the main phone to indicate a call was forwarded."}/><Checkbox toggle checked={this.state.ringSplash} onClick={this.toggleRing}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/>
+                    </Table.Cell>
                 </Table.Row>
             );
         } else if (type === "CallForwardingBusy"){
             return (
                 <Table.Row id={this.props.info.type}>
-                    <Table.Cell><Popup trigger={<div>{this.props.info.name}</div>} content={"Forwards calls when your phone is in use."}/></Table.Cell>
-                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                    <Table.Cell><div></div></Table.Cell>
-                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                    <Table.Cell>
+                        <Popup trigger={<div>{this.props.info.name}</div>} content={"Forwards calls when your phone is in use."}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Input>
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="CallForwardNumber"
+                                guide = {true}
+                                autoComplete="off"
+                                defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}
+                            />
+                        </Input>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <div/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/>
+                    </Table.Cell>
                 </Table.Row>
             );
         } else if (type === "CallForwardingNotReachable"){
             return (
                 <Table.Row id={this.props.info.type}>
-                    <Table.Cell><Popup trigger={<div>{this.props.info.name}</div>} content={"Forward calls when your devices is not accessible or turned off."}/></Table.Cell>
-                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
-                    <Table.Cell><div></div></Table.Cell>
-                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                    <Table.Cell><Popup trigger={<div>{this.props.info.name}</div>} content={"Forward calls when your devices is not accessible or turned off."}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Input>
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="CallForwardNumber"
+                                guide = {true}
+                                autoComplete="off"
+                                defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}
+                            />
+                        </Input>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <div/>
+                    </Table.Cell>
+                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/>
+                    </Table.Cell>
                 </Table.Row>
             );
         } else if (type === "CallForwardingSelective"){
             // TODO: Implement call fowarding selective
             //Specify criteria for when calls should be forwarded.
             return(
-                <Table.Row></Table.Row>
+                <Table.Row/>
             );
         } else if (type === "CallForwardingNoAnswer"){
             return (
                 <Table.Row id={this.props.info.type}>
-                    <Table.Cell><Popup trigger={<div>{this.props.info.name}</div>} content={"Forwards calls when you do not answer."}/></Table.Cell>
-                    <Table.Cell><Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}/></Table.Cell>
+                    <Table.Cell>
+                        <Popup trigger={<div>{this.props.info.name}</div>} content={"Forwards calls when you do not answer."}/>
+                    </Table.Cell>
+                    <Table.Cell>
+                        <Input defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}>
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="CallForwardNumber"
+                                guide = {true}
+                                autoComplete="off"
+                                defaultValue={this.state.forwardToPhoneNumber} onChange={(e) => this.changePhone(e)}
+                            />
+                        </Input>
+                    </Table.Cell>
                     <Table.Cell>
                         <Popup trigger ={<div>Number of Rings</div>} content={"The number of times the phone should ring before forwarding the call."}/>
                         <Input>
                             <MaskedInput mask={[/\d*/]} defaultValue={this.state.numberOfRings} onChange={(e) => this.changeNumberOfRings(e)}/>
                         </Input>
                     </Table.Cell>
-                    <Table.Cell><Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/></Table.Cell>
+                    <Table.Cell>
+                        <Checkbox toggle checked={this.state.active} onClick={this.toggleActive}/>
+                    </Table.Cell>
                 </Table.Row>
             );
         }
