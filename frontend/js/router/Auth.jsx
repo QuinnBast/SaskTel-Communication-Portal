@@ -72,6 +72,7 @@ class Auth {
             error: function(result){
                 localStorage.setItem("authenticated", "false");
                 $("#alert").get(0).style.visibility = 'visible';
+                $('#LoginButton:first').removeClass('loading');
             }
         });
     };

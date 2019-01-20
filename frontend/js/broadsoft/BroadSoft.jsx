@@ -150,7 +150,14 @@ class BroadSoft {
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
                 let response = xmljs.xml2js(jqxhr.responseText);
-                error(response);
+
+                // If the user sent a request but the login token was invalid, log the user out
+                if(response.elements[0] && response.elements[0].elements[0].text === "Unauthorized"){
+                    if(Auth.isAuthenticated()) {
+                        Auth.logout();
+                    }
+                }
+                error(response)
                 UpdateQueue.addFailure();
             },
         });
