@@ -12,6 +12,7 @@ env:
 before_install:
   - sudo apt-get -y install python3-pip python-dev
   - sudo pip3 install -U setuptools
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
 install:
   - sudo pip3 install -r requirements.txt
   - cd frontend
