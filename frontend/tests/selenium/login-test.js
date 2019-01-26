@@ -10,21 +10,16 @@ describe("Login Tests", function(){
     before(function(done){
         this.timeout(5000);
 
-        // Require selenium webdriver.
-        let webdriver = require('selenium-webdriver');
+        const webdriver = require('selenium-webdriver');
+        const chromedriver = require('chromedriver');
 
-        // Require the chrome driver from selenium.
-        let chrome = require('selenium-webdriver/chrome');
+        const chromeCapabilities = webdriver.Capabilities.chrome();
+        chromeCapabilities.set('chromeOptions', {args: ['--headless']});
 
-        // Add the chromedriver to the path.
-        let path = require('chromedriver').path;
-
-        // Get the chrome service.
-        let service = new chrome.ServiceBuilder(path).build();
-        chrome.setDefaultService(service);
-
-        // Create a chrome browser.
-        driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+        driver = new webdriver.Builder()
+          .forBrowser('chrome')
+          .withCapabilities(chromeCapabilities)
+          .build();
 
         //Ensure the done function is passed in and called at the end of each test.
         // This ensures that async functions are waited for completion when executing the tests.
