@@ -176,11 +176,16 @@ describe("Login Tests", function(){
             // Wait for the alert to appear.
             return driver.wait(until.elementLocated({id: "alert"}), 5000)
         }).then(() => {
+            return driver.wait(function () {
+                let value = driver.findElement({id: "LoginButton"}).getAttribute("class").then(attribValue => {
+                  return attribValue.includes("loading");
+                });
+
+                return value;
+            });
             // Get the login button's className
-            return driver.findElement({id: "LoginButton"}).getAttribute("class")
-        }).then(attributeValue => {
-            // Ensure the login button's class is not a loading button
-            expect(attributeValue).to.not.contain("loading");
+            //return driver.findElement({id: "LoginButton"}).getAttribute("class")
+        }).then( () => {
             done();
         });
     });
