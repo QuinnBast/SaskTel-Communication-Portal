@@ -5,6 +5,7 @@ from flask_jwt_extended import (create_access_token, create_refresh_token, verif
 from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 from REST.auth.Proxy import Proxy
 from REST.auth.User import User
+from REST.server import config, logconsole
 
 
 class Authenticator:
@@ -23,6 +24,9 @@ class Authenticator:
             Triggered when login endpoint is accessed
             :return: HTTP response
             """
+
+            if config.verbose:
+                logconsole.info("Request to /rest/login")
 
             # Create a request parser to ensure the proper parameters were passed
             parser = reqparse.RequestParser()
@@ -49,7 +53,7 @@ class Authenticator:
                 return message, e.code
 
             # Grab the user's username and password from the login request.
-            username = data["username"] + "@imstas.stb1.com"
+            username = data["username"] + config.username_domain
             password = data["password"]
 
             # Send the username and password to broadsoft and check that a token can be obtained from the endpoint.
@@ -69,10 +73,16 @@ class Authenticator:
                 set_refresh_cookies(response, refresh_token)
                 set_access_cookies(response, access_token)
 
+                if config.verbose:
+                    logconsole.info("Successful Login.")
+
                 response.data = "<login>true</login>"
 
                 return response
             else:
+                if config.verbose:
+                    logconsole.info("Invalid login credentials.")
+
                 return "<login>false</login>", broadsoft_response.status_code
 
     class UserLogout(Resource):
