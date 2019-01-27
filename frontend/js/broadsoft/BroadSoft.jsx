@@ -92,7 +92,7 @@ class BroadSoft {
     }
 
 
-    sendRequest = (args) => {
+    sendRequest(args) {
         /**
          * This function will access any of the broadsoft endpoints.
          *
