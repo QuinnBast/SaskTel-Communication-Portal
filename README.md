@@ -1,8 +1,36 @@
 [![Build Status](https://travis-ci.com/QuinnBast/SaskTel-Communication-Portal.svg?token=WPMw3ZqHaY9rAP8BGwXg&branch=master)](https://travis-ci.com/QuinnBast/SaskTel-Communication-Portal)
 
 # SaskTel-Communication-Portal 
- A communication portal for SaskTel <br/>
+ A communication portal for SaskTel
  Made by [Quinn Bast](https://github.com/QuinnBast) and [Dakota Fisher](https://github.com/OmegaHelix)
+ 
+## Description 
+ The Website [TelPort](https://telport.me) is a client for SaskTel customers to manage and update home telephone features such as those listed below. Additionally the site aims to provide a web-browser base platform for communication to PSTN numbers and other logged in users. With the possibiity of video based communications being attainable with further development. 
+ 
+### Features
+- Call Logs
+- Call Forwarding
+ -Always
+  - Busy
+  - No Answer
+  - Not Reachable
+  - !Selective
+- Account Profile
+- Feature Access Codes
+- Do Not Disturb
+- Third-party Voicemail Support
+- Voice Messaging Settings
+- Calling Number Delivery
+- Calling Name Delivery
+- Call Waiting
+
+#### In Progress
+- Schedules
+- Custom Contacts / Personal Directories
+- Call Rejection
+  - Selective
+  - Anonymous
+
 ## Setup
 ### Step 1 - Creating a virtual environment
 In order to use the project, a python virtual environment must be created in order to ensure that this project is running off of its own dependencies of python. If you are setting up the project in PyCharm, a virtual environment is automatically created for the project. However, if you are not using PyCharm, a virtual environment needs to be created.

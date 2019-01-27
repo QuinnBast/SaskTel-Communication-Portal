@@ -37,7 +37,7 @@ export default class Interface extends Component {
 
     render() {
         return (
-            <Fragment>
+            <div id={"dashboard"}>
                 <Profile/>
                 <CallReject/>
                 <CallForward/>
@@ -52,7 +52,7 @@ export default class Interface extends Component {
                 <FeatureAccessCodes/>
                 <PersonalContacts/>
                 <ThirdPartyVoiceMail/>
-            </Fragment>
+            </div>
         );
     }
 }
