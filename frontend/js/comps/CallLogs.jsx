@@ -7,7 +7,7 @@ import React from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties";
+import AccordionWrap from "./AccordionWrap";
 
 /**
  *  REST API Imports
@@ -20,27 +20,18 @@ import { getTag } from "../broadsoft/xmlParse";
  */
 import { Table } from 'semantic-ui-react'
 
-export default class CallLogs extends CallProperties {
+export default class CallLogs extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
             logs : [],
-            name : "Call CallLogs",
-            description : "This property shows the history of all your previous calls.",
-            title : "Call CallLogs",
-            content : "", // Can't set to this.content() here, because it creates an unbounded loop.
             column : null,
             direction : null
         };
         // this.loadAsync() triggers componentDidUpdate() and the contents are loaded.
-        this.loadAsync()
-    }
+        this.loadAsync();
 
-    componentDidUpdate(prevProps, prevState){
-        if(this.state.logs !== prevState.logs){
-            this.setState({content: this.content()})
-        }
     }
 
     handleSort = clickedColumn => () => {
@@ -71,58 +62,6 @@ export default class CallLogs extends CallProperties {
             direction: direction,
             column : column
         })
-    };
-
-
-
-
-    content = () => {
-        let i = 0;
-        let tableRows = [];
-        for(let property of Array.from(this.state.logs)){
-            tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
-                <Table.Cell>{property['type']}</Table.Cell>
-                <Table.Cell>{property['phoneNumber']}</Table.Cell>
-                <Table.Cell>{(new Date(property['time']))
-                    .toLocaleString('en-CA',
-                        {   day: 'numeric',
-                            month: 'short',
-                            weekday :'short',
-                            hour: 'numeric',
-                            minute: 'numeric', localeMatcher : "best fit" }).replace('.', '')}</Table.Cell>
-            </Table.Row>);
-        }
-        return (
-            <div>
-                <Table sortable striped id={"CallLogs"}>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell
-                                sorted={this.state.column === 'type' ? this.state.direction : null}
-                                onClick={this.handleSort('type')}
-                            >
-                                Type
-                            </Table.HeaderCell>
-                            <Table.HeaderCell
-                                sorted={this.state.column === 'phoneNumber' ? this.state.direction : null}
-                                onClick={this.handleSort('phoneNumber')}
-                            >
-                                Phone Number
-                            </Table.HeaderCell>
-                            <Table.HeaderCell
-                                sorted={this.state.column === 'time' ? this.state.direction : null}
-                                onClick={this.handleSort('time')}
-                            >
-                                Time
-                            </Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {tableRows}
-                    </Table.Body>
-                </Table>
-            </div>
-        );
     };
 
     // Asynchronous function that updates the object.
@@ -163,11 +102,63 @@ export default class CallLogs extends CallProperties {
                                 }]
                         }));
                 }
+                self.setState({
+                    column : 'time',
+                    logs : _.sortBy(self.state.logs, ['time']).reverse(),
+                    direction : 'descending'});
             }
+
         });
     }
 
     render() {
-        return super.render();
+        let i = 0;
+        let tableRows = [];
+        for(let property of Array.from(this.state.logs)){
+            tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
+                <Table.Cell>{property['type']}</Table.Cell>
+                <Table.Cell>{property['phoneNumber']}</Table.Cell>
+                <Table.Cell>{(new Date(property['time']))
+                    .toLocaleString('en-CA',
+                        {   day: 'numeric',
+                            month: 'short',
+                            weekday :'short',
+                            hour: 'numeric',
+                            minute: 'numeric', localeMatcher : "best fit" }).replace('.', '')}</Table.Cell>
+            </Table.Row>);
+        }
+        return (
+            <AccordionWrap title={"Call Logs"} description={"This property shows the history of all your previous calls."}>
+                <div>
+                    <Table sortable striped id={"CallLogs"}>
+                        <Table.Header>
+                            <Table.Row>
+                                <Table.HeaderCell
+                                    sorted={this.state.column === 'type' ? this.state.direction : null}
+                                    onClick={this.handleSort('type')}
+                                >
+                                    Type
+                                </Table.HeaderCell>
+                                <Table.HeaderCell
+                                    sorted={this.state.column === 'phoneNumber' ? this.state.direction : null}
+                                    onClick={this.handleSort('phoneNumber')}
+                                >
+                                    Number
+                                </Table.HeaderCell>
+                                <Table.HeaderCell
+                                    sorted={this.state.column === 'time' ? this.state.direction : null}
+                                    onClick={this.handleSort('time')}
+                                >
+                                    Time
+                                </Table.HeaderCell>
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {tableRows}
+                        </Table.Body>
+                    </Table>
+                </div>
+            </AccordionWrap>
+        );
     }
 }

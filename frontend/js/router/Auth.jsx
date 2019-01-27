@@ -121,6 +121,7 @@ class Auth {
             },
             error: function(result){
                 $("#alert").get(0).style.visibility = 'visible';
+                $('#LoginButton:first').removeClass('loading');
             }
         });
     };

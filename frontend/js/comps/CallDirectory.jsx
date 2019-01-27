@@ -6,32 +6,19 @@ import React from "react";
 /**
  *  Component Imports
  */
-import CallProperties from "./call/CallProperties"
+import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 
-export default class CallDirectory extends CallProperties {
+export default class CallDirectory extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            name : "Call CallDirectory",
-            description : "This property shows a call directory for possible contacts and groups.",
-            title : "Call CallDirectory",
-            content : this.content()
-        };
-    this.loadAsync();
-}
-
-content = () => {
-    return(
-        <div>
-            <div id={"CallDirectory"}>Loading Directories...</div>
-        </div>)
-};
+        this.loadAsync();
+    }
 
 // Asynchronous function that updates the object.
 loadAsync(){
@@ -47,6 +34,12 @@ loadAsync(){
 }
 
 render() {
-    return super.render();
+    return(
+        <AccordionWrap title={"Call Directory"} description={"This property shows a call directory for possible contacts and groups."}>
+            <div>
+                <div id={"CallDirectory"}>Loading Directories...</div>
+            </div>
+        </AccordionWrap>
+    )
 }
 }
