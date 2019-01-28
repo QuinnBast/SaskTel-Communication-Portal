@@ -10,8 +10,6 @@ import Profile from "../comps/Profile";
 import ProfileSettings from "../comps/ProfileSettings"
 
 import { Container} from "reactstrap";
-import getTag from "../broadsoft/xmlParse";
-import Auth from "../router/Auth";
 
 export default class Interface extends Component {
 

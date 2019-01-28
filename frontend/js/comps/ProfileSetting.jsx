@@ -6,7 +6,8 @@ import React from "react";
 /**
  *  Component Imports
  */
-import {Container, Col, Row, CustomInput} from 'reactstrap';
+import {Container, Col, Row, CustomInput, Button, Table} from 'reactstrap';
+import Switch from 'react-switch';
 
 /**
  *  REST API Imports
@@ -26,15 +27,29 @@ export default class ProfileSettings extends React.Component {
         // pass in the edit prop as this.props.edit
     }
 
+    toggle = (toggleState) => {
+        this.setState({toggleState})
+    }
 
     render() {
         return(
             <Container>
-                <Row>
-                    <Col xs={"6"}>{this.props.name}</Col>
-                    <Col xs={"3"}><CustomInput type="radio" id="exampleCustomRadio" name="customRadio" label="Active" /></Col>
-                    <Col xs={"3"}><a onClick={this.onEdit}>Edit</a></Col>
-                </Row>
+                <Table striped>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Enabled</th>
+                        <th>Configure</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>{this.props.name}</th>
+                        <th><Switch onChange={this.toggle} checked={this.state.toggleState}/></th>
+                        <th><Button color={"primary"} onClick={this.onEdit}>Edit</Button></th>
+                    </tr>
+                    </tbody>
+                </Table>
             </Container>
         )
     }
