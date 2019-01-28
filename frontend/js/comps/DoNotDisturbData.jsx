@@ -6,7 +6,6 @@ import React from "react";
 /**
  *  REST API Imports
  */
-import {Checkbox, Container} from "semantic-ui-react";
 
 /**
  *  Worker Queue Imports

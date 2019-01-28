@@ -7,7 +7,6 @@ import React from "react";
 /**
  *  Style Imports
  */
-import { Table, Checkbox, Input, Popup } from 'semantic-ui-react'
 import MaskedInput from 'react-text-mask'
 
 /**
