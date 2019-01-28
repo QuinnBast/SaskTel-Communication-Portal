@@ -23,7 +23,7 @@ import ThirdPartyVoiceMail from "../comps/ThirdPartyVoiceMail";
 
 import UpdateQueue from "../workers/UpdateQueue";
 
-import { Button} from "semantic-ui-react";
+import { Button} from "reactstrap";
 
 export default class Interface extends Component {
 

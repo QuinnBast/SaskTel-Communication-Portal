@@ -7,7 +7,6 @@ import React from "react";
 /**
  *  Style Imports
  */
-import { Table } from 'semantic-ui-react'
 
 export default class FeatureAccessCodeData extends React.Component {
 

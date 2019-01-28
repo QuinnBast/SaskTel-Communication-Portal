@@ -13,7 +13,6 @@ import CallingNameDeliveryData from "./CallingNameDeliveryData"
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
-import {Checkbox} from "semantic-ui-react";
 
 export default class CallingNameDevliery extends React.Component {
 

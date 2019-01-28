@@ -8,7 +8,7 @@ import {Link, withRouter} from "react-router-dom";
 /**
  *  Style Imports
  */
-import {Menu} from "semantic-ui-react";
+import {NavLink, NavItem} from 'reactstrap';
 
 /**
  *  Authentication Imports
@@ -17,9 +17,9 @@ import Auth from "../router/Auth";
 
 export const LogButton = withRouter(() => (
         Auth.isAuthenticated() ? (
-            <Menu.Menu position='right'>
-                <Menu.Item as={Link} to="/login" onClick={Auth.logout}>Sign out</Menu.Item>
-            </Menu.Menu>
+            <NavItem>
+                <NavLink href={"/login"} onClick={Auth.logout}>Sign out</NavLink>
+            </NavItem>
         ) : (
             ""
         )

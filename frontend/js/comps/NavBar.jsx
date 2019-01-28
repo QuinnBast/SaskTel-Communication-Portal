@@ -7,7 +7,7 @@ import React, { Component } from 'react'
 /**
  *  Style Imports
  */
-import { Menu } from 'semantic-ui-react'
+import {NavItem, NavLink } from 'reactstrap'
 
 /**
  *  Component Imports
@@ -17,10 +17,10 @@ import {LogButton} from "./LogButton"
 export default class NavBar extends Component {
     render() {
         return (
-            <Menu attached inverted={true}>
-                <Menu.Item header name='Tel Port'/>
+            <NavItem attached inverted={true}>
+                <p>TelPort</p>
                 <LogButton/>
-            </Menu>
+            </NavItem>
         )
     }
 }

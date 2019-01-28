@@ -6,7 +6,6 @@ import React from "react";
 /**
  *  Style Imports
  */
-import {Accordion, Icon, Container} from 'semantic-ui-react'
 
 
 export default class AccordionWrap extends React.Component {

@@ -22,7 +22,6 @@ let xmljs = require('xml-js');
 /**
  * Style imports
  */
-import {Table, Input, Button} from "semantic-ui-react";
 import MaskedInput from 'react-text-mask';
 
 export default class PersonalContacts extends React.Component {

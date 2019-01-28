@@ -18,7 +18,6 @@ import { getTag } from "../broadsoft/xmlParse";
 /**
  *  Style Imports
  */
-import { Table } from 'semantic-ui-react'
 
 export default class CallLogs extends React.Component {
 

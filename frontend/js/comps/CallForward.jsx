@@ -18,7 +18,6 @@ import BroadSoft from "../broadsoft/BroadSoft"
 /**
  *  Style Imports
  */
-import { Table, Popup } from 'semantic-ui-react'
 
 let $ = require('jquery');
 
