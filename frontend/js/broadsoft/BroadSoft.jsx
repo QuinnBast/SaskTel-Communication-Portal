@@ -10,9 +10,14 @@ import Auth from "../router/Auth"
 /**
  * Worker imports
  */
-import UpdateQueue from "../workers/UpdateQueue";
 
 let $ = require('jquery');
+
+/**
+ *
+ * XmlParse
+ */
+import getTag from "../broadsoft/xmlParse";
 
 class BroadSoft {
 
@@ -36,6 +41,8 @@ class BroadSoft {
             "username": Auth.username.replace(/[()-]/g, ''),
             "password": Auth.password,
         };
+
+        let self = this;
 
         let json = JSON.stringify(object);
         //Call server's login function
@@ -145,7 +152,6 @@ class BroadSoft {
                 // Convert XML response to a JS object.
                 let response = xmljs.xml2js(responseText);
                 success(response);
-                UpdateQueue.addSuccess();
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
@@ -158,7 +164,6 @@ class BroadSoft {
                     }
                 }
                 error(response)
-                UpdateQueue.addFailure();
             },
         });
     }

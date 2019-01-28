@@ -17,9 +17,7 @@ import Auth from "../router/Auth";
 
 export const LogButton = withRouter(() => (
         Auth.isAuthenticated() ? (
-            <NavItem>
                 <NavLink href={"/login"} onClick={Auth.logout}>Sign out</NavLink>
-            </NavItem>
         ) : (
             ""
         )
