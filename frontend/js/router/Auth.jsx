@@ -15,8 +15,8 @@ class Auth {
     constructor() {
         this.authenticated = false;
         this.username = "";
-        this.password ="";
-        this.csrfToken =  "";
+        this.password = "";
+        this.csrfToken = "";
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -24,21 +24,22 @@ class Auth {
         this.isAuthenticated = this.isAuthenticated.bind(this);
 
         // Check if a session is set
-        if(localStorage.getItem("authenticated") === "true"){
+        if (localStorage.getItem("authenticated") === "true") {
             this.authenticated = localStorage.getItem("authenticated");
             this.username = localStorage.getItem("username");
             this.csrfToken = localStorage.getItem("csrfToken");
 
             // Configure requests to have csrf token in the header.
             $.ajaxSetup({
-                    beforeSend: function(xhr, settings){
-                        if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", this.csrfToken);
-                        }
-                    },
-                    data: {"CSRFToken":this.csrfToken}
-                });
-        };
+                beforeSend: function (xhr, settings) {
+                    if (!this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRF-TOKEN", this.csrfToken);
+                    }
+                },
+                data: {"CSRFToken": this.csrfToken}
+            });
+        }
+        ;
     }
 
     login (e) {
