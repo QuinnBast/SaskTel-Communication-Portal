@@ -50,7 +50,7 @@ export default class Profile extends React.Component {
     }
 
     render() {
-        if(this.state.status == "loading") {
+        if(this.state.status === "loading") {
             return (
                 <Container id={"Profile"}>
                     <Jumbotron>
@@ -63,8 +63,8 @@ export default class Profile extends React.Component {
                 <Container id={"Profile"}>
                     <Jumbotron>
                         <h1>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
-                        <p>{this.state.number}</p>
-                        <p>{this.state.extension}</p>
+                        <p>Number: {this.state.number}</p>
+                        <p>Extension: {this.state.extension}</p>
                     </Jumbotron>
                 </Container>
             );
