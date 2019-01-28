@@ -24,10 +24,10 @@ class Auth {
         this.isAuthenticated = this.isAuthenticated.bind(this);
 
         // Check if a session is set
-        if (localStorage.getItem("authenticated") === "true") {
-            this.authenticated = localStorage.getItem("authenticated");
-            this.username = localStorage.getItem("username");
-            this.csrfToken = localStorage.getItem("csrfToken");
+        if (sessionStorage.getItem("authenticated") === "true") {
+            this.authenticated = sessionStorage.getItem("authenticated");
+            this.username = sessionStorage.getItem("username");
+            this.csrfToken = sessionStorage.getItem("csrfToken");
 
             // Configure requests to have csrf token in the header.
             $.ajaxSetup({
@@ -38,8 +38,9 @@ class Auth {
                 },
                 data: {"CSRFToken": this.csrfToken}
             });
-        }
-        ;
+        } else {
+            this.logout();
+        };
     }
 
     login (e) {
@@ -64,14 +65,16 @@ class Auth {
         let self = this;
         BroadSoft.login({
             success: function(result){
-                localStorage.setItem("authenticated", self.authenticated.toString());
-                localStorage.setItem("username", self.username);
-                localStorage.setItem("csrfToken", self.csrfToken);
+                sessionStorage.setItem("authenticated", self.authenticated.toString());
+                sessionStorage.setItem("username", self.username);
+                sessionStorage.setItem("csrfToken", self.csrfToken);
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
             },
             error: function(result){
-                localStorage.setItem("authenticated", "false");
+                sessionStorage.removeItem("authenticated");
+                sessionStorage.removeItem("username");
+                sessionStorage.removeItem("csrfToken");
                 $("#alert").get(0).style.visibility = 'visible';
                 $('#LoginButton:first').removeClass('loading');
             }
@@ -94,9 +97,9 @@ class Auth {
         this.password = "";
 
         // Remove the localStorage settings.
-        localStorage.removeItem("authenticated");
-        localStorage.removeItem("username");
-        localStorage.removeItem("csrfToken");
+        sessionStorage.removeItem("authenticated");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("csrfToken");
 
         // Prevent the user navigating back.
         history.push("/login");
