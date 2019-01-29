@@ -7,7 +7,7 @@ import React, {Component, Fragment} from "react";
  *  Component Imports
  */
 import Profile from "../comps/Profile";
-import ProfileSettings from "../comps/ProfileSettings"
+import CarouselManager from "../comps/CarouselManager";
 
 import { Container} from "reactstrap";
 
@@ -23,7 +23,7 @@ export default class Interface extends Component {
             <div id={"dashboard"}>
                 <Container>
                     <Profile/>
-                    <ProfileSettings/>
+                    <CarouselManager/>
                 </Container>
             </div>
         );

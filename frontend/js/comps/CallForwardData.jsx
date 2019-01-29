@@ -10,11 +10,6 @@ import React from "react";
 import MaskedInput from 'react-text-mask'
 
 /**
- *  Worker Queue Imports
- */
-import UpdateQueue from "../workers/UpdateQueue"
-
-/**
  * Broadsoft imports
  */
 import { getTag, setTag } from "../broadsoft/xmlParse";
@@ -87,7 +82,7 @@ export default class CallForwardData extends React.Component {
             }
         };
 
-        UpdateQueue.addUpdate(request);
+        //UpdateQueue.addUpdate(request);
 
     }
 

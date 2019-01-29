@@ -6,7 +6,9 @@ import React from "react";
 /**
  *  Component Imports
  */
-import {Container, Jumbotron} from 'reactstrap';
+import {Container, Jumbotron, Col, Row} from 'reactstrap';
+import CallLogButton from "../comps/CallLogButton";
+import FeatureAccessCodesButton from "../comps/FeatureAccessCodesButton"
 
 /**
  *  REST API Imports
@@ -62,9 +64,17 @@ export default class Profile extends React.Component {
             return (
                 <Container id={"Profile"}>
                     <Jumbotron>
-                        <h1>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
-                        <p>Number: {this.state.number}</p>
-                        <p>Extension: {this.state.extension}</p>
+                        <Row>
+                            <Col xs={"9"}>
+                                <h1>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
+                                <p>Number: {this.state.number}</p>
+                                <p>Extension: {this.state.extension}</p>
+                            </Col>
+                            <Col xs={"3"}>
+                                <CallLogButton/>
+                                <FeatureAccessCodesButton/>
+                            </Col>
+                        </Row>
                     </Jumbotron>
                 </Container>
             );
