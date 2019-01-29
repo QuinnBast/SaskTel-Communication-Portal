@@ -15,6 +15,8 @@
 						"exec": [
 							"pm.environment.set(\"xsrf-token\", decodeURIComponent(pm.cookies.get(\"csrf_access_token\")));",
 							"",
+							"pm.environment.set(\"refresh-token\", decodeURIComponent(pm.cookies.get(\"csrf_refresh_token\")));",
+							"",
 							"pm.test(\"Successful POST request\", function () {",
 							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
 							"});",
@@ -63,6 +65,69 @@
 					"path": [
 						"rest",
 						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[REST] [POST] RefreshToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8983fdd9-0636-4906-ad94-4dbdf2d6ea8b",
+						"exec": [
+							"pm.environment.set(\"xsrf-token\", decodeURIComponent(pm.cookies.get(\"csrf_access_token\")));",
+							"",
+							"pm.test(\"Successful POST request\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+							"});",
+							"",
+							"pm.test(\"Cookies Set\", function () {",
+							"    pm.expect(pm.cookies.count()).to.be.eql(4);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "{{refresh-token}}",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\": \"{{refresh-token}}\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/token/refresh",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"token",
+						"refresh"
 					]
 				}
 			},
@@ -1323,6 +1388,45 @@
 					"body": "{\n    \"message\": \"Authentication Test Success\"\n}"
 				}
 			]
+		},
+		{
+			"name": "[REST] [GET] PersonalContacts",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "{{xsrf-token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"CSRFToken\":\"{{xsrf-token}}\",\n\"endpoint\":\"/user/3067190074@imstas.stb1.com/directories/personal\",\n\"data\":\"\",\n\"method\":\"GET\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/rest/broadsoft",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"rest",
+						"broadsoft"
+					]
+				}
+			},
+			"response": []
 		},
 		{
 			"name": "[REST] Logout",

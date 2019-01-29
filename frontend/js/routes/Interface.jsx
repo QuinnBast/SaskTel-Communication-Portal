@@ -23,8 +23,6 @@ import ThirdPartyVoiceMail from "../comps/ThirdPartyVoiceMail";
 
 import UpdateQueue from "../workers/UpdateQueue";
 
-import { Button} from "semantic-ui-react";
-
 export default class Interface extends Component {
 
     //Create a list of all user properties to show to the user
