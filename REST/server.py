@@ -46,6 +46,7 @@ api.add_resource(Authenticator.UserLogout, "/rest/logout")
 api.add_resource(Authenticator.TokenRefresh, "/rest/token/refresh")
 api.add_resource(BroadsoftConnector.getEndpoint, "/rest/broadsoft")
 
+whitelist = set()
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS
