@@ -1,29 +1,58 @@
 let Cookies = require("js-cookie");
-import auth from "../auth/auth"
+let xmljs = require('xml-js');
+
+
+/**
+ *  Authentication Imports
+ */
+import Auth from "../router/Auth"
+
+/**
+ * Worker imports
+ */
 
 let $ = require('jquery');
 
-class Broadsoft {
+/**
+ *
+ * XmlParse
+ */
+import getTag from "../broadsoft/xmlParse";
+
+class BroadSoft {
 
     constructor(){
 
     }
 
-    login(callback) {
+    login(callbacks) {
+        /**
+         * Reaches the server's login endpoint.
+         * The server will contact Broadsoft to determine if the user credentials are valid.
+         * If valid, the server will generate and return a user authentication token whihc validates the user.
+         *
+         * @param callbacks: {success: function(), error: function()}
+         *
+         *          The successful callback function will be executed on successful login.
+         *          The failure callback function will be executed on failed login.
+         */
+
         let object = {
-            "username": auth.username.replace(/[()-]/g, ''),
-            "password": auth.password,
+            "username": Auth.username.replace(/[()-]/g, ''),
+            "password": Auth.password,
         };
+
+        let self = this;
 
         let json = JSON.stringify(object);
         //Call server's login function
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/login",
             contentType: "application/json",
             data: json,
-            dataType: "json",
+            dataType: "text",
             success: function(responseText, textStatus, jqxhr){
 
                 this.authenticated = true;
@@ -32,65 +61,78 @@ class Broadsoft {
                 $.ajaxSetup({
                     beforeSend: function(xhr, settings){
                         if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", auth.csrfToken);
+                            xhr.setRequestHeader("X-CSRF-TOKEN", Auth.csrfToken);
                         }
                     },
-                    data: {"CSRFToken":auth.csrfToken}
+                    data: {"CSRFToken":Auth.csrfToken}
                 });
 
-                callback(true);
+                callbacks.success();
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                callback(false);
+                callbacks.error();
             },
         });
     }
 
-    logout(callback) {
+    logout() {
+        /**
+         * This function will contact the broadsoft logout endpoint and remove the user's auth tokens
+         * This will ensure the user can no longer access information with their tokens.
+         *
+         * @param callbacks: {success: function(), error: function()}
+         *
+         *      The success function will be executed with a successful logout
+         *      The error function will be executed with a failed logout
+         */
 
         //Call server's login function
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/logout",
             contentType: "application/json",
-            dataType: "json",
-            success: function(responseText, textStatus, jqxhr){
-
-                this.authenticated = false;
-
-                //Clear the ajax configuration so that it no longer sends the CSRF token.
-                $.ajaxSetup({
-                    beforeSend: undefined,
-                    data: undefined
-                });
-
-                callback(true);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callback(false);
-            },
+            dataType: "text"
         });
     }
 
     sendRequest(args){
+        /**
+         * This function will access any of the broadsoft endpoints.
+         *
+         * @param args:
+         * {
+         *  endpoint: "broadsoftEndpoint",
+         *  data: "A JS object to send to broadsoft as data. Data will be converted to XML.",
+         *  method: "GET/PUT/DELETE/..."
+         *  success: function(),
+         *  error: function(),
+         * }
+         */
+
         if(args['endpoint'] === undefined){
             return;
         }
 
         if(args['data'] === undefined){
             args['data'] = "";
+        } else {
+            args['data'] = xmljs.js2xml(args['data']);
         }
 
         if(args['method'] === undefined){
             args['method'] = "GET";
         }
 
-        let callback = function(){return};
-        if(args['callback'] !== undefined) {
-            callback = args['callback'];
+        let success = function(){return};
+        if(args['success'] !== undefined) {
+            success = args['success'];
+        }
+
+        let error = function(){return};
+        if(args['error'] !== undefined) {
+            error = args['error'];
         }
 
         let request_data = {
@@ -99,23 +141,32 @@ class Broadsoft {
             "method":args['method'],
         };
 
-        // Call Forwarding always
         $.ajax({
-            context: auth,
+            context: Auth,
             type: "POST",
             url: "/rest/broadsoft",
             contentType: "application/json",
-            dataType: "json",
+            dataType: "text",
             data: JSON.stringify(request_data),
             success: function(responseText, textStatus, jqxhr){
-                callback(responseText);
+                // Convert XML response to a JS object.
+                let response = xmljs.xml2js(responseText);
+                success(response);
             },
             error: function(jqxhr, textStatus, errorThrown){
                 console.log(errorThrown);
-                callback(jqxhr.responseText)
+                let response = xmljs.xml2js(jqxhr.responseText);
+
+                // If the user sent a request but the login token was invalid, log the user out
+                if(response.elements[0] && response.elements[0].elements[0].text === "Unauthorized"){
+                    if(Auth.isAuthenticated()) {
+                        Auth.logout();
+                    }
+                }
+                error(response)
             },
         });
     }
 }
 
-export default new Broadsoft();
+export default new BroadSoft();

@@ -1,84 +1,71 @@
+/**
+ *  @file App.jsx
+ *
+ *  @fileOverview The view management file of the application,
+ *  renders over the index page.
+ *
+ */
+
+/**
+ *  React Imports
+ */
 import React from "react";
-import {
-    Router,
-    Route,
-    Link,
-    Switch,
-} from "react-router-dom";
-import {
-    Col,
-    Row,
-    Container,
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem
-} from 'reactstrap';
+import {render} from "react-dom";
+import {Router, Redirect, Switch, Route} from "react-router-dom";
+
+/**
+ *  Style Imports
+ */
+import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
+import "../css/main.css"; //Requires the CSS file
+
+/**
+ *  Router Imports
+ */
+import {ProtectedRoute} from "./router/ProtectedRoute";
+import {UnprotectedRoute} from "./router/UnprotectedRoute";
+import history from "./router/history";
+
+/**
+ *  Route Imports
+ */
+import Interface from "./routes/Interface";
+import Login from "./routes/Login";
+
+/**
+ *  Component Imports
+ */
+import  NavBar from "./comps/NavBar";
+
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");
 
-import Interface from "./interface";
-import Login from "./login";
-import {ProtectedRoute} from "./auth/protectedroute";
-import AuthButton from "./auth/authbutton";
-import history from "./router/history";
-
-const UpperMargin = {
-    marginTop: '5em',
-};
-
 export default class App extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.toggle = this.toggle.bind(this);
-        this.state = {
-            isOpen: false
-        };
-    }
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
     render () {
         return (
             <Router history={history}>
-                <div>
-                    <Navbar color="dark" dark expand="md">
-                        <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
-                        <NavbarToggler onClick={this.toggle} />
-                        <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav className="ml-auto" navbar>
-                                <NavItem>
-                                    <AuthButton/>
-                                </NavItem>
-                            </Nav>
-                        </Collapse>
-                    </Navbar>
-                    <Container style={UpperMargin}>
-                        <Row>
-                            <Col>
-                                <Switch>
-                                    <ProtectedRoute exact path="/" component={Interface}/>
-                                    <Route path="/login" component={Login}/>
-                                    <Route path="*" component={NoMatch}/>
-                                </Switch>
-                            </Col>
-                        </Row>
-                    </Container>
-                </div>
+                    <NavBar/>
+                    <Switch>
+                        /*render the interface page if the user is logged in*/
+                        <ProtectedRoute exact path="/" component={Interface}/>
+                        /*render the login page if the user isn't logged in*/
+                        <UnprotectedRoute exact path="/login" component={Login}/>
+                        /*Catch all, invalid address, redirect to interface page*/
+                        <Route path="*" render={() => <Redirect to="/" />}/>
+                    </Switch>
             </Router>
         );
     }
 }
 
-const NoMatch = ({ location }) => (
-    <div>
-        <h3>No match for <code>{location.pathname}</code></h3>
-    </div>
-);
+
+/*
+
+ */
+render((
+    <Router history={history}>
+        <App />
+    </Router>
+),document.getElementById('content'));
 

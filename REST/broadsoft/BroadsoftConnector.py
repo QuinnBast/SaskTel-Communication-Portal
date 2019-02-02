@@ -1,11 +1,12 @@
 from flask_restful import reqparse
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from flask import jsonify, make_response, json
-import xmltodict, dicttoxml, requests
+from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
+from flask_jwt_extended.exceptions import CSRFError
+from flask import make_response
+import requests
 from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
-
+import logging
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -22,16 +23,32 @@ class BroadsoftConnector(BroadsoftResource):
         return response
 
     class getEndpoint(BroadsoftResource):
-        # Require user to be logged in to access this endpoint.
-        @jwt_required
+        """
+        Accesses a broadsoft endpoint
+        """
         def post(self):
+            """
+            Triggered when getEndpoints is accessed via POST
+            :return:
+            """
+
+            # Ensure that the user has sent a jwt to the endpoint.
+            try:
+                verify_jwt_in_request()
+            except Exception as error:
+                return make_response("<error>Unauthorized</error>", 401)
+
+            # Create a user object from the JWT identity object.
             user = User().from_identity(get_jwt_identity())
 
+            # Check if a user was able to be created.
             if user is None:
-                return {'message':'Not logged in'}, 401
+                return "<ErrorInfo><message>Not logged in</message><error>true</error></ErrorInfo>", 401
 
+            # Create a request parser to parse arguments
             parser = reqparse.RequestParser()
 
+            # Configure endpoint arguments.
             parser.add_argument(
                     name='endpoint',
                     help='Missing the required broadsoft endpoint to connect to.',
@@ -39,33 +56,58 @@ class BroadsoftConnector(BroadsoftResource):
 
             parser.add_argument(
                 name='data',
-                help='Missing JSON formatted data to send to the broadsoft API.',
-                required=True,
-                type=str)
+                type=str,
+                help='JSON data needs to be a string')
 
             parser.add_argument(
                 name='method',
                 help='Missing method type. ex) method:GET/PUT/POST...',
                 required=True)
 
-            args = parser.parse_args()
-            url = self.url + args['endpoint'].replace("<user>", user.username)
+            # Check if the arguments passed were valid.
             try:
-                data = dicttoxml.dicttoxml(json.loads(args['data']))
-            except:
-                data = None
+                args = parser.parse_args()
+            except reqparse.exceptions.BadRequest as e:
+                # If there are any errors, ensure that login=False is sent.
+                message = "<error>true</error>"
+                return message, 400
+
+            # Get the data sent from the request.
+            url = self.url + args['endpoint'].replace("<user>", user.username)
+            data = ""
             method = args['method']
 
-            # Ensure broadsoft cookies are stripped and re-formatted.
+            # Check if any data was sent
+            if(args['data']):
+                data = args['data']
+
+            # Get the user's broadsoft token from the JWT and send a request to broadsoft.
             response = Proxy().to_broadsoft(method, url, data, user)
 
+            # Check if a valid response was returned.
             if response.status_code == 200 or response.status_code == 201:
-                # Get the XML response and return the response as a JSON string.
-                string = xmltodict.parse(response.content)
-                return make_response(jsonify({'data':string}), 200)
-            else:
+                # Log the sent content
+                from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
+
+                # Format a response
                 if response.content:
-                    string = xmltodict.parse(response.content)
+                    return make_response(str(response.content.decode('ISO-8859-1')), 200)
                 else:
-                    string = ""
-                return make_response(jsonify(string), response.status_code)
+                    return make_response("", 200)
+            else:
+                from ..server import app
+                app.logger.log(logging.INFO, "Sent url: " + url)
+                app.logger.log(logging.INFO, "Send method: " + method)
+                app.logger.log(logging.INFO, "Sent data: " + data)
+                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
+                app.logger.log(logging.INFO,
+                               "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
+                if response.content:
+                    return make_response(response.content.decode('ISO-8859-1'), response.status_code)
+                else:
+                    return make_response("", response.status_code)

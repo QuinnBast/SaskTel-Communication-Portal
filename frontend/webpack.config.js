@@ -1,8 +1,7 @@
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const config = {
     entry: {
-        "indexPage": __dirname + '/js/index.jsx',
+        "indexPage": __dirname + '/js/App.jsx',
     },
     output: {
         path: __dirname + '/dist',
