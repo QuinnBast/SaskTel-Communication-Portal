@@ -8,8 +8,9 @@ import React from "react";
  */
 import {Container, Col, Row, CustomInput, Button, Table} from 'reactstrap';
 import Switch from 'react-switch';
+import Broadsoft from "../broadsoft/BroadSoft";
 
-export default class ProfileSettings extends React.Component {
+export default class Service extends React.Component {
 
     /**
      *
@@ -19,7 +20,9 @@ export default class ProfileSettings extends React.Component {
      *     onEnable:function - callback for when the component's toggle is set to active.
      *     active:boolean - if the component is already active.
      *     name:string - the title of the setting.
-     *     tabbed:boolean - if the title should be tabbed as a subset of a larger setting
+     *     tabbed:boolean - if the title should be tabbed as a subset of a larger
+     *     uri:string - the url for the service to access data
+     *     onEdit(editPage:React.Component):function - a function that sets and moves the containing carousel to the edit page of the component
      */
 
     constructor(props) {
@@ -28,6 +31,26 @@ export default class ProfileSettings extends React.Component {
             toggleState: !!this.props.active,
         }
     }
+
+
+    // TEMPORARY FUNCTION
+    // TODO: Determine how to render content
+    edit = () => {
+        let self = this;
+        // Get the data from the uri
+        Broadsoft.sendRequest({
+            endpoint: this.props.uri,
+            method: "GET",
+            success: function(response){
+                let content = <div>{JSON.stringify(response)}</div>;
+                self.props.onEdit(content);
+            },
+            error: function(response){
+                let content = <div>{JSON.stringify(response)}</div>;
+                self.props.onEdit(content);
+            }
+        })
+    };
 
     onEnable(){
         // pass in the enable prop as this.props.onEnable
@@ -40,7 +63,7 @@ export default class ProfileSettings extends React.Component {
     render() {
         let editButton = null;
         if (this.props.hasEdit) {
-            editButton = <Button color={"primary"} onClick={this.props.onEdit}>Edit</Button>;
+            editButton = <Button color={"primary"} onClick={this.edit}>Edit</Button>;
         }
 
         let name = <Col xs={"6"}><h5>{this.props.name}</h5></Col>;
