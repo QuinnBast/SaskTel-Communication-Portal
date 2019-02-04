@@ -10,6 +10,9 @@
 \usepackage{setspace} % paragraph spacing
 \usepackage{mathpazo} % Palatino font
 
+\usepackage{tabularx} % in the preamble
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
 
 \begin{document}
 
@@ -90,18 +93,38 @@
 
 %----------------------------------------------------------------------------------------
 
+
+%----------------------------------------------------------------------------------------
+% Revision History
+%----------------------------------------------------------------------------------------
+\section*{Revision History}
+\begin{tabularx}{\textwidth}{|Y|Y|Y|}
+\hline
+  \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
+\hline
+1.0 & Dakota Fisher & February 4, 2019 \\
+\hline
+\end{tabularx}
+
+\newpage
+
+
 %----------------------------------------------------------------------------------------
 %	Table of Contents
 %----------------------------------------------------------------------------------------
 
 \pagestyle{plain} %get rid of header/footer for toc page
 \pagenumbering{roman}
+
 \tableofcontents %put Table of Contents in
 \cleardoublepage %start new page
+
 \listoffigures %put List of Figures in
 \cleardoublepage %start new page
+
 \listoftables %put List of Tables in
 \cleardoublepage %start new page
+
 \pagestyle{plain} % put headers/footers back on
 \pagenumbering{arabic}
 
@@ -239,7 +262,6 @@ API Usage Comments:
 
 \newpage
 \section{Design Decisions}
-Design Decisions:
 \paragraph{}
 	During the creation of the project, we had full reign of the architecture and languages in which we wanted to use in order to create the solution for SaskTel. As a result, we did a significant amount of research on the different technologies available in order to make the best decisions for the project. While making these decisions, there were two different sides of the project to focus on. The backend would manage interfacing between SaskTel's servers as well as manage user credentials for the system, while the frontend would display the interface to the user. Both the backend and the frontend had may different decisions which led us to the current solution.
 \subsection{"Backend"}
@@ -355,6 +377,8 @@ Design Decisions:
 
 \subsubsection{Alternative: WhatsApp}
 
+\subsubsection{Alternative: Hangouts}
+
 \newpage
 
 \section{Security Considerations}
@@ -366,6 +390,39 @@ Design Decisions:
 \subsection{Data Integrity}
 
 \subsubsection{}
+
+
+\newpage
+
+\section{User Stories}
+
+\subsection{Log In}
+
+\subsection{Log Out}
+
+\subsection{Check Call Logs}
+
+\subsection{Turn on Call Forwarding Always}
+
+\subsection{Turn on Call Forwarding Busy}
+
+\subsection{Turn on Call Forwarding Selective}
+
+\subsection{Turn on Call Forwarding No Answer}
+
+\subsection{Turn on Call Forwarding}
+
+\subsection{Turn on Do Not Disturb}
+
+\subsection{View my Profile}
+
+\subsection{Call a Phone Number}
+
+\subsection{Start a Call to a Phone Number from my Phone}
+
+\subsection{View Feature Access Codes}
+
+
 
 
 
