@@ -1,0 +1,267 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+\usepackage{setspace} % paragraph spacing
+\usepackage{mathpazo} % Palatino font
+
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE University of Regina}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large ENSE 477: Capstone Project}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Requirements and Specifications}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Telport: Sasktel Telecommunications Portal}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Authors}\\
+			Dakota \textsc{Fisher}\\ % Your name
+			Quinn \textsc{Bast} % Your name
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Dr. Yasser \textsc{Morgan} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	
+	{\large\today} % Date, change the \today to a set date if you want to be precise
+	
+	%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+	
+	%\vfill\vfill
+	%\includegraphics[width=0.2\textwidth]{placeholder.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+	 
+	%----------------------------------------------------------------------------------------
+	
+	\vfill % Push the date up 1/4 of the remaining page
+	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Table of Contents
+%----------------------------------------------------------------------------------------
+
+\pagestyle{empty} %get rid of header/footer for toc page
+\tableofcontents %put toc in
+\cleardoublepage %start new page
+\pagestyle{plain} % put headers/footers back on
+\setcounter{page}{1} %reset the page counter
+
+%----------------------------------------------------------------------------------------
+%	Body of Document
+%----------------------------------------------------------------------------------------
+\doublespacing % set document to be default double spaced
+
+%----------------------------------------------------------------------------------------
+%	Introduction
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+\paragraph{}
+	This document outlines and defines the requirements and specifications. The initial problem statement and proposed activities are suggestions given by Sasktel to provide a manageable scope.
+The decisions on infrastructure, aside from the Broadworks API and telephone account access are left up to us to decide. 
+\subsection{Problem Statement}
+\paragraph{} 
+	SaskTel requires a communications portal that can interwork with a Telephony Application Server and our core network to present communications and feature capabilities through a browser.  This will allow for the exploration of new communications service models. 
+\paragraph{} 
+	SaskTel has been pursuing the deployment of a new communications core along with the Cisco/Broadsoft Telephony Application Server branded as Broadworks.  One of the drivers is to enable a richer customer experience through a converged architecture that exposes rapid development to enables new capabilities.  Broadworks exposes the Application Programming Interface to access service control tools and user information.  These tools and information can be used to create new communications applications or add additional value to existing applications.  
+\paragraph{} 
+	The main objectives for SaskTel is to gain exposure to new and innovative communications service experience for our customers and to promote the potential internally for aligning resources, time and effort in enabling applications.
+
+%
+%
+%
+\newpage
+\begin{spacing}{1.5} % remove double spacing for list, lists already pad too much
+	\subsubsection{Proposed Activities}
+	\begin{itemize}
+		\item
+		Establish communications portal and platform interworking
+		\item
+		Gain a high-level understanding of the communications network architecture
+		\item
+		Gain an understanding of a method to access and use TAS APIs
+		\item
+		Establish base interworking and web browser communications portal
+	\begin{itemize}
+		\item
+		Access and exposure to TAS API
+		\item
+		User registration through IMS
+		\item
+		User presentation and interaction via portal
+		\item
+		Exposure to 4-5 basic features to validate interworking i.e. \\ 
+		(listed only as suggestions)
+	\begin{itemize}
+		\item
+		Call forwarding
+		\item
+		Display of call logs (All, Incoming, Outgoing, Missed).
+		\item
+		Simple call blocking by using a slider.  Simple drop down to show numbers blocked (allow
+		for unblocking).
+		\item
+		Directory.  Searchable by typing any string of characters.
+		\end{itemize}
+		\end{itemize}
+		\item
+		Enable WebRTC communications
+		\item
+		Enable the use of WebRTC for internet communications directly through the portal
+		
+		\item
+		Create innovative communications experience
+		\item
+		Explore feature capabilities and experiment with innovative communications capabilities
+		\item
+		Demonstrate and showcase the ability to grow and share knowledge.	
+	\end{itemize}
+\newpage
+\subsubsection{Skills Required}
+General Knowledge Requirements:
+\begin{itemize}
+	\item
+	Network Platform and service specific knowledge
+	\item
+	Software engineering skills
+		\begin{itemize}
+			\item
+			Client / server operation
+			\item
+			IP Network Protocols (SIP, RTP, UDP, HTTP …).
+			\item
+			Internet Methods (Using XML, JSON, REST, …).
+			\item
+			Web Browser Programming (HTML, CSS).
+			\item
+			Programming Languages (Java, Python, Ruby)
+		\end{itemize}	
+\end{itemize}
+API Technology Comments:
+\begin{itemize}
+	\item
+	Most popular approach to delivering web APIs is REST (Representational State 				Transfer).
+	\item
+	API returns data in either XML or JSON.
+	\item
+	Most popular implementation is REST+JSON (not a standard but widely accepted within 		the industry).
+\end{itemize}
+API Usage Comments:
+\begin{itemize}
+	\item
+	Must consider how a resource will be manipulated not just retrieved.
+	\item
+	Should have strong understanding of both client-side and server-side programming.
+	\item
+	Should have strong understanding and experience with HTML and CSS (Cascading Style 			Sheets) for web programming, development, and design.
+	\item
+	Should have strong understanding and experience with Java Script.
+	\item
+	Should have a strong knowledge and experience with dynamic programming languages 			making Python and Ruby emerging industry favorites (Python+Django or Ruby+Rails).
+	\item
+	Should have knowledge and experience of the user and use of the product interface (in 	regard to forming the interface).
+\end{itemize}
+
+	
+\end{spacing}
+
+\end{document}
+
+%----------------------------------------------------------------------------------------
+%	Document Style Templates
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Nesting for Table of Contents
+%
+% A section or subsection can contain any number of nested children
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{First Title} %x
+% **~ Contents of First Title ~**
+%
+% \subsection{Second Title} %x.x
+% **~ Contents of Second Title ~**
+%
+% \subsubsection{Third Title} %x.x.x
+% **~ Contents of Third Title ~**
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Template References and Licenses
+%----------------------------------------------------------------------------------------
+% This paper integrates the following templates into a single document.
+% There is no endorsement in any way shape or form from the template authors.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Academic Title Page
+% LaTeX Template
+% Version 2.0 (17/7/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (LaTeX - Title Creation) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
