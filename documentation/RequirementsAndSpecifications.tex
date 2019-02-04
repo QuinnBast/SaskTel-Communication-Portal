@@ -94,11 +94,16 @@
 %	Table of Contents
 %----------------------------------------------------------------------------------------
 
-\pagestyle{empty} %get rid of header/footer for toc page
-\tableofcontents %put toc in
+\pagestyle{plain} %get rid of header/footer for toc page
+\pagenumbering{roman}
+\tableofcontents %put Table of Contents in
+\cleardoublepage %start new page
+\listoffigures %put List of Figures in
+\cleardoublepage %start new page
+\listoftables %put List of Tables in
 \cleardoublepage %start new page
 \pagestyle{plain} % put headers/footers back on
-\setcounter{page}{1} %reset the page counter
+\pagenumbering{arabic}
 
 %----------------------------------------------------------------------------------------
 
@@ -129,7 +134,7 @@ The decisions on infrastructure, aside from the Broadworks API and telephone acc
 %----------------------------------------------------------------------------------------
 % Proposed Activities
 %----------------------------------------------------------------------------------------
-\newpage
+\pagebreak
 \begin{spacing}{1.5} % remove double spacing for list, lists already pad too much
 	\subsubsection{Proposed Activities}
 	\begin{itemize}
@@ -288,6 +293,89 @@ Design Decisions:
 
 %----------------------------------------------------------------------------------------
 
+\newpage
+
+\section{Considered Frameworks}
+
+\subsection{Node.js (In Use)}
+
+\subsection{JavaScript}
+
+\subsubsection{React (In Use)}
+
+\subsubsection{Angular2 + Typescript (Not In Use)}
+
+\subsubsection{Vue.js (Not In Use)}
+
+\subsection{Python}
+
+\subsubsection{Django (Not In Use)}
+
+\subsubsection{Flask (In Use)}
+
+\subsection{Test Frameworks}
+
+\subsubsection{Mocha (In Use)}
+
+\subsubsection{Jest (Not In Use)}
+
+\subsubsection{Chai (In Use)}
+
+\subsubsection{Sinon (In Use)}
+
+\subsubsection{Enzyme (In Use)}
+
+\subsubsection{Selenium (In Use)}
+
+\subsubsection{Cypress (Not In Use)}
+
+
+
+\newpage
+
+\section{Tools}
+
+\subsection{Git}
+
+\subsection{Toggl}
+
+\subsection{GitKraken}
+
+\subsubsection{Glo Boards}
+
+\subsection{Google Suite}
+
+\subsection{Discord}
+
+\subsubsection{Alternative: Slack}
+
+\subsubsection{Alternative: Skype}
+
+\subsubsection{Alternative: Messenger}
+
+\subsubsection{Alternative: WhatsApp}
+
+\newpage
+
+\section{Security Considerations}
+
+\subsection{JSON Web Tokens}
+
+\subsection{API Communication}
+
+\subsection{Data Integrity}
+
+\subsubsection{}
+
+
+
+
+
+
+
+
+
+
 \end{document}
 
 %----------------------------------------------------------------------------------------
@@ -300,13 +388,17 @@ Design Decisions:
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \section{First Title} %x
-% **~ Contents of First Title ~**
+% \paragraph{} **~ Contents of First Title ~**
 %
 % \subsection{Second Title} %x.x
-% **~ Contents of Second Title ~**
+% \paragraph{} **~ Contents of Second Title ~**
 %
 % \subsubsection{Third Title} %x.x.x
-% **~ Contents of Third Title ~**
+% \paragraph{} **~ Contents of Third Title ~**
+% 
+% No more nesting allowed. capped at x.x.x sectioning
+%
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 %----------------------------------------------------------------------------------------
