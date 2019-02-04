@@ -13,3 +13,13 @@ frontend/out/
 frontend/\.nyc_output/
 
 frontend/coverage/
+
+frontend/js/config/config\.js
+
+*.aux
+
+documentation/RequirementsAndSpecifications\.log
+
+documentation/RequirementsAndSpecifications\.synctex\.gz
+
+documentation/RequirementsAndSpecifications\.toc
