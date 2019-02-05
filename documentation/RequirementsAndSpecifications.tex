@@ -12,6 +12,9 @@
 
 \usepackage{tabularx} % in the preamble
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{b}{>{\hsize=.5\hsize}X} % column 1 = 50% of a column
+\newcolumntype{s}{>{\hsize=.4\hsize}X} % column 2 = 40% of a column
+\newcolumntype{m}{>{\hsize=1.1\hsize}X} % column 3 = 110% of a column
 
 
 \begin{document}
@@ -266,32 +269,53 @@ API Usage Comments:
 	During the creation of the project, we had full reign of the architecture and languages in which we wanted to use in order to create the solution for SaskTel. As a result, we did a significant amount of research on the different technologies available in order to make the best decisions for the project. While making these decisions, there were two different sides of the project to focus on. The backend would manage interfacing between SaskTel's servers as well as manage user credentials for the system, while the frontend would display the interface to the user. Both the backend and the frontend had may different decisions which led us to the current solution.
 \subsection{"Backend"}
 \paragraph{}
-	Some text
+	When creating the backend, initial considerations were to use a basic LAMP stack, which would include PHP as the backend language. This decision was initially chosen because it is the most commonly known web stack. Because of this, it was likely that SaskTel would have a number of employees, if required, could take over the project and understand how to make changes. After our initial meeting with SaskTel, it was indicated that there were no restrictions on the technologies that we could use for the project, and therefore, instead of using PHP, we opted to use a python backend as python was our team's preferred coding. At the same time, this allowed us to look into new frameworks to gain additional experience with new technologies. The leading technologies of python backends being Django and Flask.
 
+	\subsubsection{Server side scripting framework}
+	\paragraph{}
+		The choice of the server side scripting language was determined to be python after the first meeting with SaskTel. After researching the different frameworks that were available for the backend, two competitors stood out, Django and Flask. Extensive research was done into both of the technologies. Django was a full-fledged backend system, allowing for object-relational models, MVC configuration, admin interface, templates, caching, and much more straight out of the box. Django is feature-rich, however, the general consensus is that Django is generally more restrictive than Flask because of their additional functionality. For example, Django wouldn't let you switch out their admin portal or ORM frameworks for ones that you prefer (or, if they did, it would be difficult and tedius to do so). Flask on the other hand, was a minimal backend providing less functionality, but was extremely good at providing a stable backend server, as well as allowing more freedom over which libraries to use. After trying a simple project in both Django and Flask to test the waters of both frameworks, Flask was chosen over Django. This decision was because Flask is a smaller and more stable framework while providing the ability to customize. Being more comfortable with Flask, it was the chosen as the backend server side scripting framework for this project.
+
+
+	\subsubsection{Backend Framework Decision Timeline}
 
 		%------------------------------------------------------------
 		% Backend design decision table
 		%------------------------------------------------------------
 
 		\begin{center}
-		\begin{tabular}{ |c|c|c|c| } 
+		\begin{tabularx}{\textwidth}{|b|s|m|}
 		\hline
-		Date & Design Decision & Reasoning \\
+			\textbf{Date} & \textbf{Design Decision} & \textbf{Reasoning} \\
 		\hline
-		Date & Design Decision & Reasoning \\
+		September 14th, 2018 & Technology stack & Our initial thoughts for the technology stack were to use a basic LAMP stack. This decision was made because it would favor SaskTel, as it was the most common technology stack and would allow anyone familiar to be able to make changes if required. \\
 		\hline
-		Date & Design Decision & Reasoning \\
+		September 24th, 2018 & Technology stack & After meeting with SaskTel it was clear that there were no restrictions on the technology that we chose to use to implement the solution. As a result, we chose to use a Python based backend as it was the language of choice. \\
 		\hline
-		Date & Design Decision & Reasoning \\
+		October 18th, 2018 & Server side frameworks & Created sample repositories for trying out the difference between Flask and Django. \\
 		\hline
-		Date & Design Decision & Reasoning \\
+		October 23rd & Flask backend & After testing between Django and Flask in sample repositories, Flask ended up being the most comfortable environment to develop in. As a result, Flask was chosen to be the backend framework for the project. \\
 		\hline
-		\end{tabular}
+		\end{tabularx}
 		\end{center}	
 	
 \subsection{"Frontend"}
 \paragraph{}
-	Some text
+	Information about initial frontend thoughts (HTML) conversion to choice of JS framework.
+	
+	\subsection{Frontend frameworks}
+		Explain our findings between different frontend frameworks and which we ended up choosing. (Maybe won't need all the additional subsections)
+	
+	\subsection{Node.js (In Use)}
+
+	\subsection{JavaScript}
+	
+	\subsubsection{React (In Use)}
+	
+	\subsubsection{Angular2 + Typescript (Not In Use)}
+	
+	\subsubsection{Vue.js (Not In Use)}
+	
+	\subsubsection{Frontend Framework Decision Timeline}
 	
 		%------------------------------------------------------------
 		% Frontend design decision table
@@ -317,25 +341,7 @@ API Usage Comments:
 
 \newpage
 
-\section{Considered Frameworks}
-
-\subsection{Node.js (In Use)}
-
-\subsection{JavaScript}
-
-\subsubsection{React (In Use)}
-
-\subsubsection{Angular2 + Typescript (Not In Use)}
-
-\subsubsection{Vue.js (Not In Use)}
-
-\subsection{Python}
-
-\subsubsection{Django (Not In Use)}
-
-\subsubsection{Flask (In Use)}
-
-\subsection{Test Frameworks}
+\section{Automated testing}
 
 \subsubsection{Mocha (In Use)}
 
@@ -382,14 +388,36 @@ API Usage Comments:
 \newpage
 
 \section{Security Considerations}
+\paragraph{}
+	The main concern of our application was the security of a user who would login to our application. When a user logs into a website, their credentials should never be seen or be accessible except by the authorization agency. In our case, the authorization agency is SaskTel's API. Therefore, our server acts as a proxy between SaskTel's API and itself, forwarding authentication requests to SaskTel's servers.
+\paragraph{}	
+	Security was a huge concern, and therefore many different security methods were researched. These methods included LocalStorage, SessionStorage, Redux, IndexedDB, JSON Web tokens, CSRF Tokens, Two Factor Auth, OAuth, and 3rd Party Logins. With so many different methods of 'security' avaliable, we wanted to make sure that we were using the best of the best, leaving no room for vulnerabilities.
 
-\subsection{JSON Web Tokens}
+\subsection{Missing the obvious}
+\paragraph{}	
+	While reading SaskTel's API documentation, there was no indication of how a user logs into their API. Generally, when logging into a website, the user provides their username and password, and once the username and password have been confirmed, the server will provide the user's browser a 'token'. The browser sends this token every time the user makes a request so that the server can acknowledge that the user has already logged in. This prevents the user from having to enter their username and password in while navigating around the website. 
+\paragraph{}
+	Because of this knowledge, after examining the available REST endpoints we assumed the endpoint named "LoginToken" was used to generate a token for the user to use for repeated requests. After looking at the endpoint's response, this looked like exactly what we needed to authenticate a user with SaskTel. However, the only problem was that "the generated token has an expiry of 60 seconds." This caused a large problem for our application. How were we going to keep this token alive for the user to be able to access Sasktel's servers? Generally a user won't change pages or request data every 60 seconds, thus after 60 seconds of idle activity, this token would expire. If the token expires, the user would need to login again, meaning we would need to send their username and password. We didn't want users to have to login to the site every 60 seconds as that would be extremely annoying and immediately make a user not use the application. At the same time, we did not want to store the user's credentials on our server as they would have to be stored in plaintext which is a huge security violation to the users of the website. This proved to be a difficult challenge. 
+\paragraph{}
+	Various ideas were devised including sending a refreshed token every 50 seconds to get a new token before it expired, storing the passwords in the browser, and many other options; none of which we thought were secure enough for a user to be comfortable with. After a couple of weeks, it became clear that our supposed "challenge" was not an issue at all. While examining the different types of data that SaskTel responded with from their various endpoints, we found that SaskTel's servers responded with a cookie alongside the regular HTTP request. This cookie turned out to be a token that the user could use to access SaskTel's endpoints with an unlimited expiry. Once this information had been found, authenticating a user became extremely easy using the methods outlined below. To this date we still don't know what the 'LoginToken' endpoint does or why it exists.
+
+\subsection{Security Research}
+
+	\subsubsection{JSON Web Tokens}
+	\subsubsection{LocalStorage}
+	\subsubsection{SessionStorage}
+	\subsubsection{Redux}
+	\subsubsection{IndexedDB}
+	\subsubsection{CSRF Tokens}
+	\subsubsection{Two Factor Authentication}
+	\subsubsection{Third Party Login}
+	\subsubsection{OAuth}
 
 \subsection{API Communication}
 
 \subsection{Data Integrity}
-
-\subsubsection{}
+	SaskTel->XML->JSON->Client
+	SaskTel->XML->XML->Client->JSON
 
 
 \newpage
