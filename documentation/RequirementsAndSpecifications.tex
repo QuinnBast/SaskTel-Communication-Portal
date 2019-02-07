@@ -352,6 +352,8 @@ API Usage Comments:
 
 %----------------------------------------------------------------------------------------
 
+
+
 \newpage
 
 \section{Automated testing}
@@ -403,14 +405,19 @@ API Usage Comments:
 
 \subsubsection{Alternative: Hangouts}
 
+%------------------------------------------------------------
+% Security Considerations
+%------------------------------------------------------------
 \newpage
-
 \section{Security Considerations}
 \paragraph{}
 	The main concern of our application was the security of a user who would login to our application. When a user logs into a website, their credentials should never be seen or be accessible except by the authorization agency. In our case, the authorization agency is SaskTel's API. Therefore, our server acts as a proxy between SaskTel's API and itself, forwarding authentication requests to SaskTel's servers.
 \paragraph{}	
 	Security was a huge concern, and therefore many different security methods were researched. These methods included LocalStorage, SessionStorage, Redux, IndexedDB, JSON Web tokens, CSRF Tokens, Two Factor Auth, OAuth, and 3rd Party Logins. With so many different methods of 'security' avaliable, we wanted to make sure that we were using the best of the best, leaving no room for vulnerabilities.
 
+%------------------------------------------------------------
+% Missing the obvious
+%------------------------------------------------------------
 \subsection{Missing the obvious}
 \paragraph{}	
 	While reading SaskTel's API documentation, there was no indication of how a user logs into their API. Generally, when logging into a website, the user provides their username and password, and once the username and password have been confirmed, the server will provide the user's browser a 'token'. The browser sends this token every time the user makes a request so that the server can acknowledge that the user has already logged in. This prevents the user from having to enter their username and password in while navigating around the website. 
@@ -419,17 +426,39 @@ API Usage Comments:
 \paragraph{}
 	Various ideas were devised including sending a refreshed token every 50 seconds to get a new token before it expired, storing the passwords in the browser, and many other options; none of which we thought were secure enough for a user to be comfortable with. After a couple of weeks, it became clear that our supposed "challenge" was not an issue at all. While examining the different types of data that SaskTel responded with from their various endpoints, we found that SaskTel's servers responded with a cookie alongside the regular HTTP request. This cookie turned out to be a token that the user could use to access SaskTel's endpoints with an unlimited expiry. Once this information had been found, authenticating a user became extremely easy using the methods outlined below. To this date we still don't know what the 'LoginToken' endpoint does or why it exists.
 
+%------------------------------------------------------------
+% Security Research
+%------------------------------------------------------------
 \subsection{Security Research}
+\paragraph{}
+	After resolving our issues indicated above, it now boiled down to how we were going to keep the user's information secure while they used our application. There are a significant number of ways in which security can be implemented and thus, research on the various methods of browser and backed security began. Our research on security took upwards of 3-4 weeks before we started to implement any of the features that we had found. We wanted to be certain that our research and chosen method of security offered the user the most protection while using our application. After our extensive research we chose to use JWTs (JSON Web Tokens) along with CSRF (Cross-Site Request Forgery) tokens to provide users the most security. The following sections outline our finding about various security measures and explain why we chose to use JWTs and CSRF tokens.
 
 	\subsubsection{JSON Web Tokens}
-	\subsubsection{LocalStorage}
-	\subsubsection{SessionStorage}
-	\subsubsection{Redux}
-	\subsubsection{IndexedDB}
+	\paragraph{}
+		\href{https://jwt.io/introduction/}{JSON Web Tokens} are the industry standard for sending information between two parties. A JWT, as the name implies, sends  a JSON object of information along with any requests that need user validation. This JWT Token will hold information such as the user's ID, or username so that the backend knows who is sending the request without requiring any other information. The backend application uses a secret hash key which is used to encode the JWT when it is sent to the client. Because the backend server is the only thing that knows the secret key, only the backend is able to decode the JWT to extract the information. This authorization technique was the most beneficial and is a fairly secure method of both authenticating and sending user information inside of a cookie. Because JWTs are both the industry standard the most secure method of authentication that was found, JWTs were used to securely verify a user's session.
+	
 	\subsubsection{CSRF Tokens}
+	\paragraph{}
+		While JWTs are an extremely powerful way to send information between two parties, a JWT alone is not a secure method of communication. If a hacker gains access to your JWT, the hacker is able to send requests to the website acting as if they are you. Consider this scenario: You are logged into the application and leave the page to browse the internet. You access a malicious site which knows how the urls of our web application to make requests. The malicious site sends a request to our application hoping that you were previously logged into the application. The request would go through because the request would appear to be coming from you. In order to prevent this type of activity, a CSRF token is included on the webpage of the website which is randomly generated for each user. This token is impossible to guess by the malicious website and ensures that without the additional token, the request is invalid. Therefore, the use of an additional CSRF token in conjunction with JWTs make our application secure for a user, not having to worry about stumbling across malicious sites or man-in-the-middle attacks.
+
+	\subsubsection{Flask-Session}	
+	\paragraph{}
+		\href{https://pythonhosted.org/Flask-Session/}{Flask-Session} is a Flask extension that allows configuring session variables inside of the Flask application. This is useful for a backend server to obtain information about a specific client's session when they make a request to the server. However, the creation of a REST (Representational State Transfer) API means that the server should not hold any information about the 'state' of various sessions or users. Having the backend server stateless ensures that the same behaviour is applied based on the information that is provided to the server. Because we wanted to create a REST application that was stateless in nature, Flask-Session was not chosen to store information about the user's authentication.
+		
+	\subsubsection{Secure Socket Layers}	
+	\paragraph{}
+		SSL is a requirement for secure communication between web applications. SSL enables a web application to use the HTTPS (HTTP Secure) protocol for sending requests, thereby ensuring that any traffic to and from the server is securely encrypted during transit. Without the use of SSL, requests made to a backend server are not encrypted when they are sent. This means that the information is visible as it gets sent, allowing the packets to be inspected as they travel across the wire and their information extracted by anyone who is tracking information travelling through their network. Because SSL is such a secure method of transportation, we obtained an SSL certificate and applied it to our server to enable secure communications between our web application.
+	
 	\subsubsection{Two Factor Authentication}
+	\paragraph{}
+		Two Factor Authentication (2FA) is an extra security layer on top of current authentication schemes. 2FA ensures that anytime a user tries to login to a website, and additional randomly generated code is required to access your account. This code gets sent to the user's mobile device to ensure that the person logging into the web application is truly the user. 2FA was an initially planned feature for the application, as this would greatly increase the security of our application. However, as we began developing, 2FA became too much overhead to add into the application. In order to implement 2FA, on top of figuring out how to implement it into our application, we would also need to store user specific information about 2FA, such as each user's phone number. We chose to forgo this feature because it would save a large chunk of development time, as well as prevent our application from storing a user's personal information.
+	
 	\subsubsection{Third Party Login}
+	\paragraph{}
+		Third Party Login is the ability to login to the application through an external website such as Facebook, or Google. This is extremely useful, as usually a user is already logged into Facebook or Google while they are browsing the internet. Therefore logging into the application would be as simple as clicking a single button and authorizing the application. However, this option was also forgone. Our development team decided that logging in to our web application was as simple as typing in your phone number and password. Everyone knows their own phone number, so signing into the application is already relatively easy. Additionally, figuring out how to develop and manage third party login information would require additional development time that we could not allocate.
+	
 	\subsubsection{OAuth}
+	\subsubsection{Auth0}
 
 \subsection{API Communication}
 
