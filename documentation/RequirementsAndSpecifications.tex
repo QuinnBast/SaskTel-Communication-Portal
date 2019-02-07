@@ -4,11 +4,21 @@
 
 \documentclass[12pt]{article}
 
+
+
 \usepackage[utf8]{inputenc} % Required for inputting international characters
+
 \usepackage[T1]{fontenc} % Output font encoding for international characters
+
 \usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+
 \usepackage{setspace} % paragraph spacing
+
 \usepackage{mathpazo} % Palatino font
+
+\usepackage{hyperref}  % for hyperlinks to resources\
+
+\usepackage{graphicx} % for logo
 
 \usepackage{tabularx} % in the preamble
 \newcolumntype{Y}{>{\centering\arraybackslash}X}
@@ -57,7 +67,9 @@
 			\large
 			\textit{Authors}\\
 			Dakota \textsc{Fisher}\\ % Your name
-			Quinn \textsc{Bast} % Your name
+			200 344 336\newline \newline
+			Quinn \textsc{Bast}\\ % Your name
+			200 352 973
 		\end{flushleft}
 	\end{minipage}
 	~
@@ -73,25 +85,26 @@
 	%{\large\textit{Author}}\\
 	%John \textsc{Smith} % Your name
 	
+	
+
+%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+		\vfill\vfill\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\includegraphics[width=.5\textwidth]{UR_Logo_Primary_Full_Colour_RGB.jpg} % Include a department/university logo - this will require the graphicx package
+	
 	%------------------------------------------------
 	%	Date
 	%------------------------------------------------
 	
-	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+
 	
-	{\large\today} % Date, change the \today to a set date if you want to be precise
+	{Last Modified\\\large\today} % Date, change the \today to a set date if you want to be precise		
+
 	
-	%------------------------------------------------
-	%	Logo
-	%------------------------------------------------
-	
-	%\vfill\vfill
-	%\includegraphics[width=0.2\textwidth]{placeholder.jpg}\\[1cm] % Include a department/university logo - this will require the graphicx package
+	 % Push the date up 1/4 of the remaining page
 	 
-	%----------------------------------------------------------------------------------------
-	
-	\vfill % Push the date up 1/4 of the remaining page
-	
+	%----------------------------------------------------------------------------------------	
 \end{titlepage}
 
 %----------------------------------------------------------------------------------------
@@ -291,7 +304,7 @@ API Usage Comments:
 		\hline
 		September 24th, 2018 & Technology stack & After meeting with SaskTel it was clear that there were no restrictions on the technology that we chose to use to implement the solution. As a result, we chose to use a Python based backend as it was the language of choice. \\
 		\hline
-		October 18th, 2018 & Server side frameworks & Created sample repositories for trying out the difference between Flask and Django. \\
+		October 18th, 2018 & Server-side frameworks & Created sample repositories for trying out the difference between Flask and Django. \\
 		\hline
 		October 23rd & Flask backend & After testing between Django and Flask in sample repositories, Flask ended up being the most comfortable environment to develop in. As a result, Flask was chosen to be the backend framework for the project. \\
 		\hline
@@ -362,14 +375,19 @@ API Usage Comments:
 \newpage
 
 \section{Tools}
+\paragraph{}	The following sections denote tools that are utilized or were considered to be of use during the project's development. Programs and tools, alongside their effective alternatives are discussed to get an understanding of what, and why tools were picked or not picked to be used to benefit the work flow of the project. Every reference to an application in the following sections has a direct hyperlink reference if clicked on using an electronic medium.
 
-\subsection{Git}
+\subsection{\href{https://Github.com}{Github}}
+\paragraph{}	Git is a powerful source version control solution that allows for multiple developers to collaborate on  a project. The Git provider used during this project is \href{https://Github.com}{Github}. Not only does it allow for collaborative features, it also allows for parallel streams of development of many features. The tool also allows for public display of the project, to allow for open source development if the repository is not kept private. A key feature and benefit of using Git is that it allows for projects to commit checkpoints and milestones in development, such that if an update isn't beneficial, it can easily be reverted to a previously confirmed viable version.
 
-\subsection{Toggl}
+\subsection{\href{https://toggl.com}{Toggl}}
+\paragraph{}	\href{https://toggl.com}{Toggl} is a time tracking web application that allows teams to track their hours along with the project, and tags that correspond to the work that they are doing. This allows for us to track documentation time seperate from programming time and research time. While still keeping a total cumulative track of our time spent on the project. Ideally, the time tracking entries are relative to our commits on \href{https://Github.com}{Github}. Of the options online at the time, this is the only option that we felt met the requirements we needed to easily and painlessly manage our project time.
 
-\subsection{GitKraken}
+\subsection{\href{https://www.gitkraken.com/}{GitKraken}}
+\paragraph{}	The tool \href{https://www.gitkraken.com/}{GitKraken} is a powerful Git version control client that has an easily manageable interface. It also has the ability to see how each branch correlates to one another, and resolve any conflicts within the application directly. There isn't any particular reason to use this tool over another alternative such as \href{https://desktop.github.com/}{GitHub Desktop}, \href{https://www.sourcetreeapp.com/}{SourceTree}, or \href{https://gitforwindows.org/}{GitBash}, but it definitely was a nice discovery for our quality of life work flow. 
 
-\subsubsection{Glo Boards}
+\subsubsection{\href{https://www.gitkraken.com/glo}{Glo Boards}}
+\paragraph{} The company that created GitKraken, also has a product called \href{https://www.gitkraken.com/glo}{Glo Boards}. The application is functionally equivalent to \href{https://trello.com/en}{Trello}. Both programs allow for a team to manage issues on a \href{https://github.com}{GitHub} repository easily and visualize changes into KanBan board styles. The decision to use a KanBan board software instead of just the issue tracking software on \href{https://github.com}{GitHub} was because it provides additional work flow improvements while still allowing \href{https://github.com}{GitHub} issues to still work normally.
 
 \subsection{Google Suite}
 
@@ -397,7 +415,7 @@ API Usage Comments:
 \paragraph{}	
 	While reading SaskTel's API documentation, there was no indication of how a user logs into their API. Generally, when logging into a website, the user provides their username and password, and once the username and password have been confirmed, the server will provide the user's browser a 'token'. The browser sends this token every time the user makes a request so that the server can acknowledge that the user has already logged in. This prevents the user from having to enter their username and password in while navigating around the website. 
 \paragraph{}
-	Because of this knowledge, after examining the available REST endpoints we assumed the endpoint named "LoginToken" was used to generate a token for the user to use for repeated requests. After looking at the endpoint's response, this looked like exactly what we needed to authenticate a user with SaskTel. However, the only problem was that "the generated token has an expiry of 60 seconds." This caused a large problem for our application. How were we going to keep this token alive for the user to be able to access Sasktel's servers? Generally a user won't change pages or request data every 60 seconds, thus after 60 seconds of idle activity, this token would expire. If the token expires, the user would need to login again, meaning we would need to send their username and password. We didn't want users to have to login to the site every 60 seconds as that would be extremely annoying and immediately make a user not use the application. At the same time, we did not want to store the user's credentials on our server as they would have to be stored in plaintext which is a huge security violation to the users of the website. This proved to be a difficult challenge. 
+	Because of this knowledge, after examining the available REST endpoints we assumed the endpoint named "LoginToken" was used to generate a token for the user to use for repeated requests. After looking at the endpoint's response, this looked like exactly what we needed to authenticate a user with SaskTel. However, the only problem was that "the generated token has an expiry of 60 seconds." This caused a large problem for our application. How were we going to keep this token alive for the user to be able to access SaskTel's servers? Generally a user won't change pages or request data every 60 seconds, thus after 60 seconds of idle activity, this token would expire. If the token expires, the user would need to login again, meaning we would need to send their username and password. We didn't want users to have to login to the site every 60 seconds as that would be extremely annoying and immediately make a user not use the application. At the same time, we did not want to store the user's credentials on our server as they would have to be stored in plain text due to the repeated required use to refresh the token which is a huge security violation to the users of the website. This proved to be a difficult challenge. 
 \paragraph{}
 	Various ideas were devised including sending a refreshed token every 50 seconds to get a new token before it expired, storing the passwords in the browser, and many other options; none of which we thought were secure enough for a user to be comfortable with. After a couple of weeks, it became clear that our supposed "challenge" was not an issue at all. While examining the different types of data that SaskTel responded with from their various endpoints, we found that SaskTel's servers responded with a cookie alongside the regular HTTP request. This cookie turned out to be a token that the user could use to access SaskTel's endpoints with an unlimited expiry. Once this information had been found, authenticating a user became extremely easy using the methods outlined below. To this date we still don't know what the 'LoginToken' endpoint does or why it exists.
 
@@ -423,33 +441,46 @@ API Usage Comments:
 \newpage
 
 \section{User Stories}
+\paragraph{}	The following sections denote common use cases for the program that we brainstormed and consider to be requirements by usability and basic principle. The basic structure for user stories is as follows. "As a <type of user> I would like to < be able to do task> so that I can < metric improvement to life>". User stories are referenced by the number following the chapter value, which means user story 1 will refer to sub-section x.1.
 
 \subsection{Log In}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log into the program} so that I can \textit{use the program and check my information}.
 
 \subsection{Log Out}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log out of the program} so that I can \textit{ensure that anyone using my computer can't access my account}.
 
 \subsection{Check Call Logs}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check my call logs} so that I can \textit{check when I got calls, and see who called me/when}.
 
 \subsection{Turn on Call Forwarding Always}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{always forward calls sent to my phone} so that I can \textit{answer them on my main phone and not worry about my secondary phone}.
 
 \subsection{Turn on Call Forwarding Busy}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when my phone is busy} so that I can \textit{feel comfortable that those calling me get sent to someone who can answer}.
 
 \subsection{Turn on Call Forwarding Selective}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another phone during a scheduled time} so that I can \textit{so that phone calls can be forwarded when I have planned events in the way of answering my phone}.
 
 \subsection{Turn on Call Forwarding No Answer}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when I'm away from my phone} so that I can \textit{answer them on my cell phone when I'm away from my land line}.
 
 \subsection{Turn on Call Forwarding}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another number} so that I can \textit{be sure that important calls reach me on my cell phone or work phone}.
 
 \subsection{Turn on Do Not Disturb}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{decline all calls to my phone number} so that I can \textit{have some time without worrying about phone calls interrupting me}.
 
 \subsection{View my Profile}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{view my account information} so that I can \textit{know that I am using the right account}.
 
 \subsection{Call a Phone Number}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call a phone number from my computer} so that I can \textit{easily make phone calls without using my phone}.
 
 \subsection{Start a Call to a Phone Number from my Phone}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call another phone number from my phone} so that I can \textit{more easily call phone numbers I find on my computer}.
 
 \subsection{View Feature Access Codes}
-
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check what star codes I can use} so that I can \textit{understand what I can do with my phone when I can't log into the application}.
 
 
 
