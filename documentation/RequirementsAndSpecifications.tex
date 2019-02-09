@@ -313,20 +313,19 @@ API Usage Comments:
 	
 \subsection{"Frontend"}
 \paragraph{}
-	Information about initial frontend thoughts (HTML) conversion to choice of JS framework.
-	
+	Similarly to the backend, initial considerations for the frontend were to use basic web technologies such as HTML pages, JavaScript, and CSS. This was because we wanted to make our repository as easy as possible for a SaskTel employee to pick up once we provided them our project. Again, after our initial meeting with SaskTel, it was clear that the choice of language did not matter. Our group wanted to not only create a good solution, but also learn something while doing so, and therefore, we chose to use a new technology that we have never used in order to further our knowledge in frontend development. In today's web development community Vue, Angular, and React are very popular JavaScript frameworks and we decided we would be using one of these three frameworks.
+		
 	\subsection{Frontend frameworks}
-		Explain our findings between different frontend frameworks and which we ended up choosing. (Maybe won't need all the additional subsections)
+	\paragraph{}
+		
+		
+	\subsection{React}
 	
-	\subsection{Node.js (In Use)}
-
-	\subsection{JavaScript}
+	\subsubsection{Angular2 + Typescript}
 	
-	\subsubsection{React (In Use)}
+	\subsubsection{Vue.js}
 	
-	\subsubsection{Angular2 + Typescript (Not In Use)}
-	
-	\subsubsection{Vue.js (Not In Use)}
+	\subsection{Node.js}
 	
 	\subsubsection{Frontend Framework Decision Timeline}
 	
@@ -357,20 +356,8 @@ API Usage Comments:
 \newpage
 
 \section{Automated testing}
-
-\subsubsection{Mocha (In Use)}
-
-\subsubsection{Jest (Not In Use)}
-
-\subsubsection{Chai (In Use)}
-
-\subsubsection{Sinon (In Use)}
-
-\subsubsection{Enzyme (In Use)}
-
-\subsubsection{Selenium (In Use)}
-
-\subsubsection{Cypress (Not In Use)}
+\paragraph{}
+	In order to ensure that features we create are not changed or ruined down the line, the use of Automated testing will be used in order to ensure that our created features are working as intended. In addition to an Automated testing suite, continuous integration is extremely important to ensure that automated tests are executed whenever a pull request or merge is required. By using continuous integration, this will ensure that automated tests are always executed whenever new code is ready to be added. This ensures that all of the automated tests that exist will be executed on the merged code-base to ensure that integrating the new features doesn't break any vital components.
 
 
 
@@ -460,15 +447,13 @@ API Usage Comments:
 		Third Party Login is the ability to login to the application through an external website such as Facebook, or Google. This is extremely useful, as usually a user is already logged into Facebook or Google while they are browsing the internet. Therefore logging into the application would be as simple as clicking a single button and authorizing the application. However, this option was also forgone. Our development team decided that logging in to our web application was as simple as typing in your phone number and password. Everyone knows their own phone number, so signing into the application is already relatively easy. Additionally, figuring out how to develop and manage third party login information would require additional development time that we could not allocate.
 	
 	\subsubsection{OAuth}
+	\paragraph{}
+		OAuth is a token based authentication system which allows a user to provide information from one website to another. For example, when logging into Facebook, a user is able to determine what information the requesting application has access to. OAuth allows users to control what information is accessible to a third party application. A limited access token is generated which ensures that the requesting application only has access to specific information. With the scope of the project, our application will never need to share information to any other external applications. Therefore, the use of OAuth is not required in our application.
+		
 	\subsubsection{Auth0}
-
-\subsection{API Communication}
-
-\subsection{Data Integrity}
-	SaskTel->XML->JSON->Client
-	SaskTel->XML->XML->Client->JSON
-
-
+	\paragraph{}
+		\href{https://auth0.com/}{Auth0} is an authentication service provider which allows abstracting user authentication to the Auth0 service. Auth0 takes everything related to authentication and provides a developer API for authentication functionalities. This allows developers to spend less time on setting up authentication. This service is free to individual developers, however, corporate enterprises are required to purchase the service. Because the application is being created for SaskTel, our team did not want to add any unnecessary expenses to SaskTel to host our application, and therefore we chose to implement our own Authentication services through JWT and CSRF tokens.
+		
 \newpage
 
 \section{User Stories}
