@@ -8,6 +8,7 @@ import React, {Component, Fragment} from "react";
  */
 import Profile from "../comps/Profile";
 import CarouselManager from "../comps/CarouselManager";
+import Sip from "../comps/Sip";
 
 import { Container} from "reactstrap";
 
@@ -24,6 +25,7 @@ export default class Interface extends Component {
                 <Container>
                     <Profile/>
                     <CarouselManager/>
+                    <Sip/>
                 </Container>
             </div>
         );
