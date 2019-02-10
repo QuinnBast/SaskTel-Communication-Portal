@@ -1,5 +1,5 @@
 
-export function getTag(xml, tagName){
+export function getTag(xml, XmlLocation){
     /**
      * Gets an xmlJS object's tag value for the specified tag if the tag exists.
      *
@@ -7,6 +7,7 @@ export function getTag(xml, tagName){
      * @param tagName: An array of xml tags to search for.
      */
     //Loop through the XMLJS object's elements.
+    let tagName = JSON.parse(JSON.stringify(XmlLocation));
     for (let element of xml.elements) {
         if (element.name === tagName[0]) {
             tagName.shift();
@@ -38,7 +39,7 @@ export function getTag(xml, tagName){
 }
 
 
-export function setTag(xml, tagName, tagValue){
+export function setTag(xml, XmlLocation, tagValue){
     /**
      * Sets the value of an XMLJS object's tag with the value specified.
      *
@@ -46,6 +47,7 @@ export function setTag(xml, tagName, tagValue){
      * @param tagName: An array of xml tags to search for.
      * @param tagValue: The value to set the tag to
      */
+    let tagName = JSON.parse(JSON.stringify(XmlLocation));
     //Loop through the XMLJS object's elements.
     for(let element of xml.elements){
         if(element.name === tagName[0]){

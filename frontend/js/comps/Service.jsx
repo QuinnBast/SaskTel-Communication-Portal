@@ -6,10 +6,11 @@ import React from "react";
 /**
  *  Component Imports
  */
-import {Container, Col, Row, CustomInput, Button, Table} from 'reactstrap';
+import {Container, Col, Row, CustomInput, Button, Table, Popover, PopoverHeader, PopoverBody} from 'reactstrap';
 import Switch from 'react-switch';
 import Broadsoft from "../broadsoft/BroadSoft";
 import { getTag, setTag } from "../broadsoft/xmlParse"
+import { validate } from "./Editable";
 import EditService from "./EditService";
 
 export default class Service extends React.Component {
@@ -26,15 +27,17 @@ export default class Service extends React.Component {
      *     uri:string - the url for the service to access data
      *     onEdit(editPage:React.Component):function - a function that sets and moves the containing carousel to the edit page of the component
      *     editables - A list of editable components at the specified URI.
+     *     inLineEdit - determines if the editables of the component should be visible and grouped under the component
      *
      */
 
     constructor(props) {
         super(props);
         this.state = {
-            toggleState: false,
+            active: false,
             responseData: null,
             editComponent: null,
+            popover: false
         };
         this.loadAsync();
     }
@@ -45,8 +48,8 @@ export default class Service extends React.Component {
             endpoint: this.props.uri,
             method: "GET",
             success: function(response){
-                let toggleState = getTag(response, self.props.activePath) === "true";
-                self.setState({responseData: response, toggleState: toggleState});
+                let active = getTag(response, self.props.activePath) === "true";
+                self.setState({responseData: response, active: active});
             },
             error: function(response){
                 let content = <div>{JSON.stringify(response)}</div>;
@@ -59,20 +62,58 @@ export default class Service extends React.Component {
         return getTag(this.state.responseData, XmlLocation);
     };
 
+    sendRequest = () => {
+        // Check if the current configurations is active
+        if(this.state.active){
+            // Check any parameters that are marked as required fields are not filled.
+            if(this.props.editables) {
+                for (let edit of this.props.editables) {
+                    if (edit.required === true) {
+                        let value = getTag(this.state.responseData, edit.XmlLocation);
+                        if (!validate(value, {type: edit.type, range: edit.range})) {
+                            // Required field is not filled properly.
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+
+        let request = {
+            endpoint: this.props.uri,
+            method: "PUT",
+            data: this.state.responseData,
+            success: function(response){
+                console.log("Successful Update.")
+            },
+            error: function(response){
+                console.log("ERROR SENDING UPDATE.")
+                // Permanently change background to red to indicate error to user.
+                //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
+                // Reset the state of the component by fetching the current state.
+            }
+        };
+
+        Broadsoft.sendRequest(request);
+    };
+
     setValue = (XmlLocation, value) => {
-        return setTag(this.state.responseData, XmlLocation, value);
+        setTag(this.state.responseData, XmlLocation, value);
+        
+        this.sendRequest();
     };
 
     edit = () => {
-        this.props.onEdit(<EditService key={this.props.name} parent={this} editables={this.props.editables} />);
+        this.props.onEdit(<EditService key={this.props.name} parent={this} editables={this.props.editables} />, this.props.name);
     };
 
-    onEnable(){
-        // pass in the enable prop as this.props.onEnable
-    }
+    toggle = (toggleState) => {
+        this.setState({active: toggleState});
+        this.setValue(this.props.activePath, toggleState);
+    };
 
-    setToggle = (toggleState) => {
-        this.setState({toggleState})
+    togglePopover = () => {
+        this.setState({popover: !this.state.popover})
     };
 
     render() {
@@ -88,17 +129,22 @@ export default class Service extends React.Component {
 
         let toggle = null;
         if(this.props.hasToggle){
-            toggle = <Switch onChange={this.setToggle} checked={this.state.toggleState}/>;
-                }
+            toggle = <Switch onChange={this.toggle} checked={this.state.active}/>;
+        }
 
         return (
-            <Container style={{padding: "10px"}}>
+            <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
-                        <Col xs={"6"}>{name}</Col>
+                        <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}>{name}</Col>
                         <Col xs={"3"}>{toggle}</Col>
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>
+
+                    <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
+                        <PopoverHeader>{this.props.name}</PopoverHeader>
+                        <PopoverBody>{this.props.tooltip}</PopoverBody>
+                    </Popover>
                 </Container>
             </Container>
         );

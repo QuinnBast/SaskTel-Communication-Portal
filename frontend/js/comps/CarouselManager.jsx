@@ -23,12 +23,13 @@ export default class CarouselManager extends React.Component {
         this.state = {
             currentPage: 0,
             editPage: null,
+            title: ""
         }
     }
 
-    next = (editPage) => {
+    next = (editPage, title) => {
         // This will make the edit page appear
-        this.setState({currentPage: 1, editPage: editPage});
+        this.setState({currentPage: 1, editPage: editPage, title: title});
     };
 
     prev = () => {
@@ -46,7 +47,8 @@ export default class CarouselManager extends React.Component {
         if(this.state.currentPage !== 0){
             header = (
                 <Row style={headerStyle}>
-                <Col><Button onClick={this.prev}>Back</Button> </Col>
+                <Col xs={"3"}><Button onClick={this.prev}>Back</Button></Col>
+                    <Col xs={"9"}><h3>{this.state.title}</h3></Col>
                 </Row>);
         }
 
