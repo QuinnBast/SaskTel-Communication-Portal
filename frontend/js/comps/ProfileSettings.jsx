@@ -7,7 +7,7 @@ import React from "react";
  *  Component Imports
  */
 import {Col, Container, Row} from 'reactstrap';
-import Service from "./Service";
+import ServiceFactory from "./ServiceFactory"
 
 /**
  *  REST API Imports
@@ -46,7 +46,7 @@ export default class ProfileSettings extends React.Component {
 
                   if(uri !== null){
                       uri = uri.substring(5);
-                      services.push(<Service key={name} hasEdit hasToggle name={name} uri={uri} onEdit={self.props.onEdit}/>);
+                      services.push(ServiceFactory.build(name, uri, self.props.onEdit));
                   }
               }
               self.setState({status: "ready", services});
