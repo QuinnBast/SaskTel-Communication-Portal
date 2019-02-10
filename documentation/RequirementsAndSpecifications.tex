@@ -163,13 +163,9 @@
 %----------------------------------------------------------------------------------------
 %	Body of Document
 %----------------------------------------------------------------------------------------
-
-\doublespacing % set document to be default double spaced
-
 %----------------------------------------------------------------------------------------
 
 \section{Gantt Chart Timeline}
-
 \rotatebox{90}{
 \begin{ganttchart}[
     canvas/.append style={fill=none, draw=black!3, line width=.5pt},
@@ -254,8 +250,8 @@
   \ganttbar[progress=20]{\textbf{T.I.2} Unit Testing}{20}{25} \\
   \ganttbar[progress=0]{\textbf{T.I.3} Client User Testing}{24}{24} 
   
-  \ganttgroup[progress=0]{Finalizing Project}{26}{30} \\  
-  \ganttbar[progress=0]{\textbf{Project Day} }{30}{30} \\
+  \ganttgroup[fill=groupblue]{Finalizing Project}{26}{30} \\  
+  \ganttbar[fill=barblue]{\textbf{Project Day} }{30}{30} \\
   
   
   
@@ -268,7 +264,7 @@
 %  ]{WBS1C}{WBS1D}
 \end{ganttchart}
 }
-\pagebreak
+\doublespacing % set document to be default double spaced
 
 
 %----------------------------------------------------------------------------------------
