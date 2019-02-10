@@ -13,6 +13,11 @@ import { getTag, setTag } from "../broadsoft/xmlParse"
 import { validate } from "./Editable";
 import EditService from "./EditService";
 
+/**
+ * Font awesome imports
+ */
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 export default class Service extends React.Component {
 
     /**
@@ -119,12 +124,12 @@ export default class Service extends React.Component {
     render() {
         let editButton = null;
         if (this.props.hasEdit) {
-            editButton = <Button color={"primary"} onClick={this.edit}>Edit</Button>;
+            editButton = <Button color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
         }
 
-        let name = <h5>{this.props.name}</h5>;
+        let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
         if(this.props.tabbed){
-            name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name}</Col></Row></Col></Row>;
+            name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
         }
 
         let toggle = null;
@@ -136,7 +141,7 @@ export default class Service extends React.Component {
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
-                        <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}>{name}</Col>
+                        <Col xs={"6"} >{name}</Col>
                         <Col xs={"3"}>{toggle}</Col>
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>
