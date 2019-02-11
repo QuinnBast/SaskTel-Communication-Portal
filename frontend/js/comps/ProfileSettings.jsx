@@ -2,6 +2,7 @@
  *  React Imports
  */
 import React from "react";
+import PropTypes from 'prop-types';
 
 /**
  *  Component Imports
@@ -79,3 +80,8 @@ export default class ProfileSettings extends React.Component {
         }
     }
 }
+
+ProfileSettings.propTypes = {
+    // A function passed from the CarouselManager to handle changing pages.
+    onEdit: PropTypes.func
+};

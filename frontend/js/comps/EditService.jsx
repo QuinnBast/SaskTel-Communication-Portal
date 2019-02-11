@@ -2,6 +2,11 @@
  *  React Imports
  */
 import React from "react";
+import PropTypes from 'prop-types';
+
+/**
+ * Component Imports
+ */
 import Editable from "./Editable";
 import { getTag } from "../broadsoft/xmlParse";
 import { Container } from 'reactstrap';
@@ -42,3 +47,10 @@ export default class EditService extends React.Component {
         );
     }
 }
+
+EditService.propTypes = {
+    // A list of the editable properties
+    editables: PropTypes.object,
+    // A reference to the parent object
+    parent: PropTypes.element,
+};

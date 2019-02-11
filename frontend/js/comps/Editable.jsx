@@ -2,6 +2,11 @@
  *  React Imports
  */
 import React from "react";
+import PropTypes from 'prop-types';
+
+/**
+ * Component Imports
+ */
 import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask'
@@ -117,6 +122,27 @@ export default class Editable extends React.Component {
         }
     }
 }
+
+Editable.propTypes = {
+    // The name of the setting to edit
+    name: PropTypes.string.isRequired,
+    // A tooltip that appears when hovering the item's (?) icon
+    tooltip: PropTypes.string.isRequired,
+    // The type of data that the editable information takes on
+    type: PropTypes.oneOf(["bool", "range", "phone"]).isRequired,
+    // Optional: if type is 'range', an array of the [min, max] values
+    range: PropTypes.array,
+    // The default value of the parameter.
+    value: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ]).isRequired,
+    // An object that links the parent object and the XmlLocation to update the original data.
+    updateLocation: PropTypes.shape({
+        parent: PropTypes.element,
+        xmlLocation: PropTypes.array
+    }).isRequired
+};
 
 export function validate(value, type){
     if(value === null){

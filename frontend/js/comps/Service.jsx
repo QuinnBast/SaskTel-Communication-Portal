@@ -2,6 +2,7 @@
  *  React Imports
  */
 import React from "react";
+import PropTypes from 'prop-types';
 
 /**
  *  Component Imports
@@ -154,4 +155,23 @@ export default class Service extends React.Component {
             </Container>
         );
     }
+}
+
+Service.propTypes = {
+    // If the item has an 'Edit' button
+    hasEdit: PropTypes.bool,
+    // If the item has a toggle button
+    hasToggle: PropTypes.bool,
+    // The path to determine if the service is active within the XML response
+    activePath: PropTypes.array.isRequired,
+    // The name of the service
+    name: PropTypes.string.isRequired,
+    // If the service should be tabbed in as a subset of another heading.
+    tabbed: PropTypes.bool,
+    // The uri to access for endpoint data and updates.
+    uri: PropTypes.string.isRequired,
+    // A function passed from CarouselManager to handle changing carousel slides
+    onEdit: PropTypes.func.isRequired,
+    // A list of editable properties in the XML response and their types.
+    editables: PropTypes.object
 }

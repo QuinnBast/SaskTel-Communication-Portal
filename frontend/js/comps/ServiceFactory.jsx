@@ -4,7 +4,6 @@ import EditService from "./EditService";
 
 export default class ServiceFactory {
     static build(name, uri, onEdit){
-        let editComponent = null;
         let hasEdit = true;
         let hasToggle = true;
         let editables = null;
