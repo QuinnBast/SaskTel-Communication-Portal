@@ -2,12 +2,13 @@
  *  React Imports
  */
 import React from "react";
+import PropTypes from 'prop-types';
 
 /**
  *  Component Imports
  */
 import {Col, Container, Row} from 'reactstrap';
-import Service from "./Service";
+import ServiceFactory from "./ServiceFactory"
 
 /**
  *  REST API Imports
@@ -46,7 +47,7 @@ export default class ProfileSettings extends React.Component {
 
                   if(uri !== null){
                       uri = uri.substring(5);
-                      services.push(<Service key={name} hasEdit hasToggle name={name} uri={uri} onEdit={self.props.onEdit}/>);
+                      services.push(ServiceFactory.build(name, uri, self.props.onEdit));
                   }
               }
               self.setState({status: "ready", services});
@@ -79,3 +80,8 @@ export default class ProfileSettings extends React.Component {
         }
     }
 }
+
+ProfileSettings.propTypes = {
+    // A function passed from the CarouselManager to handle changing pages.
+    onEdit: PropTypes.func
+};

@@ -37,6 +37,14 @@ import Login from "./routes/Login";
  */
 import  NavBar from "./comps/NavBar";
 
+/**
+ * Font Awesome Icon imports
+ */
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faQuestionCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faEdit, faQuestionCircle, faSignOutAlt);
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");

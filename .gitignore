@@ -16,4 +16,4 @@ frontend/\.nyc_output/
 
 frontend/coverage/
 
-frontend/js/config/config.js
+frontend/js/config/config\.js
