@@ -96,15 +96,16 @@ export default class Editable extends React.Component {
                         <Row style={{height: "40px"}}>
                             <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}><h5>{this.props.name}</h5></Col>
                             <Col xs={"6"}>
-                                <MaskedInput
-                                    mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
-                                    placeholder="(___)-___-____"
-                                    id="EditablePhone"
-                                    guide = {true}
-                                    autoComplete="off"
-                                    defaultValue={this.state.value}
-                                    onChange={(e) => this.changePhone(e)}
-                                />
+                                    <MaskedInput
+                                        mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                        placeholder="(___)-___-____"
+                                        id="EditablePhone"
+                                        guide = {true}
+                                        autoComplete="off"
+                                        defaultValue={this.state.value}
+                                        onChange={(e) => this.changePhone(e)}
+                                        className={"form-control"}
+                                    />
                             </Col>
                         </Row>
                         <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
