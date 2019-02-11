@@ -18,10 +18,10 @@ import { Button, Container } from "reactstrap";
 const rtcConfig = config.rtcConfig;
 
 const stickyBottom = {
-  position: "absolute",
-  left: 0,
-  bottom:0,
-  right:0
+    position: "absolute",
+    left: 0,
+    bottom:0,
+    right:0
 };
 
 export default class Sip extends React.Component {
@@ -75,20 +75,83 @@ export default class Sip extends React.Component {
     makeCall = () => {
         // Register callbacks to desired call events
         let eventHandlers = {
+            'connecting': function(e) {
+                console.log('call is in progress');
+            },
+            'peerconnection': function(e) {
+                console.log('call is in progress');
+            },
+            'sending': function(e) {
+                console.log('call is in progress');
+            },
             'progress': function(e) {
                 console.log('call is in progress');
             },
-            'failed': function(e) {
-                console.log('call failed with cause: '+ e.cause);
-                this.setState({status: "available"});
-            },
-            'ended': function(e) {
-                console.log('call ended with cause: '+ e.cause);
-                this.setState({status: "available"});
+            'accepted': function(e) {
+                console.log('call is in progress');
             },
             'confirmed': function(e) {
-                console.log('call confirmed');
-            }
+                console.log('call is in progress');
+            },
+            'ended': function(e) {
+                console.log('call is in progress');
+                this.setState({status: "available"});
+            },
+            'failed': function(e) {
+                console.log('call is started');
+                this.setState({status: "available"});
+            },
+            'newDMTF': function(e) {
+                console.log('call failed with cause: '+ e.cause);
+            },
+            'newInfo': function(e) {
+                console.log('call ended with cause: '+ e.cause);
+            },
+            'hold': function(e) {
+                console.log('call is in progress');
+            },
+            'unhold': function(e) {
+                console.log('call is in progress');
+            },
+            'muted': function(e) {
+                console.log('call is in progress');
+            },
+            'unmuted': function(e) {
+                console.log('call is in progress');
+            },
+            'reinvite': function(e) {
+                console.log('call is in progress');
+            },
+            'update': function(e) {
+                console.log('call is in progress');
+            },
+            'refer': function(e) {
+                console.log('call is in progress');
+            },
+            'replaces': function(e) {
+                console.log('call is in progress');
+            },
+            'sdp': function(e) {
+                console.log('call is in progress');
+            },
+            'icecandidate': function(e) {
+                console.log('call is in progress');
+            },
+            'getusermediafailed': function(e) {
+                console.log('call is in progress');
+            },
+            'peerconnection:createofferfailed': function(e) {
+                console.log('call is in progress');
+            },
+            'peerconnection:createanswerfailed': function(e) {
+                console.log('call is in progress');
+            },
+            'peerconnection:setlocaldescriptionfailed': function(e) {
+                console.log('call is in progress');
+            },
+            'peerconnection:setremotedescriptionfailed': function(e) {
+                console.log('call is in progress');
+            },
         };
 
         let mediaConstraints = {
@@ -111,7 +174,7 @@ export default class Sip extends React.Component {
             };
 
             // Stream is the user's input from the microphone. We want to send this stream to the RTCConnection.
-            this.telportPhone.call("+13065194771", options);
+            this.telportPhone.call("+13068071758", options);
             this.setState({status: "calling"});
         });
     };
