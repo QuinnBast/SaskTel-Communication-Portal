@@ -10,8 +10,9 @@ import PropTypes from 'prop-types';
 import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask'
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-export default class Editable extends React.Component {
+export default class XmlEditable extends React.Component {
     /**
      *
      * @param props
@@ -20,17 +21,18 @@ export default class Editable extends React.Component {
      *  type:OneOf(bool, phone, range) - the type of editable to display
      *  range:[min, max] - the range of potential values of a number (optional. Required for type "range")
      *  value:<oneOf(bool, string, int)> - the value of the editable
-     *  updateLocation:{parent:React.Component, xmlLocation:array[string]} - an object which links the editable to the parent
+     *  XmlLocation:{parent:React.Component, xmlLocation:array[string]} - an object which links the editable to the parent
      *
      */
 
     constructor(props){
         super(props);
-        let value = this.props.value;
+        let value = this.props.parent.current.getValue(this.props.XmlLocation);
         if(this.props.type === "bool"){
-            value = this.props.value === "true";
+            value = value === "true" || value === true;
         }
         this.state = {
+            originalValue: value,
             value: value,
             popover: false
         }
@@ -39,7 +41,7 @@ export default class Editable extends React.Component {
     toggleBoolean = () => {
         this.setState({value: !this.state.value});
         if(validate(this.state.value, {type:"bool"})) {
-            this.props.updateLocation.parent.setValue(this.props.updateLocation.XmlLocation, !this.state.value);
+            this.props.parent.current.setValue(this.props.XmlLocation, !this.state.value);
         }
     };
 
@@ -47,14 +49,14 @@ export default class Editable extends React.Component {
         this.setState({value: event.target.value});
         // Only send if 10 characters or null
         if(validate(event.target.value, {type:"phone"})) {
-            this.props.updateLocation.parent.setValue(this.props.updateLocation.XmlLocation, event.target.value);
+            this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
         }
     };
 
     inputChange = (event) => {
         this.setState({value: event.target.value});
         if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
-            this.props.updateLocation.parent.setValue(this.props.updateLocation.XmlLocation, event.target.value);
+            this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
         } else {
             // Validation fail
         }
@@ -64,16 +66,21 @@ export default class Editable extends React.Component {
         this.setState({popover: !this.state.popover});
     };
 
+    validate = () => {
+        return validate(this.state.value, {type: this.props.type, range: this.props.range})
+    };
+
     render(){
         let padding = {
             padding: "10px",
         }
+        let name = <Col xs={"6"}><h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5></Col>;
         switch(this.props.type){
             case "bool":
                 return(
                     <Container style={padding}>
                         <Row style={{height: "40px"}}>
-                            <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}><h5>{this.props.name}</h5></Col>
+                            {name}
                             <Col xs={"6"}><Switch onChange={this.toggleBoolean} checked={this.state.value}/></Col>
                         </Row>
                         <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
@@ -86,7 +93,7 @@ export default class Editable extends React.Component {
                 return(
                     <Container style={padding}>
                         <Row style={{height: "40px"}}>
-                            <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}><h5>{this.props.name}</h5></Col>
+                            {name}
                             <Col xs={"6"}><Input type={"number"} onChange={this.inputChange}/></Col>
                         </Row>
                         <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
@@ -99,7 +106,7 @@ export default class Editable extends React.Component {
                 return(
                     <Container style={padding}>
                         <Row style={{height: "40px"}}>
-                            <Col xs={"6"} id={this.props.name.replace(/\s+/g, '')}><h5>{this.props.name}</h5></Col>
+                            {name}
                             <Col xs={"6"}>
                                     <MaskedInput
                                         mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
@@ -123,7 +130,7 @@ export default class Editable extends React.Component {
     }
 }
 
-Editable.propTypes = {
+XmlEditable.propTypes = {
     // The name of the setting to edit
     name: PropTypes.string.isRequired,
     // A tooltip that appears when hovering the item's (?) icon
@@ -132,16 +139,10 @@ Editable.propTypes = {
     type: PropTypes.oneOf(["bool", "range", "phone"]).isRequired,
     // Optional: if type is 'range', an array of the [min, max] values
     range: PropTypes.array,
-    // The default value of the parameter.
-    value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ]).isRequired,
     // An object that links the parent object and the XmlLocation to update the original data.
-    updateLocation: PropTypes.shape({
-        parent: PropTypes.element,
-        xmlLocation: PropTypes.array
-    }).isRequired
+    XmlLocation: PropTypes.array.isRequired,
+    // The parent update to update
+    parent: PropTypes.object.isRequired,
 };
 
 export function validate(value, type){
