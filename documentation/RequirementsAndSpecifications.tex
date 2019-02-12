@@ -1,0 +1,651 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+
+\usepackage{setspace} % paragraph spacing
+
+\usepackage{mathpazo} % Palatino font
+
+\usepackage{hyperref}  % for hyperlinks to resources\
+
+\usepackage{graphicx} % for logo
+
+
+\usepackage{pgfgantt} % for gantt chart
+
+
+
+\usepackage{tabularx} % in the preamble
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{b}{>{\hsize=.5\hsize}X} % column 1 = 50% of a column
+\newcolumntype{s}{>{\hsize=.4\hsize}X} % column 2 = 40% of a column
+\newcolumntype{m}{>{\hsize=1.1\hsize}X} % column 3 = 110% of a column
+
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE University of Regina}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large ENSE 477: Capstone Project}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Requirements and Specifications}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Telport: Sasktel Telecommunications Portal}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Authors}\\
+			Dakota \textsc{Fisher}\\ % Your name
+			200 344 336\newline \newline
+			Quinn \textsc{Bast}\\ % Your name
+			200 352 973
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Dr. Yasser \textsc{Morgan} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	
+
+%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+		\vfill\vfill\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\includegraphics[width=.5\textwidth]{UR_Logo_Primary_Full_Colour_RGB.jpg} % Include a department/university logo - this will require the graphicx package
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+
+	
+	{Last Modified\\\large\today} % Date, change the \today to a set date if you want to be precise		
+
+	
+	 % Push the date up 1/4 of the remaining page
+	 
+	%----------------------------------------------------------------------------------------	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+% Revision History
+%----------------------------------------------------------------------------------------
+\section*{Revision History}
+\begin{tabularx}{\textwidth}{|Y|Y|Y|}
+\hline
+  \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
+\hline
+1.0 & Dakota Fisher & February 4, 2019 \\
+\hline
+\end{tabularx}
+
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+%	Table of Contents
+%----------------------------------------------------------------------------------------
+
+\pagestyle{plain} %get rid of header/footer for toc page
+\pagenumbering{roman}
+
+\tableofcontents %put Table of Contents in
+\cleardoublepage %start new page
+
+\listoffigures %put List of Figures in
+\cleardoublepage %start new page
+
+\listoftables %put List of Tables in
+\cleardoublepage %start new page
+
+\pagestyle{plain} % put headers/footers back on
+\pagenumbering{arabic}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Body of Document
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{Gantt Chart Timeline}
+\rotatebox{90}{
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!3, line width=.5pt},
+    hgrid style/.style={draw=black!3, line width=.5pt},
+    vgrid={*1{draw=black!5, line width=.5pt}},
+% Defining current day to mark in Gantt
+    today=22,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=5pt},
+    include title in canvas=false,
+%Bar colours
+	bar top shift=-0.1, bar height=0.6,
+    bar label font=\mdseries\small\color{black!50},
+    bar label node/.append style={left=2cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+% Group information    
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+% Link information    
+    link/.style={-latex, line width=.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
+  ]{1}{30}
+%  \gantttitle[
+%    title label node/.append style={below left=9pt and -5pt}
+%  ]{Months:}{1}
+%     \gantttitle[title label node/.append style={below left=7pt and -3pt}]{}{11} \\                 % title 
+    \gantttitle{Sep}{4}                      % title 3
+    \gantttitle{Oct}{4}
+    \gantttitle{Nov}{4}
+    \gantttitle{Dec}{4}
+    \gantttitle{Jan}{4}
+    \gantttitle{Feb}{4}
+    \gantttitle{Mar}{4}
+    \gantttitle{Apr}{4}\\
+    \gantttitle[
+    title label node/.append style={below left=5pt and -1pt}
+  ]{WEEK:\quad1}{1}
+  \gantttitlelist{2,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1} \\
+% Gantt Chart Section 1
+  \ganttgroup[progress=100]{Requirements Gathering}{1}{10} \\
+  \ganttbar[progress=100]{\textbf{R.G.1} Project Consideration}{1}{3} \\
+  \ganttbar[progress=100]{\textbf{R.G.2} Architecture Research}{4}{7} 
+ % Gantt Chart Section 2
+ 
+  \ganttgroup[progress=100]{Infrastructure Setup}{6}{12} \\
+  \ganttbar[progress=100]{\textbf{I.S.1} Flask RESTful Server}{6}{11} \\
+  \ganttbar[progress=100]{\textbf{I.S.2} React and Webpack}{6}{10} \\
+  \ganttbar[progress=100]{\textbf{I.S.3} Security Infrastructure}{11}{12}
+  % Gantt Chart Section 3
+
+  \ganttgroup[progress=80]{Development}{6}{26} \\                   
+  \ganttbar[progress=100]{\textbf{Dev 1} User Authentication}{8}{11} \\
+  \ganttbar[progress=100]{\textbf{Dev 2} Broadsoft Integration}{8}{11} \\
+  \ganttbar[progress=100]{\textbf{Dev 3} General User Inerface}{7}{15} \\
+  \ganttbar[progress=60]{\textbf{Dev 4} Refined User Interface}{17}{25} \\
+  \ganttbar[progress=75]{\textbf{Dev 5} WebRTC Integration}{20}{25}          
+  
+  \ganttgroup[progress=70]{Test Integration}{19}{26} \\  
+  \ganttbar[progress=100]{\textbf{T.I.1} Continuous Integration }{20}{25} \\
+  \ganttbar[progress=20]{\textbf{T.I.2} Unit Testing}{20}{25} \\
+  \ganttbar[progress=0]{\textbf{T.I.3} Client User Testing}{24}{24} 
+
+  \ganttgroup[]{Finalizing Project}{26}{30} \\  
+  \ganttbar[]{\textbf{Project Day} }{30}{30} \\
+
+  
+  
+  
+% Start to start, Finish to start, and finish to finish dependencies
+%  \ganttlink[link type=s-s]{WBS1A}{WBS1B}
+%  \ganttlink[link type=f-s]{WBS1B}{WBS1C}
+%  \ganttlink[
+%    link type=f-f,
+%    link label node/.append style=left
+%  ]{WBS1C}{WBS1D}
+\end{ganttchart}
+}
+\doublespacing % set document to be default double spaced
+
+
+%----------------------------------------------------------------------------------------
+%	Introduction
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+\paragraph{}
+	This document outlines and defines the requirements and specifications. The initial problem statement and proposed activities are suggestions given by Sasktel to provide a manageable scope.
+The decisions on infrastructure, aside from the Broadworks API and telephone account access are left up to us to decide. 
+\subsection{Problem Statement}
+\paragraph{} 
+	SaskTel requires a communications portal that can interwork with a Telephony Application Server and our core network to present communications and feature capabilities through a browser.  This will allow for the exploration of new communications service models. 
+\paragraph{} 
+	SaskTel has been pursuing the deployment of a new communications core along with the Cisco/Broadsoft Telephony Application Server branded as Broadworks.  One of the drivers is to enable a richer customer experience through a converged architecture that exposes rapid development to enables new capabilities.  Broadworks exposes the Application Programming Interface to access service control tools and user information.  These tools and information can be used to create new communications applications or add additional value to existing applications.  
+\paragraph{} 
+	The main objectives for SaskTel is to gain exposure to new and innovative communications service experience for our customers and to promote the potential internally for aligning resources, time and effort in enabling applications.
+
+%----------------------------------------------------------------------------------------
+% Proposed Activities
+%----------------------------------------------------------------------------------------
+\pagebreak
+\begin{spacing}{1.5} % remove double spacing for list, lists already pad too much
+	\subsubsection{Proposed Activities}
+	\begin{itemize}
+		\item
+		Establish communications portal and platform interworking
+		\item
+		Gain a high-level understanding of the communications network architecture
+		\item
+		Gain an understanding of a method to access and use TAS APIs
+		\item
+		Establish base interworking and web browser communications portal
+	\begin{itemize}
+		\item
+		Access and exposure to TAS API
+		\item
+		User registration through IMS
+		\item
+		User presentation and interaction via portal
+		\item
+		Exposure to 4-5 basic features to validate interworking i.e. \\ 
+		(listed only as suggestions)
+	\begin{itemize}
+		\item
+		Call forwarding
+		\item
+		Display of call logs (All, Incoming, Outgoing, Missed).
+		\item
+		Simple call blocking by using a slider.  Simple drop down to show numbers blocked (allow
+		for unblocking).
+		\item
+		Directory.  Searchable by typing any string of characters.
+		\end{itemize}
+		\end{itemize}
+		\item
+		Enable WebRTC communications
+		\item
+		Enable the use of WebRTC for internet communications directly through the portal
+		
+		\item
+		Create innovative communications experience
+		\item
+		Explore feature capabilities and experiment with innovative communications capabilities
+		\item
+		Demonstrate and showcase the ability to grow and share knowledge.	
+	\end{itemize}
+
+
+
+%----------------------------------------------------------------------------------------
+% Skills Required
+%----------------------------------------------------------------------------------------
+\newpage
+\subsubsection{Skills Required}
+General Knowledge Requirements:
+\begin{itemize}
+	\item
+	Network Platform and service specific knowledge
+	\item
+	Software engineering skills
+		\begin{itemize}
+			\item
+			Client / server operation
+			\item
+			IP Network Protocols (SIP, RTP, UDP, HTTP …).
+			\item
+			Internet Methods (Using XML, JSON, REST, …).
+			\item
+			Web Browser Programming (HTML, CSS).
+			\item
+			Programming Languages (Java, Python, Ruby)
+		\end{itemize}	
+\end{itemize}
+API Technology Comments:
+\begin{itemize}
+	\item
+	Most popular approach to delivering web APIs is REST (Representational State 				Transfer).
+	\item
+	API returns data in either XML or JSON.
+	\item
+	Most popular implementation is REST+JSON (not a standard but widely accepted within 		the industry).
+\end{itemize}
+API Usage Comments:
+\begin{itemize}
+	\item
+	Must consider how a resource will be manipulated not just retrieved.
+	\item
+	Should have strong understanding of both client-side and server-side programming.
+	\item
+	Should have strong understanding and experience with HTML and CSS (Cascading Style 			Sheets) for web programming, development, and design.
+	\item
+	Should have strong understanding and experience with Java Script.
+	\item
+	Should have a strong knowledge and experience with dynamic programming languages 			making Python and Ruby emerging industry favorites (Python+Django or Ruby+Rails).
+	\item
+	Should have knowledge and experience of the user and use of the product interface (in 	regard to forming the interface).
+\end{itemize}	
+\end{spacing}
+
+%----------------------------------------------------------------------------------------
+% Design decisions
+%----------------------------------------------------------------------------------------
+
+\newpage
+\section{Design Decisions}
+\paragraph{}
+	During the creation of the project, we had full reign of the architecture and languages in which we wanted to use in order to create the solution for SaskTel. As a result, we did a significant amount of research on the different technologies available in order to make the best decisions for the project. While making these decisions, there were two different sides of the project to focus on. The backend would manage interfacing between SaskTel's servers as well as manage user credentials for the system, while the frontend would display the interface to the user. Both the backend and the frontend had may different decisions which led us to the current solution.
+\subsection{"Backend"}
+\paragraph{}
+	When creating the backend, initial considerations were to use a basic LAMP stack, which would include PHP as the backend language. This decision was initially chosen because it is the most commonly known web stack. Because of this, it was likely that SaskTel would have a number of employees, if required, could take over the project and understand how to make changes. After our initial meeting with SaskTel, it was indicated that there were no restrictions on the technologies that we could use for the project, and therefore, instead of using PHP, we opted to use a python backend as python was our team's preferred coding. At the same time, this allowed us to look into new frameworks to gain additional experience with new technologies. The leading technologies of python backends being Django and Flask.
+
+	\subsubsection{Server side scripting framework}
+	\paragraph{}
+		The choice of the server side scripting language was determined to be python after the first meeting with SaskTel. After researching the different frameworks that were available for the backend, two competitors stood out, Django and Flask. Extensive research was done into both of the technologies. Django was a full-fledged backend system, allowing for object-relational models, MVC configuration, admin interface, templates, caching, and much more straight out of the box. Django is feature-rich, however, the general consensus is that Django is generally more restrictive than Flask because of their additional functionality. For example, Django wouldn't let you switch out their admin portal or ORM frameworks for ones that you prefer (or, if they did, it would be difficult and tedius to do so). Flask on the other hand, was a minimal backend providing less functionality, but was extremely good at providing a stable backend server, as well as allowing more freedom over which libraries to use. After trying a simple project in both Django and Flask to test the waters of both frameworks, Flask was chosen over Django. This decision was because Flask is a smaller and more stable framework while providing the ability to customize. Being more comfortable with Flask, it was the chosen as the backend server side scripting framework for this project.
+
+
+	\subsubsection{Backend Framework Decision Timeline}
+
+		%------------------------------------------------------------
+		% Backend design decision table
+		%------------------------------------------------------------
+
+		\begin{center}
+		\begin{tabularx}{\textwidth}{|b|s|m|}
+		\hline
+			\textbf{Date} & \textbf{Design Decision} & \textbf{Reasoning} \\
+		\hline
+		September 14th, 2018 & Technology stack & Our initial thoughts for the technology stack were to use a basic LAMP stack. This decision was made because it would favor SaskTel, as it was the most common technology stack and would allow anyone familiar to be able to make changes if required. \\
+		\hline
+		September 24th, 2018 & Technology stack & After meeting with SaskTel it was clear that there were no restrictions on the technology that we chose to use to implement the solution. As a result, we chose to use a Python based backend as it was the language of choice. \\
+		\hline
+		October 18th, 2018 & Server-side frameworks & Created sample repositories for trying out the difference between Flask and Django. \\
+		\hline
+		October 23rd & Flask backend & After testing between Django and Flask in sample repositories, Flask ended up being the most comfortable environment to develop in. As a result, Flask was chosen to be the backend framework for the project. \\
+		\hline
+		\end{tabularx}
+		\end{center}	
+	
+\subsection{"Frontend"}
+\paragraph{}
+	Similarly to the backend, initial considerations for the frontend were to use basic web technologies such as HTML pages, JavaScript, and CSS. This was because we wanted to make our repository as easy as possible for a SaskTel employee to pick up once we provided them our project. Again, after our initial meeting with SaskTel, it was clear that the choice of language did not matter. Our group wanted to not only create a good solution, but also learn something while doing so, and therefore, we chose to use a new technology that we have never used in order to further our knowledge in frontend development. In today's web development community Vue, Angular, and React are very popular JavaScript frameworks and we decided we would be using one of these three frameworks.
+		
+	\subsection{Frontend frameworks}
+	\paragraph{}
+		The front end frameworks chosen to be implemented were Node.js alongside the React JavaScript Library. There are other honourable mentions for frameworks such as Angular 2, and Vue.js but due to the market share and it's ability to be tailored to our project, React was chosen as the View framework library for our application. 
+		
+	\subsection{React}
+	\paragraph{}
+		React is a JavaScript Library created by Facebook. The core basis of React is that it works on a virtual DOM environment, which allows currently displayed data to be presented to the real DOM, and if any changes are made, the virtual DOM is first updated. The React framework then computes a diff of the two DOM's, updating only what is needed to change based on component states. Additionally, React supports ES6 and uses an HTML-like syntax which provides a relatively readable object-oriented design for the application. 
+	
+	\subsection{Angular2 + Typescript}
+	\paragraph{}
+		Angular 2 is developed by Microsoft, and is very strong when utilized with Typescript. The issue we faced when analysing this framework is that the learning curve for Angular is steep, lending it to be less enticing when we were faced with such a short time frame to develop our software. We needed to spend as little time learning the framework as possible, and so that was the largest issue with Angular.
+	
+	\subsection{Vue.js}
+	\paragraph{}
+		Vue is another popular JavaScript view framework, which is developed by an relatively small team, and provides many of the functionalities found in Angular, and React with a lighter weight design. This framework was presented as an underdog, and was a strong contender for our choice of view framework. The biggest turning point towards React was that at the time of our creation, React has over 70\% market share of the three library frameworks compared to 1\% with Vue. 
+	
+	\subsection{Node.js}
+	\paragraph{}
+		Node.js is the JavaScript package manager,and environment that manages our javascript packages, dependencies, and requirements. When a new module is required, Node package manager is used to install it and maintain the required dependencies. This is a very strong utility, and can be used in many aspects of the application. 
+
+%----------------------------------------------------------------------------------------
+
+
+
+\newpage
+
+\section{Automated testing}
+\paragraph{}
+	In order to ensure that features we create are not changed or ruined down the line, the use of Automated testing will be used in order to ensure that our created features are working as intended. In addition to an Automated testing suite, continuous integration is extremely important to ensure that automated tests are executed whenever a pull request or merge is required. By using continuous integration, this will ensure that automated tests are always executed whenever new code is ready to be added. This ensures that all of the automated tests that exist will be executed on the merged code-base to ensure that integrating the new features doesn't break any vital components.
+
+
+
+\newpage
+
+\section{Tools}
+\paragraph{}	The following sections denote tools that are utilized or were considered to be of use during the project's development. Programs and tools, alongside their effective alternatives are discussed to get an understanding of what, and why tools were picked or not picked to be used to benefit the work flow of the project. Every reference to an application in the following sections has a direct hyperlink reference if clicked on using an electronic medium.
+
+\subsection{\href{https://Github.com}{Github}}
+\paragraph{}	Git is a powerful source version control solution that allows for multiple developers to collaborate on  a project. The Git provider used during this project is \href{https://Github.com}{Github}. Not only does it allow for collaborative features, it also allows for parallel streams of development of many features. The tool also allows for public display of the project, to allow for open source development if the repository is not kept private. A key feature and benefit of using Git is that it allows for projects to commit checkpoints and milestones in development, such that if an update isn't beneficial, it can easily be reverted to a previously confirmed viable version.
+
+\subsection{\href{https://toggl.com}{Toggl}}
+\paragraph{}	\href{https://toggl.com}{Toggl} is a time tracking web application that allows teams to track their hours along with the project, and tags that correspond to the work that they are doing. This allows for us to track documentation time seperate from programming time and research time. While still keeping a total cumulative track of our time spent on the project. Ideally, the time tracking entries are relative to our commits on \href{https://Github.com}{Github}. Of the options online at the time, this is the only option that we felt met the requirements we needed to easily and painlessly manage our project time.
+
+\subsection{\href{https://www.gitkraken.com/}{GitKraken}}
+\paragraph{}	The tool \href{https://www.gitkraken.com/}{GitKraken} is a powerful Git version control client that has an easily manageable interface. It also has the ability to see how each branch correlates to one another, and resolve any conflicts within the application directly. There isn't any particular reason to use this tool over another alternative such as \href{https://desktop.github.com/}{GitHub Desktop}, \href{https://www.sourcetreeapp.com/}{SourceTree}, or \href{https://gitforwindows.org/}{GitBash}, but it definitely was a nice discovery for our quality of life work flow. 
+
+\subsubsection{\href{https://www.gitkraken.com/glo}{Glo Boards}}
+\paragraph{} The company that created GitKraken, also has a product called \href{https://www.gitkraken.com/glo}{Glo Boards}. The application is functionally equivalent to \href{https://trello.com/en}{Trello}. Both programs allow for a team to manage issues on a \href{https://github.com}{GitHub} repository easily and visualize changes into KanBan board styles. The decision to use a KanBan board software instead of just the issue tracking software on \href{https://github.com}{GitHub} was because it provides additional work flow improvements while still allowing \href{https://github.com}{GitHub} issues to still work normally.
+
+\subsection{\href{https://drive.google.com}{Google Drive}}
+\paragraph{}	For file containment and collaborative efforts, \href{https://drive.google.com}{Google Drive} was utilized to create rough drafts and documentation. The documents on \href{https://drive.google.com}{Google Drive} are deliberately kept out of the project as they provide no benefit and are unpolished in comparison to the products that should be present in the project. As files become absolute, and documentation gets refined and compiled into information that has enough value to be displayed, it is transferred to \href{https://github.com}{GitHub} to be displayed alongside other documentation. Other alternative data solutions that could have been used involve \href{https://onedrive.live.com/}{OneDrive} and \href{https://dropbox.com}{DropBox}, but the simultaneous access and collaborative nature of the \href{https://drive.google.com}{Google Drive} made it an ideal environment for rough collaborative drafting. 
+
+\subsection{Discord}
+\paragraph{}
+	Being able to communicate with each other during the project is essential for collaboration. \href{https://discordapp.com/}{Discord} allows us to keep each other up to date on our day-to-day progress and ensures that we can both stay in contact throughout the creation of the project. \href{https://discordapp.com/}{Discord} provides a significant amount of functionality to enable functionality. This main functionality of discord is its text and voice chat capabilities. Keeping each other up to date is easy through text chat and allows us to send quick ideas back and forth while developing the project. Furthermore, voice chat allows us to communicate more vital information at a faster speed. While in a voice chat, \href{https://discordapp.com/}{Discord} provides the ability to share screens between users, making discord extremely useful for paired programming sessions and bug fixing.
+
+%------------------------------------------------------------
+% Security Considerations
+%------------------------------------------------------------
+\newpage
+\section{Security Considerations}
+\paragraph{}
+	The main concern of our application was the security of a user who would login to our application. When a user logs into a website, their credentials should never be seen or be accessible except by the authorization agency. In our case, the authorization agency is SaskTel's API. Therefore, our server acts as a proxy between SaskTel's API and itself, forwarding authentication requests to SaskTel's servers.
+\paragraph{}	
+	Security was a huge concern, and therefore many different security methods were researched. These methods included LocalStorage, SessionStorage, Redux, IndexedDB, JSON Web tokens, CSRF Tokens, Two Factor Auth, OAuth, and 3rd Party Logins. With so many different methods of 'security' avaliable, we wanted to make sure that we were using the best of the best, leaving no room for vulnerabilities.
+
+%------------------------------------------------------------
+% Missing the obvious
+%------------------------------------------------------------
+\subsection{Missing the obvious}
+\paragraph{}	
+	While reading SaskTel's API documentation, there was no indication of how a user logs into their API. Generally, when logging into a website, the user provides their username and password, and once the username and password have been confirmed, the server will provide the user's browser a 'token'. The browser sends this token every time the user makes a request so that the server can acknowledge that the user has already logged in. This prevents the user from having to enter their username and password in while navigating around the website. 
+\paragraph{}
+	Because of this knowledge, after examining the available REST endpoints we assumed the endpoint named "LoginToken" was used to generate a token for the user to use for repeated requests. After looking at the endpoint's response, this looked like exactly what we needed to authenticate a user with SaskTel. However, the only problem was that "the generated token has an expiry of 60 seconds." This caused a large problem for our application. How were we going to keep this token alive for the user to be able to access SaskTel's servers? Generally a user won't change pages or request data every 60 seconds, thus after 60 seconds of idle activity, this token would expire. If the token expires, the user would need to login again, meaning we would need to send their username and password. We didn't want users to have to login to the site every 60 seconds as that would be extremely annoying and immediately make a user not use the application. At the same time, we did not want to store the user's credentials on our server as they would have to be stored in plain text due to the repeated required use to refresh the token which is a huge security violation to the users of the website. This proved to be a difficult challenge. 
+\paragraph{}
+	Various ideas were devised including sending a refreshed token every 50 seconds to get a new token before it expired, storing the passwords in the browser, and many other options; none of which we thought were secure enough for a user to be comfortable with. After a couple of weeks, it became clear that our supposed "challenge" was not an issue at all. While examining the different types of data that SaskTel responded with from their various endpoints, we found that SaskTel's servers responded with a cookie alongside the regular HTTP request. This cookie turned out to be a token that the user could use to access SaskTel's endpoints with an unlimited expiry. Once this information had been found, authenticating a user became extremely easy using the methods outlined below. To this date we still don't know what the 'LoginToken' endpoint does or why it exists.
+
+%------------------------------------------------------------
+% Security Research
+%------------------------------------------------------------
+\subsection{Security Research}
+\paragraph{}
+	After resolving our issues indicated above, it now boiled down to how we were going to keep the user's information secure while they used our application. There are a significant number of ways in which security can be implemented and thus, research on the various methods of browser and backed security began. Our research on security took upwards of 3-4 weeks before we started to implement any of the features that we had found. We wanted to be certain that our research and chosen method of security offered the user the most protection while using our application. After our extensive research we chose to use JWTs (JSON Web Tokens) along with CSRF (Cross-Site Request Forgery) tokens to provide users the most security. The following sections outline our finding about various security measures and explain why we chose to use JWTs and CSRF tokens.
+
+	\subsubsection{JSON Web Tokens}
+	\paragraph{}
+		\href{https://jwt.io/introduction/}{JSON Web Tokens} are the industry standard for sending information between two parties. A JWT, as the name implies, sends  a JSON object of information along with any requests that need user validation. This JWT Token will hold information such as the user's ID, or username so that the backend knows who is sending the request without requiring any other information. The backend application uses a secret hash key which is used to encode the JWT when it is sent to the client. Because the backend server is the only thing that knows the secret key, only the backend is able to decode the JWT to extract the information. This authorization technique was the most beneficial and is a fairly secure method of both authenticating and sending user information inside of a cookie. Because JWTs are both the industry standard the most secure method of authentication that was found, JWTs were used to securely verify a user's session.
+	
+	\subsubsection{CSRF Tokens}
+	\paragraph{}
+		While JWTs are an extremely powerful way to send information between two parties, a JWT alone is not a secure method of communication. If a hacker gains access to your JWT, the hacker is able to send requests to the website acting as if they are you. Consider this scenario: You are logged into the application and leave the page to browse the internet. You access a malicious site which knows how the urls of our web application to make requests. The malicious site sends a request to our application hoping that you were previously logged into the application. The request would go through because the request would appear to be coming from you. In order to prevent this type of activity, a CSRF token is included on the webpage of the website which is randomly generated for each user. This token is impossible to guess by the malicious website and ensures that without the additional token, the request is invalid. Therefore, the use of an additional CSRF token in conjunction with JWTs make our application secure for a user, not having to worry about stumbling across malicious sites or man-in-the-middle attacks.
+
+	\subsubsection{Flask-Session}	
+	\paragraph{}
+		\href{https://pythonhosted.org/Flask-Session/}{Flask-Session} is a Flask extension that allows configuring session variables inside of the Flask application. This is useful for a backend server to obtain information about a specific client's session when they make a request to the server. However, the creation of a REST (Representational State Transfer) API means that the server should not hold any information about the 'state' of various sessions or users. Having the backend server stateless ensures that the same behaviour is applied based on the information that is provided to the server. Because we wanted to create a REST application that was stateless in nature, Flask-Session was not chosen to store information about the user's authentication.
+		
+	\subsubsection{Secure Socket Layers}	
+	\paragraph{}
+		SSL is a requirement for secure communication between web applications. SSL enables a web application to use the HTTPS (HTTP Secure) protocol for sending requests, thereby ensuring that any traffic to and from the server is securely encrypted during transit. Without the use of SSL, requests made to a backend server are not encrypted when they are sent. This means that the information is visible as it gets sent, allowing the packets to be inspected as they travel across the wire and their information extracted by anyone who is tracking information travelling through their network. Because SSL is such a secure method of transportation, we obtained an SSL certificate and applied it to our server to enable secure communications between our web application.
+	
+	\subsubsection{Two Factor Authentication}
+	\paragraph{}
+		Two Factor Authentication (2FA) is an extra security layer on top of current authentication schemes. 2FA ensures that anytime a user tries to login to a website, and additional randomly generated code is required to access your account. This code gets sent to the user's mobile device to ensure that the person logging into the web application is truly the user. 2FA was an initially planned feature for the application, as this would greatly increase the security of our application. However, as we began developing, 2FA became too much overhead to add into the application. In order to implement 2FA, on top of figuring out how to implement it into our application, we would also need to store user specific information about 2FA, such as each user's phone number. We chose to forgo this feature because it would save a large chunk of development time, as well as prevent our application from storing a user's personal information.
+	
+	\subsubsection{Third Party Login}
+	\paragraph{}
+		Third Party Login is the ability to login to the application through an external website such as Facebook, or Google. This is extremely useful, as usually a user is already logged into Facebook or Google while they are browsing the internet. Therefore logging into the application would be as simple as clicking a single button and authorizing the application. However, this option was also forgone. Our development team decided that logging in to our web application was as simple as typing in your phone number and password. Everyone knows their own phone number, so signing into the application is already relatively easy. Additionally, figuring out how to develop and manage third party login information would require additional development time that we could not allocate.
+	
+	\subsubsection{OAuth}
+	\paragraph{}
+		OAuth is a token based authentication system which allows a user to provide information from one website to another. For example, when logging into Facebook, a user is able to determine what information the requesting application has access to. OAuth allows users to control what information is accessible to a third party application. A limited access token is generated which ensures that the requesting application only has access to specific information. With the scope of the project, our application will never need to share information to any other external applications. Therefore, the use of OAuth is not required in our application.
+		
+	\subsubsection{Auth0}
+	\paragraph{}
+		\href{https://auth0.com/}{Auth0} is an authentication service provider which allows abstracting user authentication to the Auth0 service. Auth0 takes everything related to authentication and provides a developer API for authentication functionalities. This allows developers to spend less time on setting up authentication. This service is free to individual developers, however, corporate enterprises are required to purchase the service. Because the application is being created for SaskTel, our team did not want to add any unnecessary expenses to SaskTel to host our application, and therefore we chose to implement our own Authentication services through JWT and CSRF tokens.
+		
+\newpage
+
+\section{User Stories}
+\paragraph{}	The following sections denote common use cases for the program that we brainstormed and consider to be requirements by usability and basic principle. The basic structure for user stories is as follows. "As a <type of user> I would like to < be able to do task> so that I can < metric improvement to life>". User stories are referenced by the number following the chapter value, which means user story 1 will refer to sub-section x.1.
+
+\subsection{Log In}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log into the program} so that I can \textit{use the program and check my information}.
+
+\subsection{Log Out}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log out of the program} so that I can \textit{ensure that anyone using my computer can't access my account}.
+
+\subsection{Check Call Logs}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check my call logs} so that I can \textit{check when I got calls, and see who called me/when}.
+
+\subsection{Turn on Call Forwarding Always}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{always forward calls sent to my phone} so that I can \textit{answer them on my main phone and not worry about my secondary phone}.
+
+\subsection{Turn on Call Forwarding Busy}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when my phone is busy} so that I can \textit{feel comfortable that those calling me get sent to someone who can answer}.
+
+\subsection{Turn on Call Forwarding Selective}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another phone during a scheduled time} so that I can \textit{so that phone calls can be forwarded when I have planned events in the way of answering my phone}.
+
+\subsection{Turn on Call Forwarding No Answer}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when I'm away from my phone} so that I can \textit{answer them on my cell phone when I'm away from my land line}.
+
+\subsection{Turn on Call Forwarding}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another number} so that I can \textit{be sure that important calls reach me on my cell phone or work phone}.
+
+\subsection{Turn on Do Not Disturb}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{decline all calls to my phone number} so that I can \textit{have some time without worrying about phone calls interrupting me}.
+
+\subsection{View my Profile}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{view my account information} so that I can \textit{know that I am using the right account}.
+
+\subsection{Call a Phone Number}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call a phone number from my computer} so that I can \textit{easily make phone calls without using my phone}.
+
+\subsection{Start a Call to a Phone Number from my Phone}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call another phone number from my phone} so that I can \textit{more easily call phone numbers I find on my computer}.
+
+\subsection{View Feature Access Codes}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check what star codes I can use} so that I can \textit{understand what I can do with my phone when I can't log into the application}.
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+%----------------------------------------------------------------------------------------
+%	Document Style Templates
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Nesting for Table of Contents
+%
+% A section or subsection can contain any number of nested children
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{First Title} %x
+% \paragraph{} **~ Contents of First Title ~**
+%
+% \subsection{Second Title} %x.x
+% \paragraph{} **~ Contents of Second Title ~**
+%
+% \subsubsection{Third Title} %x.x.x
+% \paragraph{} **~ Contents of Third Title ~**
+% 
+% No more nesting allowed. capped at x.x.x sectioning
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Template References and Licenses
+%----------------------------------------------------------------------------------------
+% This paper integrates the following templates into a single document.
+% There is no endorsement in any way shape or form from the template authors.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Academic Title Page
+% LaTeX Template
+% Version 2.0 (17/7/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (LaTeX - Title Creation) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
