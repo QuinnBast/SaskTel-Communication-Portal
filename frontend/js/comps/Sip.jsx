@@ -78,83 +78,84 @@ export default class Sip extends React.Component {
 
     makeCall = () => {
         // Register callbacks to desired call events
+        let phone = this;
         let eventHandlers = {
             'connecting': function(e) {
-                console.log('call is in progress');
+                console.log('call is connecting');
             },
             'peerconnection': function(e) {
-                console.log('call is in progress');
+                console.log('call is setting up peerconnection');
             },
             'sending': function(e) {
-                console.log('call is in progress');
+                console.log('call is sending an invite');
             },
             'progress': function(e) {
                 console.log('call is in progress');
             },
             'accepted': function(e) {
-                console.log('call is in progress');
+                console.log('call is accepted');
             },
             'confirmed': function(e) {
-                console.log('call is in progress');
+                console.log('call is confirmed');
             },
             'ended': function(e) {
-                console.log('call is in progress');
-                this.setState({status: "available"});
+                console.log('call has ended with: ' + e.cause);
+                phone.setState({status: "available"});
             },
             'failed': function(e) {
-                console.log('call is started');
-                this.setState({status: "available"});
+                console.log('call has failed with: ' + e.cause);
+                phone.setState({status: "available"});
             },
             'newDMTF': function(e) {
-                console.log('call failed with cause: '+ e.cause);
+                console.log('call setting up newDMTF');
             },
             'newInfo': function(e) {
-                console.log('call ended with cause: '+ e.cause);
+                console.log('call setting up newInfo');
             },
             'hold': function(e) {
-                console.log('call is in progress');
+                console.log('call is on hold');
             },
             'unhold': function(e) {
-                console.log('call is in progress');
+                console.log('call is off hold');
             },
             'muted': function(e) {
-                console.log('call is in progress');
+                console.log('call is muted');
             },
             'unmuted': function(e) {
-                console.log('call is in progress');
+                console.log('call is unmuted');
             },
             'reinvite': function(e) {
-                console.log('call is in progress');
+                console.log('call is reinviting');
             },
             'update': function(e) {
-                console.log('call is in progress');
+                console.log('call is updating');
             },
             'refer': function(e) {
-                console.log('call is in progress');
+                console.log('call is referring');
             },
             'replaces': function(e) {
-                console.log('call is in progress');
+                console.log('call is replacing');
             },
             'sdp': function(e) {
-                console.log('call is in progress');
+                console.log('call is configuring sdp');
             },
             'icecandidate': function(e) {
-                console.log('call is in progress');
+                console.log('call is checking ice candidates');
             },
             'getusermediafailed': function(e) {
-                console.log('call is in progress');
+                console.log('getusermediafailed with: ' + e.cause);
             },
             'peerconnection:createofferfailed': function(e) {
-                console.log('call is in progress');
+                console.log('peerconnection:createofferfailed with: ' + e.cause);
             },
             'peerconnection:createanswerfailed': function(e) {
-                console.log('call is in progress');
+                console.log('peerconnection:createanswerfailed with: ' + e.cause);
             },
             'peerconnection:setlocaldescriptionfailed': function(e) {
-                console.log('call is in progress');
+                console.log('peerconnection:setlocaldescriptionfailed with: ' + e.cause);
             },
             'peerconnection:setremotedescriptionfailed': function(e) {
-                console.log('call is in progress');
+                console.log('peerconnection:setremotedescriptionfailed with: ' + e.cause);
             },
         };
 
