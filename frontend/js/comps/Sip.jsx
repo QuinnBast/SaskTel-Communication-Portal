@@ -13,15 +13,18 @@ import Auth from "../router/Auth"
 /**
  * Style imports
  */
-import { Button, Container } from "reactstrap";
+import { Button, Container, Navbar } from "reactstrap";
 
 const rtcConfig = config.rtcConfig;
 
 const stickyBottom = {
-    position: "absolute",
+    position: "fixed",
     left: 0,
-    bottom:0,
-    right:0
+    bottom: 0,
+    width: "100%" ,
+    textAlign: "center",
+    height: "60px",
+    background: "rgb(33, 37, 41)",
 };
 
 export default class Sip extends React.Component {
@@ -44,6 +47,7 @@ export default class Sip extends React.Component {
             uri      : username + '@' + rtcConfig.domain,
             password : rtcConfig.password,
             authorization_user: username + "@" + rtcConfig.authorization_user_uri,
+            session_timers_refresh_method: 'invite'
         };
 
         this.telportPhone = new JsSIP.UA(configuration);
@@ -170,11 +174,11 @@ export default class Sip extends React.Component {
                     'iceServers': [
                         { 'urls': [rtcConfig.stunServer] },
                     ]
-                }
+                },
             };
 
             // Stream is the user's input from the microphone. We want to send this stream to the RTCConnection.
-            this.telportPhone.call("+13068071758", options);
+            this.telportPhone.call("+13065395729", options);
             this.setState({status: "calling"});
         });
     };
@@ -187,15 +191,12 @@ export default class Sip extends React.Component {
     render() {
         return(
             <div style={stickyBottom}>
-                <div style={{paddingBottom: "50px", background: "rgb(33, 37, 41)"}}>
-                    <Container>
-                        <Button color={"primary"} onClick={this.makeCall}>Make Call </Button>
-                        <Button color={"danger"} onClick={this.endCall}>End Call </Button>
-                        <audio id={"callStream"}></audio>
-                    </Container>
-                </div>
+                <Container>
+                    <Button color={"primary"} onClick={this.makeCall}>Make Call </Button>
+                    <Button color={"danger"} onClick={this.endCall}>End Call </Button>
+                    <audio id={"callStream"} autoPlay={true}/>
+                </Container>
             </div>
         );
     }
-
 }

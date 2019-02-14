@@ -21,13 +21,15 @@ export default class Interface extends Component {
 
     render() {
         return (
-            <div id={"dashboard"}>
-                <Container>
-                    <Profile/>
-                    <CarouselManager/>
-                    <Sip/>
-                </Container>
-            </div>
+            <Fragment>
+                <div style={{marginBottom: "60px"}} id={"dashboard"}>
+                    <Container>
+                        <Profile/>
+                        <CarouselManager/>
+                    </Container>
+                </div>
+                <Sip/>
+            </Fragment>
         );
     }
 }

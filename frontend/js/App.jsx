@@ -17,7 +17,7 @@ import {Router, Redirect, Switch, Route} from "react-router-dom";
  *  Style Imports
  */
 import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
-import "../css/main.css"; //Requires the CSS file
+import "../dist/main.css"; //Requires the CSS file
 
 /**
  *  Router Imports
