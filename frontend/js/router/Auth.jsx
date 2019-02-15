@@ -44,6 +44,9 @@ class Auth {
         let self = this;
 
         if(self.refreshToken === undefined){
+            if(self.username === undefined){
+                return;
+            }
             self.logout();
         }
         // Configure future AJAX request to send the csrf refresh token along in the header.

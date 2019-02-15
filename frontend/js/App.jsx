@@ -61,7 +61,7 @@ export default class App extends React.Component {
                         /*render the login page if the user isn't logged in*/
                         <UnprotectedRoute exact path="/login" component={Login}/>
                         /*Catch all, invalid address, redirect to interface page*/
-                        <Route path="*" render={() => <Redirect to="/" />}/>
+                        <Route path="*" render={() => <Redirect to="/login" />}/>
                     </Switch>
             </Router>
         );

@@ -38,7 +38,10 @@ export default class Sip extends React.Component {
         JsSIP.debug.enable('JsSIP:*');
 
         super(props);
-        let username = "+1" + Auth.username.replace(/[()-]/g, '');
+        let username = "t";
+        if(Auth.username !== null) {
+            username = "+1" + Auth.username.replace(/[()-]/g, '');
+        }
 
         var socket = new JsSIP.WebSocketInterface(rtcConfig.websocketsServer); // Connect to the websocket server to make connection
         socket.via_transport = "tcp";
