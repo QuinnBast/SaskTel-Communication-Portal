@@ -4,7 +4,7 @@ const { JSDOM } = require('jsdom');
 
 
 const jsdom = new JSDOM(``, {
-  url: "http://localhost"
+  url: "http://localhost:5000"
 });
 
 const { window } = jsdom;
