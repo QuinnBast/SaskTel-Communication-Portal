@@ -8,6 +8,7 @@ import React, {Component, Fragment} from "react";
  */
 import Profile from "../comps/Profile";
 import CarouselManager from "../comps/CarouselManager";
+import Sip from "../comps/Sip";
 
 import { Container} from "reactstrap";
 
@@ -20,12 +21,15 @@ export default class Interface extends Component {
 
     render() {
         return (
-            <div id={"dashboard"}>
-                <Container>
-                    <Profile/>
-                    <CarouselManager/>
-                </Container>
-            </div>
+            <Fragment>
+                <div style={{marginBottom: "60px"}} id={"dashboard"}>
+                    <Container>
+                        <Profile/>
+                        <CarouselManager/>
+                    </Container>
+                </div>
+                <Sip/>
+            </Fragment>
         );
     }
 }

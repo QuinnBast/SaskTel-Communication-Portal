@@ -1,0 +1,9 @@
+let rtcConfig = {
+    domain: "rtcDomain.com:port",
+    authorization_user_uri: "authorizationDomain.com",
+    password: "password",
+    websocketsServer: 'wss://domain:port',
+    stunServer: 'stun:domain:port'
+};
+
+exports.rtcConfig = rtcConfig;
