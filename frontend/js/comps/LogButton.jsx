@@ -8,7 +8,8 @@ import {Link, withRouter} from "react-router-dom";
 /**
  *  Style Imports
  */
-import {Menu} from "semantic-ui-react";
+import {NavLink, NavItem} from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 /**
  *  Authentication Imports
@@ -17,9 +18,7 @@ import Auth from "../router/Auth";
 
 export const LogButton = withRouter(() => (
         Auth.isAuthenticated() ? (
-            <Menu.Menu position='right'>
-                <Menu.Item as={Link} to="/login" onClick={Auth.logout}>Sign out</Menu.Item>
-            </Menu.Menu>
+                <NavLink href={"/login"} onClick={Auth.logout}><FontAwesomeIcon icon={"sign-out-alt"}/> Sign out</NavLink>
         ) : (
             ""
         )

@@ -7,7 +7,8 @@ import React, { Component } from 'react'
 /**
  *  Style Imports
  */
-import { Menu } from 'semantic-ui-react'
+import {NavItem, NavLink, Navbar, NavbarToggler, NavbarBrand, Nav, Collapse } from 'reactstrap'
+import {Link} from "react-router-dom";
 
 /**
  *  Component Imports
@@ -15,12 +16,35 @@ import { Menu } from 'semantic-ui-react'
 import {LogButton} from "./LogButton"
 
 export default class NavBar extends Component {
-    render() {
+
+    constructor(props) {
+        super(props);
+
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            isOpen: false
+        };
+    }
+
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+    }
+
+render () {
         return (
-            <Menu attached inverted={true}>
-                <Menu.Item header name='Tel Port'/>
-                <LogButton/>
-            </Menu>
-        )
+            <Navbar color="dark" dark expand="md">
+                  <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
+                  <NavbarToggler onClick={this.toggle} />
+                  <Collapse isOpen={this.state.isOpen} navbar>
+                      <Nav className="ml-auto" navbar>
+                          <NavItem>
+                            <LogButton/>
+                          </NavItem>
+                      </Nav>
+                  </Collapse>
+              </Navbar>
+        );
     }
 }

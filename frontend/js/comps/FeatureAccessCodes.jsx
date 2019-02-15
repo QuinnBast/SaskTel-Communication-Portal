@@ -12,7 +12,6 @@ import AccordionWrap from "./AccordionWrap"
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
-import {Popup, Table} from "semantic-ui-react";
 
 /**
  * Broadsoft imports

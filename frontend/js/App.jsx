@@ -16,7 +16,7 @@ import {Router, Redirect, Switch, Route} from "react-router-dom";
 /**
  *  Style Imports
  */
-import 'semantic-ui-less/semantic.less';
+import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
 import "../css/main.css"; //Requires the CSS file
 
 /**
@@ -37,6 +37,14 @@ import Login from "./routes/Login";
  */
 import  NavBar from "./comps/NavBar";
 
+/**
+ * Font Awesome Icon imports
+ */
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEdit, faQuestionCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faEdit, faQuestionCircle, faSignOutAlt);
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");
