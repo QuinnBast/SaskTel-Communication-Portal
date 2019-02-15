@@ -8,8 +8,6 @@ frontend/dist/bundle\.js
 
 frontend/dist/
 
-REST/logs/*.log
-
 frontend/out/
 
 frontend/\.nyc_output/
@@ -17,3 +15,13 @@ frontend/\.nyc_output/
 frontend/coverage/
 
 frontend/js/config/config\.js
+
+*.aux
+
+documentation/RequirementsAndSpecifications\.log
+
+documentation/RequirementsAndSpecifications\.synctex\.gz
+
+documentation/RequirementsAndSpecifications\.toc
+
+documentation/RequirementsAndSpecifications\.out

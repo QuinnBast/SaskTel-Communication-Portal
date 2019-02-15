@@ -11,8 +11,7 @@ import {Container, Col, Row, CustomInput, Button, Table, Popover, PopoverHeader,
 import Switch from 'react-switch';
 import Broadsoft from "../broadsoft/BroadSoft";
 import { getTag, setTag } from "../broadsoft/xmlParse"
-import { validate } from "./Editable";
-import EditService from "./EditService";
+import { validate } from "./XmlEditable";
 
 /**
  * Font awesome imports
@@ -32,7 +31,6 @@ export default class Service extends React.Component {
      *     tabbed:boolean - if the title should be tabbed as a subset of a larger
      *     uri:string - the url for the service to access data
      *     onEdit(editPage:React.Component):function - a function that sets and moves the containing carousel to the edit page of the component
-     *     editables - A list of editable components at the specified URI.
      *     inLineEdit - determines if the editables of the component should be visible and grouped under the component
      *
      */
@@ -43,7 +41,8 @@ export default class Service extends React.Component {
             active: false,
             responseData: null,
             editComponent: null,
-            popover: false
+            popover: false,
+            status: "loading"
         };
         this.loadAsync();
     }
@@ -54,8 +53,12 @@ export default class Service extends React.Component {
             endpoint: this.props.uri,
             method: "GET",
             success: function(response){
-                let active = getTag(response, self.props.activePath) === "true";
-                self.setState({responseData: response, active: active});
+                if(self.props.hasToggle) {
+                    let active = getTag(response, self.props.activePath) === "true";
+                    self.setState({responseData: response, active: active, status: "ready"});
+                } else {
+                    self.setState({responseData: response, status: "ready"});
+                }
             },
             error: function(response){
                 let content = <div>{JSON.stringify(response)}</div>;
@@ -69,22 +72,6 @@ export default class Service extends React.Component {
     };
 
     sendRequest = () => {
-        // Check if the current configurations is active
-        if(this.state.active){
-            // Check any parameters that are marked as required fields are not filled.
-            if(this.props.editables) {
-                for (let edit of this.props.editables) {
-                    if (edit.required === true) {
-                        let value = getTag(this.state.responseData, edit.XmlLocation);
-                        if (!validate(value, {type: edit.type, range: edit.range})) {
-                            // Required field is not filled properly.
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-
         let request = {
             endpoint: this.props.uri,
             method: "PUT",
@@ -105,12 +92,17 @@ export default class Service extends React.Component {
 
     setValue = (XmlLocation, value) => {
         setTag(this.state.responseData, XmlLocation, value);
-        
+
         this.sendRequest();
     };
 
     edit = () => {
-        this.props.onEdit(<EditService key={this.props.name} parent={this} editables={this.props.editables} />, this.props.name);
+        let editPage = (
+            <Container>
+                {this.props.children}
+            </Container>
+        );
+        this.props.onEdit(editPage, this.props.name);
     };
 
     toggle = (toggleState) => {
@@ -122,23 +114,51 @@ export default class Service extends React.Component {
         this.setState({popover: !this.state.popover})
     };
 
-    render() {
-        let editButton = null;
-        if (this.props.hasEdit) {
-            editButton = <Button color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
+    tabChildren = (children) => {
+        let tabs = [];
+        if(children == null){
+            return null;
         }
-
-        let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
-        if(this.props.tabbed){
-            name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
+        for(let child of children) {
+            tabs.push(
+                <Row>
+                    <Col xs={"12"}>
+                        <Row>
+                            <Col xs={"1"}><br/></Col>
+                            <Col xs={"11"}>{child}</Col>
+                        </Row>
+                    </Col>
+                </Row>);
         }
+        return tabs;
+    };
 
-        let toggle = null;
-        if(this.props.hasToggle){
-            toggle = <Switch onChange={this.toggle} checked={this.state.active}/>;
-        }
+render() {
+    if(this.state.status === "loading"){
+        return(
+            <div>Loading...</div>
+        )
+    }
 
-        return (
+    let editButton = null;
+    let children = this.props.children;
+    if (this.props.hasEdit) {
+        editButton = <Button color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
+        children = null;
+    }
+
+    let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+    // if(this.props.tabbed){
+    //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
+    // }
+
+    let toggle = null;
+    if(this.props.hasToggle){
+        toggle = <Switch onChange={this.toggle} checked={this.state.active}/>;
+    }
+
+    return (
+        <React.Fragment>
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
@@ -153,8 +173,10 @@ export default class Service extends React.Component {
                     </Popover>
                 </Container>
             </Container>
-        );
-    }
+            {this.tabChildren(children)}
+        </React.Fragment>
+    );
+}
 }
 
 Service.propTypes = {
@@ -163,15 +185,15 @@ Service.propTypes = {
     // If the item has a toggle button
     hasToggle: PropTypes.bool,
     // The path to determine if the service is active within the XML response
-    activePath: PropTypes.array.isRequired,
+    activePath: PropTypes.array,
     // The name of the service
     name: PropTypes.string.isRequired,
-    // If the service should be tabbed in as a subset of another heading.
-    tabbed: PropTypes.bool,
     // The uri to access for endpoint data and updates.
     uri: PropTypes.string.isRequired,
     // A function passed from CarouselManager to handle changing carousel slides
     onEdit: PropTypes.func.isRequired,
     // A list of editable properties in the XML response and their types.
-    editables: PropTypes.object
+    editables: PropTypes.object,
+    // The object's tooltip
+    tooltip: PropTypes.string.isRequired
 }

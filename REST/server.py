@@ -1,5 +1,23 @@
-from flask import Flask, Response
-from flask.logging import default_handler
+# Needs to be initialized first otherwise modules that depend on the configuration values will fail
+from REST.config.Config import GeneralConfig
+import logging, logging.config, yaml
+config = GeneralConfig()
+
+# Configure the logging to log to a file if logging is configured
+if config.logging:
+    logging.config.dictConfig(yaml.load(open('REST/logs/logging.conf')))
+    logfile = logging.getLogger('file')
+    logfile.setLevel(config.logging_level)
+
+# Configure the console logging levels.
+logconsole = logging.getLogger('console')
+logconsole.setLevel(config.verbose_level)
+
+# Configure werkzeug to be the same as the verbose config.
+log = logging.getLogger('werkzeug')
+log.setLevel(config.verbose_level)
+
+from flask import Flask
 from flask_restful import Api
 from REST.auth.Authenticator import Authenticator
 from flask_jwt_extended import JWTManager
@@ -7,17 +25,6 @@ from REST.config.ConfigManager import ConfigManager
 from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 
 app = Flask(__name__, static_folder="../frontend/dist", template_folder="../frontend")
-
-
-import logging
-from logging.handlers import RotatingFileHandler
-file_handler = RotatingFileHandler('REST/logs/output.log')
-app.logger.setLevel(logging.INFO)
-formatter = logging.Formatter("        %(asctime)s - %(message)s")
-file_handler.setFormatter(formatter)
-default_handler.setFormatter(formatter)
-app.logger.addHandler(file_handler)
-logging.getLogger('werkzeug').addHandler(file_handler)
 
 api = Api(app)
 
@@ -39,6 +46,7 @@ api.add_resource(Authenticator.UserLogout, "/rest/logout")
 api.add_resource(Authenticator.TokenRefresh, "/rest/token/refresh")
 api.add_resource(BroadsoftConnector.getEndpoint, "/rest/broadsoft")
 
+whitelist = set()
 
 # Initialize the controllers.
 # DO NOT DELETE THESE IMPORTS

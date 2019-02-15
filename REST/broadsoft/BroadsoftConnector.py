@@ -7,6 +7,7 @@ from REST.auth.Proxy import Proxy
 from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
 import logging
+from REST.server import config, logconsole, logfile
 
 
 class BroadsoftConnector(BroadsoftResource):
@@ -31,6 +32,11 @@ class BroadsoftConnector(BroadsoftResource):
             Triggered when getEndpoints is accessed via POST
             :return:
             """
+
+            if config.logging:
+                logfile.info("Request to /rest/broadsoft recieved")
+            if config.verbose:
+                logconsole.info("Request to /rest/broadsoft recieved")
 
             # Ensure that the user has sent a jwt to the endpoint.
             try:
@@ -86,13 +92,12 @@ class BroadsoftConnector(BroadsoftResource):
 
             # Check if a valid response was returned.
             if response.status_code == 200 or response.status_code == 201:
-                # Log the sent content
-                from ..server import app
-                app.logger.log(logging.INFO, "Sent url: " + url)
-                app.logger.log(logging.INFO, "Send method: " + method)
-                app.logger.log(logging.INFO, "Sent data: " + data)
-                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
-                app.logger.log(logging.INFO, "Response content: " + str(response.content) if response.content else "")
+
+                # Output a response to the console and log files.
+                if config.logging:
+                    logfile.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "")
+                if config.verbose:
+                    logconsole.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "")
 
                 # Format a response
                 if response.content:
@@ -100,13 +105,11 @@ class BroadsoftConnector(BroadsoftResource):
                 else:
                     return make_response("", 200)
             else:
-                from ..server import app
-                app.logger.log(logging.INFO, "Sent url: " + url)
-                app.logger.log(logging.INFO, "Send method: " + method)
-                app.logger.log(logging.INFO, "Sent data: " + data)
-                app.logger.log(logging.INFO, "Response status: " + str(response.status_code))
-                app.logger.log(logging.INFO,
-                               "Response content: " + response.content.decode('ISO-8859-1') if response.content else "")
+                if config.logging:
+                    logfile.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
+                if config.verbose:
+                    logconsole.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
+
                 if response.content:
                     return make_response(response.content.decode('ISO-8859-1'), response.status_code)
                 else:
