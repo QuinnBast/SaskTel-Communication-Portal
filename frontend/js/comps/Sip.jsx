@@ -2,18 +2,17 @@
  *  React Imports
  */
 import React from "react";
-
 /**
  * SIP imports
  */
 import JsSIP from "jssip";
 import config from "../config/config";
 import Auth from "../router/Auth"
-
 /**
  * Style imports
  */
-import { Button, Container, Navbar } from "reactstrap";
+import {Button, Container} from "reactstrap";
+import MaskedInput from "react-text-mask";
 
 const rtcConfig = config.rtcConfig;
 
@@ -33,6 +32,7 @@ export default class Sip extends React.Component {
         super(props);
         this.state = {
             status: "available",
+            targetPhoneNumber : "",
         };
 
         JsSIP.debug.enable('JsSIP:*');
@@ -179,8 +179,13 @@ export default class Sip extends React.Component {
             };
 
             // Stream is the user's input from the microphone. We want to send this stream to the RTCConnection.
-            this.telportPhone.call("+13065395729", options);
-            this.setState({status: "calling"});
+            if(this.state.targetPhoneNumber.length  === 10) {
+                this.telportPhone.call("+1" + this.state.targetPhoneNumber, options);
+                this.setState({status: "calling"});
+            }
+            else {
+                console.log("Invalid Phone Number");
+            }
         });
     };
 
@@ -188,12 +193,23 @@ export default class Sip extends React.Component {
         this.telportPhone.terminateSessions();
         this.setState({status: "available"});
     };
+    handlePhoneNumberChange = phoneNumber => {
+        this.setState({targetPhoneNumber: phoneNumber.target.value.replace(/[()_-]/g,'')})
+    };
 
     render() {
         return(
             <div style={stickyBottom}>
                 <Container>
-                    <Button color={"primary"} onClick={this.makeCall}>Make Call </Button>
+                    <MaskedInput
+                        mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                        placeholder="(___)-___-____"
+                        id="targetPhoneNumber"
+                        guide = {true}
+                        autoComplete="off"
+                        onChange={this.handlePhoneNumberChange}
+                        className={"form-control"}
+                    />                    <Button color={"primary"} onClick={this.makeCall}>Make Call </Button>
                     <Button color={"danger"} onClick={this.endCall}>End Call </Button>
                     <audio id={"callStream"} autoPlay={true}/>
                 </Container>
