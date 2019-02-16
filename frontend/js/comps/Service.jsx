@@ -121,7 +121,7 @@ export default class Service extends React.Component {
         }
         for(let child of children) {
             tabs.push(
-                <Row>
+                <Row key={child.props.name}>
                     <Col xs={"12"}>
                         <Row>
                             <Col xs={"1"}><br/></Col>
@@ -158,7 +158,7 @@ render() {
     }
 
     return (
-        <React.Fragment>
+        <React.Fragment key={this.state.uri}>
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
