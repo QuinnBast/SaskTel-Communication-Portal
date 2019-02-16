@@ -73,12 +73,12 @@ export default class XmlEditable extends React.Component {
     render(){
         let padding = {
             padding: "10px",
-        }
+        };
         let name = <Col xs={"6"}><h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5></Col>;
         switch(this.props.type){
             case "bool":
                 return(
-                    <Container style={padding}>
+                    <Container id={this.props.name.replace(/\s+/g, '') + "EditableBool"} style={padding}>
                         <Row style={{height: "40px"}}>
                             {name}
                             <Col xs={"6"}><Switch onChange={this.toggleBoolean} checked={this.state.value}/></Col>
@@ -91,7 +91,7 @@ export default class XmlEditable extends React.Component {
                 );
             case "range":
                 return(
-                    <Container style={padding}>
+                    <Container id={this.props.name.replace(/\s+/g, '') + "EditableRange"} style={padding}>
                         <Row style={{height: "40px"}}>
                             {name}
                             <Col xs={"6"}><Input type={"number"} onChange={this.inputChange}/></Col>
@@ -104,7 +104,7 @@ export default class XmlEditable extends React.Component {
                 );
             case "phone":
                 return(
-                    <Container style={padding}>
+                    <Container id={this.props.name.replace(/\s+/g, '') + "EditablePhone"} style={padding}>
                         <Row style={{height: "40px"}}>
                             {name}
                             <Col xs={"6"}>

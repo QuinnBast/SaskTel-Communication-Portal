@@ -18,7 +18,7 @@ export default class FeatureAccessCodesButton extends React.Component {
     render() {
         return(
           <div>
-        <Button onClick={this.showFeatureAccessCodes}>Feature Access Codes</Button>
+        <Button onClick={this.showFeatureAccessCodes} id={"facButton"}>Feature Access Codes</Button>
           </div>
         );
     }

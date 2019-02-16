@@ -28,9 +28,10 @@ export default class CallLogs extends React.Component {
             column : null,
             direction : null
         };
-        // this.loadAsync() triggers componentDidUpdate() and the contents are loaded.
-        this.loadAsync();
+    }
 
+    componentDidMount() {
+        this.loadAsync();
     }
 
     handleSort = clickedColumn => () => {
@@ -64,7 +65,7 @@ export default class CallLogs extends React.Component {
     };
 
     // Asynchronous function that updates the object.
-    loadAsync(){
+    loadAsync = () => {
         let self= this;
         BroadSoft.sendRequest({
             endpoint:"/user/<user>/directories/CallLogs",

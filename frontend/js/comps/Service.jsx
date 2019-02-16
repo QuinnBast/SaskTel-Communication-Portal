@@ -44,6 +44,9 @@ export default class Service extends React.Component {
             popover: false,
             status: "loading"
         };
+    }
+
+    componentDidMount() {
         this.loadAsync();
     }
 
@@ -143,18 +146,18 @@ render() {
     let editButton = null;
     let children = this.props.children;
     if (this.props.hasEdit) {
-        editButton = <Button color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
+        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
         children = null;
     }
 
-    let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
     // if(this.props.tabbed){
     //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
     // }
 
     let toggle = null;
     if(this.props.hasToggle){
-        toggle = <Switch onChange={this.toggle} checked={this.state.active}/>;
+        toggle = <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>;
     }
 
     return (
@@ -162,12 +165,12 @@ render() {
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
-                        <Col xs={"6"} >{name}</Col>
+                        <Col xs={"6"}>{name}</Col>
                         <Col xs={"3"}>{toggle}</Col>
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>
 
-                    <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
+                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
                         <PopoverHeader>{this.props.name}</PopoverHeader>
                         <PopoverBody>{this.props.tooltip}</PopoverBody>
                     </Popover>

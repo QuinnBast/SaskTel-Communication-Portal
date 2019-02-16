@@ -53,12 +53,12 @@ export default class CarouselManager extends React.Component {
         }
 
         return(
-          <Carousel activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false}>
-              <CarouselItem key={"settings"}>
+          <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false}>
+              <CarouselItem id={"carouselHeader"} key={"settings"}>
                   {header}
                   <ProfileSettings onEdit={this.next}/>
               </CarouselItem>
-              <CarouselItem key={"editPage"}>
+              <CarouselItem id={"carouselBody"} key={"editPage"}>
                   {header}
                   {this.state.editPage}
               </CarouselItem>

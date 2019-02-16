@@ -28,7 +28,6 @@ export default class PersonalContacts extends React.Component {
 
     constructor(props) {
         super(props);
-        this.loadAsync();
         this.state = {
             unauthorized: false,
             status: "loading",
@@ -40,8 +39,12 @@ export default class PersonalContacts extends React.Component {
         this.dataFormat = null;
     }
 
+    componentDidMount() {
+        this.loadAsync();
+    }
+
 // Asynchronous function that updates the object.
-    loadAsync(){
+    loadAsync = () => {
         let self = this;
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/directories/Personal",

@@ -29,6 +29,9 @@ export default class ProfileSettings extends React.Component {
             status: "loading",
             services: []
         };
+    }
+
+    componentDidMount() {
         this.loadServices();
     }
 
@@ -61,19 +64,19 @@ export default class ProfileSettings extends React.Component {
     render() {
         if(this.state.status === "loading"){
             return(
-            <Container>
+            <Container id={"ProfileServices"}>
                 <div>Loading services...</div>
             </Container>
             );
         } else if(this.state.status === "error"){
             return(
-            <Container>
+            <Container id={"ProfileServices"}>
                 <div>An error has occurred.</div>
             </Container>
             );
         } else if (this.state.status === "ready"){
             return(
-            <Container>
+            <Container id={"ProfileServices"}>
                 {this.state.services}
             </Container>
             );
