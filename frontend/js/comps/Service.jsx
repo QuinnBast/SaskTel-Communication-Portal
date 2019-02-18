@@ -105,7 +105,11 @@ export default class Service extends React.Component {
                 {this.props.children}
             </Container>
         );
-        this.props.onEdit(editPage, this.props.name);
+        this.props.onEdit(editPage, this.props.name, this);
+    };
+
+    isActive = () => {
+        return this.state.active;
     };
 
     toggle = (toggleState) => {
@@ -170,7 +174,7 @@ render() {
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>
 
-                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
+                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
                         <PopoverHeader>{this.props.name}</PopoverHeader>
                         <PopoverBody>{this.props.tooltip}</PopoverBody>
                     </Popover>

@@ -1,7 +1,7 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 import PropTypes from 'prop-types';
 
 /**
@@ -11,6 +11,9 @@ import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask'
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+
+
+let $ = require('jquery');
 
 export default class XmlEditable extends React.Component {
     /**
@@ -30,11 +33,15 @@ export default class XmlEditable extends React.Component {
         let value = this.props.parent.current.getValue(this.props.XmlLocation);
         if(this.props.type === "bool"){
             value = value === "true" || value === true;
+        } else if(this.props.type === "range"){
+            value = parseInt(value);
         }
         this.state = {
             originalValue: value,
             value: value,
-            popover: false
+            popover: false,
+            statusPopover: false,
+            status: "valid"
         }
     }
 
@@ -50,6 +57,9 @@ export default class XmlEditable extends React.Component {
         // Only send if 10 characters or null
         if(validate(event.target.value, {type:"phone"})) {
             this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
+            this.setState({status: "sync"});
+        } else {
+            this.setState({status: "error"});
         }
     };
 
@@ -57,8 +67,10 @@ export default class XmlEditable extends React.Component {
         this.setState({value: event.target.value});
         if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
             this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
+            this.setState({status: "sync"});
         } else {
             // Validation fail
+            this.setState({status: "error"});
         }
     };
 
@@ -70,60 +82,70 @@ export default class XmlEditable extends React.Component {
         return validate(this.state.value, {type: this.props.type, range: this.props.range})
     };
 
+    toggleStatusPopover = () => {
+        this.setState({statusPopover: !this.state.statusPopover});
+    };
+
     render(){
         let padding = {
-            padding: "10px",
+            padding: "10px"
         };
-        let name = <Col xs={"6"}><h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5></Col>;
+        let centered = {
+            margin: "auto",
+            textAlign: "center"
+        };
+
+        let status = null;
+        if(this.state.status === "valid"){
+            status = <FontAwesomeIcon icon={"check"} color={"green"} size={"md"}/>;
+        } else if (this.state.status === "error"){
+            status = <FontAwesomeIcon icon={"times"} color={"red"} size={"md"}/>;
+        } else if (this.state.status === "sync"){
+            status = <FontAwesomeIcon icon={"sync"} color={"blue"} size={"md"}/>;
+        }
+
+        let name = <h5>{status}  {this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
+
+        let titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
+                <PopoverHeader>{this.props.name}</PopoverHeader>
+                <PopoverBody>{this.props.tooltip}</PopoverBody>
+            </Popover>;
+
+
         switch(this.props.type){
             case "bool":
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableBool"} style={padding}>
-                        <Row style={{height: "40px"}}>
-                            {name}
-                            <Col xs={"6"}><Switch onChange={this.toggleBoolean} checked={this.state.value}/></Col>
-                        </Row>
-                        <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
-                            <PopoverHeader>{this.props.name}</PopoverHeader>
-                            <PopoverBody>{this.props.tooltip}</PopoverBody>
-                        </Popover>
+                        <div>{name}</div>
+                        <div><Switch onChange={this.toggleBoolean} checked={this.state.value}/></div>
+                        {titlePopover}
                     </Container>
                 );
             case "range":
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableRange"} style={padding}>
-                        <Row style={{height: "40px"}}>
-                            {name}
-                            <Col xs={"6"}><Input type={"number"} onChange={this.inputChange}/></Col>
-                        </Row>
-                        <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
-                            <PopoverHeader>{this.props.name}</PopoverHeader>
-                            <PopoverBody>{this.props.tooltip}</PopoverBody>
-                        </Popover>
+                        <div>{name}</div>
+                        <div><Input type={"number"} onChange={this.inputChange}/></div>
+                        {titlePopover}
                     </Container>
                 );
             case "phone":
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditablePhone"} style={padding}>
-                        <Row style={{height: "40px"}}>
-                            {name}
-                            <Col xs={"6"}>
-                                    <MaskedInput
-                                        mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
-                                        placeholder="(___)-___-____"
-                                        id="EditablePhone"
-                                        guide = {true}
-                                        autoComplete="off"
-                                        defaultValue={this.state.value}
-                                        onChange={(e) => this.changePhone(e)}
-                                        className={"form-control"}
-                                    />
-                            </Col>
-                        </Row>
-                        <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
-                            <PopoverHeader>{this.props.name}</PopoverHeader>
-                            <PopoverBody>{this.props.tooltip}</PopoverBody>
-                        </Popover>
+                        <div>{name}</div>
+                        <div>
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="EditablePhone"
+                                guide = {true}
+                                autoComplete="off"
+                                defaultValue={this.state.value}
+                                onChange={(e) => this.changePhone(e)}
+                                className={"form-control"}
+                            />
+                        </div>
+                        {titlePopover}
                     </Container>
                 );
         }
