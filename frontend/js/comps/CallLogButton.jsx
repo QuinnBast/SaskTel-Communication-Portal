@@ -18,7 +18,7 @@ export default class CallLogButton extends React.Component {
     render() {
         return(
           <div>
-        <Button onClick={this.showLogs}>Call Logs</Button>
+        <Button onClick={this.showLogs} id={"callLogButton"}>Call Logs</Button>
           </div>
         );
     }

@@ -34,8 +34,8 @@ export default class NavBar extends Component {
 
 render () {
         return (
-            <Navbar color="dark" dark expand="md">
-                  <NavbarBrand tag={Link} to="/">TelPort</NavbarBrand>
+            <Navbar id={"navbar"} color="dark" dark expand="md">
+                  <NavbarBrand id={"navTitle"} tag={Link} to="/">TelPort</NavbarBrand>
                   <NavbarToggler onClick={this.toggle} />
                   <Collapse isOpen={this.state.isOpen} navbar>
                       <Nav className="ml-auto" navbar>

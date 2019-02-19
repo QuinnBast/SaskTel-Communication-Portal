@@ -34,10 +34,11 @@ export default class Sip extends React.Component {
             status: "available",
             targetPhoneNumber : "",
         };
+    }
+
+    componentDidMount() {
 
         JsSIP.debug.enable('JsSIP:*');
-
-        super(props);
         let username = "+1" + Auth.username.replace(/[()-]/g, '');
 
         var socket = new JsSIP.WebSocketInterface(rtcConfig.websocketsServer); // Connect to the websocket server to make connection
@@ -199,7 +200,7 @@ export default class Sip extends React.Component {
 
     render() {
         return(
-            <div style={stickyBottom}>
+            <div style={stickyBottom} id={"callFooter"}>
                 <Container>
                     <MaskedInput
                         mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
@@ -209,8 +210,8 @@ export default class Sip extends React.Component {
                         autoComplete="off"
                         onChange={this.handlePhoneNumberChange}
                         className={"form-control"}
-                    />                    <Button color={"primary"} onClick={this.makeCall}>Make Call </Button>
-                    <Button color={"danger"} onClick={this.endCall}>End Call </Button>
+                    />                    <Button id={"makeCallButtom"} color={"primary"} onClick={this.makeCall}>Make Call </Button>
+                    <Button id={"endCallButtom"} color={"danger"} onClick={this.endCall}>End Call </Button>
                     <audio id={"callStream"} autoPlay={true}/>
                 </Container>
             </div>

@@ -20,7 +20,6 @@ export default class Profile extends React.Component {
 
     constructor(props) {
         super(props);
-        this.loadAsync();
         this.state = {
             firstName: "",
             lastName: "",
@@ -30,8 +29,12 @@ export default class Profile extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.loadAsync();
+    }
+
 // Asynchronous function that updates the object.
-    loadAsync(){
+    loadAsync = () => {
         let self = this;
         BroadSoft.sendRequest({
             endpoint: "/user/<user>/profile",
@@ -66,9 +69,9 @@ export default class Profile extends React.Component {
                     <Jumbotron>
                         <Row>
                             <Col xs={"9"}>
-                                <h1>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
-                                <p>Number: {this.state.number}</p>
-                                <p>Extension: {this.state.extension}</p>
+                                <h1 id={"userName"}>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
+                                <p id={"userNumber"}>Number: {this.state.number}</p>
+                                <p id={"userExtension"}>Extension: {this.state.extension}</p>
                             </Col>
                             <Col xs={"3"}>
                                 <CallLogButton/>

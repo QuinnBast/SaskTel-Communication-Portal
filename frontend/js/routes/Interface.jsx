@@ -11,6 +11,7 @@ import CarouselManager from "../comps/CarouselManager";
 import Sip from "../comps/Sip";
 
 import { Container} from "reactstrap";
+import InfoMessage from "../comps/InfoMessage";
 
 export default class Interface extends Component {
 
@@ -29,6 +30,7 @@ export default class Interface extends Component {
                     </Container>
                 </div>
                 <Sip/>
+                <InfoMessage/>
             </Fragment>
         );
     }

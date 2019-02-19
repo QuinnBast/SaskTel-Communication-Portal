@@ -44,6 +44,9 @@ export default class Service extends React.Component {
             popover: false,
             status: "loading"
         };
+    }
+
+    componentDidMount() {
         this.loadAsync();
     }
 
@@ -72,15 +75,18 @@ export default class Service extends React.Component {
     };
 
     sendRequest = () => {
+        let self = this;
         let request = {
             endpoint: this.props.uri,
             method: "PUT",
             data: this.state.responseData,
             success: function(response){
-                console.log("Successful Update.")
+                console.log("Successful Update.");
+                global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
             },
             error: function(response){
-                console.log("ERROR SENDING UPDATE.")
+                console.log("ERROR SENDING UPDATE.");
+                global.sendMessage("Error updating the " + self.props.name + " service!", {timeout: 3000, color: "danger"});
                 // Permanently change background to red to indicate error to user.
                 //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
                 // Reset the state of the component by fetching the current state.
@@ -102,7 +108,11 @@ export default class Service extends React.Component {
                 {this.props.children}
             </Container>
         );
-        this.props.onEdit(editPage, this.props.name);
+        this.props.onEdit(editPage, this.props.name, this);
+    };
+
+    isActive = () => {
+        return this.state.active;
     };
 
     toggle = (toggleState) => {
@@ -121,7 +131,7 @@ export default class Service extends React.Component {
         }
         for(let child of children) {
             tabs.push(
-                <Row>
+                <Row key={child.props.name}>
                     <Col xs={"12"}>
                         <Row>
                             <Col xs={"1"}><br/></Col>
@@ -143,31 +153,31 @@ render() {
     let editButton = null;
     let children = this.props.children;
     if (this.props.hasEdit) {
-        editButton = <Button color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
+        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
         children = null;
     }
 
-    let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
     // if(this.props.tabbed){
     //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
     // }
 
     let toggle = null;
     if(this.props.hasToggle){
-        toggle = <Switch onChange={this.toggle} checked={this.state.active}/>;
+        toggle = <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>;
     }
 
     return (
-        <React.Fragment>
+        <React.Fragment key={this.state.uri}>
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row style={{height: "40px"}}>
-                        <Col xs={"6"} >{name}</Col>
+                        <Col xs={"6"}>{name}</Col>
                         <Col xs={"3"}>{toggle}</Col>
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>
 
-                    <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}>
+                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
                         <PopoverHeader>{this.props.name}</PopoverHeader>
                         <PopoverBody>{this.props.tooltip}</PopoverBody>
                     </Popover>
