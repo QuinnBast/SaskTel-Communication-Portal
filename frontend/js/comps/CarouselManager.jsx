@@ -67,6 +67,7 @@ export default class CarouselManager extends React.Component {
         }
 
         return(
+            <div style={{marginBottom: "240px"}}>
           <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
               <CarouselItem id={"carouselHeader"} key={"settings"}>
                   {header}
@@ -77,6 +78,7 @@ export default class CarouselManager extends React.Component {
                   {this.state.editPage}
               </CarouselItem>
           </Carousel>
+                </div>
         );
     }
 }

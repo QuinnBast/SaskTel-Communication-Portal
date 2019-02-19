@@ -75,15 +75,18 @@ export default class Service extends React.Component {
     };
 
     sendRequest = () => {
+        let self = this;
         let request = {
             endpoint: this.props.uri,
             method: "PUT",
             data: this.state.responseData,
             success: function(response){
-                console.log("Successful Update.")
+                console.log("Successful Update.");
+                global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
             },
             error: function(response){
-                console.log("ERROR SENDING UPDATE.")
+                console.log("ERROR SENDING UPDATE.");
+                global.sendMessage("Error updating the " + self.props.name + " service!", {timeout: 3000, color: "danger"});
                 // Permanently change background to red to indicate error to user.
                 //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
                 // Reset the state of the component by fetching the current state.

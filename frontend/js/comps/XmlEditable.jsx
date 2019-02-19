@@ -97,11 +97,11 @@ export default class XmlEditable extends React.Component {
 
         let status = null;
         if(this.state.status === "valid"){
-            status = <FontAwesomeIcon icon={"check"} color={"green"} size={"md"}/>;
+            status = <FontAwesomeIcon icon={"check"} color={"green"} size={"lg"}/>;
         } else if (this.state.status === "error"){
-            status = <FontAwesomeIcon icon={"times"} color={"red"} size={"md"}/>;
+            status = <FontAwesomeIcon icon={"times"} color={"red"} size={"lg"}/>;
         } else if (this.state.status === "sync"){
-            status = <FontAwesomeIcon icon={"sync"} color={"blue"} size={"md"}/>;
+            status = <FontAwesomeIcon icon={"sync"} color={"blue"} size={"lg"}/>;
         }
 
         let name = <h5>{status}  {this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
