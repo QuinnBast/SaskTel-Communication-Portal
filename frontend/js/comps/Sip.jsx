@@ -11,7 +11,7 @@ import Auth from "../router/Auth"
 /**
  * Style imports
  */
-import {Button, Container} from "reactstrap";
+import {Button, Input, Row, Col, Container} from "reactstrap";
 import MaskedInput from "react-text-mask";
 
 const rtcConfig = config.rtcConfig;
@@ -33,6 +33,8 @@ export default class Sip extends React.Component {
         this.state = {
             status: "available",
             targetPhoneNumber : "",
+            buttonText: "Call",
+            length: 0,
         };
     }
 
@@ -194,25 +196,115 @@ export default class Sip extends React.Component {
         this.telportPhone.terminateSessions();
         this.setState({status: "available"});
     };
-    handlePhoneNumberChange = phoneNumber => {
-        this.setState({targetPhoneNumber: phoneNumber.target.value.replace(/[()_-]/g,'')})
+
+    /**
+     * When the phone number changes, update the value of the phone number in the component
+     * @param phoneNumberInput
+     */
+    handlePhoneNumberChange = phoneNumberInput => {
+        this.setState({targetPhoneNumber: phoneNumberInput.target.value.replace(/[()_-]/g,''),
+            length: phoneNumberInput.target.value.replace(/[()_-]/g,'').length})
+    };
+
+    /**
+     * Conditions for a valid phone number:
+     * 1. 10 digits long without country code
+     * 2. 11 digits long with country code
+     * 3. consists of only digits
+     * @returns {boolean}
+     */
+    isValidPhoneNumber = () => {
+        return this.state.targetPhoneNumber.length === 10;
+    };
+
+    /**
+     * 1. check if the phone number is valid
+     * 2. Check the state of the call
+     * @returns {boolean}
+     */
+    isButtonDisabled = () => {
+        return this.isValidPhoneNumber();
+    };
+
+    /**
+     * If the call state is anything but available, lock the input
+     * @returns {boolean}
+     */
+    isTargetPhoneNumberInputDisabled = () =>{
+        return this.state.status !== "available";
+    };
+
+    /**
+     *  binary call button to handle all call states
+     */
+    clickCallButton = () => {
+        if(this.state.buttonText === "Call")
+        {
+            this.makeCall();
+        }
+        else
+        {
+            this.endCall();
+        }
     };
 
     render() {
         return(
-            <div style={stickyBottom} id={"callFooter"}>
+            <div
+                style={stickyBottom}
+                id={"callFooter"}
+            >
                 <Container>
-                    <MaskedInput
-                        mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
-                        placeholder="(___)-___-____"
-                        id="targetPhoneNumber"
-                        guide = {true}
-                        autoComplete="off"
-                        onChange={this.handlePhoneNumberChange}
-                        className={"form-control"}
-                    />                    <Button id={"makeCallButtom"} color={"primary"} onClick={this.makeCall}>Make Call </Button>
-                    <Button id={"endCallButtom"} color={"danger"} onClick={this.endCall}>End Call </Button>
-                    <audio id={"callStream"} autoPlay={true}/>
+                    <Row>
+                        <Col
+                            xs="5"
+                        >
+                            <MaskedInput
+                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                placeholder="(___)-___-____"
+                                id="targetPhoneNumber"
+                                guide = {true}
+                                autoComplete="off"
+                                onChange={this.handlePhoneNumberChange}
+                                render={(ref, props) => (
+                                    <Input innerRef={ref} {...props} />
+                                )}
+                            />
+                        </Col>
+                        <Col
+                            xs="2"
+                        />
+                        <Col
+                            xs="5"
+                        >
+                            <Button
+                                block={true}
+                                id={"CallButton"}
+                                outline = {true}
+                                color={"info"}
+                                onClick={this.clickCallButton} // on click, call this function
+
+                                // disabled = return value
+                                disabled={this.isButtonDisabled()}
+                                // disabled = true
+                                disabled={this.isButtonDisabled}
+
+                                
+
+
+                            >
+                                {this.state.buttonText}
+                            </Button>
+                            <audio
+                                id={"callStream"}
+                                autoPlay={true}
+                            />
+
+                        </Col>
+                        <Col
+                            xs="2"
+                        />
+                    </Row>
                 </Container>
             </div>
         );

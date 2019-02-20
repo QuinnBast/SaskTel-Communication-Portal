@@ -29,7 +29,7 @@
     "enzyme-adapter-react-16": "^1.7.1",
     "istanbul": "^0.4.5",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "react": "^16.5.2",
     "react-dom": "^16.7.0",
     "selenium-webdriver": "^3.6.0",
