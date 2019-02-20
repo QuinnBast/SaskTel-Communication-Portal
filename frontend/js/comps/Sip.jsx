@@ -223,7 +223,7 @@ export default class Sip extends React.Component {
      * @returns {boolean}
      */
     isButtonDisabled = () => {
-        return this.isValidPhoneNumber();
+        return !this.isValidPhoneNumber();
     };
 
     /**
@@ -240,11 +240,13 @@ export default class Sip extends React.Component {
     clickCallButton = () => {
         if(this.state.buttonText === "Call")
         {
+            this.setState({buttonText: "End"});
             this.makeCall();
         }
         else
-        {
+        {   this.setState({buttonText: "Call"});
             this.endCall();
+
         }
     };
 
@@ -283,15 +285,8 @@ export default class Sip extends React.Component {
                                 outline = {true}
                                 color={"info"}
                                 onClick={this.clickCallButton} // on click, call this function
-
                                 // disabled = return value
                                 disabled={this.isButtonDisabled()}
-                                // disabled = true
-                                disabled={this.isButtonDisabled}
-
-                                
-
-
                             >
                                 {this.state.buttonText}
                             </Button>
