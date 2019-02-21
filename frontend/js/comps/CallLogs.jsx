@@ -5,11 +5,6 @@ import _ from 'lodash'
 import React from "react";
 
 /**
- *  Component Imports
- */
-import AccordionWrap from "./AccordionWrap";
-
-/**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
@@ -18,6 +13,8 @@ import { getTag } from "../broadsoft/xmlParse";
 /**
  *  Style Imports
  */
+import {Table, Badge} from 'reactstrap';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default class CallLogs extends React.Component {
 
@@ -115,50 +112,63 @@ export default class CallLogs extends React.Component {
         let i = 0;
         let tableRows = [];
         for(let property of Array.from(this.state.logs)){
-            tableRows.push(<Table.Row key={this.state.name + (i++).toString()}>
-                <Table.Cell>{property['type']}</Table.Cell>
-                <Table.Cell>{property['phoneNumber']}</Table.Cell>
-                <Table.Cell>{(new Date(property['time']))
+
+            let badge = null;
+            switch(property['type']){
+                case "Outgoing":
+                    badge = <h4><Badge pill color={"primary"}>{property['type']}</Badge></h4>;
+                    break;
+                case "Missed":
+                    badge = <h4><Badge pill color={"danger"}>{property['type']}</Badge></h4>;
+                    break;
+                case "Received":
+                    badge = <h4><Badge pill color={"success"}>{property['type']}</Badge></h4>;
+                    break;
+            }
+
+            tableRows.push(<tr key={this.state.name + (i++).toString()}>
+                <td>{badge}</td>
+                <td>{property['phoneNumber']}</td>
+                <td>{(new Date(property['time']))
                     .toLocaleString('en-CA',
                         {   day: 'numeric',
                             month: 'short',
                             weekday :'short',
                             hour: 'numeric',
-                            minute: 'numeric', localeMatcher : "best fit" }).replace('.', '')}</Table.Cell>
-            </Table.Row>);
+                            minute: 'numeric', localeMatcher : "best fit" }).replace('.', '')}</td>
+            </tr>);
         }
+
+        let sortIcons = [null, null, null];
+        if(this.state.column === 'type'){
+            sortIcons[0] = this.state.direction === 'descending' ? <FontAwesomeIcon icon={"caret-down"}/> : <FontAwesomeIcon icon={"caret-up"}/>;
+        } else if (this.state.column === 'phoneNumber') {
+            sortIcons[1] = this.state.direction === 'descending' ? <FontAwesomeIcon icon={"caret-down"}/> : <FontAwesomeIcon icon={"caret-up"}/>;
+        } else if (this.state.column === 'time') {
+            sortIcons[2] = this.state.direction === 'descending' ? <FontAwesomeIcon icon={"caret-down"}/> : <FontAwesomeIcon icon={"caret-up"}/>;
+        }
+
         return (
-            <AccordionWrap title={"Call Logs"} description={"This property shows the history of all your previous calls."}>
                 <div>
-                    <Table sortable striped id={"CallLogs"}>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell
-                                    sorted={this.state.column === 'type' ? this.state.direction : null}
-                                    onClick={this.handleSort('type')}
-                                >
-                                    Type
-                                </Table.HeaderCell>
-                                <Table.HeaderCell
-                                    sorted={this.state.column === 'phoneNumber' ? this.state.direction : null}
-                                    onClick={this.handleSort('phoneNumber')}
-                                >
-                                    Number
-                                </Table.HeaderCell>
-                                <Table.HeaderCell
-                                    sorted={this.state.column === 'time' ? this.state.direction : null}
-                                    onClick={this.handleSort('time')}
-                                >
-                                    Time
-                                </Table.HeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
+                    <Table striped id={"CallLogs"}>
+                        <thead>
+                            <tr>
+                                <th onClick={this.handleSort('type')}>
+                                    Type {sortIcons[0]}
+                                </th>
+                                <th onClick={this.handleSort('phoneNumber')}>
+                                    Number {sortIcons[1]}
+                                </th>
+                                <th onClick={this.handleSort('time')}>
+                                    Time {sortIcons[2]}
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             {tableRows}
-                        </Table.Body>
+                        </tbody>
                     </Table>
                 </div>
-            </AccordionWrap>
         );
     }
 }

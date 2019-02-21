@@ -2,18 +2,26 @@
 /**
  *  React Imports
  */
-import React, { Component } from 'react'
+import React, {Component, Fragment} from 'react'
 
 /**
  *  Style Imports
  */
-import {NavItem, NavLink, Navbar, NavbarToggler, NavbarBrand, Nav, Collapse } from 'reactstrap'
+import {NavItem, NavLink, Navbar, NavbarToggler, NavbarBrand, Nav, Collapse, Modal, ModalHeader, ModalBody, ModalFooter, Button  } from 'reactstrap'
 import {Link} from "react-router-dom";
 
 /**
  *  Component Imports
  */
 import {LogButton} from "./LogButton"
+import FeatureAccessCodes from "./FeatureAccessCodes";
+import FeatureAccessCodesButton from "./FeatureAccessCodesButton";
+import CallLogButton from "./CallLogButton";
+
+const padding = {
+    paddingLeft: "10px",
+    paddingRight: "10px"
+};
 
 export default class NavBar extends Component {
 
@@ -22,7 +30,7 @@ export default class NavBar extends Component {
 
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
         };
     }
 
@@ -32,19 +40,25 @@ export default class NavBar extends Component {
         });
     }
 
-render () {
+    render () {
         return (
-            <Navbar id={"navbar"} color="dark" dark expand="md">
-                  <NavbarBrand id={"navTitle"} tag={Link} to="/">TelPort</NavbarBrand>
-                  <NavbarToggler onClick={this.toggle} />
-                  <Collapse isOpen={this.state.isOpen} navbar>
-                      <Nav className="ml-auto" navbar>
-                          <NavItem>
-                            <LogButton/>
-                          </NavItem>
-                      </Nav>
-                  </Collapse>
-              </Navbar>
+                <Navbar id={"navbar"} color="dark" dark expand="md" style={{borderTop: "3px solid #007bff"}}>
+                    <NavbarBrand id={"navTitle"} tag={Link} to="/">TelPort</NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav className="ml-auto" navbar>
+                            <NavItem style={padding}>
+                                <CallLogButton/>
+                            </NavItem>
+                            <NavItem style={padding}>
+                                <FeatureAccessCodesButton/>
+                            </NavItem>
+                            <NavItem style={padding}>
+                                <LogButton/>
+                            </NavItem>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
         );
     }
 }

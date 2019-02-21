@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask'
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 
 let $ = require('jquery');
@@ -40,8 +40,7 @@ export default class XmlEditable extends React.Component {
             originalValue: value,
             value: value,
             popover: false,
-            statusPopover: false,
-            status: "valid"
+            statusPopover: false
         }
     }
 
@@ -57,9 +56,6 @@ export default class XmlEditable extends React.Component {
         // Only send if 10 characters or null
         if(validate(event.target.value, {type:"phone"})) {
             this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
-            this.setState({status: "sync"});
-        } else {
-            this.setState({status: "error"});
         }
     };
 
@@ -67,10 +63,8 @@ export default class XmlEditable extends React.Component {
         this.setState({value: event.target.value});
         if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
             this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
-            this.setState({status: "sync"});
         } else {
             // Validation fail
-            this.setState({status: "error"});
         }
     };
 
@@ -95,16 +89,7 @@ export default class XmlEditable extends React.Component {
             textAlign: "center"
         };
 
-        let status = null;
-        if(this.state.status === "valid"){
-            status = <FontAwesomeIcon icon={"check"} color={"green"} size={"lg"}/>;
-        } else if (this.state.status === "error"){
-            status = <FontAwesomeIcon icon={"times"} color={"red"} size={"lg"}/>;
-        } else if (this.state.status === "sync"){
-            status = <FontAwesomeIcon icon={"sync"} color={"blue"} size={"lg"}/>;
-        }
-
-        let name = <h5>{status}  {this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
+        let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
 
         let titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
                 <PopoverHeader>{this.props.name}</PopoverHeader>

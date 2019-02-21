@@ -16,10 +16,10 @@ export default class FeatureAccessCodeData extends React.Component {
 
     render(){
             return (
-                <Table.Row>
-                    <Table.Cell>{this.props.code}</Table.Cell>
-                    <Table.Cell>{this.props.fac}</Table.Cell>
-                </Table.Row>
+                <tr>
+                    <td>{this.props.code}</td>
+                    <td>{this.props.fac}</td>
+                </tr>
             );
     }
 }
