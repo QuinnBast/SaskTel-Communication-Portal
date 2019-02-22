@@ -1,6 +1,7 @@
 import React from 'react';
 import Service from "./Service";
 import XmlEditable from "./XmlEditable";
+import XmlEditableList from "./XmlEditableList";
 
 export default class ServiceFactory {
     static build(name, uri, onEdit){
@@ -99,7 +100,18 @@ export default class ServiceFactory {
                 );
             case "Speed Dial 8":
                 return(
-                    <Service key={name} activePath={null} name={name} uri={uri} onEdit={onEdit} tooltip={"Speed Dial 8"}/>
+                    <Service key={name} activePath={null} name={name} uri={uri} onEdit={onEdit} tooltip={"Speed Dial 8"} hasEdit
+                        ref={reference}>
+                        <XmlEditableList
+                            name={"Speed Dial 8 Entries"}
+                            tooltip={"A list of your speed dial configurations"}
+                            valueMap={[
+                                ["Speed Code", "speedCode", "number", "The number to dial to access the speed dial option."],
+                                ["Phone Number", "phoneNumber", "phone", "The phone number that will be called for this speed dial option."],
+                                ["Description", "description", "string", "A description of the speed dial."]]}
+                            XmlListLocation={["SpeedDial8"]}
+                            parent={reference}/>
+                    </Service>
                 );
             case "Third-Party Voice Mail Support":
                 let tpvmtooltip = "Third-Party Voice Mail Support allows you to specify how to handle your voice messages. You can choose to send busy and/or unanswered calls to your voice mail, as well as the number of rings before an incoming call is considered unanswered.";
@@ -187,6 +199,7 @@ export default class ServiceFactory {
                         name={name}
                         uri={uri}
                         onEdit={onEdit}
+                        hasEdit
                         tooltip={"Settings that determine if your name is sent to recipients when making outgoing calls."}>
                         <XmlEditable
                             name={"External Name Delivery"}
@@ -211,6 +224,7 @@ export default class ServiceFactory {
                         name={name}
                         uri={uri}
                         onEdit={onEdit}
+                        hasEdit
                         tooltip={"Settings that determine if your number is sent to recipients when making outgoing calls."}>
                         <XmlEditable
                             name={"External Name Delivery"}

@@ -61,7 +61,6 @@ export default class CarouselManager extends React.Component {
                 <Row style={headerStyle}>
                     <Col xs={"2"} style={{textAlign: "center"}}><Button onClick={this.prev}>Back</Button></Col>
                     <Col xs={"8"} style={{textAlign: "center"}}><h4>{this.state.title}</h4></Col>
-                    <Col xs={"2"} style={{textAlign: "center"}}><Switch onChange={this.toggle} checked={this.state.toggleState}/></Col>
                 </Row>
                 </Container>);
         }

@@ -23,7 +23,8 @@ export default class CallLogs extends React.Component {
         this.state = {
             logs : [],
             column : null,
-            direction : null
+            direction : null,
+            status: "loading"
         };
     }
 
@@ -102,13 +103,20 @@ export default class CallLogs extends React.Component {
                 self.setState({
                     column : 'time',
                     logs : _.sortBy(self.state.logs, ['time']).reverse(),
-                    direction : 'descending'});
+                    direction : 'descending',
+                    status: "ready"});
             }
 
         });
     }
 
     render() {
+        if(this.state.status === "loading"){
+            return(
+                <div>Loading call history...</div>
+            )
+        }
+
         let i = 0;
         let tableRows = [];
         for(let property of Array.from(this.state.logs)){

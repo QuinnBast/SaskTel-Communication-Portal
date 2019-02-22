@@ -36,6 +36,7 @@ export default class XmlEditable extends React.Component {
         } else if(this.props.type === "range"){
             value = parseInt(value);
         }
+
         this.state = {
             originalValue: value,
             value: value,
@@ -93,7 +94,7 @@ export default class XmlEditable extends React.Component {
             textAlign: "center"
         };
 
-        let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
+        let name = <h5>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
 
         let titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
             <PopoverHeader>{this.props.name}</PopoverHeader>

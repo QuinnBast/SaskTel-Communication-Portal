@@ -105,6 +105,17 @@ export default class Service extends React.Component {
     edit = () => {
         let editPage = (
             <Container>
+                <Container>
+                    <div style={{marginTop: "15px"}}>
+                        <p>{this.props.tooltip}</p>
+                    </div>
+                </Container>
+                <Container>
+                    <div>
+                        <h5>Active</h5>
+                        <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>
+                    </div>
+                </Container>
                 {this.props.children}
             </Container>
         );
@@ -157,7 +168,7 @@ render() {
         children = null;
     }
 
-    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
     // if(this.props.tabbed){
     //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
     // }
@@ -172,9 +183,9 @@ render() {
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
                     <Row>
-                        <Col xs={"6"} style={{paddingTop: "10px"}}>{name}</Col>
-                        <Col xs={"3"}>{toggle}</Col>
-                        <Col xs={"3"}>{editButton}</Col>
+                        <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
+                        <Col xs={"3"} style={{margin: "auto"}}>{toggle}</Col>
+                        <Col xs={"3"} style={{margin: "auto"}}>{editButton}</Col>
                     </Row>
 
                     <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
