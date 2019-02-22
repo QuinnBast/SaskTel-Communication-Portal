@@ -7,7 +7,7 @@ import React, {Fragment} from "react";
 /**
  *  Style Imports
  */
-        import {Button, Modal, ModalBody, ModalFooter, ModalHeader, NavLink} from 'reactstrap';
+        import {Button, Modal, ModalBody, ModalFooter, ModalHeader, NavLink, Container} from 'reactstrap';
 import Auth from "../router/Auth";
 import CallLogs from "./CallLogs";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
@@ -32,7 +32,7 @@ export default class CallLogButton extends React.Component {
 
                 <Modal isOpen={this.state.modal} toggle={this.showLogs} size={"lg"}>
                     <ModalHeader toggle={this.showLogs}>Call Log</ModalHeader>
-                    <ModalBody>
+                    <ModalBody style={{height: "70vh"}}>
                         <CallLogs/>
                     </ModalBody>
                     <ModalFooter>

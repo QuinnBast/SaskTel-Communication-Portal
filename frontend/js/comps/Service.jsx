@@ -153,7 +153,7 @@ render() {
     let editButton = null;
     let children = this.props.children;
     if (this.props.hasEdit) {
-        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
+        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
         children = null;
     }
 
@@ -171,8 +171,8 @@ render() {
         <React.Fragment key={this.state.uri}>
             <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                 <Container>
-                    <Row style={{height: "40px"}}>
-                        <Col xs={"6"}>{name}</Col>
+                    <Row>
+                        <Col xs={"6"} style={{paddingTop: "10px"}}>{name}</Col>
                         <Col xs={"3"}>{toggle}</Col>
                         <Col xs={"3"}>{editButton}</Col>
                     </Row>

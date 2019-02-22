@@ -17,7 +17,6 @@ import BroadSoft from "../broadsoft/BroadSoft";
  * Broadsoft imports
  */
 import { getTag } from "../broadsoft/xmlParse"
-import FeatureAccessCodeData from "./FeatureAccessCodeData";
 
 export default class FeatureAccessCodes extends React.Component {
 
@@ -40,7 +39,11 @@ export default class FeatureAccessCodes extends React.Component {
 
                 for(let fac of features){
                     // Get information about the features
-                    let feature = <FeatureAccessCodeData key={getTag(fac, ["code"])} code={getTag(fac, ["code"])} fac={getTag(fac, ["codeName"])}/>
+                    let feature =
+                        <tr style={{display: "block"}}>
+                            <td style={{display: "inline-block", width:"33%"}}>{getTag(fac, ["code"])}</td>
+                            <td style={{display: "inline-block", width:"66%"}}>{getTag(fac, ["codeName"])}</td>
+                        </tr>;
                     self.setState((prevState) => ({ features: [...prevState.features, feature]}));
                 }
             },
@@ -54,14 +57,14 @@ export default class FeatureAccessCodes extends React.Component {
         return (
             <div>
                 <Table striped id={"FeatureAccessCodes"}>
-                    <thead>
-                    <tr>
-                        <th>Access Code</th>
-                        <th>Feature Description</th>
+                    <thead style={{display: "block"}}>
+                    <tr style={{display: "block"}}>
+                        <th style={{display: "inline-block", width:"33%"}}>Access Code</th>
+                        <th style={{display: "inline-block", width:"66%"}}>Feature Description</th>
                     </tr>
                     </thead>
-                    <tbody key={"FeatureAccessKey"}>
-                        {this.state.features}
+                    <tbody key={"FeatureAccessKey"} style={{overflowY: "scroll", display: "block", height: "90%"}}>
+                    {this.state.features}
                     </tbody>
                 </Table>
             </div>

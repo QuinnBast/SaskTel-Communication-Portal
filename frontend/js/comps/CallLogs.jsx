@@ -13,7 +13,7 @@ import { getTag } from "../broadsoft/xmlParse";
 /**
  *  Style Imports
  */
-import {Table, Badge} from 'reactstrap';
+import {Table, Badge, Container} from 'reactstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default class CallLogs extends React.Component {
@@ -126,10 +126,10 @@ export default class CallLogs extends React.Component {
                     break;
             }
 
-            tableRows.push(<tr key={this.state.name + (i++).toString()}>
-                <td>{badge}</td>
-                <td>{property['phoneNumber']}</td>
-                <td>{(new Date(property['time']))
+            tableRows.push(<tr key={this.state.name + (i++).toString()} style={{display: "block"}}>
+                <td style={{display: "inline-block", width:"33%"}}>{badge}</td>
+                <td style={{display: "inline-block", width:"33%"}}>{property['phoneNumber']}</td>
+                <td style={{display: "inline-block", width:"33%"}}>{(new Date(property['time']))
                     .toLocaleString('en-CA',
                         {   day: 'numeric',
                             month: 'short',
@@ -149,26 +149,24 @@ export default class CallLogs extends React.Component {
         }
 
         return (
-                <div>
-                    <Table striped id={"CallLogs"}>
-                        <thead>
-                            <tr>
-                                <th onClick={this.handleSort('type')}>
+                    <Table striped id={"CallLogs"} style={{height: "100%"}}>
+                        <thead style={{display: "block"}}>
+                            <tr style={{display: "block"}}>
+                                <th onClick={this.handleSort('type')} style={{display: "inline-block", width:"33%"}}>
                                     Type {sortIcons[0]}
                                 </th>
-                                <th onClick={this.handleSort('phoneNumber')}>
+                                <th onClick={this.handleSort('phoneNumber')} style={{display: "inline-block", width:"33%"}}>
                                     Number {sortIcons[1]}
                                 </th>
-                                <th onClick={this.handleSort('time')}>
+                                <th onClick={this.handleSort('time')} style={{display: "inline-block", width:"33%"}}>
                                     Time {sortIcons[2]}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody style={{overflowY: "scroll", display: "block", height: "90%"}}>
                             {tableRows}
                         </tbody>
                     </Table>
-                </div>
         );
     }
 }

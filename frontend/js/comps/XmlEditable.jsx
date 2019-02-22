@@ -9,8 +9,8 @@ import PropTypes from 'prop-types';
  */
 import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
-import MaskedInput from 'react-text-mask'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import MaskedInput from 'react-text-mask';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
 
 let $ = require('jquery');
@@ -68,6 +68,10 @@ export default class XmlEditable extends React.Component {
         }
     };
 
+    rangeChange = (event) => {
+        this.setState({value: event.target.value});
+    };
+
     togglePopover = () => {
         this.setState({popover: !this.state.popover});
     };
@@ -92,9 +96,9 @@ export default class XmlEditable extends React.Component {
         let name = <h5>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
 
         let titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
-                <PopoverHeader>{this.props.name}</PopoverHeader>
-                <PopoverBody>{this.props.tooltip}</PopoverBody>
-            </Popover>;
+            <PopoverHeader>{this.props.name}</PopoverHeader>
+            <PopoverBody>{this.props.tooltip}</PopoverBody>
+        </Popover>;
 
 
         switch(this.props.type){
@@ -110,7 +114,23 @@ export default class XmlEditable extends React.Component {
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableRange"} style={padding}>
                         <div>{name}</div>
-                        <div><Input type={"number"} onChange={this.inputChange}/></div>
+                        <div>
+                            <div style={{textAlign: "center"}}><h3>Value: {this.state.value}</h3></div>
+                            <Row>
+                                <Col xs={"1"}><h4>{this.props.range[0]}</h4></Col>
+                                <Col xs={"9"}>
+                                    <Input name={this.props.name.replace(/\s+/g, '')}
+                                        type={"range"}
+                                        min={this.props.range[0]}
+                                        max={this.props.range[1]}
+                                        step={1}
+                                        onChange={this.rangeChange}
+                                        onMouseUp={this.inputChange}
+                                        value={this.state.value}/>
+                                </Col>
+                                <Col xs={"1"}><h4>{this.props.range[1]}</h4></Col>
+                            </Row>
+                        </div>
                         {titlePopover}
                     </Container>
                 );

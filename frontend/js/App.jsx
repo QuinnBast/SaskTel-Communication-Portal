@@ -42,9 +42,10 @@ import  NavBar from "./comps/NavBar";
  * Font Awesome Icon imports
  */
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faTimes } from '@fortawesome/free-solid-svg-icons'
+import css from 'style-loader!css-loader!../css/main.css';
 
-library.add(faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook);
+library.add(faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faTimes);
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");

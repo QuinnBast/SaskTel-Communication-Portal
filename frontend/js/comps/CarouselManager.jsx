@@ -50,9 +50,9 @@ export default class CarouselManager extends React.Component {
         let header = (
             <Container>
                 <Row style={headerStyle}>
-                    <Col xs={"6"}><h3>Setting</h3></Col>
-                    <Col xs={"3"}><h3>Enabled</h3></Col>
-                    <Col xs={"3"}><h3>Configure</h3></Col>
+                    <Col xs={"6"}><h4>Setting</h4></Col>
+                    <Col xs={"3"}><h4>Enable</h4></Col>
+                    <Col xs={"3"}><h4>Edit</h4></Col>
                 </Row>
             </Container>);
         if(this.state.currentPage !== 0){
