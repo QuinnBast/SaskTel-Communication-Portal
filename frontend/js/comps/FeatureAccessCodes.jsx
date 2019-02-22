@@ -40,7 +40,7 @@ export default class FeatureAccessCodes extends React.Component {
                 for(let fac of features){
                     // Get information about the features
                     let feature =
-                        <tr style={{display: "block"}}>
+                        <tr style={{display: "block"}} key={getTag(fac, ["code"])}>
                             <td style={{display: "inline-block", width:"33%"}}>{getTag(fac, ["code"])}</td>
                             <td style={{display: "inline-block", width:"66%"}}>{getTag(fac, ["codeName"])}</td>
                         </tr>;
@@ -55,8 +55,7 @@ export default class FeatureAccessCodes extends React.Component {
 
     render() {
         return (
-            <div>
-                <Table striped id={"FeatureAccessCodes"}>
+                <Table striped id={"FeatureAccessCodes"} style={{height: "100%"}}>
                     <thead style={{display: "block"}}>
                     <tr style={{display: "block"}}>
                         <th style={{display: "inline-block", width:"33%"}}>Access Code</th>
@@ -67,7 +66,6 @@ export default class FeatureAccessCodes extends React.Component {
                     {this.state.features}
                     </tbody>
                 </Table>
-            </div>
         );
     }
 }

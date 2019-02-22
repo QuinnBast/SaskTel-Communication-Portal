@@ -34,7 +34,7 @@ export default class FeatureAccessCodesButton extends React.Component {
 
                 <Modal isOpen={this.state.modal} toggle={this.showFeatureAccessCodes} size={"lg"}>
                     <ModalHeader toggle={this.showFeatureAccessCodes}>Feature Access Codes</ModalHeader>
-                    <ModalBody>
+                    <ModalBody style={{height: "70vh"}}>
                         <FeatureAccessCodes/>
                     </ModalBody>
                     <ModalFooter>
