@@ -65,5 +65,9 @@ export function setTag(xml, XmlLocation, tagValue){
             }
         }
     }
-    return false;
+    // Create the tag and set the value.
+    let newTag = {"type":"element","name":tagName[0],"elements":[{"type":"text","text":tagValue}]};
+    // Add the new tag to the XML
+    xml.elements.push(newTag);
+    return true;
 }
