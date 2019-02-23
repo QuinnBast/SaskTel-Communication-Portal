@@ -11,26 +11,16 @@ import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {getTag, setTag} from "../broadsoft/xmlParse";
 
 
 let $ = require('jquery');
 
 export default class XmlEditable extends React.Component {
-    /**
-     *
-     * @param props
-     *  name:string - the name of the component
-     *  tooltip:string - A tooltip to display when hovering over the name
-     *  type:OneOf(bool, phone, range) - the type of editable to display
-     *  range:[min, max] - the range of potential values of a number (optional. Required for type "range")
-     *  value:<oneOf(bool, string, int)> - the value of the editable
-     *  XmlLocation:{parent:React.Component, xmlLocation:array[string]} - an object which links the editable to the parent
-     *
-     */
 
     constructor(props){
         super(props);
-        let value = this.props.parent.current.getValue(this.props.XmlLocation);
+        let value = getTag(this.props.parent, this.props.XmlLocation);
         if(this.props.type === "bool"){
             value = value === "true" || value === true;
         } else if(this.props.type === "range"){
@@ -45,31 +35,38 @@ export default class XmlEditable extends React.Component {
         }
     }
 
-    toggleBoolean = () => {
-        this.setState({value: !this.state.value});
-        if(validate(this.state.value, {type:"bool"})) {
-            this.props.parent.current.setValue(this.props.XmlLocation, !this.state.value);
-        }
-    };
-
-    changePhone = (event) => {
-        this.setState({value: event.target.value});
-        // Only send if 10 characters or null
-        if(validate(event.target.value, {type:"phone"})) {
-            this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
-        }
-    };
-
     inputChange = (event) => {
-        this.setState({value: event.target.value});
-        if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
-            this.props.parent.current.setValue(this.props.XmlLocation, event.target.value);
-        } else {
-            // Validation fail
+        switch(this.props.type){
+            case "range":
+                this.setState({value: event.target.value});
+                if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
+                    setTag(this.props.parent, this.props.XmlLocation, event.target.value);
+                    this.props.sendUpdate();
+                } else {
+                    // Validation fail
+                }
+                break;
+            case "bool":
+                this.setState({value: !this.state.value});
+                if(validate(this.state.value, {type:"bool"})) {
+                    setTag(this.props.parent, this.props.XmlLocation, !this.state.value);
+                    this.props.sendUpdate();
+                }
+                break;
+            default:
+                if(validate(event.target.value, {type:this.props.type})) {
+                    setTag(this.props.parent, this.props.XmlLocation, event.target.value);
+                    this.props.sendUpdate();
+                }
+                break;
         }
     };
 
-    rangeChange = (event) => {
+    updateValue = (event) => {
+        this.setState({value: event.target.value});
+    };
+
+    onRangeSlide = (event) => {
         this.setState({value: event.target.value});
     };
 
@@ -100,6 +97,20 @@ export default class XmlEditable extends React.Component {
             <PopoverHeader>{this.props.name}</PopoverHeader>
             <PopoverBody>{this.props.tooltip}</PopoverBody>
         </Popover>;
+        if(this.props.hideTitle){
+            name = [];
+            titlePopover = []
+        }
+
+        if(this.props.locked){
+            return(
+                <Container id={this.props.name.replace(/\s+/g, '') + "Locked"} style={padding}>
+                    <div>{name}</div>
+                    <div>{this.state.value}</div>
+                    {titlePopover}
+                </Container>
+            );
+        }
 
 
         switch(this.props.type){
@@ -107,7 +118,7 @@ export default class XmlEditable extends React.Component {
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableBool"} style={padding}>
                         <div>{name}</div>
-                        <div><Switch onChange={this.toggleBoolean} checked={this.state.value}/></div>
+                        <div><Switch onChange={this.inputChange} checked={this.state.value}/></div>
                         {titlePopover}
                     </Container>
                 );
@@ -121,13 +132,13 @@ export default class XmlEditable extends React.Component {
                                 <Col xs={"1"}><h4>{this.props.range[0]}</h4></Col>
                                 <Col xs={"9"}>
                                     <Input name={this.props.name.replace(/\s+/g, '')}
-                                        type={"range"}
-                                        min={this.props.range[0]}
-                                        max={this.props.range[1]}
-                                        step={1}
-                                        onChange={this.rangeChange}
-                                        onMouseUp={this.inputChange}
-                                        value={this.state.value}/>
+                                           type={"range"}
+                                           min={this.props.range[0]}
+                                           max={this.props.range[1]}
+                                           step={1}
+                                           onChange={this.onRangeSlide}
+                                           onMouseUp={this.inputChange}
+                                           value={this.state.value}/>
                                 </Col>
                                 <Col xs={"1"}><h4>{this.props.range[1]}</h4></Col>
                             </Row>
@@ -147,13 +158,34 @@ export default class XmlEditable extends React.Component {
                                 guide = {true}
                                 autoComplete="off"
                                 defaultValue={this.state.value}
-                                onChange={(e) => this.changePhone(e)}
+                                onChange={(e) => this.inputChange(e)}
                                 className={"form-control"}
                             />
                         </div>
                         {titlePopover}
                     </Container>
                 );
+            case "number":
+                return(
+                    <Container id={this.props.name.replace(/\s+/g, '') + "EditableNumber"} style={padding}>
+                        <div>{name}</div>
+                        <div>
+                            <Input value={this.state.value} onChange={this.inputChange}/>
+                        </div>
+                        {titlePopover}
+                    </Container>
+                );
+            case "string":
+                return(
+                    <Container id={this.props.name.replace(/\s+/g, '') + "EditableString"} style={padding}>
+                        <div>{name}</div>
+                        <div>
+                            <Input value={this.state.value} onChange={this.updateValue} onBlur={this.inputChange}/>
+                        </div>
+                        {titlePopover}
+                    </Container>
+                );
+
         }
     }
 }
@@ -164,13 +196,17 @@ XmlEditable.propTypes = {
     // A tooltip that appears when hovering the item's (?) icon
     tooltip: PropTypes.string.isRequired,
     // The type of data that the editable information takes on
-    type: PropTypes.oneOf(["bool", "range", "phone"]).isRequired,
+    type: PropTypes.oneOf(["bool", "range", "phone", "number", "string"]).isRequired,
     // Optional: if type is 'range', an array of the [min, max] values
     range: PropTypes.array,
     // An object that links the parent object and the XmlLocation to update the original data.
     XmlLocation: PropTypes.array.isRequired,
-    // The parent update to update
-    parent: PropTypes.object.isRequired,
+    // A reference to the XML object that is updated.
+    parent: PropTypes.object,
+    // A boolean which determines if the object should be locked.
+    locked: PropTypes.bool,
+    // Determines if the title should be hidden
+    hideTitle: PropTypes.bool
 };
 
 export function validate(value, type){
@@ -184,5 +220,7 @@ export function validate(value, type){
             return value.replace(/[_()-]/g, '').length === 10;
         case "range":
             return  value >= type.range[0] || value <= type.range[1]
+        default:
+            return true;
     }
 }

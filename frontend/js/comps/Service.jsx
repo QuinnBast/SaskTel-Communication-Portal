@@ -103,6 +103,18 @@ export default class Service extends React.Component {
     };
 
     edit = () => {
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {parent: this.state.responseData, sendUpdate: this.sendRequest});});
+
+        let toggle = [];
+        if(this.props.hasToggle){
+            toggle = <Container>
+                    <div>
+                        <h5>Active</h5>
+                        <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>
+                    </div>
+                </Container>;
+        }
+
         let editPage = (
             <Container>
                 <Container>
@@ -110,13 +122,8 @@ export default class Service extends React.Component {
                         <p>{this.props.tooltip}</p>
                     </div>
                 </Container>
-                <Container>
-                    <div>
-                        <h5>Active</h5>
-                        <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>
-                    </div>
-                </Container>
-                {this.props.children}
+                {toggle}
+                {children}
             </Container>
         );
         this.props.onEdit(editPage, this.props.name, this);
@@ -154,50 +161,51 @@ export default class Service extends React.Component {
         return tabs;
     };
 
-render() {
-    if(this.state.status === "loading"){
-        return(
-            <div>Loading...</div>
-        )
-    }
+    render() {
+        if(this.state.status === "loading"){
+            return(
+                <div>Loading...</div>
+            )
+        }
 
-    let editButton = null;
-    let children = this.props.children;
-    if (this.props.hasEdit) {
-        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
-        children = null;
-    }
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {setValue: this.setValue, getValue: this.getValue});});
 
-    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
-    // if(this.props.tabbed){
-    //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
-    // }
+        let editButton = null;
+        if (this.props.hasEdit) {
+            editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
+            children = null;
+        }
 
-    let toggle = null;
-    if(this.props.hasToggle){
-        toggle = <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>;
-    }
+        let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+        // if(this.props.tabbed){
+        //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
+        // }
 
-    return (
-        <React.Fragment key={this.state.uri}>
-            <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
-                <Container>
-                    <Row>
-                        <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
-                        <Col xs={"3"} style={{margin: "auto"}}>{toggle}</Col>
-                        <Col xs={"3"} style={{margin: "auto"}}>{editButton}</Col>
-                    </Row>
+        let toggle = null;
+        if(this.props.hasToggle){
+            toggle = <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>;
+        }
 
-                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
-                        <PopoverHeader>{this.props.name}</PopoverHeader>
-                        <PopoverBody>{this.props.tooltip}</PopoverBody>
-                    </Popover>
+        return (
+            <React.Fragment key={this.state.uri}>
+                <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
+                    <Container>
+                        <Row>
+                            <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
+                            <Col xs={"3"} style={{margin: "auto"}}>{toggle}</Col>
+                            <Col xs={"3"} style={{margin: "auto"}}>{editButton}</Col>
+                        </Row>
+
+                        <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
+                            <PopoverHeader>{this.props.name}</PopoverHeader>
+                            <PopoverBody>{this.props.tooltip}</PopoverBody>
+                        </Popover>
+                    </Container>
                 </Container>
-            </Container>
-            {this.tabChildren(children)}
-        </React.Fragment>
-    );
-}
+                {this.tabChildren(children)}
+            </React.Fragment>
+        );
+    }
 }
 
 Service.propTypes = {
