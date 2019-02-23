@@ -87,6 +87,11 @@ class BroadsoftConnector(BroadsoftResource):
             if(args['data']):
                 data = args['data']
 
+            if config.logging:
+                logfile.info("Sending data: " + method + " " + url + " " + data)
+            if config.verbose:
+                logconsole.info("Sending data: " + method + " " + url + " " + data)
+
             # Get the user's broadsoft token from the JWT and send a request to broadsoft.
             response = Proxy().to_broadsoft(method, url, data, user)
 
@@ -95,9 +100,9 @@ class BroadsoftConnector(BroadsoftResource):
 
                 # Output a response to the console and log files.
                 if config.logging:
-                    logfile.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "")
+                    logfile.info("Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "Recieved: " + str(response.status_code))
                 if config.verbose:
-                    logconsole.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "")
+                    logconsole.info("Recieved:" + str(response.status_code) + " " + str(response.content) if response.content else "Recieved: " + str(response.status_code))
 
                 # Format a response
                 if response.content:
@@ -106,9 +111,9 @@ class BroadsoftConnector(BroadsoftResource):
                     return make_response("", 200)
             else:
                 if config.logging:
-                    logfile.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
+                    logfile.info("Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
                 if config.verbose:
-                    logconsole.info("Sent: " + method + " " + url + " " + data + "\n Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
+                    logconsole.info("Recieved:" + str(response.status_code) + " " + response.content.decode('ISO-8859-1') if response.content else "")
 
                 if response.content:
                     return make_response(response.content.decode('ISO-8859-1'), response.status_code)
