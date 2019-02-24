@@ -1,0 +1,430 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+
+\usepackage{setspace} % paragraph spacing
+
+\usepackage{mathpazo} % Palatino font
+
+\usepackage{hyperref}  % for hyperlinks to resources\
+
+\usepackage{graphicx} % for logo
+
+
+\usepackage{pgfgantt} % for gantt chart
+
+
+
+\usepackage{tabularx} % in the preamble
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{b}{>{\hsize=.5\hsize}X} % column 1 = 50% of a column
+\newcolumntype{s}{>{\hsize=.4\hsize}X} % column 2 = 40% of a column
+\newcolumntype{m}{>{\hsize=1.1\hsize}X} % column 3 = 110% of a column
+
+\definecolor{barblue}{RGB}{153,204,254}
+\definecolor{groupblue}{RGB}{51,102,254}
+\definecolor{linkred}{RGB}{165,0,33}
+\renewcommand\sfdefault{phv}
+\renewcommand\mddefault{mc}
+\renewcommand\bfdefault{bc}
+\setganttlinklabel{s-s}{START-TO-START}
+\setganttlinklabel{f-s}{FINISH-TO-START}
+\setganttlinklabel{f-f}{FINISH-TO-FINISH}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE University of Regina}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large ENSE 477: Capstone Project}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Testing Strategy}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Telport: Sasktel Telecommunications Portal}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Authors}\\
+			Dakota \textsc{Fisher}\\ % Your name
+			200 344 336\newline \newline
+			Quinn \textsc{Bast}\\ % Your name
+			200 352 973
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Dr. Yasser \textsc{Morgan} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	
+
+%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+		\vfill\vfill\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\includegraphics[width=.5\textwidth]{UR_Logo_Primary_Full_Colour_RGB.jpg} % Include a department/university logo - this will require the graphicx package
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+
+	
+	{Last Modified\\\large\today} % Date, change the \today to a set date if you want to be precise		
+
+	
+	 % Push the date up 1/4 of the remaining page
+	 
+	%----------------------------------------------------------------------------------------	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+% Revision History
+%----------------------------------------------------------------------------------------
+\section*{Revision History}
+\begin{tabularx}{\textwidth}{|Y|Y|Y|}
+\hline
+  \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
+\hline
+1.0 & Dakota Fisher & February 4, 2019 \\
+\hline
+\end{tabularx}
+
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+%	Table of Contents
+%----------------------------------------------------------------------------------------
+
+\pagestyle{plain} %get rid of header/footer for toc page
+\pagenumbering{roman}
+
+\tableofcontents %put Table of Contents in
+\cleardoublepage %start new page
+
+\listoffigures %put List of Figures in
+\cleardoublepage %start new page
+
+\listoftables %put List of Tables in
+\cleardoublepage %start new page
+
+\pagestyle{plain} % put headers/footers back on
+\pagenumbering{arabic}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Body of Document
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+
+\section{Gantt Chart Timeline}
+\rotatebox{90}{
+\begin{ganttchart}[
+    canvas/.append style={fill=none, draw=black!3, line width=.5pt},
+    hgrid style/.style={draw=black!3, line width=.5pt},
+    vgrid={*1{draw=black!5, line width=.5pt}},
+% Defining current day to mark in Gantt
+    today=22,
+    today rule/.style={
+      draw=black!64,
+      dash pattern=on 3.5pt off 4.5pt,
+      line width=1.5pt
+    },
+    today label font=\small\bfseries,
+    title/.style={draw=none, fill=none},
+    title label font=\bfseries\footnotesize,
+    title label node/.append style={below=5pt},
+    include title in canvas=false,
+%Bar colours
+	bar top shift=-0.1, bar height=0.6,
+    bar label font=\mdseries\small\color{black!50},
+    bar label node/.append style={left=2cm},
+    bar/.append style={draw=none, fill=black!63},
+    bar incomplete/.append style={fill=barblue},
+    bar progress label font=\mdseries\footnotesize\color{black!70},
+% Group information    
+    group incomplete/.append style={fill=groupblue},
+    group left shift=0,
+    group right shift=0,
+    group height=.5,
+    group peaks tip position=0,
+    group label node/.append style={left=.6cm},
+    group progress label font=\bfseries\small,
+% Link information    
+    link/.style={-latex, line width=.5pt, linkred},
+    link label font=\scriptsize\bfseries,
+    link label node/.append style={below left=-2pt and 0pt}
+  ]{1}{30}
+%  \gantttitle[
+%    title label node/.append style={below left=9pt and -5pt}
+%  ]{Months:}{1}
+%     \gantttitle[title label node/.append style={below left=7pt and -3pt}]{}{11} \\                 % title 
+    \gantttitle{Sep}{4}                      % title 3
+    \gantttitle{Oct}{4}
+    \gantttitle{Nov}{4}
+    \gantttitle{Dec}{4}
+    \gantttitle{Jan}{4}
+    \gantttitle{Feb}{4}
+    \gantttitle{Mar}{4}
+    \gantttitle{Apr}{4}\\
+    \gantttitle[
+    title label node/.append style={below left=5pt and -1pt}
+  ]{WEEK:\quad1}{1}
+  \gantttitlelist{2,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1}
+  \gantttitlelist{1,...,4}{1} \\
+% Gantt Chart Section 1
+  \ganttgroup[progress=100]{Requirements Gathering}{1}{10} \\
+  \ganttbar[progress=100]{\textbf{R.G.1} Project Consideration}{1}{3} \\
+  \ganttbar[progress=100]{\textbf{R.G.2} Architecture Research}{4}{7} 
+ % Gantt Chart Section 2
+ 
+  \ganttgroup[progress=100]{Infrastructure Setup}{6}{12} \\
+  \ganttbar[progress=100]{\textbf{I.S.1} Flask RESTful Server}{6}{11} \\
+  \ganttbar[progress=100]{\textbf{I.S.2} React and Webpack}{6}{10} \\
+  \ganttbar[progress=100]{\textbf{I.S.3} Security Infrastructure}{11}{12}
+  % Gantt Chart Section 3
+
+  \ganttgroup[progress=80]{Development}{6}{26} \\                   
+  \ganttbar[progress=100]{\textbf{Dev 1} User Authentication}{8}{11} \\
+  \ganttbar[progress=100]{\textbf{Dev 2} Broadsoft Integration}{8}{11} \\
+  \ganttbar[progress=100]{\textbf{Dev 3} General User Inerface}{7}{15} \\
+  \ganttbar[progress=60]{\textbf{Dev 4} Refined User Interface}{17}{25} \\
+  \ganttbar[progress=75]{\textbf{Dev 5} WebRTC Integration}{20}{25}          
+  
+  \ganttgroup[progress=70]{Test Integration}{19}{26} \\  
+  \ganttbar[progress=100]{\textbf{T.I.1} Continuous Integration }{20}{25} \\
+  \ganttbar[progress=20]{\textbf{T.I.2} Unit Testing}{20}{25} \\
+  \ganttbar[progress=0]{\textbf{T.I.3} Client User Testing}{24}{24} 
+
+  \ganttgroup[]{Finalizing Project}{26}{30} \\  
+  \ganttbar[]{\textbf{Project Day} }{30}{30} \\
+
+  
+  
+  
+% Start to start, Finish to start, and finish to finish dependencies
+%  \ganttlink[link type=s-s]{WBS1A}{WBS1B}
+%  \ganttlink[link type=f-s]{WBS1B}{WBS1C}
+%  \ganttlink[
+%    link type=f-f,
+%    link label node/.append style=left
+%  ]{WBS1C}{WBS1D}
+\end{ganttchart}
+}
+\doublespacing % set document to be default double spaced
+
+
+%----------------------------------------------------------------------------------------
+%	Introduction
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+\paragraph{}
+	This document outlines and defines the Testing plan and libraries utilized to provide a stable, maintainable solution. The initial problem statement and proposed activities are suggestions given by Sasktel to provide a manageable scope. To provide a refresh on the intent of the project, the problem statement has been provided in the following paragraphs. The decisions on infrastructure, aside from the Broadworks API and telephone account access are left up to us to decide. 
+\subsection{Problem Statement}
+\paragraph{} 
+	SaskTel requires a communications portal that can interwork with a Telephony Application Server and our core network to present communications and feature capabilities through a browser.  This will allow for the exploration of new communications service models. 
+\paragraph{} 
+	SaskTel has been pursuing the deployment of a new communications core along with the Cisco/Broadsoft Telephony Application Server branded as Broadworks.  One of the drivers is to enable a richer customer experience through a converged architecture that exposes rapid development to enables new capabilities.  Broadworks exposes the Application Programming Interface to access service control tools and user information.  These tools and information can be used to create new communications applications or add additional value to existing applications.  
+\paragraph{} 
+	The main objectives for SaskTel is to gain exposure to new and innovative communications service experience for our customers and to promote the potential internally for aligning resources, time and effort in enabling applications.
+
+\section{Automated testing}
+\paragraph{}	Testing is important for the project, and as such it needs to be done continuously. Plenty of tools exist to provide the frameworks and tools to create easily executed test frameworks. Namely there are tools that provide continuous integration testing, unit testing, and user experience testing. 
+
+\subsubsection{TravisCI (In Use)}
+\paragraph{}	TravisCI, completely referred to as Travis Continuous Integration is a cloud based testing service. It is Configured using a Yaml file to provide a configured Linux environment and run specified tests upon any merge request into the Master branch of the Github project. It provides a report, and if any tests fail it discourages the merge. There are alternatives such as CircleCI and Jenkins, but due to it's ease of use compared to Jenkins, and existing longer than CircleCI it was chosen for this project. The following figure demonstrates a passing test case, providing information on the build and test.\\
+
+	\begin{figure}[h]
+	\includegraphics[width=\textwidth]{TravisCI.png}
+	\caption{TravisCI Passing Build}
+	\end{figure}
+	\newpage
+
+\subsubsection{Mocha (In Use)}
+\paragraph{}	Mocha is a robust test bench, which provides a harness for running unit tests within.
+\subsubsection{Jest (Not In Use)}
+\paragraph{}
+\subsubsection{Chai (In Use)}
+\paragraph{}
+\subsubsection{Sinon (In Use)}
+\paragraph{}
+\subsubsection{Enzyme (In Use)}
+\paragraph{}
+\subsubsection{Selenium (In Use)}
+\paragraph{}
+\subsubsection{Cypress (Not In Use)}
+\paragraph{}
+\subsubsection{NYC Istanbul (In Use)}
+\paragraph{}
+\newpage
+
+\section{User Stories}
+\paragraph{}	The following sections denote common use cases for the program that we brainstormed and consider to be requirements by usability and basic principle. The basic structure for user stories is as follows. "As a <type of user> I would like to < be able to do task> so that I can < metric improvement to life>". User stories are referenced by the number following the chapter value, which means user story 1 will refer to sub-section x.1.
+
+\paragraph{}	User stories are important for test development as they provide ground work for the requirements and functionalities that tests should be sure to incorporate and provide solutions for. The following user stories are utilized to provide a feature driven development approach to the project, while keeping quantifiable, and testable data present to be monitored during development. 
+
+\subsection{Log In}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log into the program} so that I can \textit{use the program and check my information}.
+
+\subsection{Log Out}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{Log out of the program} so that I can \textit{ensure that anyone using my computer can't access my account}.
+
+\subsection{Check Call Logs}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check my call logs} so that I can \textit{check when I got calls, and see who called me/when}.
+
+\subsection{Turn on Call Forwarding Always}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{always forward calls sent to my phone} so that I can \textit{answer them on my main phone and not worry about my secondary phone}.
+
+\subsection{Turn on Call Forwarding Busy}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when my phone is busy} so that I can \textit{feel comfortable that those calling me get sent to someone who can answer}.
+
+\subsection{Turn on Call Forwarding Selective}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another phone during a scheduled time} so that I can \textit{so that phone calls can be forwarded when I have planned events in the way of answering my phone}.
+
+\subsection{Turn on Call Forwarding No Answer}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward calls when I'm away from my phone} so that I can \textit{answer them on my cell phone when I'm away from my land line}.
+
+\subsection{Turn on Call Forwarding}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{forward phone calls to another number} so that I can \textit{be sure that important calls reach me on my cell phone or work phone}.
+
+\subsection{Turn on Do Not Disturb}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{decline all calls to my phone number} so that I can \textit{have some time without worrying about phone calls interrupting me}.
+
+\subsection{View my Profile}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{view my account information} so that I can \textit{know that I am using the right account}.
+
+\subsection{Call a Phone Number}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call a phone number from my computer} so that I can \textit{easily make phone calls without using my phone}.
+
+\subsection{Start a Call to a Phone Number from my Phone}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{call another phone number from my phone} so that I can \textit{more easily call phone numbers I find on my computer}.
+
+\subsection{View Feature Access Codes}
+\paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check what star codes I can use} so that I can \textit{understand what I can do with my phone when I can't log into the application}.
+
+\newpage
+\section{Tests}
+\paragraph{}	As test cases are created, and audited to be successful test cases they're documented in this section. In order to have a record trail of the tested features and tests that are required, during the test development phase of our project, the following sections will begin to be fleshed out in further detail.
+
+\subsection{Unit}
+\paragraph{}	This section consists of all test cases that test JavaScript functions and classes.
+
+\subsection{User Experience} 
+\paragraph{}	This section consists of all test cases that tests the complete website against simulated user scenarios and tests expected behaviours.
+
+\subsection{Component}
+\paragraph{}	This section consists of all test cases that test React Components state rendering and life-cycle correctness.
+
+
+
+
+
+
+
+
+
+\end{document}
+
+%----------------------------------------------------------------------------------------
+%	Document Style Templates
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Nesting for Table of Contents
+%
+% A section or subsection can contain any number of nested children
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{First Title} %x
+% \paragraph{} **~ Contents of First Title ~**
+%
+% \subsection{Second Title} %x.x
+% \paragraph{} **~ Contents of Second Title ~**
+%
+% \subsubsection{Third Title} %x.x.x
+% \paragraph{} **~ Contents of Third Title ~**
+% 
+% No more nesting allowed. capped at x.x.x sectioning
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Template References and Licenses
+%----------------------------------------------------------------------------------------
+% This paper integrates the following templates into a single document.
+% There is no endorsement in any way shape or form from the template authors.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Academic Title Page
+% LaTeX Template
+% Version 2.0 (17/7/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (LaTeX - Title Creation) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
