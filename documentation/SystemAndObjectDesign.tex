@@ -38,8 +38,8 @@
 \definecolor{groupblue}{RGB}{51,102,254}
 \definecolor{linkred}{RGB}{165,0,33}
 \renewcommand\sfdefault{phv}
-\renewcommand\mddefault{mc}
-\renewcommand\bfdefault{bc}
+%\renewcommand\mddefault{mc}
+%\renewcommand\bfdefault{bc}
 \setganttlinklabel{s-s}{START-TO-START}
 \setganttlinklabel{f-s}{FINISH-TO-START}
 \setganttlinklabel{f-f}{FINISH-TO-FINISH}
@@ -238,7 +238,9 @@
 	POST	/rest/login
 	\end{tcolorbox}
 	\paragraph{}
-		\textbf{Description:} Allows the user to login to the application. \\
+		\textbf{Description:} Allows the user to login to the application.
+		
+\paragraph{}
 		\textbf{Request Body:}
 	
 		%------------------------------------------------------------
@@ -267,16 +269,24 @@
 	POST /rest/logout
 	\end{tcolorbox}
 	
-		\textbf{Description:} Logs the user out of the application. NOTE: Requires a valid token. \\
-		\textbf{Request Body:} None
+\paragraph{}
+		\textbf{Description:} Logs the user out of the application. NOTE: Requires a valid token.
+\paragraph{}
+		\textbf{Request Body:} None \\
 		
 	
+\paragraph{}
 	\begin{tcolorbox}
 	POST /rest/token/refresh
 	\end{tcolorbox}
 	
-		\textbf{Description:} Refreshes the user's session token to further their login session. This is automatically requested by the frontend when needed. NOTE: Requires a valid token. \\
-		\textbf{Request Body:} None
+\paragraph{}
+		\textbf{Description:} Refreshes the user's session token to further their login session. This is automatically requested by the frontend when needed. NOTE: Requires a valid token.
+		
+\paragraph{}
+		\textbf{Request Body:} None \\
+		
+\paragraph{}
 	
 	\begin{tcolorbox}
 	POST /rest/broadsoft
@@ -285,7 +295,6 @@
 	\textbf{Description:} Accesses the BroadWorks API Execution server. NOTE: Requires a valid token.
 \paragraph{}
 	\textbf{Request Body:}
-	
 			%------------------------------------------------------------
 		% 	POST  /rest/broadsoft
 		%------------------------------------------------------------
@@ -317,6 +326,7 @@
 		\end{tabularx}
 		\end{table}
 	
+	\pagebreak
 \subsubsection{WebRTC}
 \paragraph{}
 	In order to enable the capability to make calls from the web, WebRTC is required for our web application to interface with an SIP client. There is quite a bit of overhead to convert a WebRTC session to an SIP session, however. Therefore, the use of a JavaScript library JsSIP was used in order to help make this process easier. The use of this framework requires some basic server configurations that were provided from SaskTel. Once this information was obtained, making calls from the web browser was quite simple to perform.
