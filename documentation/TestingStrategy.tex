@@ -132,7 +132,7 @@
 \hline
   \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
 \hline
-1.0 & Dakota Fisher & February 4, 2019 \\
+1.0 & Dakota Fisher & February 24, 2019 \\
 \hline
 \end{tabularx}
 
@@ -164,107 +164,6 @@
 %	Body of Document
 %----------------------------------------------------------------------------------------
 %----------------------------------------------------------------------------------------
-
-\section{Gantt Chart Timeline}
-\rotatebox{90}{
-\begin{ganttchart}[
-    canvas/.append style={fill=none, draw=black!3, line width=.5pt},
-    hgrid style/.style={draw=black!3, line width=.5pt},
-    vgrid={*1{draw=black!5, line width=.5pt}},
-% Defining current day to mark in Gantt
-    today=22,
-    today rule/.style={
-      draw=black!64,
-      dash pattern=on 3.5pt off 4.5pt,
-      line width=1.5pt
-    },
-    today label font=\small\bfseries,
-    title/.style={draw=none, fill=none},
-    title label font=\bfseries\footnotesize,
-    title label node/.append style={below=5pt},
-    include title in canvas=false,
-%Bar colours
-	bar top shift=-0.1, bar height=0.6,
-    bar label font=\mdseries\small\color{black!50},
-    bar label node/.append style={left=2cm},
-    bar/.append style={draw=none, fill=black!63},
-    bar incomplete/.append style={fill=barblue},
-    bar progress label font=\mdseries\footnotesize\color{black!70},
-% Group information    
-    group incomplete/.append style={fill=groupblue},
-    group left shift=0,
-    group right shift=0,
-    group height=.5,
-    group peaks tip position=0,
-    group label node/.append style={left=.6cm},
-    group progress label font=\bfseries\small,
-% Link information    
-    link/.style={-latex, line width=.5pt, linkred},
-    link label font=\scriptsize\bfseries,
-    link label node/.append style={below left=-2pt and 0pt}
-  ]{1}{30}
-%  \gantttitle[
-%    title label node/.append style={below left=9pt and -5pt}
-%  ]{Months:}{1}
-%     \gantttitle[title label node/.append style={below left=7pt and -3pt}]{}{11} \\                 % title 
-    \gantttitle{Sep}{4}                      % title 3
-    \gantttitle{Oct}{4}
-    \gantttitle{Nov}{4}
-    \gantttitle{Dec}{4}
-    \gantttitle{Jan}{4}
-    \gantttitle{Feb}{4}
-    \gantttitle{Mar}{4}
-    \gantttitle{Apr}{4}\\
-    \gantttitle[
-    title label node/.append style={below left=5pt and -1pt}
-  ]{WEEK:\quad1}{1}
-  \gantttitlelist{2,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1}
-  \gantttitlelist{1,...,4}{1} \\
-% Gantt Chart Section 1
-  \ganttgroup[progress=100]{Requirements Gathering}{1}{10} \\
-  \ganttbar[progress=100]{\textbf{R.G.1} Project Consideration}{1}{3} \\
-  \ganttbar[progress=100]{\textbf{R.G.2} Architecture Research}{4}{7} 
- % Gantt Chart Section 2
- 
-  \ganttgroup[progress=100]{Infrastructure Setup}{6}{12} \\
-  \ganttbar[progress=100]{\textbf{I.S.1} Flask RESTful Server}{6}{11} \\
-  \ganttbar[progress=100]{\textbf{I.S.2} React and Webpack}{6}{10} \\
-  \ganttbar[progress=100]{\textbf{I.S.3} Security Infrastructure}{11}{12}
-  % Gantt Chart Section 3
-
-  \ganttgroup[progress=80]{Development}{6}{26} \\                   
-  \ganttbar[progress=100]{\textbf{Dev 1} User Authentication}{8}{11} \\
-  \ganttbar[progress=100]{\textbf{Dev 2} Broadsoft Integration}{8}{11} \\
-  \ganttbar[progress=100]{\textbf{Dev 3} General User Inerface}{7}{15} \\
-  \ganttbar[progress=60]{\textbf{Dev 4} Refined User Interface}{17}{25} \\
-  \ganttbar[progress=75]{\textbf{Dev 5} WebRTC Integration}{20}{25}          
-  
-  \ganttgroup[progress=70]{Test Integration}{19}{26} \\  
-  \ganttbar[progress=100]{\textbf{T.I.1} Continuous Integration }{20}{25} \\
-  \ganttbar[progress=20]{\textbf{T.I.2} Unit Testing}{20}{25} \\
-  \ganttbar[progress=0]{\textbf{T.I.3} Client User Testing}{24}{24} 
-
-  \ganttgroup[]{Finalizing Project}{26}{30} \\  
-  \ganttbar[]{\textbf{Project Day} }{30}{30} \\
-
-  
-  
-  
-% Start to start, Finish to start, and finish to finish dependencies
-%  \ganttlink[link type=s-s]{WBS1A}{WBS1B}
-%  \ganttlink[link type=f-s]{WBS1B}{WBS1C}
-%  \ganttlink[
-%    link type=f-f,
-%    link label node/.append style=left
-%  ]{WBS1C}{WBS1D}
-\end{ganttchart}
-}
 \doublespacing % set document to be default double spaced
 
 
@@ -296,21 +195,22 @@
 	\newpage
 
 \subsubsection{Mocha (In Use)}
-\paragraph{}	Mocha is a robust test bench, which provides a harness for running unit tests within.
+\paragraph{}	Mocha is a robust test bench, which provides a harness for running unit tests within a node JavaScript environment. The strengths of Mocha lay within it's ability to provide a framework for any nested javascript test library. Mocha can be used as a standalone solution, or with a medley of other test frameworks. The key combination of mocha test frameworks used in this project are Chai, Enzyme, and Sinon.
+ 
 \subsubsection{Jest (Not In Use)}
-\paragraph{}
+\paragraph{}	 Jest is a similar solution to Mocha, and provides a very strong test framework foundation for test development. Jest is a slightly younger test library, and has slightly less community support compared to Mocha, and because of it's popularity, Mocha was chosen. Though, as test are developed, if Jest proves to be a stronger framework, it will be implemented accordingly. Jest also provides the ability to test code coverage. 
 \subsubsection{Chai (In Use)}
-\paragraph{}
+\paragraph{}	Chai is a strong assertion library. It's vast reliability on asserting conditions and tests is pivotal to good test development. No matter what test framework. Chai is used in combination with Mocha to provide mocking and assertions for Mocha tests.
 \subsubsection{Sinon (In Use)}
-\paragraph{}
+\paragraph{}	Sinon is a spy and stubbing framework in Javascript. The strengths of Sinon for this project are it's ability to mock server API's and endpoints as well as provide controlled bad data to monitor component responses.
 \subsubsection{Enzyme (In Use)}
-\paragraph{}
+\paragraph{}	The test framework for React components, Enzyme, is a powerful rendering tool to test React components at all phases of it's life-cycle. Enzyme can incorporate many aspects of Sinon, and Chai to completely emulate controlled environments for each individual component.
 \subsubsection{Selenium (In Use)}
-\paragraph{}
+\paragraph{}	Selenium is a browser automation testing tool. The benefits of using Selenium tests are that it lets user experience expectations be tested during each release, to make sure that the overall functionality using a mouse and keyboard are uninhibited. Being able to test that solutions are genuinely providing the correct user output is important. Tests can be completed on components, functions and classes, but unless the web page interacts as expected there's always some level of uncertainty in the test. 
 \subsubsection{Cypress (Not In Use)}
-\paragraph{}
+\paragraph{}	Cypress is another browser emulation solution, similar to Selenium. The newly developed framework is a promising product, but at the time of creation of this project, it only supports testing in Chromium environments. Compared to Selenium's support for multiple browsers including Chromium, and Firefox. 
 \subsubsection{NYC Istanbul (In Use)}
-\paragraph{}
+\paragraph{}	Istanbul, which is known as NYC in newer iterations, is a code coverage framework which spies on test frameworks such as Mocha to monitor and output test coverage. Every file touched by Mocha tests is analysed and reported on. 
 \newpage
 
 \section{User Stories}
