@@ -16,13 +16,13 @@
 
 \usepackage{mathpazo} % Palatino font
 
+
 \usepackage{hyperref}  % for hyperlinks to resources\
 
 \usepackage{graphicx} % for logo
 
 
 \usepackage{pgfgantt} % for gantt chart
-
 
 
 \usepackage{tabularx} % in the preamble
@@ -35,8 +35,8 @@
 \definecolor{groupblue}{RGB}{51,102,254}
 \definecolor{linkred}{RGB}{165,0,33}
 \renewcommand\sfdefault{phv}
-\renewcommand\mddefault{mc}
-\renewcommand\bfdefault{bc}
+%\renewcommand\mddefault{mc}
+%\renewcommand\bfdefault{bc}
 \setganttlinklabel{s-s}{START-TO-START}
 \setganttlinklabel{f-s}{FINISH-TO-START}
 \setganttlinklabel{f-f}{FINISH-TO-FINISH}
@@ -185,31 +185,30 @@
 \section{Automated testing}
 \paragraph{}	Testing is important for the project, and as such it needs to be done continuously. Plenty of tools exist to provide the frameworks and tools to create easily executed test frameworks. Namely there are tools that provide continuous integration testing, unit testing, and user experience testing. 
 
-\subsubsection{TravisCI (In Use)}
-\paragraph{}	TravisCI, completely referred to as Travis Continuous Integration is a cloud based testing service. It is Configured using a Yaml file to provide a configured Linux environment and run specified tests upon any merge request into the Master branch of the Github project. It provides a report, and if any tests fail it discourages the merge. There are alternatives such as CircleCI and Jenkins, but due to it's ease of use compared to Jenkins, and existing longer than CircleCI it was chosen for this project. The following figure demonstrates a passing test case, providing information on the build and test.\\
-
-	\begin{figure}[h]
+\subsection{TravisCI (In Use)}
+\paragraph{}	TravisCI, completely referred to as Travis Continuous Integration is a cloud based testing service. It is Configured using a Yaml file to provide a configured Linux environment and run specified tests upon any merge request into the Master branch of the Github project. It provides a report, and if any tests fail it discourages the merge. There are alternatives such as CircleCI and Jenkins, but due to it's ease of use compared to Jenkins, and existing longer than CircleCI it was chosen for this project. The following figure demonstrates a passing test case, providing information on the build and test.
+	\begin{figure}[h!]
 	\includegraphics[width=\textwidth]{TravisCI.png}
 	\caption{TravisCI Passing Build}
 	\end{figure}
 	\newpage
 
-\subsubsection{Mocha (In Use)}
+\subsection{Mocha (In Use)}
 \paragraph{}	Mocha is a robust test bench, which provides a harness for running unit tests within a node JavaScript environment. The strengths of Mocha lay within it's ability to provide a framework for any nested javascript test library. Mocha can be used as a standalone solution, or with a medley of other test frameworks. The key combination of mocha test frameworks used in this project are Chai, Enzyme, and Sinon.
  
-\subsubsection{Jest (Not In Use)}
+\subsection{Jest (Not In Use)}
 \paragraph{}	 Jest is a similar solution to Mocha, and provides a very strong test framework foundation for test development. Jest is a slightly younger test library, and has slightly less community support compared to Mocha, and because of it's popularity, Mocha was chosen. Though, as test are developed, if Jest proves to be a stronger framework, it will be implemented accordingly. Jest also provides the ability to test code coverage. 
-\subsubsection{Chai (In Use)}
+\subsection{Chai (In Use)}
 \paragraph{}	Chai is a strong assertion library. It's vast reliability on asserting conditions and tests is pivotal to good test development. No matter what test framework. Chai is used in combination with Mocha to provide mocking and assertions for Mocha tests.
-\subsubsection{Sinon (In Use)}
+\subsection{Sinon (In Use)}
 \paragraph{}	Sinon is a spy and stubbing framework in Javascript. The strengths of Sinon for this project are it's ability to mock server API's and endpoints as well as provide controlled bad data to monitor component responses.
-\subsubsection{Enzyme (In Use)}
+\subsection{Enzyme (In Use)}
 \paragraph{}	The test framework for React components, Enzyme, is a powerful rendering tool to test React components at all phases of it's life-cycle. Enzyme can incorporate many aspects of Sinon, and Chai to completely emulate controlled environments for each individual component.
-\subsubsection{Selenium (In Use)}
+\subsection{Selenium (In Use)}
 \paragraph{}	Selenium is a browser automation testing tool. The benefits of using Selenium tests are that it lets user experience expectations be tested during each release, to make sure that the overall functionality using a mouse and keyboard are uninhibited. Being able to test that solutions are genuinely providing the correct user output is important. Tests can be completed on components, functions and classes, but unless the web page interacts as expected there's always some level of uncertainty in the test. 
-\subsubsection{Cypress (Not In Use)}
+\subsection{Cypress (Not In Use)}
 \paragraph{}	Cypress is another browser emulation solution, similar to Selenium. The newly developed framework is a promising product, but at the time of creation of this project, it only supports testing in Chromium environments. Compared to Selenium's support for multiple browsers including Chromium, and Firefox. 
-\subsubsection{NYC Istanbul (In Use)}
+\subsection{NYC Istanbul (In Use)}
 \paragraph{}	Istanbul, which is known as NYC in newer iterations, is a code coverage framework which spies on test frameworks such as Mocha to monitor and output test coverage. Every file touched by Mocha tests is analysed and reported on. 
 \newpage
 
@@ -257,19 +256,83 @@
 \subsection{View Feature Access Codes}
 \paragraph{}	As a \textit{SaskTel Customer}, I would like to be able to \textit{check what star codes I can use} so that I can \textit{understand what I can do with my phone when I can't log into the application}.
 
+
+
+
 \newpage
 \section{Tests}
 \paragraph{}	As test cases are created, and audited to be successful test cases they're documented in this section. In order to have a record trail of the tested features and tests that are required, during the test development phase of our project, the following sections will begin to be fleshed out in further detail.
 
 \subsection{Unit}
 \paragraph{}	This section consists of all test cases that test JavaScript functions and classes.
-
+\subsubsection{Login Page}
+\begin{enumerate}	
+	\item The login page must have the following components:
+	\begin{enumerate}
+		\singlespacing
+		\item Phone Number Field
+		\item Password Field
+		\item Login button
+	\end{enumerate}
+	\item The login page must provide feedback on invalid input:
+	\begin{enumerate}
+		\singlespacing
+		\item Incomplete or incorrect Phone Number
+		\item Empty Password field, as the requirements are undefined
+		\item Login button with invalid Phone Number or password, pre-auth attempt
+		\item Invalid login response to auth attempt
+	\end{enumerate}
+\end{enumerate}	
+\newpage
 \subsection{User Experience} 
 \paragraph{}	This section consists of all test cases that tests the complete website against simulated user scenarios and tests expected behaviours.
-
+\subsubsection{Login}
+\begin{enumerate}	
+	\item The login page must respond to user input in the following inputs:
+	\begin{enumerate}
+		\singlespacing
+		\item Phone Number Field
+		\item Password Field
+		\item Login button
+	\end{enumerate}
+	\item The login attempts must provide feedback on invalid input:
+	\begin{enumerate}
+		\singlespacing
+		\item Incomplete or incorrect Phone Number
+		\item Empty Password field, as the requirements are undefined
+		\item Login button with invalid Phone Number or password, pre-auth attempt
+		\item Invalid login response to auth attempt
+	\end{enumerate}
+		\item The Phone number field must:
+	\begin{enumerate}
+		\singlespacing
+		\item Only allow digits to be entered
+		\item provide a guide for the user to follow
+		\item Explain the requirements for the phone number
+	\end{enumerate}
+	\item The page must redirect to the Application main page upon successful login.
+\end{enumerate}	
+\newpage
 \subsection{Component}
 \paragraph{}	This section consists of all test cases that test React Components state rendering and life-cycle correctness.
-
+\subsubsection{Login UX}
+\begin{enumerate}	
+	\item The Login component must:
+	\begin{enumerate}
+		\singlespacing
+		\item Track the entered phone number in state
+		\item Track the entered password in state
+		\item communicate with the auth component
+	\end{enumerate}
+	\item The login page must provide feedback on invalid input:
+	\begin{enumerate}
+		\singlespacing
+		\item Incomplete or incorrect Phone Number
+		\item Empty Password field, as the requirements are undefined
+		\item Login button with invalid Phone Number or password, pre-auth attempt
+		\item Invalid login response to auth attempt
+	\end{enumerate}
+\end{enumerate}	
 
 
 
