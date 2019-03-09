@@ -105,28 +105,6 @@ export default class Service extends React.Component {
     edit = () => {
         let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {parent: this.state.responseData, sendUpdate: this.sendRequest});});
 
-        let toggle = [];
-        if(this.props.hasToggle){
-            toggle = <Container>
-                    <div>
-                        <h5>Active</h5>
-                        <Switch
-                            id={this.props.name.replace(/\s+/g, '') + "Toggle"}
-                            onChange={this.toggle} checked={this.state.active}
-                            onColor="#86d3ff"
-                            onHandleColor="#2693e6"
-                            handleDiameter={30}
-                            uncheckedIcon={false}
-                            checkedIcon={false}
-                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                            height={20}
-                            width={48}
-                        />
-                    </div>
-                </Container>;
-        }
-
         let editPage = (
             <Container>
                 <Container>
@@ -134,10 +112,10 @@ export default class Service extends React.Component {
                         <p>{this.props.tooltip}</p>
                     </div>
                 </Container>
-                {toggle}
                 {children}
             </Container>
         );
+
         this.props.onEdit(editPage, this.props.name, this);
     };
 

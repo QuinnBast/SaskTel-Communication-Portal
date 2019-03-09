@@ -41,8 +41,8 @@ export default class CarouselManager extends React.Component {
         this.setState({currentPage: 0, editPage: null, toggleMe: null, toggleState: false});
     };
 
-    toggle = () => {
-        this.setState({toggleState: !this.state.toggleState});
+    toggle = (toggleState) => {
+        this.setState({toggleState: toggleState});
         this.state.toggleMe.toggle(this.state.toggleState);
     };
 
@@ -65,6 +65,30 @@ export default class CarouselManager extends React.Component {
                 </Container>);
         }
 
+        let toggle = [];
+        if(this.state.toggleMe) {
+            if (this.state.toggleMe.props.hasToggle) {
+                toggle = <Container key={"editToggle"}>
+                    <div>
+                        <h5>Active</h5>
+                        <Switch
+                            id={this.state.toggleMe.props.name.replace(/\s+/g, '') + "Toggle"}
+                            onChange={this.toggle} checked={this.state.toggleState}
+                            onColor="#86d3ff"
+                            onHandleColor="#2693e6"
+                            handleDiameter={30}
+                            uncheckedIcon={false}
+                            checkedIcon={false}
+                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                            height={20}
+                            width={48}
+                        />
+                    </div>
+                </Container>;
+            }
+        }
+
         return(
             <div style={{marginBottom: "240px"}}>
           <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
@@ -74,6 +98,7 @@ export default class CarouselManager extends React.Component {
               </CarouselItem>
               <CarouselItem id={"carouselBody"} key={"editPage"}>
                   {header}
+                  {toggle}
                   {this.state.editPage}
               </CarouselItem>
           </Carousel>
