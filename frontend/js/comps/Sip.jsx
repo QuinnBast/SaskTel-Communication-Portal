@@ -13,6 +13,9 @@ import Auth from "../router/Auth"
  */
 import {Button, Input, Row, Col, Container} from "reactstrap";
 import MaskedInput from "react-text-mask";
+import AudioController from "../comps/AudioController"
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const rtcConfig = config.rtcConfig;
 
@@ -22,7 +25,7 @@ const stickyBottom = {
     bottom: 0,
     width: "100%" ,
     textAlign: "center",
-    height: "60px",
+    height: "120px",
     background: "rgb(33, 37, 41)",
 };
 
@@ -96,16 +99,21 @@ export default class Sip extends React.Component {
                 console.log('call is in progress');
             },
             'accepted': function(e) {
+                AudioController.stop("tone_ringback");
                 console.log('call is accepted');
             },
             'confirmed': function(e) {
                 console.log('call is confirmed');
             },
             'ended': function(e) {
+                AudioController.stop("tone_ringback");
+                AudioController.play("tone_click", false);
                 console.log('call has ended with: ' + e.cause);
-                phone.setState({status: "available"});
+                phone.setState({buttonText: "Call"});
+                phone.endCall();
             },
             'failed': function(e) {
+                AudioController.stop("tone_ringback");
                 console.log('call has failed with: ' + e.cause);
                 phone.setState({status: "available"});
             },
@@ -240,17 +248,26 @@ export default class Sip extends React.Component {
     clickCallButton = () => {
         if(this.state.buttonText === "Call")
         {
+            AudioController.play("tone_ringback", true);
             this.setState({buttonText: "End"});
             this.makeCall();
         }
         else
-        {   this.setState({buttonText: "Call"});
+        {
+            this.setState({buttonText: "Call"});
             this.endCall();
-
         }
     };
 
     render() {
+
+        let phoneIcon = null;
+        if(this.state.buttonText === "Call"){
+            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse />
+        } else {
+            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: 120}}/>
+        }
+
         return(
             <div
                 style={stickyBottom}
@@ -288,7 +305,7 @@ export default class Sip extends React.Component {
                                 // disabled = return value
                                 disabled={this.isButtonDisabled()}
                             >
-                                {this.state.buttonText}
+                                {phoneIcon}  {this.state.buttonText}
                             </Button>
                             <audio
                                 id={"callStream"}

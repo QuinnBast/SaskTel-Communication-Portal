@@ -38,7 +38,7 @@ const config = {
                 use     : [ MiniCssExtractPlugin.loader, 'css-loader', 'resolve-url-loader', 'less-loader']
             },
             {
-                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.ogg$/],
                 loader: require.resolve("url-loader"),
                 options: {
                     limit: 10000,
