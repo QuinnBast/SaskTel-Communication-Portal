@@ -162,7 +162,7 @@ export default class Service extends React.Component {
 
         let editButton = null;
         if (this.props.hasEdit) {
-            editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
+            editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"info"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
             children = null;
         }
 
@@ -176,8 +176,8 @@ export default class Service extends React.Component {
             toggle = <Switch
                 id={this.props.name.replace(/\s+/g, '') + "Toggle"}
                 onChange={this.toggle} checked={this.state.active}
-                onColor="#86d3ff"
-                onHandleColor="#2693e6"
+                onColor="#1dd5f3"
+                onHandleColor="#17a2b8"
                 handleDiameter={30}
                 uncheckedIcon={false}
                 checkedIcon={false}
