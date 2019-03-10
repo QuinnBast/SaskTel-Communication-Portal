@@ -121,8 +121,8 @@ export default class XmlEditable extends React.Component {
                         <div><Switch
                             onChange={this.inputChange}
                             checked={this.state.value}
-                            onColor="#86d3ff"
-                            onHandleColor="#2693e6"
+                            onColor="#1dd5f3"
+                            onHandleColor="#17a2b8"
                             handleDiameter={30}
                             uncheckedIcon={false}
                             checkedIcon={false}
@@ -150,7 +150,9 @@ export default class XmlEditable extends React.Component {
                                            step={1}
                                            onChange={this.onRangeSlide}
                                            onMouseUp={this.inputChange}
-                                           value={this.state.value}/>
+                                           value={this.state.value}
+                                           style={{border: "none"}}
+                                    />
                                 </Col>
                                 <Col xs={"1"}><h4>{this.props.range[1]}</h4></Col>
                             </Row>

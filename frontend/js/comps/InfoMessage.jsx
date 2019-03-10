@@ -12,7 +12,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 const stickyBottom = {
     position: "fixed",
     left: 0,
-    bottom: "60px",
+    bottom: "120px",
     width: "100%" ,
     textAlign: "center",
 };

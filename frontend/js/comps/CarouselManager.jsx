@@ -58,10 +58,10 @@ export default class CarouselManager extends React.Component {
         if(this.state.currentPage !== 0){
             header = (
                 <Container>
-                <Row style={headerStyle}>
-                    <Col xs={"2"} style={{textAlign: "center"}}><Button onClick={this.prev}>Back</Button></Col>
-                    <Col xs={"8"} style={{textAlign: "center"}}><h4>{this.state.title}</h4></Col>
-                </Row>
+                    <Row style={headerStyle}>
+                        <Col xs={"2"} style={{textAlign: "center"}}><Button onClick={this.prev}>Back</Button></Col>
+                        <Col xs={"8"} style={{textAlign: "center"}}><h4>{this.state.title}</h4></Col>
+                    </Row>
                 </Container>);
         }
 
@@ -74,8 +74,8 @@ export default class CarouselManager extends React.Component {
                         <Switch
                             id={this.state.toggleMe.props.name.replace(/\s+/g, '') + "Toggle"}
                             onChange={this.toggle} checked={this.state.toggleState}
-                            onColor="#86d3ff"
-                            onHandleColor="#2693e6"
+                            onColor="#1dd5f3"
+                            onHandleColor="#17a2b8"
                             handleDiameter={30}
                             uncheckedIcon={false}
                             checkedIcon={false}
@@ -91,18 +91,18 @@ export default class CarouselManager extends React.Component {
 
         return(
             <div style={{marginBottom: "240px"}}>
-          <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
-              <CarouselItem id={"carouselHeader"} key={"settings"}>
-                  {header}
-                  <ProfileSettings onEdit={this.next}/>
-              </CarouselItem>
-              <CarouselItem id={"carouselBody"} key={"editPage"}>
-                  {header}
-                  {toggle}
-                  {this.state.editPage}
-              </CarouselItem>
-          </Carousel>
-                </div>
+                <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
+                    <CarouselItem id={"carouselHeader"} key={"settings"}>
+                        {header}
+                        <ProfileSettings onEdit={this.next}/>
+                    </CarouselItem>
+                    <CarouselItem id={"carouselBody"} key={"editPage"}>
+                        {header}
+                        {toggle}
+                        {this.state.editPage}
+                    </CarouselItem>
+                </Carousel>
+            </div>
         );
     }
 }
