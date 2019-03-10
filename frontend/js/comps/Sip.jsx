@@ -36,9 +36,11 @@ export default class Sip extends React.Component {
         this.state = {
             status: "available",
             targetPhoneNumber : "",
-            buttonText: "Call",
+            buttonText: "Make Call",
             length: 0,
-            isMuted: false
+            isMuted: false,
+            inputState: "Call",
+            callDuration: null
         };
     }
 
@@ -115,16 +117,20 @@ export default class Sip extends React.Component {
             },
             'accepted': function(e) {
                 AudioController.stop("tone_ringback");
+                this.timer = setInterval(function() {
+                    let duration = Date.now() - phone.session.start_time;
+                    phone.setState({callDuration: duration})
+                });
                 console.log('call is accepted');
             },
             'confirmed': function(e) {
                 console.log('call is confirmed');
             },
             'ended': function(e) {
+                clearInterval(this.timer);
                 AudioController.stop("tone_ringback");
                 AudioController.play("tone_click", false);
                 console.log('call has ended with: ' + e.cause);
-                phone.setState({buttonText: "Call"});
                 phone.endCall();
             },
             'failed': function(e) {
@@ -217,7 +223,7 @@ export default class Sip extends React.Component {
 
     endCall = () => {
         this.telportPhone.terminateSessions();
-        this.setState({status: "available"});
+        this.setState({status: "available", buttonText: "Make Call", inputState: "Call"});
         this.session = null;
     };
 
@@ -262,7 +268,7 @@ export default class Sip extends React.Component {
      *  binary call button to handle all call states
      */
     clickCallButton = () => {
-        if(this.state.buttonText === "Call")
+        if(this.state.buttonText === "Make Call")
         {
             AudioController.play("tone_ringback", true);
             this.setState({buttonText: "End"});
@@ -270,83 +276,180 @@ export default class Sip extends React.Component {
         }
         else
         {
-            this.setState({buttonText: "Call"});
+            this.setState({buttonText: "Make Call"});
             this.endCall();
         }
     };
 
-    render() {
-
-        let phoneIcon = null;
-        let inputBox = null;
-        if(this.state.buttonText === "Call"){
-            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse />
-            inputBox = <Col
-                            xs="5"
-                        >
-                            <MaskedInput
-                                mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
-                                placeholder="(___)-___-____"
-                                id="targetPhoneNumber"
-                                guide = {true}
-                                autoComplete="off"
-                                onChange={this.handlePhoneNumberChange}
-                                render={(ref, props) => (
-                                    <Input innerRef={ref} {...props} />
-                                )}
-                            />
-                        </Col>
+    cycle = () => {
+        if(this.state.inputState === "Call"){
+            this.setState({inputState: "inputPhone"})
+        } else if (this.state.inputState === "inputPhone") {
+            this.clickCallButton();
+            this.setState({inputState: "inCall"})
         } else {
-            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: -140}}/>
-            inputBox = <Col xs={"5"}/>      // Show dial pad here insteead. When buttons are pressed call the "sendDTMFTone" function on the stream
+            this.clickCallButton();
+            this.setState({inputState: "Call"})
         }
+    };
 
-        let mic_state = <FontAwesomeIcon icon={"microphone"} style={{color: "#FFFFFF"}}/>;
-        if(this.state.isMuted){
-            mic_state = <FontAwesomeIcon icon={"microphone-slash"} style={{color: "#FF0000"}}/>;
-        }
+    render() {
+        if(this.state.inputState === "Call"){
 
+            //////////////////////////////////////
+            // Full page button across the footer.
+            //////////////////////////////////////
 
-
-        return(
-            <div
-                style={stickyBottom}
-                id={"callFooter"}
-            >
-                <Container>
-                    <Row>
-                        {inputBox}
-                        <Col
-                            xs="2"
-                        >
-                            <a onClick={this.toggleMute}>{mic_state}</a>
-                        </Col>
-                        <Col
-                            xs="5"
-                        >
-                            <Button
-                                block={true}
-                                id={"CallButton"}
-                                outline = {true}
-                                color={"info"}
-                                onClick={this.clickCallButton} // on click, call this function
-                                // disabled = return value
-                                disabled={this.isButtonDisabled()}
+            return (
+                <div
+                    style={stickyBottom}
+                    id={"callFooter"}
+                >
+                    <Container style={{paddingTop: "30px"}}>
+                        <Row>
+                            <Col
+                                xs="12"
                             >
-                                {phoneIcon}  {this.state.buttonText}
-                            </Button>
-                            <audio
-                                id={"callStream"}
-                                autoPlay={true}
-                            />
+                                <Button
+                                    block={true}
+                                    id={"CallButton"}
+                                    outline = {true}
+                                    color={"info"}
+                                    onClick={this.cycle} // on click, call this function
+                                    // disabled = return value
+                                    style={{width: "100%", height: "50px"}}
+                                >
+                                    <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse size={"lg"} />  {this.state.buttonText}
+                                </Button>
+                                <audio
+                                    id={"callStream"}
+                                    autoPlay={true}
+                                />
 
-                        </Col>
-                        <Col
-                            xs="2"
-                        />
-                    </Row>
-                </Container>
-            </div>
-        );
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )
+        } else if(this.state.inputState === "inputPhone"){
+
+            //////////////////////////////////////
+            // Phone number input & Call button
+            //////////////////////////////////////
+
+            return (
+                <div
+                    style={stickyBottom}
+                    id={"callFooter"}
+                >
+                    <Container style={{paddingTop: "30px"}}>
+                        <Row>
+                            <Col
+                                xs="8"
+                            >
+                                <MaskedInput
+                                    mask={['(',/\d/, /\d/, /\d/,')','-',/\d/, /\d/, /\d/,'-', /\d/, /\d/, /\d/, /\d/]}
+                                    placeholder="(___)-___-____"
+                                    id="targetPhoneNumber"
+                                    guide = {true}
+                                    autoComplete="off"
+                                    onChange={this.handlePhoneNumberChange}
+                                    style={{color: "#17a2b8", backgroundColor: "rgb(33, 37, 41)", fontSize: "40px", border: "none", height: "50px"}}
+                                    render={(ref, props) => (
+                                        <Input innerRef={ref} {...props} />
+                                    )}
+                                />
+                            </Col>
+                            <Col
+                                xs="4"
+                            >
+                                <Button
+                                    block={true}
+                                    id={"CallButton"}
+                                    outline = {true}
+                                    color={"info"}
+                                    onClick={this.cycle} // on click, call this function
+                                    // disabled = return value
+                                    style={{width: "100%", height: "50px"}}
+                                >
+                                    <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse size={"lg"} />  {this.state.buttonText}
+                                </Button>
+                                <audio
+                                    id={"callStream"}
+                                    autoPlay={true}
+                                />
+
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            )
+        } else if (this.state.inputState === "inCall"){
+
+
+            //////////////////////////////////////
+            // Call controls, status & End call
+            //////////////////////////////////////
+
+            let mic_state = <FontAwesomeIcon icon={"microphone"} style={{color: "#FFFFFF"}} size={"3x"}/>;
+            if(this.state.isMuted){
+                mic_state = <FontAwesomeIcon icon={"microphone-slash"} style={{color: "#FF0000"}} size={"3x"}/>;
+            }
+
+            let call_duration = "00:00";
+            if(this.session != null) {
+                let minutes = Math.floor(this.state.callDuration / 60000) % 60;
+                let seconds = ((this.state.callDuration % 60000) / 1000).toFixed(0);
+                let hours = Math.floor(this.state.callDuration / (60000*60));
+                if(hours === 0) {
+                    call_duration = minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+                } else {
+                    call_duration = hours + ":" + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+                }
+            }
+
+
+            return(
+                <div
+                    style={stickyBottom}
+                    id={"callFooter"}
+                >
+                    <Container style={{paddingTop: "30px"}}>
+                        <Row>
+                            <Col
+                                xs="6"
+                            >
+                                <a onClick={this.toggleMute}>{mic_state}</a>
+                            </Col>
+                            <Col
+                                xs="3"
+                                style={{color: "#17a2b8"}}
+                            >
+                                <div> Duration: {call_duration} </div>
+                                <div>{this.state.status}</div>
+                            </Col>
+                            <Col xs={"3"}>
+                                <Button
+                                    block={true}
+                                    id={"CallButton"}
+                                    outline = {true}
+                                    color={"info"}
+                                    onClick={this.cycle} // on click, call this function
+                                    // disabled = return value
+                                    style={{width: "100%", height: "50px"}}
+                                >
+                                    <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: -140}} size={"lg"}/>  {this.state.buttonText}
+                                </Button>
+                                <audio
+                                    id={"callStream"}
+                                    autoPlay={true}
+                                />
+
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
+            );
+        }
     }
 }
