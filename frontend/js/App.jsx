@@ -42,10 +42,9 @@ import  NavBar from "./comps/NavBar";
  * Font Awesome Icon imports
  */
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faQuestionCircle, faSignOutAlt, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faEdit, faQuestionCircle, faSignOutAlt, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash);
+library.add(faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash);
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");

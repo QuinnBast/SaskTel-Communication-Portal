@@ -1,15 +1,14 @@
 import React from 'react';
 import Service from "./Service";
 import XmlEditable from "./XmlEditable";
+import XmlEditableTable from "./XmlEditableTable";
 
 export default class ServiceFactory {
     static build(name, uri, onEdit){
-        let reference = React.createRef();
         switch(name){
             case "Call Forwarding Always":
                 return (
                     <Service
-                        ref={reference}
                         tooltip={"Always forwards calls."}
                         activePath={["CallForwardingAlways", "active"]}
                         key={name}
@@ -22,20 +21,17 @@ export default class ServiceFactory {
                             name={"Forward To Phone Number"}
                             tooltip={"The phone number to forward calls to."}
                             type={"phone"}
-                            XmlLocation={["CallForwardingAlways", "forwardToPhoneNumber"]}
-                            parent={reference}/>
+                            XmlLocation={["CallForwardingAlways", "forwardToPhoneNumber"]}/>
                         <XmlEditable
                             name={"Ring Splash"}
                             tooltip={"If your device receives a chime to indicate a call was forwarded."}
                             type={"bool"}
-                            XmlLocation={["CallForwardingAlways", "ringSplash"]}
-                            parent={reference}/>
+                            XmlLocation={["CallForwardingAlways", "ringSplash"]}/>
                     </Service>);
             case "Call Forwarding Busy":
                 return (
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["CallForwardingBusy", "active"]}
                         name={name}
                         uri={uri}
@@ -47,15 +43,13 @@ export default class ServiceFactory {
                             name={"Forward To Phone Number"}
                             tooltip={"The phone number to forward calls to."}
                             type={"phone"}
-                            XmlLocation={["CallForwardingBusy", "forwardToPhoneNumber"]}
-                            parent={reference}/>
+                            XmlLocation={["CallForwardingBusy", "forwardToPhoneNumber"]}/>
                     </Service>
                 );
             case "Call Forwarding No Answer":
                 return (
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["CallForwardingNoAnswer", "active"]}
                         name={name}
                         uri={uri}
@@ -68,8 +62,7 @@ export default class ServiceFactory {
                             tooltip={"The number of rings before the call is forwarded."}
                             type={"range"}
                             range={[2, 20]}
-                            XmlLocation={["CallForwardingNoAnswer", "numberOfRings"]}
-                            parent={reference}/>
+                            XmlLocation={["CallForwardingNoAnswer", "numberOfRings"]}/>
                     </Service>
                 );
             case "Do Not Disturb":
@@ -77,7 +70,6 @@ export default class ServiceFactory {
                 return(
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["DoNotDisturb", "active"]}
                         name={name}
                         uri={uri}
@@ -89,8 +81,7 @@ export default class ServiceFactory {
                             name={"Ring Splash"}
                             tooltip={"If your device receives a chime to indicate a call was blocked."}
                             type={"bool"}
-                            XmlLocation={["DoNotDisturb", "ringSplash"]}
-                            parent={reference}/>
+                            XmlLocation={["DoNotDisturb", "ringSplash"]}/>
                     </Service>
                 );
             case "Call Forwarding Selective":
@@ -99,14 +90,22 @@ export default class ServiceFactory {
                 );
             case "Speed Dial 8":
                 return(
-                    <Service key={name} activePath={null} name={name} uri={uri} onEdit={onEdit} tooltip={"Speed Dial 8"}/>
+                    <Service key={name} activePath={null} name={name} uri={uri} onEdit={onEdit} tooltip={"Speed Dial 8"} hasEdit>
+                        <XmlEditableTable
+                            name={"Speed Dial 8 Entries"}
+                            tooltip={"A list of your speed dial configurations"}
+                            XmlListLocation={["SpeedDial8"]}>
+                            <XmlEditable name={"Speed Code"} tooltip={"The number to dial to access the speed dial option."} type={"number"} XmlLocation={["speedCode"]} locked hideTitle/>
+                            <XmlEditable name={"Phone Number"} tooltip={"The phone number that will be called for this speed dial option."} type={"phone"} XmlLocation={["phoneNumber"]} hideTitle/>
+                            <XmlEditable name={"Description"} tooltip={"A description of the speed dial."} type={"string"} XmlLocation={["description"]} hideTitle/>
+                        </XmlEditableTable>
+                    </Service>
                 );
             case "Third-Party Voice Mail Support":
                 let tpvmtooltip = "Third-Party Voice Mail Support allows you to specify how to handle your voice messages. You can choose to send busy and/or unanswered calls to your voice mail, as well as the number of rings before an incoming call is considered unanswered.";
                 return (
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["ThirdPartyVoiceMailSupport", "active"]}
                         name={name}
                         uri={uri}
@@ -118,33 +117,28 @@ export default class ServiceFactory {
                             name={"Voicemail when busy"}
                             tooltip={"If calls go to voicemail when you are busy."}
                             type={"bool"}
-                            XmlLocation={["ThirdPartyVoiceMailSupport", "busyRedirectToVoiceMail"]}
-                            parent={reference}/>
+                            XmlLocation={["ThirdPartyVoiceMailSupport", "busyRedirectToVoiceMail"]}/>
                         <XmlEditable
                             name={"Voicemail when no answer"}
                             tooltip={"If calls go to voicemail when you don't answer."}
                             type={"bool"}
-                            XmlLocation={["ThirdPartyVoiceMailSupport", "noAnswerRedirectToVoiceMail"]}
-                            parent={reference}/>
+                            XmlLocation={["ThirdPartyVoiceMailSupport", "noAnswerRedirectToVoiceMail"]}/>
                         <XmlEditable
                             name={"Voicemail always"}
                             tooltip={"If calls go to voicemail."}
                             type={"bool"}
-                            XmlLocation={["ThirdPartyVoiceMailSupport", "alwaysRedirectToVoiceMail"]}
-                            parent={reference}/>
+                            XmlLocation={["ThirdPartyVoiceMailSupport", "alwaysRedirectToVoiceMail"]}/>
                         <XmlEditable
                             name={"Voicemail when out of primary zone"}
                             tooltip={"If calls go to voicemail when you are out of your primary zone."}
                             type={"bool"}
-                            XmlLocation={["ThirdPartyVoiceMailSupport", "outOfPrimaryZoneRedirectToVoiceMail"]}
-                            parent={reference}/>
+                            XmlLocation={["ThirdPartyVoiceMailSupport", "outOfPrimaryZoneRedirectToVoiceMail"]}/>
                         <XmlEditable
                             name={"Number of Rings"}
                             tooltip={"The number of rings before going to voicemail."}
                             type={"range"}
                             range={[2, 20]}
-                            XmlLocation={["ThirdPartyVoiceMailSupport", "noAnswerNumberOfRings"]}
-                            parent={reference}/>
+                            XmlLocation={["ThirdPartyVoiceMailSupport", "noAnswerNumberOfRings"]}/>
                     </Service>
                 );
             case "Call Waiting":
@@ -162,7 +156,6 @@ export default class ServiceFactory {
                 return(
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["CallForwardingNotReachable", "active"]}
                         name={name}
                         uri={uri}
@@ -174,63 +167,57 @@ export default class ServiceFactory {
                             name={"Forward To Phone Number"}
                             tooltip={"The phone number to forward calls to."}
                             type={"phone"}
-                            XmlLocation={["CallForwardingNotReachable", "forwardToPhoneNumber"]}
-                            parent={reference}/>
+                            XmlLocation={["CallForwardingNotReachable", "forwardToPhoneNumber"]}/>
                     </Service>
                 );
             case "Calling Name Delivery":
                 return (
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={null}
                         name={name}
                         uri={uri}
                         onEdit={onEdit}
+                        hasEdit
                         tooltip={"Settings that determine if your name is sent to recipients when making outgoing calls."}>
                         <XmlEditable
                             name={"External Name Delivery"}
                             tooltip={"Determines if your name is shown to users when making external calls."}
                             type={"bool"}
-                            XmlLocation={["CallingNameDelivery", "isActiveForExternalCalls"]}
-                            parent={reference}/>
+                            XmlLocation={["CallingNameDelivery", "isActiveForExternalCalls"]}/>
                         <XmlEditable
                             name={"Internal Name Delivery"}
                             tooltip={"Determines if your name is shown to users when making internal calls."}
                             type={"bool"}
-                            XmlLocation={["CallingNameDelivery", "isActiveForInternalCalls"]}
-                            parent={reference}/>
+                            XmlLocation={["CallingNameDelivery", "isActiveForInternalCalls"]}/>
                     </Service>
                 );
             case "Calling Number Delivery":
                 return (
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={null}
                         name={name}
                         uri={uri}
                         onEdit={onEdit}
+                        hasEdit
                         tooltip={"Settings that determine if your number is sent to recipients when making outgoing calls."}>
                         <XmlEditable
                             name={"External Name Delivery"}
                             tooltip={"Determines if your name is shown to users when making external calls."}
                             type={"bool"}
-                            XmlLocation={["CallingNumberDelivery", "isActiveForExternalCalls"]}
-                            parent={reference}/>
+                            XmlLocation={["CallingNumberDelivery", "isActiveForExternalCalls"]}/>
                         <XmlEditable
                             name={"Internal Name Delivery"}
                             tooltip={"Determines if your name is shown to users when making internal calls."}
                             type={"bool"}
-                            XmlLocation={["CallingNumberDelivery", "isActiveForInternalCalls"]}
-                            parent={reference}/>
+                            XmlLocation={["CallingNumberDelivery", "isActiveForInternalCalls"]}/>
                     </Service>
                 );
             case "Integrated IMP":
                 return(
                     <Service
                         key={name}
-                        ref={reference}
                         activePath={["IntegratedIMPService", "active"]}
                         name={name}
                         uri={uri}

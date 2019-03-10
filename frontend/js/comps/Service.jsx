@@ -103,11 +103,19 @@ export default class Service extends React.Component {
     };
 
     edit = () => {
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {parent: this.state.responseData, sendUpdate: this.sendRequest});});
+
         let editPage = (
             <Container>
-                {this.props.children}
+                <Container>
+                    <div style={{marginTop: "15px"}}>
+                        <p>{this.props.tooltip}</p>
+                    </div>
+                </Container>
+                {children}
             </Container>
         );
+
         this.props.onEdit(editPage, this.props.name, this);
     };
 
@@ -143,50 +151,62 @@ export default class Service extends React.Component {
         return tabs;
     };
 
-render() {
-    if(this.state.status === "loading"){
-        return(
-            <div>Loading...</div>
-        )
-    }
+    render() {
+        if(this.state.status === "loading"){
+            return(
+                <div>Loading...</div>
+            )
+        }
 
-    let editButton = null;
-    let children = this.props.children;
-    if (this.props.hasEdit) {
-        editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> Configure</Button>;
-        children = null;
-    }
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {setValue: this.setValue, getValue: this.getValue});});
 
-    let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
-    // if(this.props.tabbed){
-    //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
-    // }
+        let editButton = null;
+        if (this.props.hasEdit) {
+            editButton = <Button id={this.props.name.replace(/\s+/g, '') + "Edit"} color={"primary"} onClick={this.edit}><FontAwesomeIcon icon={"edit"}/> <p className={"d-none d-md-inline"} style={{display: "inline"}}>Configure</p></Button>;
+            children = null;
+        }
 
-    let toggle = null;
-    if(this.props.hasToggle){
-        toggle = <Switch id={this.props.name.replace(/\s+/g, '') + "Toggle"} onChange={this.toggle} checked={this.state.active}/>;
-    }
+        let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+        // if(this.props.tabbed){
+        //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
+        // }
 
-    return (
-        <React.Fragment key={this.state.uri}>
-            <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
-                <Container>
-                    <Row style={{height: "40px"}}>
-                        <Col xs={"6"}>{name}</Col>
-                        <Col xs={"3"}>{toggle}</Col>
-                        <Col xs={"3"}>{editButton}</Col>
-                    </Row>
+        let toggle = null;
+        if(this.props.hasToggle){
+            toggle = <Switch
+                id={this.props.name.replace(/\s+/g, '') + "Toggle"}
+                onChange={this.toggle} checked={this.state.active}
+                onColor="#86d3ff"
+                onHandleColor="#2693e6"
+                handleDiameter={30}
+                uncheckedIcon={false}
+                checkedIcon={false}
+                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                height={20}
+                width={48}/>;
+        }
 
-                    <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
-                        <PopoverHeader>{this.props.name}</PopoverHeader>
-                        <PopoverBody>{this.props.tooltip}</PopoverBody>
-                    </Popover>
+        return (
+            <React.Fragment key={this.state.uri}>
+                <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
+                    <Container>
+                        <Row>
+                            <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
+                            <Col xs={"3"} style={{margin: "auto"}}>{toggle}</Col>
+                            <Col xs={"3"} style={{margin: "auto"}}>{editButton}</Col>
+                        </Row>
+
+                        <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
+                            <PopoverHeader>{this.props.name}</PopoverHeader>
+                            <PopoverBody>{this.props.tooltip}</PopoverBody>
+                        </Popover>
+                    </Container>
                 </Container>
-            </Container>
-            {this.tabChildren(children)}
-        </React.Fragment>
-    );
-}
+                {this.tabChildren(children)}
+            </React.Fragment>
+        );
+    }
 }
 
 Service.propTypes = {

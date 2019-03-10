@@ -6,9 +6,7 @@ import React from "react";
 /**
  *  Component Imports
  */
-import {Container, Jumbotron, Col, Row} from 'reactstrap';
-import CallLogButton from "../comps/CallLogButton";
-import FeatureAccessCodesButton from "../comps/FeatureAccessCodesButton"
+import {Container, Jumbotron, Col, Row, Button} from 'reactstrap';
 
 /**
  *  REST API Imports
@@ -74,8 +72,7 @@ export default class Profile extends React.Component {
                                 <p id={"userExtension"}>Extension: {this.state.extension}</p>
                             </Col>
                             <Col xs={"3"}>
-                                <CallLogButton/>
-                                <FeatureAccessCodesButton/>
+                                <div><Button>Edit Profile</Button></div>
                             </Col>
                         </Row>
                     </Jumbotron>

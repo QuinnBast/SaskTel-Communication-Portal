@@ -23,7 +23,7 @@ export default class Interface extends Component {
     render() {
         return (
             <Fragment>
-                <div style={{marginBottom: "60px"}} id={"dashboard"}>
+                <div style={{marginBottom: "60px", paddingTop: "100px"}} id={"dashboard"}>
                     <Container>
                         <Profile/>
                         <CarouselManager/>

@@ -6,12 +6,11 @@ import React from "react";
 /**
  *  Component Imports
  */
-import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
-import BroadSoft from "../broadsoft/BroadSoft";;
+import BroadSoft from "../broadsoft/BroadSoft";
 
 /**
  * XML imports
