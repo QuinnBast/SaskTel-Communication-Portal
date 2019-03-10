@@ -42,7 +42,7 @@ export default class NavBar extends Component {
 
     render () {
         return (
-                <Navbar id={"navbar"} color="dark" dark expand="md" style={{borderTop: "7px solid #007bff", paddingTop: "20px", position: "fixed", zIndex: "1", width: "100%", paddingBottom: "20px"}}>
+                <Navbar id={"navbar"} color="dark" dark expand="md" style={{paddingTop: "20px", position: "fixed", zIndex: "1", width: "100%", paddingBottom: "20px"}}>
                     <NavbarBrand id={"navTitle"} tag={Link} to="/">TelPort</NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>

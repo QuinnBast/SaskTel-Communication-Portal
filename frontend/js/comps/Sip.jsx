@@ -369,7 +369,7 @@ export default class Sip extends React.Component {
                                     outline = {true}
                                     color={"info"}
                                     onClick={this.cycle} // on click, call this function
-                                    // disabled = return value
+                                    disabled = {this.isButtonDisabled()}
                                     style={{width: "100%", height: "50px"}}
                                 >
                                     <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse size={"lg"} />  {this.state.buttonText}
@@ -438,7 +438,7 @@ export default class Sip extends React.Component {
                                     // disabled = return value
                                     style={{width: "100%", height: "50px"}}
                                 >
-                                    <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: -140}} size={"lg"}/>  {this.state.buttonText}
+                                    <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: -140}} size={"lg"}/>      {this.state.buttonText}
                                 </Button>
                                 <audio
                                     id={"callStream"}
