@@ -38,6 +38,7 @@ export default class Sip extends React.Component {
             targetPhoneNumber : "",
             buttonText: "Call",
             length: 0,
+            isMuted: false
         };
     }
 
@@ -81,6 +82,20 @@ export default class Sip extends React.Component {
             })
         });
     }
+
+    toggleMute = () => {
+        if(this.session != null){
+            if(this.session.isMuted()['audio']){
+                this.session.unmute({audio: true});
+                this.setState({isMuted: false})
+            } else {
+                this.session.mute({audio: true});
+                this.setState({isMuted: true})
+            }
+        } else {
+            this.setState({isMuted: false})
+        }
+    };
 
     makeCall = () => {
         // Register callbacks to desired call events
@@ -203,6 +218,7 @@ export default class Sip extends React.Component {
     endCall = () => {
         this.telportPhone.terminateSessions();
         this.setState({status: "available"});
+        this.session = null;
     };
 
     /**
@@ -262,20 +278,10 @@ export default class Sip extends React.Component {
     render() {
 
         let phoneIcon = null;
+        let inputBox = null;
         if(this.state.buttonText === "Call"){
             phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#17a2b8"}} inverse />
-        } else {
-            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: 120}}/>
-        }
-
-        return(
-            <div
-                style={stickyBottom}
-                id={"callFooter"}
-            >
-                <Container>
-                    <Row>
-                        <Col
+            inputBox = <Col
                             xs="5"
                         >
                             <MaskedInput
@@ -290,9 +296,31 @@ export default class Sip extends React.Component {
                                 )}
                             />
                         </Col>
+        } else {
+            phoneIcon = <FontAwesomeIcon icon={"phone"} style={{color: "#FF0000"}} inverse transform={{rotate: -140}}/>
+            inputBox = <Col xs={"5"}/>      // Show dial pad here insteead. When buttons are pressed call the "sendDTMFTone" function on the stream
+        }
+
+        let mic_state = <FontAwesomeIcon icon={"microphone"} style={{color: "#FFFFFF"}}/>;
+        if(this.state.isMuted){
+            mic_state = <FontAwesomeIcon icon={"microphone-slash"} style={{color: "#FF0000"}}/>;
+        }
+
+
+
+        return(
+            <div
+                style={stickyBottom}
+                id={"callFooter"}
+            >
+                <Container>
+                    <Row>
+                        {inputBox}
                         <Col
                             xs="2"
-                        />
+                        >
+                            <a onClick={this.toggleMute}>{mic_state}</a>
+                        </Col>
                         <Col
                             xs="5"
                         >
