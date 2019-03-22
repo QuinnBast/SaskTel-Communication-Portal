@@ -5,16 +5,22 @@
   "main": "index.js",
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
-    "test": "cross-env NODE_ENV=test jest --coverage -t /tests/mocha/*.js",
+    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/**",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts)$": "babel-jest"
+    }
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
@@ -41,19 +47,13 @@
   "babel": {
     "plugins": [
       "@babel/plugin-syntax-jsx",
-      "@babel/plugin-syntax-dynamic-import"
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-proposal-class-properties"
     ],
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
+    ]
   },
   "nyc": {
     "exclude": "/node_modules/*",
@@ -68,7 +68,6 @@
     "instrument": false
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.14",
     "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@fortawesome/react-fontawesome": "^0.1.4",
