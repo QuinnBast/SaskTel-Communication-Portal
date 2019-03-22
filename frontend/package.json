@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
-    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/** --testUrl=http://127.0.0.1:5000",
+    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/*.{js,jsx} --testUrl=http://127.0.0.1:5000",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
@@ -14,9 +14,7 @@
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
     },
-    "setupFilesAfterEnv": [
-      "<rootDir>\\tests\\enzyme\\enzymesetup.js"
-    ]
+    "setupFilesAfterEnv": ["<rootDir>\\tests\\enzyme\\enzymesetup.js"]
   },
   "author": "",
   "license": "ISC",
