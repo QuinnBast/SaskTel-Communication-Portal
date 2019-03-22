@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
-    "test": " cross-env NODE_ENV=test nyc mocha --require tests/jsdomsetup.js --require tests/enzyme/enzymesetup.js 'tests/**/*.{js,jsx}'",
+    "test": "cross-env NODE_ENV=test jest --coverage -t /tests/mocha/*.js",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
@@ -20,6 +20,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
@@ -28,6 +29,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "istanbul": "^0.4.5",
+    "jest": "^24.5.0",
     "mocha": "^5.2.0",
     "nyc": "^13.3.0",
     "react": "^16.5.2",
