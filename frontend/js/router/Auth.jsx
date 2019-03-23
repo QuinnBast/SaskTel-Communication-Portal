@@ -25,14 +25,23 @@ class Auth {
         this.isAuthenticated = this.isAuthenticated.bind(this);
 
         // Check if a session is set
-        if (sessionStorage.getItem("authenticated") === "true") {
-            this.authenticated = sessionStorage.getItem("authenticated");
-            this.username = sessionStorage.getItem("username");
-            this.refreshToken = sessionStorage.getItem("refreshToken");
-
-            this.attemptRefresh();
+        if (this.doesSessionExist()) {
+            this.sessionSetup();
         }
     }
+
+    doesSessionExist =() => {
+        return sessionStorage.getItem("authenticated") === "true";
+    };
+
+    sessionSetup = () => {
+        this.authenticated = sessionStorage.getItem("authenticated");
+        this.username = sessionStorage.getItem("username");
+        this.refreshToken = sessionStorage.getItem("refreshToken");
+
+        this.attemptRefresh();
+    };
+
 
         attemptRefresh =  (retryFunction, args) => {
 
