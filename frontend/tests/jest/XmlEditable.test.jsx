@@ -6,6 +6,7 @@ import Auth from '../../js/router/Auth';
 import BroadSoft from '../../js/broadsoft/BroadSoft';
 require('babel-polyfill');
 let xmljs = require('xml-js');
+import ReactTestUtils from 'react-dom/test-utils'; // ES6
 
 //
 //  Auth component stubs
@@ -45,5 +46,42 @@ describe("XmlEditable", () => {
     it('creates a string', () => {
         let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['string']} parent={xmljs.xml2js("<string>hello</string>")}/>);
     });
+
+    it('can edit a boolean', () => {
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"bool"} XmlLocation={['active']} parent={xmljs.xml2js("<active>false</active>")} sendUpdate={function(){}}/>);
+        expect(wrapper.instance().state.value).toEqual(false);
+
+
+        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Switch").simulate('change', {target: {value: true}});
+        wrapper.update();
+
+        expect(wrapper.instance().state.value).toEqual(true);
+    })
+
+    it('can edit a range', () => {
+        let update = sinon.stub();
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} parent={xmljs.xml2js("<range>5</range>")} range={[2, 20]} sendUpdate={update}/>);
+        expect(wrapper.instance().state.value).toEqual(5);
+
+        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Range").prop('onMouseUp')({target: {value: 19}});
+        wrapper.update();
+
+        expect(wrapper.instance().state.value).toEqual(19);
+        expect(update.calledOnce).toEqual(true);
+    })
+
+
+    it('can edit a number', () => {
+        let update = sinon.stub();
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"number"} XmlLocation={['number']} parent={xmljs.xml2js("<number>5</number>")} sendUpdate={update}/>);
+        expect(wrapper.instance().state.value).toEqual("5");
+
+        wrapper.instance().inputChange({target: {value: 19}});
+        wrapper.update()
+
+        expect(update.calledOnce).toEqual(true);
+        expect(wrapper.instance().state.value).toEqual(19);
+    })
+
 
 });

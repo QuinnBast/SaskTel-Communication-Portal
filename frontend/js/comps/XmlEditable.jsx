@@ -54,6 +54,7 @@ export default class XmlEditable extends React.Component {
                 }
                 break;
             default:
+                this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:this.props.type})) {
                     setTag(this.props.parent, this.props.XmlLocation, event.target.value);
                     this.props.sendUpdate();
@@ -63,6 +64,7 @@ export default class XmlEditable extends React.Component {
     };
 
     updateValue = (event) => {
+        console.log(event);
         this.setState({value: event.target.value});
     };
 
@@ -119,6 +121,7 @@ export default class XmlEditable extends React.Component {
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableBool"} style={padding}>
                         <div>{name}</div>
                         <div><Switch
+                            id={this.props.name.replace(/\s+/g, '') + "Switch"}
                             onChange={this.inputChange}
                             checked={this.state.value}
                             onColor="#1dd5f3"
@@ -145,6 +148,7 @@ export default class XmlEditable extends React.Component {
                                 <Col xs={"9"}>
                                     <Input name={this.props.name.replace(/\s+/g, '')}
                                            type={"range"}
+                                           id={this.props.name.replace(/\s+/g, '') + "Range"}
                                            min={this.props.range[0]}
                                            max={this.props.range[1]}
                                            step={1}
@@ -184,7 +188,7 @@ export default class XmlEditable extends React.Component {
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableNumber"} style={padding}>
                         <div>{name}</div>
                         <div>
-                            <Input value={this.state.value} onChange={this.inputChange}/>
+                            <Input value={this.state.value} onChange={this.inputChange} id={this.props.name.replace(/\s+/g, '') + "Input"}/>
                         </div>
                         {titlePopover}
                     </Container>
