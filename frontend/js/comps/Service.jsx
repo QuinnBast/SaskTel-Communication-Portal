@@ -123,25 +123,6 @@ export default class Service extends React.Component {
         this.setState({popover: !this.state.popover})
     };
 
-    tabChildren = (children) => {
-        let tabs = [];
-        if(children == null){
-            return null;
-        }
-        for(let child of children) {
-            tabs.push(
-                <Row key={child.props.name}>
-                    <Col xs={"12"}>
-                        <Row>
-                            <Col xs={"1"}><br/></Col>
-                            <Col xs={"11"}>{child}</Col>
-                        </Row>
-                    </Col>
-                </Row>);
-        }
-        return tabs;
-    };
-
     render() {
         if(this.state.status === "loading"){
             return(
@@ -157,7 +138,7 @@ export default class Service extends React.Component {
             children = null;
         }
 
-        let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/> </h5>;
+        let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"}/> </h5>;
         // if(this.props.tabbed){
         //     name = <Row><Col xs={"12"}><Row><Col xs={"2"}><br/></Col><Col xs={"10"}>{this.props.name} <FontAwesomeIcon icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></Col></Row></Col></Row>;
         // }
@@ -188,13 +169,12 @@ export default class Service extends React.Component {
                             <Col xs={"3"} style={{margin: "auto"}}>{editButton}</Col>
                         </Row>
 
-                        <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
+                        <Popover id={this.props.name.replace(/\s+/g, '') + "Tooltip"} placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '') + "TooltipHover"} toggle={this.togglePopover} delay={0}>
                             <PopoverHeader>{this.props.name}</PopoverHeader>
                             <PopoverBody>{this.props.tooltip}</PopoverBody>
                         </Popover>
                     </Container>
                 </Container>
-                {this.tabChildren(children)}
             </React.Fragment>
         );
     }

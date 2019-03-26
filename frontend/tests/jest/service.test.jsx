@@ -7,7 +7,6 @@ import BroadSoft from '../../js/broadsoft/BroadSoft';
 require('babel-polyfill');
 let xmljs = require('xml-js');
 
-
 //
 //  Auth component stubs
 //
@@ -44,7 +43,7 @@ describe("Service", () => {
         // Create broadsoft stub to prevent server calls
         let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint'] === uri);
-            return Promise.resolve("<fakeXml></fakeXml>fakeXml>");
+            return Promise.resolve( xmljs.xml2js("<active>false</active>"));
         });
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
@@ -63,7 +62,7 @@ describe("Service", () => {
         // Create broadsoft stub to prevent server calls
         let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint'] === uri);
-            return Promise.resolve("<fakeXml></fakeXml>");
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
         });
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
@@ -81,7 +80,7 @@ describe("Service", () => {
         // Create broadsoft stub to prevent server calls
         let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint'] === uri);
-            return Promise.resolve("<fakeXml></fakeXml>");
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
         });
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
@@ -92,25 +91,144 @@ describe("Service", () => {
 
         expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Toggle")).toHaveLength(1);
         broadsoftStub.restore();
-    })
+    });
 
-       it('clicking the toggle changes the state', async() => {
+       it('clicking the toggle changes state, visual, and sends a request', async() => {
 
         // Create broadsoft stub to prevent server calls
         let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint'] === uri);
-            return Promise.resolve("<active>false</active>");
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
         });
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
+        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
+            return Promise.resolve();
+        });
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(wrapper.instance().state.active).toEqual(false);
+        wrapper.update();
+
+        // Expect the toggle to exist on the page
+        expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Toggle")).toHaveLength(1);
+
+        // Toggle the button
+        wrapper.instance().toggle(true);
+        wrapper.update();
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        // Expect the service to have sent a request.
+        expect(serviceSendRequest.calledOnce).toEqual(true);
+
+        // Ensure the service state is updated
+        expect(wrapper.instance().state.active).toEqual(true);
+
+        // Ensure the isAcitve function is valid
+        expect(wrapper.instance().isActive()).toEqual(true);
+
+        broadsoftStub.restore();
+        serviceSendRequest.restore();
+    });
+
+       it('clicking the edit button triggers the carousel', async() => {
+
+        // Create broadsoft stub to prevent server calls
+        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
+            expect(args['endpoint'] === uri);
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
+        });
+
+        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
+        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
+            return Promise.resolve();
+        });
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        expect(wrapper.instance().state.active).toEqual(false);
+
+        // Expect the edit button to exist on the page
+        expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Edit")).toHaveLength(1);
+
+        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Edit").simulate('click');
+
+        // Toggle the button
+        //wrapper.instance().toggle(true);
+        wrapper.update();
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        // Expect the onEdit function to be called
+        expect(onEdit.calledOnce).toEqual(true);
+
+        broadsoftStub.restore();
+        serviceSendRequest.restore();
+        onEdit.reset();
+    });
+
+       it('setValue should update the XML', async () => {
+
+
+        // Create broadsoft stub to prevent server calls
+        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
+            expect(args['endpoint'] === uri);
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
+        });
+
+        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
 
         // Block test until event loop has processed any queued work (including our data retrieval)
         await new Promise((resolve) => setTimeout(resolve, 0));
         wrapper.update();
 
-        expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Toggle")).toHaveLength(1);
-        broadsoftStub.restore();
-    })
+        expect(wrapper.instance().state.responseData).toEqual(xmljs.xml2js("<active>false</active>"));
 
+
+        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
+            return Promise.resolve();
+        });
+
+        wrapper.instance().setValue(['active'], "true");
+
+        expect(wrapper.instance().state.responseData).toEqual(xmljs.xml2js("<active>true</active>"));
+        broadsoftStub.restore();
+        serviceSendRequest.restore();
+       })
+
+    it('hovering a tooltip shows the tooltip', async () => {
+
+
+        // Create broadsoft stub to prevent server calls
+        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
+            expect(args['endpoint'] === uri);
+            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
+        });
+
+        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
+
+        let servicePopupToggle = sinon.spy(wrapper.instance(), "togglePopover");
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.update();
+
+        wrapper.instance().togglePopover();
+
+        expect(servicePopupToggle.calledOnce).toEqual(true);
+        expect(wrapper.instance().state.popover).toEqual(true);
+
+        servicePopupToggle.restore();
+        broadsoftStub.restore();
+    });
 
 });
