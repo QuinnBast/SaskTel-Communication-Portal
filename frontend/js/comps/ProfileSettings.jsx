@@ -36,49 +36,44 @@ export default class ProfileSettings extends React.Component {
     }
 
     loadServices = () => {
-      let self = this;
-      BroadSoft.sendRequest({
-          endpoint: "/user/<user>/services",
-          method: "GET",
-          success: function(response){
-              let serviceList = getTag(response, ["Services"]).elements;
-              let services = [];
+        let self = this;
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/services"}).then((response) => {
+            let serviceList = getTag(response, ["Services"]).elements;
+            let services = [];
 
-              for(let service of serviceList){
-                  let name = getTag(service, ["name"]);
-                  let uri = getTag(service, ["uri"]);
+            for(let service of serviceList){
+                let name = getTag(service, ["name"]);
+                let uri = getTag(service, ["uri"]);
 
-                  if(uri !== null){
-                      uri = uri.substring(5);
-                      services.push(ServiceFactory.build(name, uri, self.props.onEdit));
-                  }
-              }
-              self.setState({status: "ready", services});
-          },
-          error: function(response){
-              self.setState({status: "error"})
-          }
-      })
+                if(uri !== null){
+                    uri = uri.substring(5);
+                    services.push(ServiceFactory.build(name, uri, self.props.onEdit));
+                }
+            }
+            self.setState({status: "ready", services});
+        }, (response) => {
+            self.setState({status: "error"})
+        });
     };
 
     render() {
         if(this.state.status === "loading"){
             return(
-            <Container id={"ProfileServices"}>
-                <div>Loading services...</div>
-            </Container>
+                <Container id={"ProfileServices"}>
+                    <div>Loading services...</div>
+                </Container>
             );
         } else if(this.state.status === "error"){
             return(
-            <Container id={"ProfileServices"}>
-                <div>An error has occurred.</div>
-            </Container>
+                <Container id={"ProfileServices"}>
+                    <div>An error has occurred.</div>
+                </Container>
             );
         } else if (this.state.status === "ready"){
             return(
-            <Container id={"ProfileServices"}>
-                {this.state.services}
-            </Container>
+                <Container id={"ProfileServices"}>
+                    {this.state.services}
+                </Container>
             );
         }
     }

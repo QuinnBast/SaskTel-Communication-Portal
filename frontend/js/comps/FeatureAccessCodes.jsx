@@ -31,24 +31,18 @@ export default class FeatureAccessCodes extends React.Component {
 // Asynchronous function that updates the object.
     loadAsync(){
         let self = this;
-        BroadSoft.sendRequest({
-            endpoint: "/user/<user>/profile/Fac",
-            success: function(response) {
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/profile/Fac"}).then( (response) => {
 
-                let features = getTag(response, ["FAC"]).elements;
+            let features = getTag(response, ["FAC"]).elements;
 
-                for(let fac of features){
-                    // Get information about the features
-                    let feature =
-                        <tr style={{display: "block"}} key={getTag(fac, ["code"])}>
-                            <td style={{display: "inline-block", width:"33%"}}>{getTag(fac, ["code"])}</td>
-                            <td style={{display: "inline-block", width:"66%"}}>{getTag(fac, ["codeName"])}</td>
-                        </tr>;
-                    self.setState((prevState) => ({ features: [...prevState.features, feature]}));
-                }
-            },
-            error: function(response) {
-                // User does not have access to the endpoint.
+            for (let fac of features) {
+                // Get information about the features
+                let feature =
+                    <tr style={{display: "block"}} key={getTag(fac, ["code"])}>
+                        <td style={{display: "inline-block", width: "33%"}}>{getTag(fac, ["code"])}</td>
+                        <td style={{display: "inline-block", width: "66%"}}>{getTag(fac, ["codeName"])}</td>
+                    </tr>;
+                self.setState((prevState) => ({features: [...prevState.features, feature]}));
             }
         });
     }

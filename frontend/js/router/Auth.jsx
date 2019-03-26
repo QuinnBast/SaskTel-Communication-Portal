@@ -43,12 +43,13 @@ class Auth {
     };
 
 
-        attemptRefresh =  (retryFunction, args) => {
+    attemptRefresh = (retryFunction, args) => {
 
             let self = this;
 
             if (self.refreshToken === undefined) {
                 self.logout();
+                return;
             }
             // Configure future AJAX request to send the csrf refresh token along in the header.
             $.ajaxSetup({
@@ -116,28 +117,38 @@ class Auth {
         $('#LoginButton:first').addClass('loading');
         //Async login call
         let self = this;
-        BroadSoft.login({
-            success: function(result){
+
+        BroadSoft.login().then(function(result){
+                self.authenticated = true;
+                self.csrfToken = Cookies.get('csrf_access_token');
+                self.refreshToken = Cookies.get('csrf_refresh_token');
+
                 sessionStorage.setItem("authenticated", self.authenticated.toString());
                 sessionStorage.setItem("username", self.username);
                 sessionStorage.setItem("refreshToken", self.refreshToken);
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
-            },
-            error: function(result){
+            }, function(result){
+
+
+                self.authenticated = false;
                 sessionStorage.removeItem("authenticated");
                 sessionStorage.removeItem("username");
                 sessionStorage.removeItem("refreshToken");
-                $("#alert").get(0).style.visibility = 'visible';
-                $('#LoginButton:first').removeClass('loading');
-            }
-        });
+
+                if(result.status === 599){
+                    $("#alert").get(0).innerHTML = "Unable to connect to authentication server. Please try again.";
+                    $("#alert").get(0).style.visibility = 'visible';
+                    $('#LoginButton:first').removeClass('loading');
+                } else {
+                    $("#alert").get(0).innerHTML = "Invalid login credentials. Please try again.";
+                    $("#alert").get(0).style.visibility = 'visible';
+                    $('#LoginButton:first').removeClass('loading');
+                }
+            });
     };
 
     logout() {
-        BroadSoft.logout();
-        // Don't wait for the server's response to logout.
-
         //Clear the ajax configuration so that it no longer sends the CSRF token.
         $.ajaxSetup({
             beforeSend: undefined,

@@ -46,18 +46,14 @@ class BroadSoft {
 
         let json = JSON.stringify(object);
         //Call server's login function
-        $.ajax({
+        return $.ajax({
             context: Auth,
             type: "POST",
             url: "/rest/login",
             contentType: "application/json",
             data: json,
             dataType: "text",
-            success: function(responseText, textStatus, jqxhr){
-
-                this.authenticated = true;
-                this.csrfToken = Cookies.get('csrf_access_token');
-                this.refreshToken = Cookies.get('csrf_refresh_token');
+        }).then(() => {
                 // Configure future AJAX requests to send the csrf token along in the header.
                 $.ajaxSetup({
                     beforeSend: function(xhr, settings){
@@ -67,37 +63,8 @@ class BroadSoft {
                     },
                     data: {"CSRFToken":Auth.csrfToken}
                 });
-
-                callbacks.success();
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                callbacks.error();
-            },
         });
     }
-
-    logout() {
-        /**
-         * This function will contact the broadsoft logout endpoint and remove the user's auth tokens
-         * This will ensure the user can no longer access information with their tokens.
-         *
-         * @param callbacks: {success: function(), error: function()}
-         *
-         *      The success function will be executed with a successful logout
-         *      The error function will be executed with a failed logout
-         */
-
-        //Call server's login function
-        $.ajax({
-            context: Auth,
-            type: "POST",
-            url: "/rest/logout",
-            contentType: "application/json",
-            dataType: "text"
-        });
-    }
-
 
     sendRequest(args) {
         /**
@@ -129,16 +96,6 @@ class BroadSoft {
             method = args['method'];
         }
 
-        let success = function(){return};
-        if(args['success'] !== undefined) {
-            success = args['success'];
-        }
-
-        let error = function(){return};
-        if(args['error'] !== undefined) {
-            error = args['error'];
-        }
-
         let request_data = {
             "endpoint":args['endpoint'],
             "data":data,
@@ -148,32 +105,28 @@ class BroadSoft {
         let self = this;
         let auth = Auth;
 
-        $.ajax({
+        return $.ajax({
             context: Auth,
             type: "POST",
             url: "/rest/broadsoft",
             contentType: "application/json",
             dataType: "text",
             data: JSON.stringify(request_data),
-            success: function(responseText, textStatus, jqxhr){
-                // Convert XML response to a JS object.
-                let response = xmljs.xml2js(responseText);
-                success(response);
-            },
-            error: function(jqxhr, textStatus, errorThrown){
-                console.log(errorThrown);
-                let response = xmljs.xml2js(jqxhr.responseText);
+        }).then((responseText, textStatus, jqxhr) => {
+            return xmljs.xml2js(responseText);
+        }, (jqxhr, textStatus, errorThrown) => {
+            console.log(errorThrown);
+            let response = xmljs.xml2js(jqxhr.responseText);
 
-                // If the user sent a request but the login token was invalid on the server, attempt to refresh the token.
-                if(response.elements[0] && response.elements[0].elements[0].text === "Unauthorized"){
-                        // Attempt refreshing the user's access token.
-                        // If the refresh is successful, execute the callback function to retry the function
-                        auth.attemptRefresh(self.sendRequest, args);
-                        // Don't call the error function until refresh is attempted
-                        return;
-                }
-                error(response)
-            },
+            // If the user sent a request but the login token was invalid on the server, attempt to refresh the token.
+            if(response.elements[0] && response.elements[0].elements[0].text === "Unauthorized"){
+                // Attempt refreshing the user's access token.
+                // If the refresh is successful, execute the callback function to retry the function
+                auth.attemptRefresh(self.sendRequest, args);
+                // Don't call the error function until refresh is attempted
+                return;
+            }
+            return response;
         });
     }
 }

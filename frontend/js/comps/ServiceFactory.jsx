@@ -225,6 +225,10 @@ export default class ServiceFactory {
                         tooltip={"Settings that determine if your number is sent to recipients when making outgoing calls."}
                         hasToggle/>
                 );
+            default:
+                return(
+                    <Service name={name} uri={""} onEdit={onEdit} tooltip={"This service is not configured yet. Contact the developers. Error: ServiceFactoryDefault - The service is not defined in the ServiceFactory Component. ServiceFactory.jsx:230"}/>
+            )
         }
     }
 }

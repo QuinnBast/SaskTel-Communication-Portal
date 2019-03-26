@@ -45,28 +45,20 @@ export default class PersonalContacts extends React.Component {
 // Asynchronous function that updates the object.
     loadAsync = () => {
         let self = this;
-        BroadSoft.sendRequest({
-            endpoint: "/user/<user>/directories/Personal",
-            success: function(response) {
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/directories/Personal"}).then((response) => {
+            self.dataFormat = response;
 
-                self.dataFormat = response;
-
-                let contacts = [];
-                // Loop through any entries that have been sent
-                for(let entry in getTag(response, ["Personal"]).elements){
-                    if(entry.name === "entry"){
-                        contacts.add(entry);
-                    }
+            let contacts = [];
+            // Loop through any entries that have been sent
+            for(let entry in getTag(response, ["Personal"]).elements){
+                if(entry.name === "entry"){
+                    contacts.add(entry);
                 }
-                if(contacts.length > 0) {
-                    self.setState((prevState) => ({data: [...prevState.data, contacts]}));
-                }
-                self.setState({status: "ready"});
-            },
-            error: function(response) {
-                // User does not have access to the endpoint.
-                self.setState({unauthorized: true});
             }
+            if(contacts.length > 0) {
+                self.setState((prevState) => ({data: [...prevState.data, contacts]}));
+            }
+            self.setState({status: "ready"});
         });
     }
 

@@ -34,10 +34,8 @@ export default class Profile extends React.Component {
 // Asynchronous function that updates the object.
     loadAsync = () => {
         let self = this;
-        BroadSoft.sendRequest({
-            endpoint: "/user/<user>/profile",
-            success: function(response) {
-                let profileDetails = getTag(response, ["Profile", "details"]);
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/profile"}).then((response) => {
+            let profileDetails = getTag(response, ["Profile", "details"]);
                 self.setState({
                     firstName: getTag(profileDetails, ["firstName"]),
                     lastName: getTag(profileDetails, ["lastName"]),
@@ -45,12 +43,8 @@ export default class Profile extends React.Component {
                     extension: getTag(profileDetails, ["extension"]),
                     status: "ready"
                 });
-            },
-            error: function(response) {
-                // User does not have access to the endpoint.
-            }
         });
-    }
+    };
 
     render() {
         if(this.state.status === "loading") {

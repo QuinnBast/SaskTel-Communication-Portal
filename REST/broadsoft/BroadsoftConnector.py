@@ -8,6 +8,7 @@ from REST.broadsoft.BroadsoftResource import BroadsoftResource
 from REST.auth.User import User
 import logging
 from REST.server import config, logconsole, logfile
+from flask import Response
 
 
 class BroadsoftConnector(BroadsoftResource):

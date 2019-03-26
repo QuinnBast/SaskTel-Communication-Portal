@@ -28,10 +28,8 @@ export default class Service extends React.Component {
      *     onEnable:function - callback for when the component's toggle is set to active.
      *     activePath:array[string] - An array of strings which points to the XML response's location indicating if the service is active.
      *     name:string - the title of the setting.
-     *     tabbed:boolean - if the title should be tabbed as a subset of a larger
      *     uri:string - the url for the service to access data
      *     onEdit(editPage:React.Component):function - a function that sets and moves the containing carousel to the edit page of the component
-     *     inLineEdit - determines if the editables of the component should be visible and grouped under the component
      *
      */
 
@@ -52,22 +50,17 @@ export default class Service extends React.Component {
 
     loadAsync = () => {
         let self = this;
-        Broadsoft.sendRequest({
-            endpoint: this.props.uri,
-            method: "GET",
-            success: function(response){
-                if(self.props.hasToggle) {
-                    let active = getTag(response, self.props.activePath) === "true";
-                    self.setState({responseData: response, active: active, status: "ready"});
-                } else {
-                    self.setState({responseData: response, status: "ready"});
-                }
-            },
-            error: function(response){
-                let content = <div>{JSON.stringify(response)}</div>;
-                self.props.onEdit(content);
+        return Broadsoft.sendRequest({endpoint: this.props.uri}).then((response) => {
+            if(self.props.hasToggle) {
+                let active = getTag(response, self.props.activePath) === "true";
+                self.setState({responseData: response, active: active, status: "ready"});
+            } else {
+                self.setState({responseData: response, status: "ready"});
             }
-        })
+        }, (response) => {
+            let content = <div>{JSON.stringify(response)}</div>;
+            self.props.onEdit(content);
+        });
     };
 
     getValue = (XmlLocation) => {
@@ -80,20 +73,18 @@ export default class Service extends React.Component {
             endpoint: this.props.uri,
             method: "PUT",
             data: this.state.responseData,
-            success: function(response){
-                console.log("Successful Update.");
-                global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
-            },
-            error: function(response){
-                console.log("ERROR SENDING UPDATE.");
-                global.sendMessage("Error updating the " + self.props.name + " service!", {timeout: 3000, color: "danger"});
-                // Permanently change background to red to indicate error to user.
-                //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
-                // Reset the state of the component by fetching the current state.
-            }
         };
 
-        Broadsoft.sendRequest(request);
+        return Broadsoft.sendRequest(request).then((response) => {
+            console.log("Successful Update.");
+            global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
+        }, (response) => {
+            console.log("ERROR SENDING UPDATE.");
+            global.sendMessage("Error updating the " + self.props.name + " service!", {timeout: 3000, color: "danger"});
+            // Permanently change background to red to indicate error to user.
+            //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
+            // Reset the state of the component by fetching the current state.
+        });
     };
 
     setValue = (XmlLocation, value) => {
@@ -189,7 +180,7 @@ export default class Service extends React.Component {
 
         return (
             <React.Fragment key={this.state.uri}>
-                <Container style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
+                <Container id={this.props.name + "Service"} style={{padding: "10px", borderBottom: "1px solid #80808026"}}>
                     <Container>
                         <Row>
                             <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
@@ -222,8 +213,6 @@ Service.propTypes = {
     uri: PropTypes.string.isRequired,
     // A function passed from CarouselManager to handle changing carousel slides
     onEdit: PropTypes.func.isRequired,
-    // A list of editable properties in the XML response and their types.
-    editables: PropTypes.object,
     // The object's tooltip
     tooltip: PropTypes.string.isRequired
 }

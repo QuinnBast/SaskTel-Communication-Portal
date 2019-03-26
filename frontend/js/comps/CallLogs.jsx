@@ -65,48 +65,50 @@ export default class CallLogs extends React.Component {
     // Asynchronous function that updates the object.
     loadAsync = () => {
         let self= this;
-        BroadSoft.sendRequest({
-            endpoint:"/user/<user>/directories/CallLogs",
-            success: function(response) {
+        return BroadSoft.sendRequest({endpoint:"/user/<user>/directories/CallLogs"}).then( (response) => {
+            let data = getTag(response, ["CallLogs"]);
 
-                let data = getTag(response, ["CallLogs"]);
-
-                for (let missedCall of Array.from(getTag(data, ['missed']).elements)){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Missed",
-                                    phoneNumber:getTag(missedCall, ['phoneNumber']),
-                                    time:getTag(missedCall,['time'])
-                                }]
-                        }));
-                }
-
-                for(let placedCall of Array.from(getTag(data, ['placed']).elements)){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Outgoing",
-                                    phoneNumber:getTag(placedCall, ['phoneNumber']),
-                                    time:getTag(placedCall, ['time'])
-                                }]
-                        }));
-                }
-
-                for(let receivedCall of Array.from(getTag(data, ['received']).elements)){
-                    self.setState(prevState => (
-                        {logs: [...prevState.logs,
-                                {type:  "Received",
-                                    phoneNumber:getTag(receivedCall, ['phoneNumber']),
-                                    time:getTag(receivedCall, ['time'])
-                                }]
-                        }));
-                }
-                self.setState({
-                    column : 'time',
-                    logs : _.sortBy(self.state.logs, ['time']).reverse(),
-                    direction : 'descending',
-                    status: "ready"});
+            for (let missedCall of Array.from(getTag(data, ['missed']).elements)) {
+                self.setState(prevState => (
+                    {
+                        logs: [...prevState.logs,
+                            {
+                                type: "Missed",
+                                phoneNumber: getTag(missedCall, ['phoneNumber']),
+                                time: getTag(missedCall, ['time'])
+                            }]
+                    }));
             }
 
+            for (let placedCall of Array.from(getTag(data, ['placed']).elements)) {
+                self.setState(prevState => (
+                    {
+                        logs: [...prevState.logs,
+                            {
+                                type: "Outgoing",
+                                phoneNumber: getTag(placedCall, ['phoneNumber']),
+                                time: getTag(placedCall, ['time'])
+                            }]
+                    }));
+            }
+
+            for (let receivedCall of Array.from(getTag(data, ['received']).elements)) {
+                self.setState(prevState => (
+                    {
+                        logs: [...prevState.logs,
+                            {
+                                type: "Received",
+                                phoneNumber: getTag(receivedCall, ['phoneNumber']),
+                                time: getTag(receivedCall, ['time'])
+                            }]
+                    }));
+            }
+            self.setState({
+                column: 'time',
+                logs: _.sortBy(self.state.logs, ['time']).reverse(),
+                direction: 'descending',
+                status: "ready"
+            });
         });
     }
 
