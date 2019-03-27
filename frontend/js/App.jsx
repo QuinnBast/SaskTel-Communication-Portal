@@ -50,6 +50,17 @@ library.add(faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaret
 window.$ = window.jQuery = require("jquery");
 
 export default class App extends React.Component {
+
+
+    constructor(props){
+        super(props);
+        global.refresh = this.refresh;
+    }
+
+    refresh = () => {
+        this.forceUpdate();
+    };
+
     render () {
         return (
             <Router history={history}>
@@ -65,6 +76,10 @@ export default class App extends React.Component {
             </Router>
         );
     }
+}
+
+export function refresh() {
+    global.refresh();
 }
 
 

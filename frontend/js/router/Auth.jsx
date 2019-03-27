@@ -2,6 +2,7 @@
  *  Navigation Imports
  */
 import history from "./history";
+import {refresh} from '../App'
 
 /**
  *  REST API Imports
@@ -35,15 +36,13 @@ class Auth {
     };
 
     sessionSetup = () => {
-        this.authenticated = sessionStorage.getItem("authenticated");
-        this.username = sessionStorage.getItem("username");
-        this.refreshToken = sessionStorage.getItem("refreshToken");
-
         this.attemptRefresh();
     };
 
 
     attemptRefresh = (retryFunction, args) => {
+        this.username = sessionStorage.getItem("username");
+        this.refreshToken = sessionStorage.getItem("refreshToken");
 
             let self = this;
 
@@ -89,6 +88,8 @@ class Auth {
                             retryFunction();
                         }
                     }
+
+                    refresh();
                 },
                 error: function () {
                     // Logout if an access token could not be generated.
