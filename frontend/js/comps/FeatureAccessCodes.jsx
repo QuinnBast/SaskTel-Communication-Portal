@@ -1,7 +1,7 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 
 /**
  *  Component Imports
@@ -38,9 +38,9 @@ export default class FeatureAccessCodes extends React.Component {
             for (let fac of features) {
                 // Get information about the features
                 let feature =
-                    <tr style={{display: "block"}} key={getTag(fac, ["code"])}>
-                        <td style={{display: "inline-block", width: "33%"}}>{getTag(fac, ["code"])}</td>
-                        <td style={{display: "inline-block", width: "66%"}}>{getTag(fac, ["codeName"])}</td>
+                    <tr key={getTag(fac, ["code"])}>
+                        <td>{getTag(fac, ["code"])}</td>
+                        <td>{getTag(fac, ["codeName"])}</td>
                     </tr>;
                 self.setState((prevState) => ({features: [...prevState.features, feature]}));
             }
@@ -49,17 +49,23 @@ export default class FeatureAccessCodes extends React.Component {
 
     render() {
         return (
-                <Table striped id={"FeatureAccessCodes"} style={{height: "100%"}}>
-                    <thead style={{display: "block"}}>
-                    <tr style={{display: "block"}}>
-                        <th style={{display: "inline-block", width:"33%"}}>Access Code</th>
-                        <th style={{display: "inline-block", width:"66%"}}>Feature Description</th>
+            <Fragment>
+                <Table striped id={"FeatureAccessCodes"}>
+                    <thead>
+                    <tr>
+                        <th>Access Code</th>
+                        <th>Feature Description</th>
                     </tr>
                     </thead>
-                    <tbody key={"FeatureAccessKey"} style={{overflowY: "scroll", display: "block", height: "90%"}}>
+                </Table>
+            <div style={{height: "60vh", overflowY: "scroll"}}>
+                <Table striped id={"FeatureAccessCodes"} style={{height: "100%"}}>
+                    <tbody key={"FeatureAccessKey"}>
                     {this.state.features}
                     </tbody>
                 </Table>
+            </div>
+            </Fragment>
         );
     }
 }

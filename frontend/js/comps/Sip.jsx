@@ -25,7 +25,7 @@ const stickyBottom = {
     bottom: 0,
     width: "100%" ,
     textAlign: "center",
-    height: "120px",
+    height: "80px",
     background: "rgb(33, 37, 41)",
 };
 
@@ -305,7 +305,7 @@ export default class Sip extends React.Component {
                     style={stickyBottom}
                     id={"callFooter"}
                 >
-                    <Container style={{paddingTop: "30px"}}>
+                    <Container style={{paddingTop: "15px"}}>
                         <Row>
                             <Col
                                 xs="12"
@@ -342,7 +342,7 @@ export default class Sip extends React.Component {
                     style={stickyBottom}
                     id={"callFooter"}
                 >
-                    <Container style={{paddingTop: "30px"}}>
+                    <Container style={{paddingTop: "15px"}}>
                         <Row>
                             <Col
                                 xs="8"
@@ -414,7 +414,7 @@ export default class Sip extends React.Component {
                     style={stickyBottom}
                     id={"callFooter"}
                 >
-                    <Container style={{paddingTop: "30px"}}>
+                    <Container style={{paddingTop: "15px"}}>
                         <Row>
                             <Col
                                 xs="6"

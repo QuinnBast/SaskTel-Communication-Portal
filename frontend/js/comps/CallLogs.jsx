@@ -2,7 +2,7 @@ import _ from 'lodash'
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 
 /**
  *  REST API Imports
@@ -136,10 +136,10 @@ export default class CallLogs extends React.Component {
                     break;
             }
 
-            tableRows.push(<tr key={this.state.name + (i++).toString()} style={{display: "block"}}>
-                <td style={{display: "inline-block", width:"33%"}}>{badge}</td>
-                <td style={{display: "inline-block", width:"33%"}}>{property['phoneNumber']}</td>
-                <td style={{display: "inline-block", width:"33%"}}>{(new Date(property['time']))
+            tableRows.push(<tr key={this.state.name + (i++).toString()}>
+                <td>{badge}</td>
+                <td>{property['phoneNumber']}</td>
+                <td>{(new Date(property['time']))
                     .toLocaleString('en-CA',
                         {   day: 'numeric',
                             month: 'short',
@@ -159,24 +159,30 @@ export default class CallLogs extends React.Component {
         }
 
         return (
-                    <Table striped id={"CallLogs"} style={{height: "100%"}}>
-                        <thead style={{display: "block"}}>
-                            <tr style={{display: "block"}}>
-                                <th onClick={this.handleSort('type')} style={{display: "inline-block", width:"33%"}}>
+            <Fragment>
+            <Table striped id={"CallLogs"}>
+                        <thead>
+                            <tr>
+                                <th onClick={this.handleSort('type')}>
                                     Type {sortIcons[0]}
                                 </th>
-                                <th onClick={this.handleSort('phoneNumber')} style={{display: "inline-block", width:"33%"}}>
+                                <th onClick={this.handleSort('phoneNumber')}>
                                     Number {sortIcons[1]}
                                 </th>
-                                <th onClick={this.handleSort('time')} style={{display: "inline-block", width:"33%"}}>
+                                <th onClick={this.handleSort('time')}>
                                     Time {sortIcons[2]}
                                 </th>
                             </tr>
                         </thead>
-                        <tbody style={{overflowY: "scroll", display: "block", height: "90%"}}>
+            </Table>
+            <div style={{height: "60vh", overflowY: "scroll"}}>
+                    <Table striped id={"CallLogs"} style={{height: "100%"}}>
+                        <tbody>
                             {tableRows}
                         </tbody>
                     </Table>
+            </div>
+                </Fragment>
         );
     }
 }
