@@ -33,17 +33,19 @@ export default class InfoMessage extends React.Component {
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if(nextState.message !== null) {
-            setTimeout(this.close, nextState.timeout);
+            this.timeout = setTimeout(this.close, nextState.timeout);
         }
     }
 
     sendMessage = (message, options) => {
+        clearInterval(this.timeout);
         this.close();
         this.setState({message: message, timeout: options.timeout, color: options.color});
     };
 
     close = () => {
-        this.setState({message: null})
+        this.setState({message: null});
+        this.forceUpdate();
     };
 
     render() {

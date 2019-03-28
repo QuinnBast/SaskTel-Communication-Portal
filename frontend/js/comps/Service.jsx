@@ -81,9 +81,10 @@ export default class Service extends React.Component {
         }, (response) => {
 
             let errorSummary =  getTag(response, ["ErrorInfo", "summary"]);
+            let errorCode = getTag(response, ["ErrorInfo", "errorCode"]);
 
             console.log(errorSummary);
-            global.sendMessage("Error updating the " + self.props.name + " service! " + errorSummary, {timeout: 15000, color: "danger"});
+            global.sendMessage("Error updating the " + self.props.name + " service! Error Code " + errorCode + ": " + errorSummary, {timeout: 15000, color: "danger"});
             // Permanently change background to red to indicate error to user.
             //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
             // Reset the state of the component by fetching the current state.
