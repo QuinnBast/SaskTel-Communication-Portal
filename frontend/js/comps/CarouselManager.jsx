@@ -67,6 +67,11 @@ export default class CarouselManager extends React.Component {
 
         let toggle = [];
         if(this.state.toggleMe) {
+            let text = "Off";
+            if(this.state.toggleState){
+                text = "On"
+            }
+
             if (this.state.toggleMe.props.hasToggle) {
                 toggle = <Container key={"editToggle"}>
                     <div>
@@ -83,7 +88,7 @@ export default class CarouselManager extends React.Component {
                             activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
                             height={20}
                             width={48}
-                        />
+                        /> <b>{text}</b>
                     </div>
                 </Container>;
             }
