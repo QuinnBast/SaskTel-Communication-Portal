@@ -47,9 +47,9 @@ export default class XmlEditable extends React.Component {
                 }
                 break;
             case "bool":
-                this.setState({value: !this.state.value});
-                if(validate(this.state.value, {type:"bool"})) {
-                    setTag(this.props.parent, this.props.XmlLocation, !this.state.value);
+                this.setState({value: event});
+                if(validate(event, {type:"bool"})) {
+                    setTag(this.props.parent, this.props.XmlLocation, event);
                     this.props.sendUpdate();
                 }
                 break;
@@ -117,6 +117,10 @@ export default class XmlEditable extends React.Component {
 
         switch(this.props.type){
             case "bool":
+                let text = "Off";
+                if(this.state.value){
+                    text = "On"
+                }
                 return(
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableBool"} style={padding}>
                         <div>{name}</div>
@@ -132,7 +136,7 @@ export default class XmlEditable extends React.Component {
                             boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
                             activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
                             height={20}
-                            width={48}/>
+                            width={48}/> {text}
                         </div>
                         {titlePopover}
                     </Container>

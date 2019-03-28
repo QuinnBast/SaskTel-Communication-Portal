@@ -63,6 +63,11 @@ export default class ServiceFactory {
                             type={"range"}
                             range={[2, 20]}
                             XmlLocation={["CallForwardingNoAnswer", "numberOfRings"]}/>
+                        <XmlEditable
+                            name={"Forward To Phone Number"}
+                            tooltip={"The phone number to forward calls to."}
+                            type={"phone"}
+                            XmlLocation={["CallForwardingNoAnswer", "forwardToPhoneNumber"]}/>
                     </Service>
                 );
             case "Do Not Disturb":

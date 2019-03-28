@@ -1,7 +1,7 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 import PropTypes from 'prop-types';
 
 /**
@@ -79,11 +79,15 @@ export default class Service extends React.Component {
             console.log("Successful Update.");
             global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
         }, (response) => {
-            console.log("ERROR SENDING UPDATE.");
-            global.sendMessage("Error updating the " + self.props.name + " service!", {timeout: 3000, color: "danger"});
+
+            let errorSummary =  getTag(response, ["ErrorInfo", "summary"]);
+
+            console.log(errorSummary);
+            global.sendMessage("Error updating the " + self.props.name + " service! " + errorSummary, {timeout: 15000, color: "danger"});
             // Permanently change background to red to indicate error to user.
             //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
             // Reset the state of the component by fetching the current state.
+            this.loadAsync();
         });
     };
 
@@ -145,7 +149,11 @@ export default class Service extends React.Component {
 
         let toggle = null;
         if(this.props.hasToggle){
-            toggle = <Switch
+            let text = "Off";
+            if(this.state.active) {
+                text = "On"
+            }
+            toggle = <Fragment><Switch
                 id={this.props.name.replace(/\s+/g, '') + "Toggle"}
                 onChange={this.toggle} checked={this.state.active}
                 onColor="#1dd5f3"
@@ -156,8 +164,8 @@ export default class Service extends React.Component {
                 boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
                 activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
                 height={20}
-                width={48}/>;
-        }
+                width={48}/><b>{text}</b></Fragment>;
+            }
 
         return (
             <React.Fragment key={this.state.uri}>

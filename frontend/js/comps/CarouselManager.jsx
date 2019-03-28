@@ -43,7 +43,7 @@ export default class CarouselManager extends React.Component {
 
     toggle = (toggleState) => {
         this.setState({toggleState: toggleState});
-        this.state.toggleMe.toggle(this.state.toggleState);
+        this.state.toggleMe.toggle(toggleState);
     };
 
     render() {

@@ -38,6 +38,7 @@ export default class InfoMessage extends React.Component {
     }
 
     sendMessage = (message, options) => {
+        this.close();
         this.setState({message: message, timeout: options.timeout, color: options.color});
     };
 

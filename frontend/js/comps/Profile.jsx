@@ -70,16 +70,11 @@ export default class Profile extends React.Component {
             return (
                 <Container id={"Profile"}>
                     <Jumbotron>
-                        <Row>
-                            <Col xs={"9"}>
+                        <Container>
                                 <h1 id={"userName"}>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
                                 <p id={"userNumber"}>Number: {this.state.number}</p>
                                 <p id={"userExtension"}>Extension: {this.state.extension}</p>
-                            </Col>
-                            <Col xs={"3"}>
-                                <div><Button>Edit Profile</Button></div>
-                            </Col>
-                        </Row>
+                        </Container>
                     </Jumbotron>
                 </Container>
             );

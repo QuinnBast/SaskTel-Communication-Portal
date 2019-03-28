@@ -113,7 +113,7 @@ class BroadSoft {
             dataType: "text",
             data: JSON.stringify(request_data),
         }).then((responseText, textStatus, jqxhr) => {
-            return xmljs.xml2js(responseText);
+            return Promise.resolve(xmljs.xml2js(responseText));
         }, (jqxhr, textStatus, errorThrown) => {
             console.log(errorThrown);
             let response = xmljs.xml2js(jqxhr.responseText);
@@ -126,7 +126,7 @@ class BroadSoft {
                 // Don't call the error function until refresh is attempted
                 return;
             }
-            return response;
+            return Promise.reject(response);
         });
     }
 }
