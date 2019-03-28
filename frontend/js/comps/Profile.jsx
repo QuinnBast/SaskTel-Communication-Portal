@@ -13,6 +13,7 @@ import {Container, Jumbotron, Col, Row, Button} from 'reactstrap';
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 import {getTag} from "../broadsoft/xmlParse"
+import Auth from "../router/Auth";
 
 export default class Profile extends React.Component {
 
@@ -28,7 +29,17 @@ export default class Profile extends React.Component {
     }
 
     componentDidMount() {
-        this.loadAsync();
+        let self = this;
+        if(Auth.isAuthenticated()){
+            self.loadAsync();
+        } else {
+            let interval = setInterval(function () {
+                if (Auth.isAuthenticated()) {
+                    self.loadAsync();
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
     }
 
 // Asynchronous function that updates the object.

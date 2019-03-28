@@ -54,12 +54,7 @@ export default class App extends React.Component {
 
     constructor(props){
         super(props);
-        global.refresh = this.refresh;
     }
-
-    refresh = () => {
-        this.forceUpdate();
-    };
 
     render () {
         return (
@@ -76,10 +71,6 @@ export default class App extends React.Component {
             </Router>
         );
     }
-}
-
-export function refresh() {
-    global.refresh();
 }
 
 

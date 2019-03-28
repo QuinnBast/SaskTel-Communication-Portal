@@ -2,7 +2,6 @@
  *  Navigation Imports
  */
 import history from "./history";
-import {refresh} from '../App'
 
 /**
  *  REST API Imports
@@ -89,7 +88,7 @@ class Auth {
                         }
                     }
 
-                    refresh();
+                    history.push('/');
                 },
                 error: function () {
                     // Logout if an access token could not be generated.

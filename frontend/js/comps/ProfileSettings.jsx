@@ -3,6 +3,7 @@
  */
 import React from "react";
 import PropTypes from 'prop-types';
+import Auth from '../router/Auth'
 
 /**
  *  Component Imports
@@ -32,7 +33,17 @@ export default class ProfileSettings extends React.Component {
     }
 
     componentDidMount() {
-        this.loadServices();
+        let self = this;
+        if(Auth.isAuthenticated()) {
+            self.loadServices();
+        } else {
+            let interval = setInterval(function () {
+                if (Auth.isAuthenticated()) {
+                    self.loadServices();
+                    clearInterval(interval);
+                }
+            }, 500)
+        }
     }
 
     loadServices = () => {

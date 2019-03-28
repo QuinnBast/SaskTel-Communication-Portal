@@ -53,7 +53,7 @@ describe("ProfileSettings", () => {
         let wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
 
         // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         wrapper.update();
         expect(broadsoftRequest.calledOnce).toEqual(true);
@@ -63,7 +63,7 @@ describe("ProfileSettings", () => {
         const wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
 
         // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         wrapper.update();
 
         expect(broadsoftRequest.calledOnce).toEqual(true);
@@ -86,7 +86,7 @@ describe("ProfileSettings", () => {
         let wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
 
         // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         wrapper.update();
 
@@ -116,7 +116,7 @@ describe("ProfileSettings", () => {
         let wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
 
         // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         wrapper.update();
 
