@@ -46,6 +46,29 @@ export default class ProfileSettings extends React.Component {
         }
     }
 
+    sortServices = (services) => {
+        let length = services.length;
+        for(let j = 0; j < length; j++) {
+            for (let i = 0; i < length - 1; i++) {
+
+                if (!services[i].props.hasToggle && !services[i].props.hasEdit && (services[i + 1].props.hasEdit || services[i + 1].props.hasToggle)) {
+                    let temp = services[i];
+                    services[i] = services[i + 1];
+                    services[i + 1] = temp;
+                } else if (!services[i].props.hasEdit && services[i + 1].props.hasEdit) {
+                    let temp = services[i];
+                    services[i] = services[i + 1];
+                    services[i + 1] = temp;
+                } else if (!services[i].props.hasToggle && services[i + 1].props.hasToggle) {
+                    let temp = services[i];
+                    services[i] = services[i + 1];
+                    services[i + 1] = temp;
+                }
+            }
+        }
+        return services
+    };
+
     loadServices = () => {
         let self = this;
         return BroadSoft.sendRequest({endpoint: "/user/<user>/services"}).then((response) => {
@@ -61,6 +84,7 @@ export default class ProfileSettings extends React.Component {
                     services.push(ServiceFactory.build(name, uri, self.props.onEdit));
                 }
             }
+            services = this.sortServices(services);
             self.setState({status: "ready", services});
         }, (response) => {
             self.setState({status: "error"})
