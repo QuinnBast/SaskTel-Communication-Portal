@@ -11,6 +11,7 @@ import {Button, Modal, ModalBody, ModalFooter, ModalHeader, NavLink} from 'react
 import Auth from "../router/Auth";
 import FeatureAccessCodes from "./FeatureAccessCodes";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {NavButton} from "./NavButton";
 
 export default class FeatureAccessCodesButton extends React.Component {
 
@@ -28,12 +29,11 @@ export default class FeatureAccessCodesButton extends React.Component {
     };
 
     render() {
-        return Auth.isAuthenticated() ? (
+        return (
             <Fragment>
-                <NavLink onClick={this.showFeatureAccessCodes}><FontAwesomeIcon icon={"book"}/>  Feature Access Codes</NavLink>
-
+                <NavButton onClick={this.showFeatureAccessCodes} icon={<FontAwesomeIcon icon={"book"}/>} text = {"Feature Access Codes"}/>
                 <Modal isOpen={this.state.modal} toggle={this.showFeatureAccessCodes} size={"lg"}>
-                    <ModalHeader toggle={this.showFeatureAccessCodes}>Feature Access Codes</ModalHeader>
+                    <ModalHeader toggle={this.showFeatureAccessCodes}><h1>Feature Access Codes</h1></ModalHeader>
                     <ModalBody style={{height: "70vh"}}>
                         <FeatureAccessCodes/>
                     </ModalBody>
@@ -42,6 +42,6 @@ export default class FeatureAccessCodesButton extends React.Component {
                     </ModalFooter>
                 </Modal>
             </Fragment>
-        ) : null;
+        );
     }
 }

@@ -37,7 +37,16 @@ export default class XmlEditable extends React.Component {
 
     inputChange = (event) => {
         switch(this.props.type){
-            case "range":
+            case "phone":
+                this.setState({value: event.target.value});
+                if(validate(event.target.value, {type:"phone"})) {
+                    setTag(this.props.parent, this.props.XmlLocation, event.target.value.replace(/[_()-]/g, ''));
+                    this.props.sendUpdate();
+                } else {
+                    // Validation fail
+                }
+                break;
+                case "range":
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
                     setTag(this.props.parent, this.props.XmlLocation, event.target.value);
@@ -241,7 +250,7 @@ export function validate(value, type){
         case "phone":
             return value.replace(/[_()-]/g, '').length === 10;
         case "range":
-            return  value >= type.range[0] || value <= type.range[1]
+            return  value >= type.range[0] || value <= type.range[1];
         default:
             return true;
     }

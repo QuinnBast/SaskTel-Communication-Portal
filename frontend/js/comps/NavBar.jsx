@@ -16,7 +16,7 @@ import {Link} from "react-router-dom";
 import {LogButton} from "./LogButton"
 import FeatureAccessCodes from "./FeatureAccessCodes";
 import FeatureAccessCodesButton from "./FeatureAccessCodesButton";
-import CallLogButton from "./CallLogButton";
+import CallLogButton from "./CallLogsModal";
 import Auth from "../router/Auth"
 
 const padding = {

@@ -2,14 +2,12 @@
  *  React Imports
  */
 import React, {Fragment} from "react";
-
-
 /**
  *  Style Imports
  */
-        import {Button, Modal, ModalBody, ModalFooter, ModalHeader, NavLink, Container} from 'reactstrap';
-import Auth from "../router/Auth";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader, NavLink} from 'reactstrap';
 import CallLogs from "./CallLogs";
+import {NavButton} from "./NavButton"
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export default class CallLogButton extends React.Component {
@@ -21,17 +19,16 @@ export default class CallLogButton extends React.Component {
         }
     }
 
-        showLogs = () => {
+    showLogs = () => {
         this.setState({modal: !this.state.modal})
-};
+    };
 
     render() {
-        return Auth.isAuthenticated() ? (
+        return (
             <Fragment>
-                <NavLink onClick={this.showLogs}><FontAwesomeIcon icon={"list-ul"}/>  Call Logs</NavLink>
-
+                <NavButton onClick={this.showLogs} icon={<FontAwesomeIcon icon={"list-ul"}/>} text = {"Call Logs"}/>
                 <Modal isOpen={this.state.modal} toggle={this.showLogs} size={"lg"}>
-                    <ModalHeader toggle={this.showLogs}>Call Log</ModalHeader>
+                    <ModalHeader toggle={this.showLogs}><h1>Call Logs</h1></ModalHeader>
                     <ModalBody style={{height: "70vh"}}>
                         <CallLogs/>
                     </ModalBody>
@@ -40,6 +37,6 @@ export default class CallLogButton extends React.Component {
                     </ModalFooter>
                 </Modal>
             </Fragment>
-        ) : null;
+        );
     }
 }
