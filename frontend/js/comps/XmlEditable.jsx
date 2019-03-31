@@ -67,7 +67,6 @@ export default class XmlEditable extends React.Component {
                 if(str === null || str === "") {
                     str = " ";
                 }
-                console.log(str.length);
                 this.setState({value: str});
                 setTag(this.props.parent, this.props.XmlLocation, str);
                 this.props.sendUpdate();
