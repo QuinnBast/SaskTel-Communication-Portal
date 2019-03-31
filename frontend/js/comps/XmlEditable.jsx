@@ -46,7 +46,7 @@ export default class XmlEditable extends React.Component {
                     // Validation fail
                 }
                 break;
-                case "range":
+            case "range":
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
                     setTag(this.props.parent, this.props.XmlLocation, event.target.value);
@@ -62,6 +62,16 @@ export default class XmlEditable extends React.Component {
                     this.props.sendUpdate();
                 }
                 break;
+            case "string":
+                let str = event.target.value;
+                if(str === null || str === "") {
+                    str = " ";
+                }
+                console.log(str.length);
+                this.setState({value: str});
+                setTag(this.props.parent, this.props.XmlLocation, str);
+                this.props.sendUpdate();
+                break;
             default:
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:this.props.type})) {
@@ -73,7 +83,9 @@ export default class XmlEditable extends React.Component {
     };
 
     updateValue = (event) => {
-        console.log(event);
+        if(event.target.value === null || event.target.value === "") {
+            event.target.value = " ";
+        }
         this.setState({value: event.target.value});
     };
 
@@ -211,7 +223,7 @@ export default class XmlEditable extends React.Component {
                     <Container id={this.props.name.replace(/\s+/g, '') + "EditableString"} style={padding}>
                         <div>{name}</div>
                         <div>
-                            <Input value={this.state.value} onChange={this.updateValue} onBlur={this.inputChange}/>
+                            <Input value={this.state.value === null ? " " : this.state.value} onChange={this.updateValue} onBlur={this.inputChange}/>
                         </div>
                         {titlePopover}
                     </Container>
