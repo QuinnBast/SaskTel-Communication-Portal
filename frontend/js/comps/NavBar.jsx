@@ -14,10 +14,8 @@ import {Link} from "react-router-dom";
  *  Component Imports
  */
 import {LogButton} from "./LogButton"
-import FeatureAccessCodes from "./FeatureAccessCodes";
 import FeatureAccessCodesButton from "./FeatureAccessCodesButton";
 import CallLogButton from "./CallLogsModal";
-import Auth from "../router/Auth"
 
 const padding = {
     paddingLeft: "10px",
@@ -32,22 +30,6 @@ export default class NavBar extends Component {
         this.state = {
             isOpen: false,
         };
-
-        if(!Auth.isAuthenticated()){
-            let self = this;
-            let counter = 0;
-            let tryRefresh = setInterval(function(){
-                if(Auth.isAuthenticated()){
-                    self.forceUpdate();
-                    clearInterval(tryRefresh);
-                } else {
-                    counter++;
-                    if (counter > 5) {
-                        clearInterval(tryRefresh);
-                    }
-                }
-            }, 500);
-        }
     }
 
     toggle() {
