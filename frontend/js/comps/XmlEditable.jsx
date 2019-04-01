@@ -11,7 +11,8 @@ import Switch from 'react-switch';
 import {Col, Row, Container, Input, Popover, PopoverHeader, PopoverBody} from "reactstrap";
 import MaskedInput from 'react-text-mask';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {getTag, setTag} from "../broadsoft/xmlParse";
+import {getTag, setTag, generateXml} from "../broadsoft/xmlParse";
+import Broadsoft from "../broadsoft/BroadSoft";
 
 
 let $ = require('jquery');
@@ -20,7 +21,12 @@ export default class XmlEditable extends React.Component {
 
     constructor(props){
         super(props);
-        let value = getTag(this.props.parent, this.props.XmlLocation);
+        let value = null;
+        if(this.props.linkedKey){
+            value = this.props.getValue(this.props.linkedKey, this.props.XmlLocation);
+        } else {
+            value = this.props.getValue(this.props.XmlLocation);
+        }
         if(this.props.type === "bool"){
             value = value === "true" || value === true;
         } else if(this.props.type === "range"){
@@ -40,8 +46,7 @@ export default class XmlEditable extends React.Component {
             case "phone":
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:"phone"})) {
-                    setTag(this.props.parent, this.props.XmlLocation, event.target.value.replace(/[_()-]/g, ''));
-                    this.props.sendUpdate();
+                    this.sendRequest(event.target.value);
                 } else {
                     // Validation fail
                 }
@@ -49,8 +54,7 @@ export default class XmlEditable extends React.Component {
             case "range":
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:"range", range: [this.props.range[0], this.props.range[1]]})) {
-                    setTag(this.props.parent, this.props.XmlLocation, event.target.value);
-                    this.props.sendUpdate();
+                    this.sendRequest(event.target.value);
                 } else {
                     // Validation fail
                 }
@@ -58,8 +62,7 @@ export default class XmlEditable extends React.Component {
             case "bool":
                 this.setState({value: event});
                 if(validate(event, {type:"bool"})) {
-                    setTag(this.props.parent, this.props.XmlLocation, event);
-                    this.props.sendUpdate();
+                    this.sendRequest(event);
                 }
                 break;
             case "string":
@@ -68,17 +71,49 @@ export default class XmlEditable extends React.Component {
                     str = " ";
                 }
                 this.setState({value: str});
-                setTag(this.props.parent, this.props.XmlLocation, str);
-                this.props.sendUpdate();
+                this.sendRequest(str);
                 break;
             default:
                 this.setState({value: event.target.value});
                 if(validate(event.target.value, {type:this.props.type})) {
-                    setTag(this.props.parent, this.props.XmlLocation, event.target.value);
-                    this.props.sendUpdate();
+                    this.sendRequest(event.target.value);
                 }
                 break;
         }
+    };
+
+    sendRequest = (value) => {
+
+        if(this.props.linkedKey){
+            this.props.sendLinkedRequest(this.props.linkedKey, this.props.XmlLocation, value)
+            return;
+        }
+
+        let xml = generateXml(this.props.XmlLocation, value);
+        let self = this;
+
+         let request = {
+            endpoint: this.props.uri,
+            method: "PUT",
+            data: xml,
+        };
+
+        Broadsoft.sendRequest(request).then((response) => {
+            self.setState({originalValue: value});
+            let serviceName = self.props.XmlLocation[0].replace(/([A-Z])/g, ' $1').trim();
+            let settingName = self.props.XmlLocation[1].replace(/([A-Z])/g, ' $1').trim();
+            global.sendMessage("Successfully updated " + settingName + " of " + serviceName + ".", {timeout: 5000});
+        }, (errorResponse) => {
+            self.setState({value: self.state.originalValue});
+
+            let errorSummary =  getTag(errorResponse, ["ErrorInfo", "summary"]);
+            let errorCode = getTag(errorResponse, ["ErrorInfo", "errorCode"]);
+            let serviceName = self.props.XmlLocation[0].replace(/([A-Z])/g, ' $1').trim();
+            let settingName = self.props.XmlLocation[1].replace(/([A-Z])/g, ' $1').trim();
+
+            console.log(errorSummary);
+            global.sendMessage("Error updating " + settingName + " of " + serviceName + "! Error Code " + errorCode + ": " + errorSummary, {timeout: 15000, color: "danger"});
+        })
     };
 
     updateValue = (event) => {
@@ -113,12 +148,20 @@ export default class XmlEditable extends React.Component {
             textAlign: "center"
         };
 
-        let name = <h5>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} icon={"question-circle"} id={this.props.name.replace(/\s+/g, '')}/></h5>;
+        let name = <h5>{this.props.name}</h5>;
+        let titlePopover = [];
+        if(this.props.tooltip) {
+            name = <h5>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} icon={"question-circle"}
+                                                              id={this.props.name.replace(/\s+/g, '')}/></h5>;
 
-        let titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover} target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover} delay={0}>
-            <PopoverHeader>{this.props.name}</PopoverHeader>
-            <PopoverBody>{this.props.tooltip}</PopoverBody>
-        </Popover>;
+            titlePopover = <Popover placement={"top"} trigger={"hover"} isOpen={this.state.popover}
+                                        target={this.props.name.replace(/\s+/g, '')} toggle={this.togglePopover}
+                                        delay={0}>
+                <PopoverHeader>{this.props.name}</PopoverHeader>
+                <PopoverBody>{this.props.tooltip}</PopoverBody>
+            </Popover>;
+        }
+
         if(this.props.hideTitle){
             name = [];
             titlePopover = []
@@ -202,6 +245,7 @@ export default class XmlEditable extends React.Component {
                                 defaultValue={this.state.value}
                                 onChange={(e) => this.inputChange(e)}
                                 className={"form-control"}
+                                value={this.state.value}
                             />
                         </div>
                         {titlePopover}
@@ -236,7 +280,7 @@ XmlEditable.propTypes = {
     // The name of the setting to edit
     name: PropTypes.string.isRequired,
     // A tooltip that appears when hovering the item's (?) icon
-    tooltip: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
     // The type of data that the editable information takes on
     type: PropTypes.oneOf(["bool", "range", "phone", "number", "string"]).isRequired,
     // Optional: if type is 'range', an array of the [min, max] values
@@ -248,7 +292,9 @@ XmlEditable.propTypes = {
     // A boolean which determines if the object should be locked.
     locked: PropTypes.bool,
     // Determines if the title should be hidden
-    hideTitle: PropTypes.bool
+    hideTitle: PropTypes.bool,
+    // A linked key value that also needs to be sent
+    linkedKey: PropTypes.any
 };
 
 export function validate(value, type){

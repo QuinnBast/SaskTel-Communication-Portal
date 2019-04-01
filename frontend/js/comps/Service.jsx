@@ -7,16 +7,15 @@ import PropTypes from 'prop-types';
 /**
  *  Component Imports
  */
-import {Container, Col, Row, CustomInput, Button, Table, Popover, PopoverHeader, PopoverBody} from 'reactstrap';
-import Switch from 'react-switch';
+import {Container, Col, Row, Button, Popover, PopoverHeader, PopoverBody} from 'reactstrap';
 import Broadsoft from "../broadsoft/BroadSoft";
-import { getTag, setTag } from "../broadsoft/xmlParse"
-import { validate } from "./XmlEditable";
+import { getTag } from "../broadsoft/xmlParse"
 
 /**
  * Font awesome imports
  */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import XmlEditable from "./XmlEditable";
 
 export default class Service extends React.Component {
 
@@ -38,7 +37,6 @@ export default class Service extends React.Component {
         this.state = {
             active: false,
             responseData: null,
-            editComponent: null,
             popover: false,
             status: "loading"
         };
@@ -50,56 +48,42 @@ export default class Service extends React.Component {
 
     loadAsync = () => {
         let self = this;
-        return Broadsoft.sendRequest({endpoint: this.props.uri}).then((response) => {
-            if(self.props.hasToggle) {
-                let active = getTag(response, self.props.activePath) === "true";
-                self.setState({responseData: response, active: active, status: "ready"});
-            } else {
-                self.setState({responseData: response, status: "ready"});
-            }
-        }, (response) => {
-            let content = <div>{JSON.stringify(response)}</div>;
-            self.props.onEdit(content);
-        });
+        self.setState({status: "loading"});
+        if(this.props.uri !== "") {
+            return Broadsoft.sendRequest({endpoint: this.props.uri}).then((response) => {
+                if (self.props.hasToggle) {
+                    let active = getTag(response, self.props.activePath) === "true";
+                    self.setState({responseData: response, active: active, status: "ready"});
+                } else {
+                    self.setState({responseData: response, status: "ready"});
+                }
+            }, (response) => {
+                let content = <div>{JSON.stringify(response)}</div>;
+                self.props.onEdit(content);
+            });
+        } else {
+            self.setState({status: "NotConfigured"});
+        }
     };
 
     getValue = (XmlLocation) => {
         return getTag(this.state.responseData, XmlLocation);
     };
 
-    sendRequest = () => {
-        let self = this;
-        let request = {
-            endpoint: this.props.uri,
-            method: "PUT",
-            data: this.state.responseData,
-        };
-
-        return Broadsoft.sendRequest(request).then((response) => {
-            console.log("Successful Update.");
-            global.sendMessage(self.props.name + " successfully updated.", {timeout: 3000, color: "success"});
-        }, (response) => {
-
-            let errorSummary =  getTag(response, ["ErrorInfo", "summary"]);
-            let errorCode = getTag(response, ["ErrorInfo", "errorCode"]);
-
-            console.log(errorSummary);
-            global.sendMessage("Error updating the " + self.props.name + " service! Error Code " + errorCode + ": " + errorSummary, {timeout: 15000, color: "danger"});
-            // Permanently change background to red to indicate error to user.
-            //jQuery("#" + nextProps.info.type).get(0).style.background = '#e74c3c';
-            // Reset the state of the component by fetching the current state.
-            this.loadAsync();
-        });
-    };
-
-    setValue = (XmlLocation, value) => {
-        setTag(this.state.responseData, XmlLocation, value);
-
-        this.sendRequest();
-    };
-
     edit = () => {
-        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {parent: this.state.responseData, sendUpdate: this.sendRequest});});
+
+        let toggle = null;
+        if(this.props.hasToggle){
+            toggle = <XmlEditable
+                    name={"Active"}
+                    tooltip={"Toggle that indicates if the services is currently enabled or not."}
+                    type={"bool"}
+                    XmlLocation={this.props.activePath}
+                    getValue = {this.getValue}
+                    uri={this.props.uri}/>;
+            }
+
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {getValue: this.getValue, uri: this.props.uri});});
 
         let editPage = (
             <Container>
@@ -108,20 +92,12 @@ export default class Service extends React.Component {
                         <p>{this.props.tooltip}</p>
                     </div>
                 </Container>
+                {toggle}
                 {children}
             </Container>
         );
 
         this.props.onEdit(editPage, this.props.name, this);
-    };
-
-    isActive = () => {
-        return this.state.active;
-    };
-
-    toggle = (toggleState) => {
-        this.setState({active: toggleState});
-        this.setValue(this.props.activePath, toggleState);
     };
 
     togglePopover = () => {
@@ -130,12 +106,30 @@ export default class Service extends React.Component {
 
     render() {
         if(this.state.status === "loading"){
+            let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"}/> </h5>;
             return(
-                <div>Loading...</div>
+                <Container>
+                        <Row>
+                            <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
+                            <Col xs={"6"} style={{margin: "auto"}}>Loading...</Col>
+                        </Row>
+                </Container>
             )
         }
 
-        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {setValue: this.setValue, getValue: this.getValue});});
+        if(this.state.status === "NotConfigured"){
+            let name = <h5 id={this.props.name.replace(/\s+/g, '') + "Name"}>{this.props.name} <FontAwesomeIcon className={"d-none d-md-inline"} id={this.props.name.replace(/\s+/g, '') + "TooltipHover"} icon={"question-circle"}/> </h5>;
+            return(
+                <Container>
+                        <Row>
+                            <Col xs={"6"} style={{paddingTop: "10px", margin: "auto"}}>{name}</Col>
+                            <Col xs={"6"} style={{margin: "auto"}}>Not configured. Contact admins for assistance.</Col>
+                        </Row>
+                </Container>
+            )
+        }
+
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {getValue: this.getValue, uri: this.props.uri});});
 
         let editButton = null;
         if (this.props.hasEdit) {
@@ -154,18 +148,15 @@ export default class Service extends React.Component {
             if(this.state.active) {
                 text = "On"
             }
-            toggle = <Fragment><Switch
-                id={this.props.name.replace(/\s+/g, '') + "Toggle"}
-                onChange={this.toggle} checked={this.state.active}
-                onColor="#1dd5f3"
-                onHandleColor="#17a2b8"
-                handleDiameter={30}
-                uncheckedIcon={false}
-                checkedIcon={false}
-                boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                height={20}
-                width={48}/><b>{text}</b></Fragment>;
+            toggle = <Fragment>
+                <XmlEditable
+                    name={"Active"}
+                    tooltip={"Toggle that indicates if the services is currently enabled or not."}
+                    type={"bool"}
+                    XmlLocation={this.props.activePath}
+                    getValue = {this.getValue}
+                    hideTitle
+                    uri={this.props.uri}/></Fragment>;
             }
 
         return (

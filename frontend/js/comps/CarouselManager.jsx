@@ -26,24 +26,19 @@ export default class CarouselManager extends React.Component {
             currentPage: 0,
             editPage: null,
             title: "",
-            toggleMe: null,
-            toggleState: false
+            toggleMe: null
         }
     }
 
     next = (editPage, title, toggleMe) => {
         // This will make the edit page appear
-        this.setState({currentPage: 1, editPage: editPage, title: title, toggleMe: toggleMe, toggleState: toggleMe.isActive()});
+        this.setState({currentPage: 1, editPage: editPage, title: title, toggleMe});
     };
 
     prev = () => {
         // Remove the edit page from the component
-        this.setState({currentPage: 0, editPage: null, toggleMe: null, toggleState: false});
-    };
-
-    toggle = (toggleState) => {
-        this.setState({toggleState: toggleState});
-        this.state.toggleMe.toggle(toggleState);
+        this.state.toggleMe.loadAsync();
+        this.setState({currentPage: 0, editPage: null, toggleMe: null});
     };
 
     render() {
@@ -65,35 +60,6 @@ export default class CarouselManager extends React.Component {
                 </Container>);
         }
 
-        let toggle = [];
-        if(this.state.toggleMe) {
-            let text = "Off";
-            if(this.state.toggleState){
-                text = "On"
-            }
-
-            if (this.state.toggleMe.props.hasToggle) {
-                toggle = <Container key={"editToggle"}>
-                    <div>
-                        <h5>Active</h5>
-                        <Switch
-                            id={this.state.toggleMe.props.name.replace(/\s+/g, '') + "Toggle"}
-                            onChange={this.toggle} checked={this.state.toggleState}
-                            onColor="#1dd5f3"
-                            onHandleColor="#17a2b8"
-                            handleDiameter={30}
-                            uncheckedIcon={false}
-                            checkedIcon={false}
-                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                            height={20}
-                            width={48}
-                        /> <b>{text}</b>
-                    </div>
-                </Container>;
-            }
-        }
-
         return(
             <div style={{marginBottom: "240px"}}>
                 <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
@@ -103,7 +69,6 @@ export default class CarouselManager extends React.Component {
                     </CarouselItem>
                     <CarouselItem id={"carouselBody"} key={"editPage"}>
                         {header}
-                        {toggle}
                         {this.state.editPage}
                     </CarouselItem>
                 </Carousel>

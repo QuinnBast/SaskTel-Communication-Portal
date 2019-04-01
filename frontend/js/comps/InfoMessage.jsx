@@ -29,6 +29,7 @@ export default class InfoMessage extends React.Component {
             color: "primary"
         };
         global.sendMessage = this.sendMessage;
+        this.timeout = null;
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
@@ -38,8 +39,10 @@ export default class InfoMessage extends React.Component {
     }
 
     sendMessage = (message, options) => {
-        clearInterval(this.timeout);
-        this.close();
+        if(this.timeout !== null) {
+            clearInterval(this.timeout);
+            this.close();
+        }
         this.setState({message: message, timeout: options.timeout, color: options.color});
     };
 

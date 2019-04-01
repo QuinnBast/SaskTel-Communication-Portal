@@ -99,7 +99,8 @@ export default class ServiceFactory {
                         <XmlEditableTable
                             name={"Speed Dial 8 Entries"}
                             tooltip={"A list of your speed dial configurations"}
-                            XmlListLocation={["SpeedDial8"]}>
+                            XmlListLocation={["SpeedDial8"]}
+                            XmlSingleEntry={"speedDial8Entry"}>
                             <XmlEditable name={"Speed Code"} tooltip={"The number to dial to access the speed dial option."} type={"number"} XmlLocation={["speedCode"]} locked hideTitle/>
                             <XmlEditable name={"Phone Number"} tooltip={"The phone number that will be called for this speed dial option."} type={"phone"} XmlLocation={["phoneNumber"]} hideTitle/>
                             <XmlEditable name={"Description"} tooltip={"A description of the speed dial."} type={"string"} XmlLocation={["description"]} hideTitle/>
@@ -155,7 +156,8 @@ export default class ServiceFactory {
                         uri={uri}
                         onEdit={onEdit}
                         tooltip={"Allows you to receive another call when you are already on the phone."}
-                        hasToggle/>
+                        hasToggle>
+                    </Service>
                 );
             case "Call Forwarding Not Reachable":
                 return(
@@ -228,7 +230,8 @@ export default class ServiceFactory {
                         uri={uri}
                         onEdit={onEdit}
                         tooltip={"Settings that determine if your number is sent to recipients when making outgoing calls."}
-                        hasToggle/>
+                        hasToggle>
+                    </Service>
                 );
             default:
                 return(
