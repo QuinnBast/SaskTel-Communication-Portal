@@ -1,0 +1,233 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+
+\usepackage{setspace} % paragraph spacing
+
+\usepackage{mathpazo} % Palatino font
+
+\usepackage{hyperref}  % for hyperlinks to resources\
+
+\usepackage{graphicx} % for logo
+
+
+
+\usepackage{tabularx} % in the preamble
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{b}{>{\hsize=.5\hsize}X} % column 1 = 50% of a column
+\newcolumntype{s}{>{\hsize=.4\hsize}X} % column 2 = 40% of a column
+\newcolumntype{m}{>{\hsize=1.1\hsize}X} % column 3 = 110% of a column
+
+\renewcommand\sfdefault{phv}
+%\renewcommand\mddefault{mc}
+%\renewcommand\bfdefault{bc}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE University of Regina}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large ENSE 477: Capstone Project}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Business Plan}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Telport: Sasktel Telecommunications Portal}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Authors}\\
+			Dakota \textsc{Fisher}\\ % Your name
+			200 344 336\newline \newline
+			Quinn \textsc{Bast}\\ % Your name
+			200 352 973
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Dr. Yasser \textsc{Morgan} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	
+
+%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+		\vfill\vfill\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\includegraphics[width=.5\textwidth]{UR_Logo_Primary_Full_Colour_RGB.jpg} % Include a department/university logo - this will require the graphicx package
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+
+	
+	{Last Modified\\\large\today} % Date, change the \today to a set date if you want to be precise		
+
+	
+	 % Push the date up 1/4 of the remaining page
+	 
+	%----------------------------------------------------------------------------------------	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+% Revision History
+%----------------------------------------------------------------------------------------
+\section*{Revision History}
+\begin{tabularx}{\textwidth}{|Y|Y|Y|}
+\hline
+  \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
+\hline
+1.0 & Quinn Bast & April 1, 2019 \\
+\hline
+\end{tabularx}
+
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+%	Table of Contents
+%----------------------------------------------------------------------------------------
+
+\pagestyle{plain} %get rid of header/footer for toc page
+\pagenumbering{roman}
+
+\tableofcontents %put Table of Contents in
+\cleardoublepage %start new page
+
+\pagestyle{plain} % put headers/footers back on
+\pagenumbering{arabic}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Body of Document
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Introduction
+%----------------------------------------------------------------------------------------
+\doublespacing
+\section{Introduction}
+\paragraph{}
+	In order to make a profit, a company must have some way of taking the created application to a market where consumers will purchase the service that is provided. This document outlines the products that we have created, the value that our product brings to the industry, and outlines potential revenue streams.
+
+\section{Value Proposition}
+\paragraph{}
+TelPort is a telecommunications management portal, enabling customers to easily access their cellular settings. Our application provides value to users by providing access to a significant number of settings and configurations that are not normally configurable. In order to change a user’s configurations, a SaskTel admin is required to access an extremely complex portal in order to enable to disable various settings that a user requires. Our application removes this overhead, allowing users to immediately make changes to any services that their account is registered for. Added value is seen in the capability for a user to make a phone call directly from their browser. Our application provides features that Skype and Facebook are missing, specifically the ability to make calls to any mobile number without requiring the recipient to have an account. 
+
+\paragraph{}
+As the developers of TelPort, our vision is to see our platform, or a version of it, implemented into SaskTel’s infrastructure in order to allow users to access and manipulate their device’s configuration settings on the fly. Assuming we are a development company attempting to create a profit from the application, there are a number of potential revenue schemes that could be implemented.  The first revenue scheme is to integrate our application as an Add-on at a flat rate on top of SaskTel’s existing cellular packages. The second revenue scheme is to charge users based on various rate-limited subscription packages. The final strategy is to completely sell the application to SaskTel for a lump sum and provide no maintenance or updates to the application. Additionally, a microtransaction-esque revenue stream could be applied, charging users based on what features they have enabled for their cellular device. Finally, in terms of reliable revenue sources, the last option is to sell the application for a lump-sum to SaskTel if SaskTel would not be interested in giving up their revenue.
+
+\section{Revenue Schemes}
+\subsection{Subscription Model}
+\paragraph{}
+The first potential revenue scheme is to use SaskTel's existing cellular data plans and provide our application as an 'Add-On', as an additional feature that customers have the option to purchase alongside their plan. Implemented as an Add-On, a flat rate of, for example, \$7/month could be charged to any customers who would like to opt-in to the application. This Add-On would not limit the rate at which users can make calls from the application as calls would be directly linked to the customer's already existing cellular packages. Therefore, a package that offers 180 minutes of voice, would include the calls made from our application. Selling the feature this way, however, does not show customer's the appeal of the application and may leave a significant portion of customer's choosing not to add the feature because of the price. In order to generate revenue ourselves, it would be expected that we would obtain 20\% of any generated revenue from this subscription model.
+
+\subsection{Freemium Subscription Model}
+\paragraph{}
+In contrast to the first revenue stream, the second revenue model provides a form of self-advertisement. We believe that users should be able to configure their services freely, and thus, the base application for configuring and managing a user’s cellular services would be provided for free to all customers. However, if a user would like to make a call from the application, they would need to subscribe to be able to make calls. By providing half of the application for free, users get a glimpse of what features they are potentially missing out on, allowing them to make a better decision about how useful the application can be. Once the user decides that they would like the additional features, the feature can be purchased as an Add-On to their existing plan. In order to generate revenue ourselves, it would be expected that we would obtain 20\% of any generated revenue from this subscription model.
+
+\subsection{Service-based Model}
+\paragraph{}
+The final reliable revenue scheme provides the application to all users while charging extra for any of the services that they enable. For example, when a user would like access to the "Call Forwarding" services, they can enable the services but add \$0.75/month to their subscription fee for doing so. This revenue model would generate the least revenue as most customers will likely not pay more than \$1/month for a single service, and will likely only enable a few services at a time. However, this provides maximum utility to the users of the application by allowing them to choose only the services they need. In order to generate revenue ourselves, it would be expected that we would obtain 20\% of any generated revenue from this subscription model.
+
+\subsection{Sell the Application}
+\paragraph{}
+While the first two options are preferred as they generate a steady stream of revenue correlating to the utility of the application, it is possible that SaskTel may not want to integrate our application into their business model. In order to gain some kind of revenue from the work that has been completed, the final revenue model would be to sell the application to SaskTel for a lump-sum. This model is not a reliable source of income, however the model could allow for some sort of revenue to be generated for the work that has been completed.
+
+\end{document}
+
+%----------------------------------------------------------------------------------------
+%	Document Style Templates
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Nesting for Table of Contents
+%
+% A section or subsection can contain any number of nested children
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{First Title} %x
+% \paragraph{} **~ Contents of First Title ~**
+%
+% \subsection{Second Title} %x.x
+% \paragraph{} **~ Contents of Second Title ~**
+%
+% \subsubsection{Third Title} %x.x.x
+% \paragraph{} **~ Contents of Third Title ~**
+% 
+% No more nesting allowed. capped at x.x.x sectioning
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Template References and Licenses
+%----------------------------------------------------------------------------------------
+% This paper integrates the following templates into a single document.
+% There is no endorsement in any way shape or form from the template authors.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Academic Title Page
+% LaTeX Template
+% Version 2.0 (17/7/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (LaTeX - Title Creation) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
