@@ -14,7 +14,7 @@
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
     },
-    "setupFilesAfterEnv": ["<rootDir>\\tests\\enzyme\\enzymesetup.js"]
+    "setupFilesAfterEnv": ["<rootDir>/tests/enzyme/enzymesetup.js"]
   },
   "author": "",
   "license": "ISC",
