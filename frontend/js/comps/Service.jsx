@@ -46,9 +46,11 @@ export default class Service extends React.Component {
         this.loadAsync();
     }
 
-    loadAsync = () => {
+    loadAsync = (silent = false) => {
         let self = this;
-        self.setState({status: "loading"});
+        if(!silent) {
+            self.setState({status: "loading"});
+        }
         if(this.props.uri !== "") {
             return Broadsoft.sendRequest({endpoint: this.props.uri}).then((response) => {
                 if (self.props.hasToggle) {
@@ -72,7 +74,36 @@ export default class Service extends React.Component {
 
     edit = () => {
 
-        let toggle = null;
+        this.loadAsync(true).then(() => {
+         let toggle = null;
+        if(this.props.hasToggle){
+            toggle = <XmlEditable
+                    name={"Active"}
+                    tooltip={"Toggle that indicates if the services is currently enabled or not."}
+                    type={"bool"}
+                    XmlLocation={this.props.activePath}
+                    getValue = {this.getValue}
+                    uri={this.props.uri}/>;
+            }
+
+        let children = React.Children.map(this.props.children, child => {return React.cloneElement(child, {getValue: this.getValue, uri: this.props.uri});});
+
+        let editPage = (
+            <Container>
+                <Container>
+                    <div style={{marginTop: "15px"}}>
+                        <p>{this.props.tooltip}</p>
+                    </div>
+                </Container>
+                {toggle}
+                {children}
+            </Container>
+        );
+
+        this.props.onEdit(editPage, this.props.name, this);   
+        }, () => {
+            global.sendMessage("Could not load data from the service. This information may be incorrect.", {timeout: 7500, color: "warning"});
+            let toggle = null;
         if(this.props.hasToggle){
             toggle = <XmlEditable
                     name={"Active"}
@@ -98,6 +129,7 @@ export default class Service extends React.Component {
         );
 
         this.props.onEdit(editPage, this.props.name, this);
+        });
     };
 
     togglePopover = () => {

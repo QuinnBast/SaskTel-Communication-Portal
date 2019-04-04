@@ -67,11 +67,12 @@ export default class XmlEditable extends React.Component {
                 break;
             case "string":
                 let str = event.target.value;
-                if(str === null || str === "") {
-                    str = " ";
+                if(str.trim().length > 0 && str.trim() !== this.state.originalValue) {
+                    this.setState({value: str});
+                    this.sendRequest(str);
+                } else {
+                    this.setState({value: this.state.originalValue})
                 }
-                this.setState({value: str});
-                this.sendRequest(str);
                 break;
             default:
                 this.setState({value: event.target.value});

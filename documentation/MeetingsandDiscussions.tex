@@ -1,0 +1,649 @@
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+
+
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+
+\usepackage[top=2cm,right=2cm, left=2cm]{geometry} % set margins
+
+\usepackage{setspace} % paragraph spacing
+
+\usepackage{mathpazo} % Palatino font
+
+\usepackage{hyperref}  % for hyperlinks to resources\
+
+\usepackage{graphicx} % for logo
+
+
+
+\usepackage{tabularx} % in the preamble
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\newcolumntype{b}{>{\hsize=.5\hsize}X} % column 1 = 50% of a column
+\newcolumntype{s}{>{\hsize=.4\hsize}X} % column 2 = 40% of a column
+\newcolumntype{m}{>{\hsize=1.1\hsize}X} % column 3 = 110% of a column
+
+\renewcommand\sfdefault{phv}
+%\renewcommand\mddefault{mc}
+%\renewcommand\bfdefault{bc}
+
+\begin{document}
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	
+	\textsc{\LARGE University of Regina}\\[1.5cm] % Main heading such as the name of your university/college
+	
+	\textsc{\Large ENSE 477: Capstone Project}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Meetings and Discussions}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.4cm]
+	
+	{\huge\bfseries Telport: Sasktel Telecommunications Portal}\\[0.4cm] % Title of your document
+	
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushleft}
+			\large
+			\textit{Authors}\\
+			Dakota \textsc{Fisher}\\ % Your name
+			200 344 336\newline \newline
+			Quinn \textsc{Bast}\\ % Your name
+			200 352 973
+		\end{flushleft}
+	\end{minipage}
+	~
+	\begin{minipage}[t]{0.4\textwidth}
+		\begin{flushright}
+			\large
+			\textit{Supervisor}\\
+			Dr. Yasser \textsc{Morgan} % Supervisor's name
+		\end{flushright}
+	\end{minipage}
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+	%{\large\textit{Author}}\\
+	%John \textsc{Smith} % Your name
+	
+	
+
+%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+		\vfill\vfill\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	\includegraphics[width=.5\textwidth]{UR_Logo_Primary_Full_Colour_RGB.jpg} % Include a department/university logo - this will require the graphicx package
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+
+	
+	{Last Modified\\\large\today} % Date, change the \today to a set date if you want to be precise		
+
+	
+	 % Push the date up 1/4 of the remaining page
+	 
+	%----------------------------------------------------------------------------------------	
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+
+
+%----------------------------------------------------------------------------------------
+% Revision History
+%----------------------------------------------------------------------------------------
+\section*{Revision History}
+\begin{tabularx}{\textwidth}{|Y|Y|Y|}
+\hline
+  \textbf{Revision Version} & \textbf{Revision Author} & \textbf{Revision Date}\\
+\hline
+1.0 & Quinn Bast & March 28, 2019 \\
+\hline
+\end{tabularx}
+
+\newpage
+
+
+%----------------------------------------------------------------------------------------
+%	Table of Contents
+%----------------------------------------------------------------------------------------
+
+\pagestyle{plain} %get rid of header/footer for toc page
+\pagenumbering{roman}
+
+\tableofcontents %put Table of Contents in
+\cleardoublepage %start new page
+
+\pagestyle{plain} % put headers/footers back on
+\pagenumbering{arabic}
+
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Body of Document
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Introduction
+%----------------------------------------------------------------------------------------
+\doublespacing
+\section{Introduction}
+\paragraph{}
+	This document is a collection of all of the communication that occured during the progress of creating our fourth year project. Within this document, various types of medium are combined. This document combines meetings with SaskTel, team meetings, personal log books, email communications, and discussion between members through Discord, an instant messaging platform. Meeting Minutes include notes taken about requirements, discussions, questions, and technical details about the project as well as design decisions and general discussion about specific project details. If looking through this document, keep in mind that some communications may be censored for the safety or privacy of members that are included within the communications. In addition, many of the design decisions were made through casual conversation or calls. During these sessions no formal notes were taken and therefore none of these discussions can be included within this document. This document is not inclusive of all design decisions that were made during the project.
+
+\section{Meetings}
+\subsection{September 24th, 2018 - SaskTel Kickoff meeting}
+\textbf{Members:} Darwin Janz, Dakota Fisher, Quinn Bast, Amy Aslop, Tyler Whiteside
+\paragraph{} 
+\begin{itemize}
+	\item Looking at phone numbers from a new perspective
+	\item Home phones are not as attractive
+	\item Looking for the next great use for a phone
+	\item Using the portal you can do more with a phone number
+	\begin{itemize}
+		\item Park a phone number in the portal
+		\item Looking at how to make a phone number more attractive than a wireless device
+		\item Potential features and capabilities for a phone number to be discovered
+	\end{itemize}
+	\item Telephone Application Server (TAS)
+	\begin{itemize}
+		\item Voice server
+		\begin{itemize}
+			\item Can handle subscribers with calling and communication
+			\item Allows registration of users to the server
+			\item Registered users can call, phone, text, etc.
+			\item Has an integrated API and want a web portal that can interface with it
+			\item Would like to have 5 API features as a minimum viable product
+			\item Creativity of the portal and design is up to our team
+			\item Use WebRTC and Html5 to design.
+			\item Would be provided an identity in all of the required systems.
+		\end{itemize}
+	\end{itemize}
+	\item Network explanation:
+	\begin{itemize}
+		\item PXB/Centrx
+		\begin{itemize}
+			\item  Used in offices to connect offices to the public network
+			\item Allows business features like parking calls, transfers, and holds.
+		\end{itemize}		
+		\item 3G Network
+		\begin{itemize}
+			\item Phone network used to wirelessly broadcast
+		\end{itemize}		
+		\item PSTN - Public switched telephone network
+		\begin{itemize}
+			\item Connects home phones and subscriber networks
+		\end{itemize}	
+	\end{itemize}	
+	\item Connects home phones and subscriber networks
+	\item Currently when calling, phones fall back to 3G instead of LTE
+	\item When changing one service, all of the others need to change as well.
+	\item Solution:
+	\begin{itemize}
+		\item IMS
+		\begin{itemize}
+			\item Allows combining architectures. All IP based
+			\item Enables WebRTC Calling as defined by w3c consortium
+			\item Allows browsers to send blobs
+			\item WebRTC allows browser communication
+			\item Provides VoLTE (Voice over LTE)
+			\item FBC - Integrated business communications
+		\end{itemize}	
+	\end{itemize}	
+	\item Would allow users to call a phone from the browser
+	\item IMS recieves all voice, video, text.
+	\item Looking at TAS within IMS to provide calling
+	\item Can see residential phones declining in the future
+	\begin{itemize}
+		\item Has a risk of losing customers
+		\item Want IP voice technologies to potentially replace home phones with online services
+		\item Would like to see connectivity and usability of the TAS server for customers.
+	\end{itemize}
+	\item Would be creating a prototype for “Is this something a customer wants?"	
+	\item Currently home phone = \$22/mo
+	\item Always on, always reliable
+	\item Internet calling could potentially be free (or cheaper if a price was placed)
+	\item Not always on, lower quality, but allows mobility.
+	\item Other services that exist do not allow users to call other phone numbers.
+	\item Users can call anyone in the community.
+	\item Can enable/disable features on the fly
+	\begin{itemize}
+		\item ex) change call forwarding, view logs, block numbers, etc.
+		\item XMPP is avaliable
+		\item Could use profiles like gravitar and link to facebook, etc.
+	\end{itemize}
+\end{itemize}
+
+<Image of SaskTel infrastructure>
+
+\begin{itemize}
+	\item ex) change call forwarding, view logs, block numbers, etc.
+	\item XMPP is avaliable
+	\item Could use profiles like gravitar and link to facebook, etc.
+	\item If data needs to be stored it could get slow
+	\item WebRTC requires no registration; IMS allows registration w/ one server w/ SaskTel.
+\end{itemize}
+
+\begin{enumerate}
+	\item Enable ability to connect to TAS with a browser through a web server. Enable configuration of Do Not Disturb (for example).
+	\item Given a list of TAS capabilities, create a new experience for users.
+	\item Enable WebRTC from the browser to allow connecting via the browser
+\end{enumerate}
+
+
+\begin{itemize}
+	\item Current interface has 10+ menus to enable anything and is extremely complex, even for admins. Terrible for a user
+	\item Looking for a very simple user interface that doesn’t take much to understand.
+	\item Amy can help with asthetics and the look and feel of the website.
+	\item Will ensure the network is up and accessible for the project.
+	\begin{itemize}
+		\item Dev (85% up time, some barriers for upgrades, etc.)
+		\item QA for pre-release
+		\item Prod for actual environment.
+	\end{itemize}
+	\item Ultimately moving the legacy home phone to be online
+	\begin{itemize}
+		\item Cutting edge
+		\item Current industry is slow at moving
+		\item Competing with internet models like Skype, but they are unable to make calls through the internet.
+	\end{itemize}
+	\item Currently capable of linking one phone to multiple phone numbers. Looking to provide user’s with a use-case for having multiple numbers.
+	\item Some customers not willing to give up their home phones. Providing the service over the internet could change this.
+	\item Can use any web technology for the project
+	\begin{itemize}
+		\item Ensure security is considered
+	\end{itemize}
+	\item Can get access fast if contacting Tyler
+	\item Can WebX if assistance is needed to login
+	\item Will get documentation on endpoints and data.
+	\item If we need a server, SaskTel could provision a VM or we can create the server locally.
+	\item Can also load phones to test the application
+	\item Can have a future UX meeting to ensure interface looks good.
+	\item Any “why” questions can be directed to Amy
+	\item Tyler and Darwin can be used for tech questions
+	\item Can obtain a problem statement if required
+	\item Would need own DB for pictures or images
+	\item Don’t over complicate if you don’t need to.
+\end{itemize}
+
+\subsection{September 25th, 2018 - Team Meeting}
+\textbf{Members:} Dakota Fisher, Quinn Bast
+\paragraph{} 
+	Team meeting to create a project proprosal to present at the next Capstone meeting. Work was done in Google Drive.
+	<Image of Potential UI design>
+
+\subsection{November 2nd, 2018 - Team Meeting}
+\textbf{Members:} Dakota Fisher, Quinn Bast
+\paragraph{} 
+	Team meeting to discuss potential architecture designs and class disgrams layout.
+	<Image of potential UML diagram of the network architecture>
+\begin{itemize}
+	\item Design
+	\begin{itemize}
+		\item Frontend - React
+		\item Frontend -> Backend REST API
+		\item Backend - Python - Flask - REST
+		\item Backend -> Broadsoft API
+	\end{itemize}
+	\item Class diagrams
+	\item DTD -> Document Type Definition
+	\item Appreach to making XML documents
+	\item Python automated tests?
+	\item Give update next week
+	\item Bi-Weekly meetings with advisor if needed
+\end{itemize}
+	
+\subsection{December 25th, 2018 - Team Meeting}
+\textbf{Members:} Dakota Fisher, Quinn Bast
+\paragraph{} 
+Call Logs
+\begin{itemize}
+	\item Sort
+	\begin{itemize}
+		\item Recieved Calls
+		\item Missed Calls
+		\item Outgoing Calls
+		\item By Date - Default
+		\item By Number
+		\item By Area
+		\item By country
+	\end{itemize}
+	\item Call Properties Component
+	\begin{itemize}
+		\item Is an accordion
+	\end{itemize}
+	\item Call Logs Component
+	\begin{itemize}
+		\item Is a table
+	\end{itemize}
+	\item Call Log Entry
+	\begin{itemize}
+		\item Is a table Row
+	\end{itemize}
+	\item Call Longs can have any number of entries
+	\item Call logs must sort by date
+	\item If empty show no entires
+	\item pagination vs infinite scroll
+\end{itemize}
+
+\subsection{January 22nd, 2019 - SaskTel Update Meeting}
+\textbf{Members:} Darwin Janz, Dakota Fisher, Quinn Bast, Tyler Whiteside, Amy Aslop
+\paragraph{} 
+
+\begin{itemize}
+	\item No Ice/stun server is used for SIP connections
+	\item Device management profile:
+	\begin{itemize}
+		\item Return SIP credentials
+		\item Could fetch XML file
+		\item Have WebRTC server to use. Currently Idle
+	\end{itemize}
+	\item User Testing
+	\begin{itemize}
+		\item Give Amy 1 weeks notice
+		\item Will try to get the most non-technical people for evaluation
+	\end{itemize}
+	\item Target = mobile/landline users
+	\item Will be no distinction between the two in the future
+	\item Would potentially like an admin portal, however seems out of scope for the project at hand
+	\begin{itemize}
+		\item Want to stay in the scope of the portal
+		\item Admin portal would be a later project
+	\end{itemize}
+	\item Calls can be made to any 306 number
+	\item Can provide access to production for project day if needed
+	\item Do not run tests against Prod, it will lock you out
+	\item XSI
+	\begin{itemize}
+		\item Callback - calls from your personal phone
+		\item Allows calls from web/phone
+		\item Allows talking to voicemail server
+		\item Can download MP3s, etc.
+	\end{itemize}
+	\item Interface to be refined, want simplicity with easy access
+	\item Want to minimize the number of clicks for a user.
+	\item Endpoints for testing:
+	\begin{itemize}
+		\item Call directory
+		\item Call logs
+		\item Call forwarding
+	\end{itemize}
+	\item Radio button w/ configure option
+	\item Call forwarding, list and select the \# for input.
+	\item Will give RTC-SIP javascript files and configuration in email followup.
+	\item OK to make repository public
+\end{itemize}
+
+
+\subsection{January 25th, 2019 - Group Meeting}
+\textbf{Members:} Dakota Fisher, Quinn Bast
+\paragraph{} 
+\begin{itemize}
+	\item R\&S Template: What is your project
+	\item S\& O Design: words should indicate how it is designed
+	\begin{itemize}
+		\item Class diagram
+		\item System architecture
+		\item Physical and high concept views
+		\item Database design
+	\end{itemize}
+	\item Test Plan \& Execution:
+	\begin{itemize}
+		\item Describe tools
+		\item Document test cases
+		\item Black/White
+		\item Test Logs (Example Log)
+		\item Git \& IDEs used
+	\end{itemize}
+	\item How to Use Manual
+	\item Poster
+	\item video?
+	\item Business Plan
+	\begin{itemize}
+		\item Benefits
+		\item Budget
+		\item Logistics
+	\end{itemize}
+	\item April 4th/5th - Technical evaluation sheet
+	\item Present chronical order of process
+	\item April 8th whole package is due
+	\item Trevor can help where possible
+	\item Exec Summary
+	\item State engineering prolem first and then discuss solution
+	\item Acceptance testing
+	\item Code Climate?
+\end{itemize}
+
+\subsection{March 18th, 2019 - SaskTel User Experience Testing}
+\textbf{Members:} Amy Aslop, Tyler Whiteside, Dakota Fisher, Quinn Bast, Breanne McDonald
+\paragraph{} 
+\begin{itemize}
+	\item Website layout is generally good
+	\item Ensure that the website is accessible to all users
+	\begin{itemize}
+		\item Example, ensure tab button can scroll and access all buttons/toggles, etc.
+		\item Blue on black may not be a good color choice for color blind.
+		\item Consider color options for better design
+	\end{itemize}
+	\item Sort the table so that items with no configuration or edit ability are placed at the bottom
+	\item Should show warning messages for critical changes
+	\item Website has a standard 20m logout, but understandable if it is longer because of the capability to make phone calls which may take longer.
+\end{itemize}
+Poster:
+\begin{itemize}
+	\item Should leave out vendors from poster
+	\item Can get SaskTel logo from website.
+	\item News on footer -> “Media Room” tab
+	\item Can add a footer at the bottom of the website that links to SaskTel pages.
+\end{itemize}
+
+\section{E-mail Communication}
+\paragraph{}
+	Email was a large part of communication between our group and SaskTel. This method was used to mainly schedule meetings, but was also used as a method of resolving bugs and issues that arose during development. The following meetings have been summarized in order to save space within the document as well as respect the confidentiality of those participating in these emails.
+
+\subsection{Kickoff Meeting Planning}
+
+
+\paragraph{}
+\textbf{[TelPort][September 16, 2018]:} Hello Darwin, For our fourth year project, my group consisting of myself and Dakota Fisher is interested in developing the User Communication Portal which you presented to our project class on Friday. We would definitely like to develop a solution alongside SaskTel for our fourth year project. If you could let us know if this opportunity is still available and who to contact to get started with this opportunity that would be great! Thanks for taking the time to present our class with these opportunities!
+
+\textbf{[Darwin Janz][September 18, 2018]:} Quinn: To pursue a project (User Communications Portal), I will act as your liaison to get this moving.  You are welcome to dig a bit deeper into this problem/opportunity and make your final decision to pursue. I have engaged the following folks,  cc'ed above, who you will work with at SaskTel. Amy Alsop is a Marketing Manager within our Service Development area who can provide guidance on desired customer presentation, use, market, etc. Tyler Whiteside is an Engineer in our Service Development area who can provide technical guidance, support and access to our communications platform. If you would like for me to set up a kick off for you, please let me know.  We can outline what this is and the problem we are interested in exploring a bit deeper for you. Overall SaskTel would like to use this opportunity to aid in exploring and the positioning with future communications and communication experience for customers.
+
+\textbf{[TelPort][September 19, 2018]:} Hello Darwin, Thanks for the information and contacts! We would be interested in having a kick-off meeting to sit down to understand the scope of the project as well as some business needs, user needs, requirements, technologies, and any other information pertaining to the project. 
+
+\textbf{[Darwin Janz][September 19, 2018]:} Quinn: Does Monday from 11-12 work for you?  Is the SaskTel office okay to meet?
+
+\textbf{[TelPort][September 19, 2018]:} Monday from 11-12 work for both of us!
+
+\textbf{[Darwin Janz][September 19, 2018]:} Excellent.  I have booked room 8F (8th floor, north east corner). Amy and Tyler join us. See you Monday Sept 24th, 11:00-12:00.
+
+\subsection{Configuring Test Numbers and Details}
+
+\paragraph{}
+\textbf{[Tyler Whiteside][September 25, 2018]:} As promised I have created some tests account in our LAB environment for you guys to play around with. There are really two separate pieces to be aware of, which are IMS registration is completely separated from Portal access and service configuration.  The portal site is where we allow customers to make changes to their number configuration, changes here effect the way the phone number behaves for that user.   The two accounts have limited features at the moment but more can be added as you become more familiar with the service.  Once you have some time to look around I will follow this email up with more details on what we call the XSI and OCI interface as well as documentation on the APIs. 
+So for Portal Access here is the information required: <REDACTED>. Also Please do not hesitate to shoot me an email or give me at call if you have issues with the above details or any questions.
+
+
+\textbf{[TelPort][September 27, 2018]:} Thanks for setting everything up for us! Dakota and I were able to get xlite working with the credentials you provided for both phone numbers. However We were unable to logon to the portal. If you could provide some further details on the portal for logging in that would be great. Also to be official, we decided that we will be taking on this project for our fourth year project.
+
+
+\textbf{[Tyler Whiteside][September 28, 2018]:} I believe its a password issue, unfortunately the font I chose didnt make the characters completely clear on what they where: <REDACTED>. If its still not working then Ill have to make some adjustments on our security policies, so let me know if it lets you in.
+
+
+\textbf{[TelPort][September 28, 2018]:} I did notice that the password <REDACTED> but the login didnt work
+
+\textbf{[Tyler Whiteside][September 28, 2018]:} When you tried to log in did you try all user accounts of just the group admin? Group Admin: <REDACTED> User Accounts:  <REDACTED>
+
+\textbf{[TelPort][September 28, 2018]:} I tried using both the group admin and the user account that you had provided. Neither the group admin nor the user accounts worked unfortunately.
+
+\textbf{[Tyler Whiteside][September 28, 2018]:} Okay, do you have time to try it again in the next few minutes? I want to grab some logging on the server to see what's going wrong.
+
+\textbf{[Quinn Bast][September 28, 2018]:} I just tried it. I was able to login to the group's admin account but was unable to login as a user. My public IP was: <REDACTED>, the time was 3:43pm-3:45pm between the requests.
+
+\subsection{Additional API Documents}
+
+\paragraph{}
+\textbf{[Tyler Whiteside][October 2, 2018]:} Hopefully youve had some time to take a play around with the numbers and the portal I promised you both some documentation to detail the APIs that are available for making changes to the user settings.  Essentially there are two different interfaces that are exposed to the web. <REDACTED>. So which one you use will really depend on what type of application you will build and what kinds of actions you wish to initiate on the platform.  Ive included the appropriate documentation for both interfaces. If when reading the documentation it makes mention of other documents that you require, be sure to let me know, I should be able to get those for you. Let me know if you guys have any questions on any of this.
+
+\textbf{[TelPort][October 17, 2018]:} On the note of extra documentation, We've taken some time to give the XSI Document you sent over a read, and it refers to schema zip files a few times. We believe the file's it refers to are the following zip files mentioned on page 484 of the pdf you sent: <REDACTED>. They would be helpful to let us get an understanding of some of the data used in the interface. As well as this document might be useful for us to better understand the call and service management concepts.
+
+\textbf{[Tyler Whiteside][October 18, 2018]:} Good Morning, Attached are the two requested files. Let me know if you have any issues getting these files; sometimes our corporate email blocks certain things from being sent. Also FYI, over the weekend our Broadsoft Lab experienced a DOS attack, which caused a outage to the lab.  So if you had attempted to access the service this past weekend it likely would not have worked very well.  Weve since fixed the issue so things are running smoothly as of yesterday morning.
+
+
+\subsection{Project Update}
+
+\paragraph{}
+\textbf{[Darwin Janz][October 31, 2018]:} I trust you guys are doing well and enjoying the semester of activities.  When you have some time (recognizing youre probably deep in midterms), can you offer some insight of your project progress and indicate if you have or what you need from us.  I simply want to make sure that we can enable successful use of our TAS (Telephony Application Server) platform for your project. I received input from Amy (Marketing) on example TAS user capabilities that she would like to see for customers use of a portal.  I am offering this to help with guidance for you in development of a use case. A portal that is extremely consumer friendly We want Grandma and Grandpa to be able to use it. Use case of customers to easily go in and change their schedules and manage preferences. Enable customers to easily program their sim rings (simultaneous ring feature) ie:  From 5pm - 7am Monday - Friday ring mobile and home phone (with time of day settings). Enable customers to easily manage calling preferences. ie:  A call from this number rings these devices during these times. Keep in mind that we fully support your creativity through the platform capabilities and expect you will develop other use cases along your interests. It would be good for us to meet up when you are ready to explore use cases.
+
+\textbf{[TelPort][November 1, 2018]:} We are doing well, thanks for keeping in touch. Within the last month we have been making quite some progress on our project, namely: Project requirements. We have accumulated some base project requirements and solidified them into a project issues board. We are using GitKraken GLO to organize our various requirements, assign tasks, set deadlines and organize the project. Environment Setup (REST API Flask backend, React.JS frontend). We have decided that instead of using HTML, and PHP that it would be interesting to explore a python backend for our application. Therefore, we have decided to use Flask, a python web architecture, alongside React, a javascript framework for creating the front end of the application. Within the past month, we have created a private GitHub repository to keep the code in and set up revision control. We have also been experimenting with the FLask and React frameworks to learn how to combine the technologies to create our solution. We currently have a basic web server setup that can display an index page which we will further form into a better frontend after we design some low-fidelity prototypes. We will follow up with you after creating our interface prototypes to ensure the interface makes sense. Currently Using ReacStrap, a react bootstrap plugin for stylizing the initial mockups. Integration. Within the Flask backend, we have been working with the /user/<username>/profile endpoint to test the basic functionality of the REST API. Our Flask server is successfully able to reach this endpoint and receive the XML response. Now that we know how data is returned and how our web server can interact with this endpoint we can start to look into all of the various endpoints that exist and how to organize them within an interface for the end user. Initial Minimum Viable Product (Approximate November 23rd deadline): Login page with Phone number and Password, Management page with the outlined core management features: Call forwarding, Call Logs, Call Blocking, Call Directories, User Profile, Logout features, Session maintenance via cookies and periodic authorization checks. Low/Hi-Fidelity Prototypes. While planning to work towards an end product as outlined above on November 23rd, we have a few questions that we would like further insight on: If you could provide any guidance on best practices for secure stateless token based auth. Preferred design schemes such as color themes, logos, and layout, if any. So that we can begin to design with a uniform orientation. Lastly, if you would like access to our private GitHub repository to see our code progress let us know your GitHub account name and we can share our GitHub repository with you. If you would like to view our google drive documentation we can also gladly add you to our google drive.
+
+\textbf{[Darwin Janz][November 7, 2018]} Here is an outline of our official policy for creating user system login/authentication.  It this is not what you are looking for to answer your question on security, please reach back and I will seek help. <REDACTED>.
+
+\subsection{January Meeting Request}
+
+\paragraph{}
+\textbf{[TelPort][January 18, 2018]:} Now that our semester is in full swing, we would like to meet for an update on our project. This meeting will hopefully encompass: A demo of our current progress, Our project direction, Discuss RTC implementation, Ask various questions, Potentially coordinate internal testing/user testing. Further detailed information on our progress over the holidays is shown below. <REDACTED>.
+
+\textbf{[Darwin Janz][January 18, 2018]} I booked time with folks and a room.  I included the both of you in the calendar invitation.  I chose Tuesday Jan 22 from 9-10am.  Room 12F (12th floor room F).  I will meet you at the security desk when you arrive to sign in.  I would suggest arriving 10-15 min early.
+
+\subsection{Meeting Followup}
+
+\paragraph{}
+\textbf{[TelPort][January 25, 2019]:} We are just sending a follow up email from our meeting on Tuesday. Some unanswered questions/requests that we would like information on are as follows: Provided higher authority within our group so that we have access to currently restricted features like call forwarding selective, call blocking, and voice messages. Look into the UPDATE and DELETE endpoints of <REDACTED> endpoint in order to save contacts for our WebRTC calling. Provide basic information about RTC connections in order to enable RTC functionality. Access and documentation for the WebRTC/SIP server.
+
+\textbf{[Tyler Whiteside][January 26, 2019]:} Sorry for delay in the response, busy week for me. See answers inline in red. Provided higher authority within our group so that we have access to currently restricted features like call forwarding selective, call blocking, and voice messages. Call Forwarding Selective - The service is provisioned and available to you users.  What issues are you experiencing with it? Call Blocking,  I need more details on the specific service you are refereeing to?  For example what api call are you making for this? Once I know that I can add the appropriate service to your users.   .
+I have setup Voicemail accounts for your users.  Right now calls will forward to VM but not hit an actual voicemail box. I still need to get actual accounts provisioned for you, I dont have access to the voicemail system so Ill try to get that done Monday. Look into the UPDATE and DELETE endpoints of <REDACTED> endpoint in order to save contacts for our WebRTC calling. I believe this feature is called personal assistant or receptionist, it requires licenses that SaskTel does not have access to.  Instead of using this can I suggest using either speeddial 8(I just added it to you accounts).  Another option would be to create contacts and store them on your server. Provide basic information about RTC connections in order to enable RTC functionality. Access and documentation for the WebRTC/SIP server. As or right now SaskTel has webRTC servers, but unfortunately, they are lacking up to date SSL certificates; SaskTel does not have any real users using these things so we let the certificates lapse.  What I am going to attempt on Monday is to create a private certificate which I am hoping will be good enough to get the trust from the Chrome browser.  Ill keep you posted.  For now you can see the base webRTC app located at : <REDACTED>
+So until I get this part working the WebRTC server is useless. Not all great answers I know, but I will try my best to get this webRTC server thing sorted out. Meanwhile let me know if you have any other questions regarding my answers or anything else for that matter.
+
+\textbf{[TelPort][January 29, 2019]:} Thanks for taking the time to get back to us with  that information on a Saturday. All the points mentioned in previous communications are good to go. Were just curious if youve made any headway on the WebRTC Server. As well, were also wondering what Information we would need to enter into the config options on the site: <REDACTED> to get an understanding of how to integrate with it.
+
+
+\textbf{[Tyler Whiteside][January 30, 2019]:} I managed to get your VM accounts set up. From your test numbers, <REDACTED>, you should be prompted to setup your VM. Now for WebRTC. If you navigate to <REDACTED> youll see that I managed to get the client to connect to our WEBRTC server. If you enter the following information: <REDACTED> You will see the client can register, it can also dial and ring but youll notice that the calls do not set up.  I think the issue is the client that we have is a bit older, and appears to be having some issues with the API calls its making to chrome, something chrome deprecated.
+So what you do have is a partially functioning webRTC client and access to a WebRTC gateway, which really should be enough for you to decide if you want to incorporate this into your project or not.
+Ive included the gzip of the webRTC client to this email, as well as the prefilled config file which is needed by the client to talk correctly to the webRTC gateway here at SaskTel. Let me know if you dont receive the file, our email system is overly aggressive at stripping files. Im really not sure what else you need so if you have any other question be sure to reach out.
+
+
+\textbf{[TelPort][February 5, 2019]:} Thanks for taking the time to look into the RTC configurations for us. Were using the JSSip version 3.3.x library to make calls (ExSip used on the page you linked is a branch of an early version, JSSip 0.3.x) with the client-config.js information that you sent in the zip. We seem to be running into one obstacle, and were not sure if its to do with us, or a lack of access permissions somewhere. We can get the calls to initiate a call, and our cell phones receive an incoming call, but the call is terminated immediately after picking up. The little bit of error information we can read from the browser console is that JSSip is logging the iceconnectionstatechange variable with an error code 408, UNAVAILABLE SIP Error. The cause for this error is iceconnectionstatechange returning failed, which according to Mozilla means: failed The ICE candidate has checked all candidates pairs against one another and has failed to find compatible matches for all components of the connection. It is, however, possible that the ICE agent did find compatible connections for some components. Weve tested with using googles stun servers, and a turn server and still are facing the same error. Weve tried using our google-fu and looking up the RTP Timeout error that was given by JsSIP but most resources asked about network configurations. Is it possible that this is to do with device access on our accounts? Or that the STUN server is for some reason ignoring these requests? We appreciate any guidance you can give us. In the meantime, since we have the calls initially sending from our website we can focus our efforts on other parts of our project. *additional information* The call would be similar to those sent from the portal, where the phone would receive the call, but no voice streams would connect. Additionally, after a certain amount of time, the call would terminate from the JsSIP client (the web client), providing the error RTP connection timeout. After installing a packet sniffer (wireshark) on our devices, we found that both the portal and our web application are stuck sending the same packets repeatedly without receiving a response. The packet is a STUN Binding Request which seems to not be getting any response from the server. <REDACTED> If you need information about the local and remote descriptions or the requests that are sent from the client we can provide them if it provides any additional information. We're just not sure where the problem is at this point.
+
+\textbf{[Tyler Whiteside][February 8, 2019]:} Just an update for you guys,   I submitted a change request for our firewall on Tuesday this week, these usually take about 5-10 days to go through the approval and implementation steps.  I am hoping that sometime next week we should have the STUN port opened to the internet for the WebRTC server. Ill be sure to send you an email once I know the change is implemented on our end.
+
+\textbf{[Tyler Whiteside][February 8, 2019]:} Firewall adjustments were made.  Can you guys test and let me know if youre still seeing the same issues?
+
+\textbf{[TelPort][February 14, 2019]:} Thank you for all the help with getting WebRTC working with the firewall, and the other various configurations that you had done. Heres a short update on how things have gone with getting SIP working with WebRTC. With your changes we were able to get JSSip working on Firefox using the configuration that weve got. We are able to make calls from the browser, as well as hear incoming voice on both the browser and the phone. At this time theres certainly more telephone feature implementations for us to do on our client end, but we have the ability to make and end calls. The only issue were experiencing as far as were aware is that newer versions of Chrome fail to present a data stream to the client, so no audio is sent or received.  We believe the issue is to do with Chrome not allowing untrusted certificate issuers, as we faced similar issues on Firefox. The solution to get Firefox working was to visit <REDACTED> to get Firefox to prompt us to add a Certificate Exception. The browser would then trust the connection to <REDACTED> allowing any future calls to go through after the certificate exception was added. Chrome doesnt provide this exception functionality as of one of its recent versions. Were not sure if its just the certificate thats causing the lack of an audio channel on Chrome, but it seems to be the best lead we can find since its working with that workaround on Firefox. But well continue to look into the process that Chrome is using to see if theres configuration that resolves the hurdle.
+
+\textbf{[Tyler Whiteside][February 15, 2019]:} Ive attached the Root certificate to this email.  Youll need to add it to the windows trusted root certificate store.  You should be able to do this via chrome.  Settings > advanced > Manage certificates.  Make sure to put it in trusted root, not personal.   Ive also included the intermediate certs, not sure if those are needed.  If this doesnt seem to resolve the issue, can you send me a wireshark trace of the issue as well as any errors in the chrome console that you see. Also a heads up, we are in the process of upgrading our environment to Release 22.  You are currently usin Release 21sp1.  You might experience service outages during the day.  These will be temporary and short lived, you should not see an impact to the APIs, if you happen to run into anything like that let me know and Ill be sure to dig into it for you.
+
+\subsection{Production Environment Questions}
+
+\paragraph{}
+\textbf{[Tyler Whiteside][March 12, 2019]:} Just wanted to check in with you guys and give you a heads up on some activities happening in our lab that might affect you.   We have been in the process of migrating our platform onto new hardware, this includes upgrading the software version of the application.  I have some concerns based on timing that these upgrades could interfere with your ongoing development and finishing touches.  I also want to make the system available when you need it, such as final project day or when it is presented to your professors.  What days do you absolutely need access to the servers? I can ensure that no work is being done on those days. My other concern is that because this is a lab we cannot something wont go wrong during the upgrade and migration procedure, if something bad happens it may take us some time to recover. Although this is worst case scenario as an additional option I can provision you accounts in our production environment, the drawback here is that we do not have WebRTC access in production and there are slight changes to the user domains and access URLs.  Doing this would allow you to still have a demo should something cataphoric happen to our lab during the upgrade process.  Do you think this is an option you are willing to entertain?  If so let me know and I can get you 2 or 3 numbers in our production environment. Let me know if you have any questions regarding this.
+
+\textbf{[TelPort][March 12, 2019]:} Our Project day is on Saturday, April 6th from 8:00 am to 4:00 pm. It would definitely be preferred if we can access all of the features on the development server on project day, as both RTC and the REST API services are equal halves of the project. However, as this may not be able to be guaranteed due to upgrades, we would definitely like to be able to access the production environment in case of an emergency during project day. When presenting to the professors we will not need access to servers as that will likely just be a slideshow. Our current project allows us to easily change the base URL for endpoint access so changing our project from development to production endpoints should not be that complicated on our end.
+
+\textbf{[Tyler Whiteside][March 13, 2019]} I provisioned a couple of accounts from our production environment.  Here are the details: <REDACTED> Give these accounts a try and let me know if they meet your needs. Have a great day.
+
+\subsection{Usability Testing}
+
+\paragraph{}
+\textbf{[TelPort][March 4, 2019]:} Weve been reworking our user interface and have revamped it to be less engineered. We feel as though we have reached another milestone in its development and would like to host a user testing session to provide feedback on our design. We hope to perform these sessions as early as possible in March. Any day works, excluding the 13th to 15th, as Quinn will be away on a trip.
+Ideally, we would like to perform guided user testing sessions, but we can adapt to any configuration youd prefer. If its easiest, we would come to SaskTel, and guide a handful of people through our interface to get feedback so that we can add optimizations and usability enhancements before our first week of April project deadline. If you have any questions or need to follow up feel free to send us a reply.
+
+\textbf{[Amy Aslop][March 11, 2019]:} I havent forgotten about you. just trying to organize a couple resources to help. Earliest I could have you come is Friday. or does next week work?
+
+\textbf{[TelPort][March 11, 2019]} <Quinn> will be gone this Wednesday to Friday so it would have to be next week sometime. Sorry for any inconvenience!
+
+\textbf{[Amy Aslop][March 12, 2019]} Meeting Invite: Student Project Usability. Mon 3/18/2019 11:00 AM - 12:00 PM. Usability walkthrough of project. Ideally I would like to have this meeting on Monday. so if the time doesnt work, let me know and I will reschedule.
+
+\subsection{Project Day Invite}
+
+\paragraph{}
+\textbf{[TelPort][March 27, 2019]:} I would like to invite you all to Engineering Project Day where we will be presenting our fourth-year project which we have been working on since September. Project day is on Saturday, April 6th from 8:30 am to 4:15 pm in the Education building of the university. During project day, all of the fourth year engineering students will have booths set up to provide information about all of their projects and give demonstrations and information about what they have accomplished this year. Our team will be giving a presentation of our project, which we've aliased as "TelPort", at 10:50 am in EA 106. I have attached the schedule of presentations to this email, just in case there are others that you would like to see. If you have any questions let me know! Hope to see you there!
+
+\textbf{[Darwin Janz][March 27, 2019]:} It would be good for us to meet with the both of you to review and discuss your project.  We can share in deeper insight to your activities, learnings, possibilities and demo of the project.  It is probably best for you to let me know appropriate timing as I recognize that you are busy with your semester.  We will be very flexible here.
+
+\textbf{[TelPort][March 28, 2019]:} We can definitely set up a meeting before the project day to review and discuss the project. Our availability is: <REDACTED>. Outside of these days, there are not many other times available for us due to classes, presentations, and exams. Let us know if either of these times work for you!
+
+\textbf{[Darwin Janz][March 28, 2019]:} Thank you for the reply and offering time for us.  I booked a room and have sent out an invitation for the folks addressed here. Tuesday April 2 from 11-12.  If this time becomes a conflict, please let me know and will adjust.
+
+
+\section{Discord Messages}
+
+\paragraph{}
+Discord is a communications service which provides instant messaging, voice and video calling. Discord was our primary communications platform and was used to communicate a significant amount of our project. Displaying our discord messages would take 300+ pages, and therefore, instead of adding them to this report, they can be provided upon request.
+
+\end{document}
+
+%----------------------------------------------------------------------------------------
+%	Document Style Templates
+%----------------------------------------------------------------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Section Nesting for Table of Contents
+%
+% A section or subsection can contain any number of nested children
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{First Title} %x
+% \paragraph{} **~ Contents of First Title ~**
+%
+% \subsection{Second Title} %x.x
+% \paragraph{} **~ Contents of Second Title ~**
+%
+% \subsubsection{Third Title} %x.x.x
+% \paragraph{} **~ Contents of Third Title ~**
+% 
+% No more nesting allowed. capped at x.x.x sectioning
+%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%----------------------------------------------------------------------------------------
+
+%----------------------------------------------------------------------------------------
+%	Template References and Licenses
+%----------------------------------------------------------------------------------------
+% This paper integrates the following templates into a single document.
+% There is no endorsement in any way shape or form from the template authors.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Academic Title Page
+% LaTeX Template
+% Version 2.0 (17/7/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (LaTeX - Title Creation) with modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
