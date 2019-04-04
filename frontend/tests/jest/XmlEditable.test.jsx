@@ -28,60 +28,61 @@ let tooltip = "Fake tooltip";
 describe("XmlEditable", () => {
 
     it('creates a boolean', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"bool"} XmlLocation={['active']} parent={xmljs.xml2js("<active>false</active>")}/>);
+        let fakeGetValue = sinon.fake(function(){
+            return true;
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"bool"} XmlLocation={['active']} getValue={fakeGetValue}/>);
+        sinon.restore();
     });
 
     it('creates a phone input', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"phone"} XmlLocation={['phone']} parent={xmljs.xml2js("<phone>7777777777</phone>")}/>);
-    })
+        let fakeGetValue = sinon.fake(function(){
+            return 3333333333;
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"phone"} XmlLocation={['phone']} getValue={fakeGetValue}/>);
+        sinon.restore();
+    });
 
     it('creates a range', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} parent={xmljs.xml2js("<range>5</range>")} range={[2, 20]}/>);
+        let fakeGetValue = sinon.fake(function(){
+            return 4;
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} range={[2, 20]} getValue={fakeGetValue}/>);
+        sinon.restore();
     })
 
     it('creates a number', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"number"} XmlLocation={['number']} parent={xmljs.xml2js("<number>5</number>")}/>);
+        let fakeGetValue = sinon.fake(function(){
+            return 4;
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"number"} XmlLocation={['number']} getValue={fakeGetValue}/>);
+        sinon.restore();
     });
 
     it('creates a string', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['string']} parent={xmljs.xml2js("<string>hello</string>")}/>);
+        let fakeGetValue = sinon.fake(function(){
+            return "String";
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['string']} getValue={fakeGetValue}/>);
+        sinon.restore();
     });
 
-    it('can edit a boolean', () => {
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"bool"} XmlLocation={['active']} parent={xmljs.xml2js("<active>false</active>")} sendUpdate={function(){}}/>);
-        expect(wrapper.instance().state.value).toEqual(false);
+    it('can edit a boolean', async () => {
+        let fakeGetValue = sinon.fake(function(){
+            return true;
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve(false);
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"bool"} XmlLocation={['service', 'active']} getValue={fakeGetValue}/>);
+        expect(wrapper.instance().state.value).toEqual(true);
 
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
 
-        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Switch").simulate('change', {target: {value: true}});
-        wrapper.update();
+        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Switch").simulate('change', true);
+        sinon.restore();
 
         expect(wrapper.instance().state.value).toEqual(true);
     })
-
-    it('can edit a range', () => {
-        let update = sinon.stub();
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} parent={xmljs.xml2js("<range>5</range>")} range={[2, 20]} sendUpdate={update}/>);
-        expect(wrapper.instance().state.value).toEqual(5);
-
-        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Range").prop('onMouseUp')({target: {value: 19}});
-        wrapper.update();
-
-        expect(wrapper.instance().state.value).toEqual(19);
-        expect(update.calledOnce).toEqual(true);
-    })
-
-
-    it('can edit a number', () => {
-        let update = sinon.stub();
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"number"} XmlLocation={['number']} parent={xmljs.xml2js("<number>5</number>")} sendUpdate={update}/>);
-        expect(wrapper.instance().state.value).toEqual("5");
-
-        wrapper.instance().inputChange({target: {value: 19}});
-        wrapper.update()
-
-        expect(update.calledOnce).toEqual(true);
-        expect(wrapper.instance().state.value).toEqual(19);
-    })
-
-
 });

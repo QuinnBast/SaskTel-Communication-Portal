@@ -89,50 +89,8 @@ describe("Service", () => {
         await new Promise((resolve) => setTimeout(resolve, 0));
         wrapper.update();
 
-        expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Toggle")).toHaveLength(1);
+        expect(wrapper.debug()).toMatch("<XmlEditable");
         broadsoftStub.restore();
-    });
-
-       it('clicking the toggle changes state, visual, and sends a request', async() => {
-
-        // Create broadsoft stub to prevent server calls
-        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
-            expect(args['endpoint'] === uri);
-            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
-        });
-
-        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
-
-        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
-            return Promise.resolve();
-        });
-        // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        expect(wrapper.instance().state.active).toEqual(false);
-        wrapper.update();
-
-        // Expect the toggle to exist on the page
-        expect(wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Toggle")).toHaveLength(1);
-
-        // Toggle the button
-        wrapper.instance().toggle(true);
-        wrapper.update();
-
-        // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
-
-        // Expect the service to have sent a request.
-        expect(serviceSendRequest.calledOnce).toEqual(true);
-
-        // Ensure the service state is updated
-        expect(wrapper.instance().state.active).toEqual(true);
-
-        // Ensure the isAcitve function is valid
-        expect(wrapper.instance().isActive()).toEqual(true);
-
-        broadsoftStub.restore();
-        serviceSendRequest.restore();
     });
 
        it('clicking the edit button triggers the carousel', async() => {
@@ -145,7 +103,7 @@ describe("Service", () => {
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
 
-        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
+        let serviceSendRequest = sinon.stub(wrapper.instance(), "loadAsync").callsFake(function(){
             return Promise.resolve();
         });
 
@@ -173,36 +131,6 @@ describe("Service", () => {
         serviceSendRequest.restore();
         onEdit.reset();
     });
-
-       it('setValue should update the XML', async () => {
-
-
-        // Create broadsoft stub to prevent server calls
-        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
-            expect(args['endpoint'] === uri);
-            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
-        });
-
-        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
-
-
-        // Block test until event loop has processed any queued work (including our data retrieval)
-        await new Promise((resolve) => setTimeout(resolve, 0));
-        wrapper.update();
-
-        expect(wrapper.instance().state.responseData).toEqual(xmljs.xml2js("<active>false</active>"));
-
-
-        let serviceSendRequest = sinon.stub(wrapper.instance(), "sendRequest").callsFake(function(){
-            return Promise.resolve();
-        });
-
-        wrapper.instance().setValue(['active'], "true");
-
-        expect(wrapper.instance().state.responseData).toEqual(xmljs.xml2js("<active>true</active>"));
-        broadsoftStub.restore();
-        serviceSendRequest.restore();
-       })
 
     it('hovering a tooltip shows the tooltip', async () => {
 
