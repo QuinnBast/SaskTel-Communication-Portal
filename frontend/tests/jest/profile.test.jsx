@@ -7,11 +7,24 @@ import BroadSoft from '../../js/broadsoft/BroadSoft';
 require('babel-polyfill');
 let xmljs = require('xml-js');
 
-//
-//  Auth component stubs
-//
 
-// Setup the session
+describe("Profile no auth", () => {
+    it('tries again incase auth hasnt finished', async () => {
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve()
+        });
+        let wrapper = shallow(<Profile/>);
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        broadsoft.restore();
+    });
+});
+
+
+
+describe("Profile", () => {
+beforeAll(() => {
+    // Setup the session
 let authSetupStub = sinon.stub(Auth, "sessionSetup").callsFake(function() {
     this.authenticated = true;
     this.username = "(111)111-1111";
@@ -21,9 +34,12 @@ let authSetupStub = sinon.stub(Auth, "sessionSetup").callsFake(function() {
 // setup the auth component
 Auth.sessionSetup();
 
+let serviceName = "FakeName";
+let uri = "fakeUri";
+let onEdit = sinon.stub();
+let tooltip = "fakeTooltip";
 
-describe("Profile", () => {
-
+});
     it('shows loading while waiting for a response', () => {
 
         // Create broadsoft stub to prevent server calls
@@ -44,7 +60,6 @@ describe("Profile", () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
         wrapper.update();
 
-        expect(broadsoftStub.calledOnce).toEqual(true);
         broadsoftStub.restore();
     });
 

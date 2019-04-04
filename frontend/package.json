@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
-    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/*.{js,jsx} --testUrl=http://127.0.0.1:5000",
+    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/*.{js,jsx} --testUrl=http://127.0.0.1:5000 --coverageReporters=text-lcov | coveralls",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
@@ -14,7 +14,9 @@
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
     },
-    "setupFilesAfterEnv": ["<rootDir>/tests/enzyme/enzymesetup.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/enzyme/enzymesetup.js"
+    ]
   },
   "author": "",
   "license": "ISC",
@@ -32,6 +34,7 @@
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
     "chromedriver": "^2.45.0",
+    "coveralls": "^3.0.3",
     "cross-env": "^5.2.0",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",

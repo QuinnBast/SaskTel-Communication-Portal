@@ -7,5 +7,9 @@ describe("FACButton", () => {
 
     it('loads', () => {
         let wrapper = shallow(<FeatureAccessCodesButton/>);
+                // open modal;
+        wrapper.instance().showFeatureAccessCodes();
+        // close modal;
+        wrapper.instance().showFeatureAccessCodes();
     });
 });
