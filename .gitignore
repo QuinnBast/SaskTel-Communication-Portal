@@ -26,14 +26,16 @@ documentation/RequirementsAndSpecifications\.toc
 
 documentation/RequirementsAndSpecifications\.out
 
-documentation/TestingStrategy\.toc
+REST/logs/output\.log
 
-documentation/TestingStrategy\.synctex\.gz
-
-documentation/TestingStrategy\.out
-
-documentation/TestingStrategy\.lot
+documentation/TestingStrategy\.lof
 
 documentation/TestingStrategy\.log
 
-documentation/TestingStrategy\.lof
+documentation/TestingStrategy\.lot
+
+documentation/TestingStrategy\.out
+
+documentation/TestingStrategy\.synctex\.gz
+
+documentation/TestingStrategy\.toc

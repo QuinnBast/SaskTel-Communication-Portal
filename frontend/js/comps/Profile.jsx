@@ -6,21 +6,19 @@ import React from "react";
 /**
  *  Component Imports
  */
-import {Container, Jumbotron, Col, Row} from 'reactstrap';
-import CallLogButton from "../comps/CallLogButton";
-import FeatureAccessCodesButton from "../comps/FeatureAccessCodesButton"
+import {Container, Jumbotron, Col, Row, Button} from 'reactstrap';
 
 /**
  *  REST API Imports
  */
 import BroadSoft from "../broadsoft/BroadSoft";
 import {getTag} from "../broadsoft/xmlParse"
+import Auth from "../router/Auth";
 
 export default class Profile extends React.Component {
 
     constructor(props) {
         super(props);
-        this.loadAsync();
         this.state = {
             firstName: "",
             lastName: "",
@@ -30,13 +28,25 @@ export default class Profile extends React.Component {
         }
     }
 
-// Asynchronous function that updates the object.
-    loadAsync(){
+    componentDidMount() {
         let self = this;
-        BroadSoft.sendRequest({
-            endpoint: "/user/<user>/profile",
-            success: function(response) {
-                let profileDetails = getTag(response, ["Profile", "details"]);
+        if(Auth.isAuthenticated()){
+            self.loadAsync();
+        } else {
+            let interval = setInterval(function () {
+                if (Auth.isAuthenticated()) {
+                    self.loadAsync();
+                    clearInterval(interval);
+                }
+            }, 500);
+        }
+    }
+
+// Asynchronous function that updates the object.
+    loadAsync = () => {
+        let self = this;
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/profile"}).then((response) => {
+            let profileDetails = getTag(response, ["Profile", "details"]);
                 self.setState({
                     firstName: getTag(profileDetails, ["firstName"]),
                     lastName: getTag(profileDetails, ["lastName"]),
@@ -44,12 +54,8 @@ export default class Profile extends React.Component {
                     extension: getTag(profileDetails, ["extension"]),
                     status: "ready"
                 });
-            },
-            error: function(response) {
-                // User does not have access to the endpoint.
-            }
         });
-    }
+    };
 
     render() {
         if(this.state.status === "loading") {
@@ -64,17 +70,11 @@ export default class Profile extends React.Component {
             return (
                 <Container id={"Profile"}>
                     <Jumbotron>
-                        <Row>
-                            <Col xs={"9"}>
-                                <h1>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
-                                <p>Number: {this.state.number}</p>
-                                <p>Extension: {this.state.extension}</p>
-                            </Col>
-                            <Col xs={"3"}>
-                                <CallLogButton/>
-                                <FeatureAccessCodesButton/>
-                            </Col>
-                        </Row>
+                        <Container>
+                                <h1 id={"userName"}>Hello, {this.state.firstName + " " + this.state.lastName}!</h1>
+                                <p id={"userNumber"}>Number: {this.state.number}</p>
+                                <p id={"userExtension"}>Extension: {this.state.extension}</p>
+                        </Container>
                     </Jumbotron>
                 </Container>
             );

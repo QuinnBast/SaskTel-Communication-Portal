@@ -6,12 +6,11 @@ import React from "react";
 /**
  *  Component Imports
  */
-import AccordionWrap from "./AccordionWrap"
 
 /**
  *  REST API Imports
  */
-import BroadSoft from "../broadsoft/BroadSoft";;
+import BroadSoft from "../broadsoft/BroadSoft";
 
 /**
  * XML imports
@@ -28,7 +27,6 @@ export default class PersonalContacts extends React.Component {
 
     constructor(props) {
         super(props);
-        this.loadAsync();
         this.state = {
             unauthorized: false,
             status: "loading",
@@ -40,31 +38,27 @@ export default class PersonalContacts extends React.Component {
         this.dataFormat = null;
     }
 
+    componentDidMount() {
+        this.loadAsync();
+    }
+
 // Asynchronous function that updates the object.
-    loadAsync(){
+    loadAsync = () => {
         let self = this;
-        BroadSoft.sendRequest({
-            endpoint: "/user/<user>/directories/Personal",
-            success: function(response) {
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/directories/Personal"}).then((response) => {
+            self.dataFormat = response;
 
-                self.dataFormat = response;
-
-                let contacts = [];
-                // Loop through any entries that have been sent
-                for(let entry in getTag(response, ["Personal"]).elements){
-                    if(entry.name === "entry"){
-                        contacts.add(entry);
-                    }
+            let contacts = [];
+            // Loop through any entries that have been sent
+            for(let entry in getTag(response, ["Personal"]).elements){
+                if(entry.name === "entry"){
+                    contacts.add(entry);
                 }
-                if(contacts.length > 0) {
-                    self.setState((prevState) => ({data: [...prevState.data, contacts]}));
-                }
-                self.setState({status: "ready"});
-            },
-            error: function(response) {
-                // User does not have access to the endpoint.
-                self.setState({unauthorized: true});
             }
+            if(contacts.length > 0) {
+                self.setState((prevState) => ({data: [...prevState.data, contacts]}));
+            }
+            self.setState({status: "ready"});
         });
     }
 

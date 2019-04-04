@@ -1,12 +1,12 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 
 /**
  *  Component Imports
  */
-import AccordionWrap from "./AccordionWrap"
+import {Popover, PopoverBody, PopoverHeader, Table} from 'reactstrap';
 
 /**
  *  REST API Imports
@@ -17,7 +17,6 @@ import BroadSoft from "../broadsoft/BroadSoft";
  * Broadsoft imports
  */
 import { getTag } from "../broadsoft/xmlParse"
-import FeatureAccessCodeData from "./FeatureAccessCodeData";
 
 export default class FeatureAccessCodes extends React.Component {
 
@@ -26,50 +25,47 @@ export default class FeatureAccessCodes extends React.Component {
         this.state = {
             features : [],
         };
-    this.loadAsync();
-}
+        this.loadAsync();
+    }
 
 // Asynchronous function that updates the object.
-loadAsync(){
-    let self = this;
-    BroadSoft.sendRequest({
-        endpoint: "/user/<user>/profile/Fac",
-        success: function(response) {
+    loadAsync(){
+        let self = this;
+        return BroadSoft.sendRequest({endpoint: "/user/<user>/profile/Fac"}).then( (response) => {
 
             let features = getTag(response, ["FAC"]).elements;
 
-            for(let fac of features){
+            for (let fac of features) {
                 // Get information about the features
-                let feature = <FeatureAccessCodeData key={getTag(fac, ["code"])} code={getTag(fac, ["code"])} fac={getTag(fac, ["codeName"])}/>
-                self.setState((prevState) => ({ features: [...prevState.features, feature]}));
+                let feature =
+                    <tr key={getTag(fac, ["code"])}>
+                        <td>{getTag(fac, ["code"])}</td>
+                        <td>{getTag(fac, ["codeName"])}</td>
+                    </tr>;
+                self.setState((prevState) => ({features: [...prevState.features, feature]}));
             }
-        },
-        error: function(response) {
-            // User does not have access to the endpoint.
-        }
-    });
-}
+        });
+    }
 
-render() {
-    return (
-        <AccordionWrap title={"Feature Access Codes"} description={"Feature Access Codes list the star codes for services that you have. To activate a service, hit the * key and the number followed by the # key. Some require additional information such as a phone number, but you are prompted for that information. You cannot change your feature access codes."}>
-        <div>
-            <Table striped id={"FeatureAccessCodes"}>
-                <Table.Header>
-                    <Table.Row>
-                        <Table.HeaderCell>
-                            <Popup trigger={<div>Access Code</div>} content={"Access code to dial in order to access the specified feature."}/>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
-                            <Popup trigger={<div>Feature Description</div>} content={"Description of the feature able to be accessed."}/></Table.HeaderCell>
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body key={"FeatureAccessKey"}>
+    render() {
+        return (
+            <Fragment>
+                <Table striped id={"FeatureAccessCodes"}>
+                    <thead>
+                    <tr>
+                        <th>Access Code</th>
+                        <th>Feature Description</th>
+                    </tr>
+                    </thead>
+                </Table>
+            <div style={{height: "60vh", overflowY: "scroll"}}>
+                <Table striped id={"FeatureAccessCodes"} style={{height: "100%"}}>
+                    <tbody key={"FeatureAccessKey"}>
                     {this.state.features}
-                </Table.Body>
-            </Table>
-        </div>
-        </AccordionWrap>
-    );
-}
+                    </tbody>
+                </Table>
+            </div>
+            </Fragment>
+        );
+    }
 }

@@ -1,7 +1,7 @@
 /**
  *  React Imports
  */
-import React from "react";
+import React, {Fragment} from "react";
 
 
 /**
@@ -9,11 +9,13 @@ import React from "react";
  */
 import {Button, Carousel, CarouselItem, Col, Container, Row} from 'reactstrap';
 import ProfileSettings from "./ProfileSettings";
+import Switch from 'react-switch';
 
 const headerStyle = {
     borderBottom: "2px solid black",
     background: "#e9ecef",
-    padding: "5px"
+    paddingBottom: "10px",
+    paddingTop: "10px"
 };
 
 export default class CarouselManager extends React.Component {
@@ -23,46 +25,54 @@ export default class CarouselManager extends React.Component {
         this.state = {
             currentPage: 0,
             editPage: null,
-            title: ""
+            title: "",
+            toggleMe: null
         }
     }
 
-    next = (editPage, title) => {
+    next = (editPage, title, toggleMe) => {
         // This will make the edit page appear
-        this.setState({currentPage: 1, editPage: editPage, title: title});
+        this.setState({currentPage: 1, editPage: editPage, title: title, toggleMe});
     };
 
     prev = () => {
         // Remove the edit page from the component
-        this.setState({currentPage: 0, editPage: null});
+        this.state.toggleMe.loadAsync();
+        this.setState({currentPage: 0, editPage: null, toggleMe: null});
     };
 
     render() {
         let header = (
+            <Container>
                 <Row style={headerStyle}>
-                    <Col xs={"6"}><h3>Setting</h3></Col>
-                    <Col xs={"3"}><h3>Enabled</h3></Col>
-                    <Col xs={"3"}><h3>Configure</h3></Col>
-                </Row>);
+                    <Col xs={"6"}><h4>Setting</h4></Col>
+                    <Col xs={"3"}><h4>Enable</h4></Col>
+                    <Col xs={"3"}><h4>Edit</h4></Col>
+                </Row>
+            </Container>);
         if(this.state.currentPage !== 0){
             header = (
-                <Row style={headerStyle}>
-                <Col xs={"3"}><Button onClick={this.prev}>Back</Button></Col>
-                    <Col xs={"9"}><h3>{this.state.title}</h3></Col>
-                </Row>);
+                <Container>
+                    <Row style={headerStyle}>
+                        <Col xs={"2"} style={{textAlign: "center"}}><Button onClick={this.prev}>Back</Button></Col>
+                        <Col xs={"8"} style={{textAlign: "center"}}><h4>{this.state.title}</h4></Col>
+                    </Row>
+                </Container>);
         }
 
         return(
-          <Carousel activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false}>
-              <CarouselItem key={"settings"}>
-                  {header}
-                  <ProfileSettings onEdit={this.next}/>
-              </CarouselItem>
-              <CarouselItem key={"editPage"}>
-                  {header}
-                  {this.state.editPage}
-              </CarouselItem>
-          </Carousel>
+            <div style={{marginBottom: "240px"}}>
+                <Carousel id={"carousel"} activeIndex={this.state.currentPage} next={this.next} previous={this.prev} interval={false} keyboard={false}>
+                    <CarouselItem id={"carouselHeader"} key={"settings"}>
+                        {header}
+                        <ProfileSettings onEdit={this.next}/>
+                    </CarouselItem>
+                    <CarouselItem id={"carouselBody"} key={"editPage"}>
+                        {header}
+                        {this.state.editPage}
+                    </CarouselItem>
+                </Carousel>
+            </div>
         );
     }
 }

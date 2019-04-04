@@ -18,7 +18,7 @@ import {Router, Redirect, Switch, Route} from "react-router-dom";
  */
 import '!style-loader!css-loader!bootstrap/dist/css/bootstrap.min.css';
 
-//import "../dist/main.css"; //Requires the CSS file
+import "!style-loader!css-loader!../css/main.css"
 
 /**
  *  Router Imports
@@ -42,15 +42,20 @@ import  NavBar from "./comps/NavBar";
  * Font Awesome Icon imports
  */
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit, faQuestionCircle, faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash } from '@fortawesome/free-solid-svg-icons'
 
-library.add(faEdit, faQuestionCircle, faSignOutAlt);
+library.add(faEdit, faQuestionCircle, faSignOutAlt, faListUl, faCaretUp, faCaretDown, faBook, faCheck, faTimes, faSync, faPhone, faMicrophone, faMicrophoneSlash);
 
 // Globally include jQuery
 window.$ = window.jQuery = require("jquery");
 
 export default class App extends React.Component {
+
+
+    constructor(props){
+        super(props);
+    }
+
     render () {
         return (
             <Router history={history}>

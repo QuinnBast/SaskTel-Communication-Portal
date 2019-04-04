@@ -8,11 +8,7 @@ import history from "./history";
  */
 import BroadSoft from "../broadsoft/BroadSoft"
 
-
-/**
- * Allows accessing cookies
- */
-let Cookies = require("js-cookie");
+import Cookies from "js-cookie";
 
 let $ = require('jquery');
 
@@ -20,8 +16,7 @@ class Auth {
     constructor() {
         this.authenticated = false;
         this.username = "";
-        this.password ="";
-        this.csrfToken =  "";
+        this.password = "";
         this.refreshToken = "";
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -30,70 +25,77 @@ class Auth {
         this.isAuthenticated = this.isAuthenticated.bind(this);
 
         // Check if a session is set
-        if(localStorage.getItem("refreshToken") !== undefined){
-            this.authenticated = true;
-            this.username = localStorage.getItem("username");
-            this.refreshToken = localStorage.getItem("refreshToken");
-
-            this.attemptRefresh()
+        if (this.doesSessionExist()) {
+            this.sessionSetup();
         }
     }
 
-    attemptRefresh(retryFunction, args){
+    doesSessionExist =() => {
+        return sessionStorage.getItem("authenticated") === "true";
+    };
 
-        let self = this;
+    sessionSetup = () => {
+        this.attemptRefresh();
+    };
 
-        if(self.refreshToken === undefined){
-            if(self.username === undefined){
+
+    attemptRefresh = (retryFunction, args) => {
+        this.username = sessionStorage.getItem("username");
+        this.refreshToken = sessionStorage.getItem("refreshToken");
+
+            let self = this;
+
+            if (self.refreshToken === undefined) {
+                self.logout();
                 return;
             }
-            self.logout();
-        }
-        // Configure future AJAX request to send the csrf refresh token along in the header.
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings){
-                if(!this.crossDomain){
-                    xhr.setRequestHeader("X-CSRF-TOKEN", self.refreshToken);
-                }
-            },
-            data: {"CSRFToken": self.refreshToken}
-        });
-
-        $.ajax({
-            type: "POST",
-            url: "/rest/token/refresh",
-            contentType: "application/json",
-            success: function (responseText, textStatus, jqxhr) {
-                self.authenticated = true;
-                self.csrfToken = Cookies.get('csrf_access_token');
-                self.refreshToken = Cookies.get('csrf_refresh_token');
-                localStorage.setItem("username", self.username);
-                localStorage.setItem("refreshToken", self.refreshToken);
-                // Configure future AJAX requests to send the access token along in the header.
-                $.ajaxSetup({
-                    beforeSend: function(xhr, settings){
-                        if(!this.crossDomain){
-                            xhr.setRequestHeader("X-CSRF-TOKEN", self.csrfToken);
-                        }
-                    },
-                    data: {"CSRFToken":self.csrfToken}
-                });
-
-                // Retry the function if a retry function was sent.
-                if(retryFunction !== undefined){
-                    if(args !== undefined){
-                        retryFunction(args);
-                    } else {
-                        retryFunction();
+            // Configure future AJAX request to send the csrf refresh token along in the header.
+            $.ajaxSetup({
+                beforeSend: function (xhr, settings) {
+                    if (!this.crossDomain) {
+                        xhr.setRequestHeader("X-CSRF-TOKEN", self.refreshToken);
                     }
+                },
+                data: {"CSRFToken": self.refreshToken}
+            });
+
+            $.ajax({
+                type: "POST",
+                url: "/rest/token/refresh",
+                contentType: "application/json",
+                success: function (responseText, textStatus, jqxhr) {
+                    self.authenticated = true;
+                    self.csrfToken = Cookies.get('csrf_access_token');
+                    self.refreshToken = Cookies.get('csrf_refresh_token');
+                    sessionStorage.setItem("username", self.username);
+                    sessionStorage.setItem("refreshToken", self.refreshToken);
+                    // Configure future AJAX requests to send the access token along in the header.
+                    $.ajaxSetup({
+                        beforeSend: function (xhr, settings) {
+                            if (!this.crossDomain) {
+                                xhr.setRequestHeader("X-CSRF-TOKEN", self.csrfToken);
+                            }
+                        },
+                        data: {"CSRFToken": self.csrfToken}
+                    });
+
+                    // Retry the function if a retry function was sent.
+                    if (retryFunction !== undefined) {
+                        if (args !== undefined) {
+                            retryFunction(args);
+                        } else {
+                            retryFunction();
+                        }
+                    }
+
+                    history.push('/');
+                },
+                error: function () {
+                    // Logout if an access token could not be generated.
+                    self.logout();
                 }
-            },
-            error: function(){
-                // Logout if an access token could not be generated.
-                self.logout();
-            }
-        });
-    }
+            });
+        }
 
     login (e) {
         e.preventDefault();
@@ -115,24 +117,38 @@ class Auth {
         $('#LoginButton:first').addClass('loading');
         //Async login call
         let self = this;
-        BroadSoft.login({
-            success: function(result){
-                localStorage.setItem("username", self.username);
-                localStorage.setItem("refreshToken", self.refreshToken);
+
+        BroadSoft.login().then(function(result){
+                self.authenticated = true;
+                self.csrfToken = Cookies.get('csrf_access_token');
+                self.refreshToken = Cookies.get('csrf_refresh_token');
+
+                sessionStorage.setItem("authenticated", self.authenticated.toString());
+                sessionStorage.setItem("username", self.username);
+                sessionStorage.setItem("refreshToken", self.refreshToken);
                 $("#alert").get(0).style.visibility = 'hidden';
                 history.push("/");
-            },
-            error: function(result){
-                $("#alert").get(0).style.visibility = 'visible';
-                $('#LoginButton:first').removeClass('loading');
-            }
-        });
+            }, function(result){
+
+
+                self.authenticated = false;
+                sessionStorage.removeItem("authenticated");
+                sessionStorage.removeItem("username");
+                sessionStorage.removeItem("refreshToken");
+
+                if(result.status === 599){
+                    $("#alert").get(0).innerHTML = "Unable to connect to authentication server. Please try again.";
+                    $("#alert").get(0).style.visibility = 'visible';
+                    $('#LoginButton:first').removeClass('loading');
+                } else {
+                    $("#alert").get(0).innerHTML = "Invalid login credentials. Please try again.";
+                    $("#alert").get(0).style.visibility = 'visible';
+                    $('#LoginButton:first').removeClass('loading');
+                }
+            });
     };
 
     logout() {
-        BroadSoft.logout();
-        // Don't wait for the server's response to logout.
-
         //Clear the ajax configuration so that it no longer sends the CSRF token.
         $.ajaxSetup({
             beforeSend: undefined,
@@ -144,9 +160,10 @@ class Auth {
         this.username = "";
         this.password = "";
 
-        // Remove the localStorage settings.
-        localStorage.removeItem("username");
-        localStorage.removeItem("refreshToken");
+        // Remove the sessionStorage settings.
+        sessionStorage.removeItem("authenticated");
+        sessionStorage.removeItem("username");
+        sessionStorage.removeItem("refreshToken");
 
         // Prevent the user navigating back.
         history.push("/login");

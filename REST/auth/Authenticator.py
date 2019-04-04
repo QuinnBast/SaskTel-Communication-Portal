@@ -6,6 +6,7 @@ from REST.broadsoft.BroadsoftConnector import BroadsoftConnector
 from REST.auth.Proxy import Proxy
 from REST.auth.User import User
 from REST.server import config, logconsole
+import requests
 
 
 class Authenticator:
@@ -57,7 +58,10 @@ class Authenticator:
             password = data["password"]
 
             # Send the username and password to broadsoft and check that a token can be obtained from the endpoint.
-            broadsoft_response = BroadsoftConnector().getToken(username, password)
+            try:
+                broadsoft_response = BroadsoftConnector().getToken(username, password)
+            except requests.exceptions.ConnectionError as e:
+                return "<login>false</login>", 599
 
             # Check if a valid response was obtained from broadsoft.
             if broadsoft_response.status_code == 201 or broadsoft_response.status_code == 200:

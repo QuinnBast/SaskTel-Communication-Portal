@@ -5,21 +5,29 @@
   "main": "index.js",
   "scripts": {
     "coverage": "cross-env NODE_ENV=test nyc -x **/node_modules/** mocha --recursive js/**/*.jsx",
-    "test": " cross-env NODE_ENV=test nyc mocha --require tests/jsdomsetup.js --require tests/enzyme/enzymesetup.js 'tests/**/*.{js,jsx}'",
+    "test": "cross-env NODE_ENV=test jest --coverage --collectCoverageFrom=js/**/*.{js,jsx} --testUrl=http://127.0.0.1:5000",
     "watch": "webpack-cli --progress -d --config webpack.config.js --watch",
     "dev": "webpack -d --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80",
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|ts)$": "babel-jest"
+    },
+    "setupFilesAfterEnv": ["<rootDir>/tests/enzyme/enzymesetup.js"]
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^24.5.0",
     "babel-loader": "^8.0.4",
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
@@ -28,8 +36,9 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "istanbul": "^0.4.5",
+    "jest": "^24.5.0",
     "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
+    "nyc": "^13.3.0",
     "react": "^16.5.2",
     "react-dom": "^16.7.0",
     "selenium-webdriver": "^3.6.0",
@@ -39,19 +48,13 @@
   "babel": {
     "plugins": [
       "@babel/plugin-syntax-jsx",
-      "@babel/plugin-syntax-dynamic-import"
+      "@babel/plugin-syntax-dynamic-import",
+      "@babel/plugin-proposal-class-properties"
     ],
     "presets": [
       "@babel/preset-env",
       "@babel/preset-react"
-    ],
-    "env": {
-      "test": {
-        "plugins": [
-          "istanbul"
-        ]
-      }
-    }
+    ]
   },
   "nyc": {
     "exclude": "/node_modules/*",
@@ -66,7 +69,6 @@
     "instrument": false
   },
   "dependencies": {
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.14",
     "@fortawesome/free-solid-svg-icons": "^5.7.1",
     "@fortawesome/react-fontawesome": "^0.1.4",

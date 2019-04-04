@@ -16,10 +16,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
  */
 import Auth from "../router/Auth";
 
-export const LogButton = withRouter(() => (
-        Auth.isAuthenticated() ? (
-                <NavLink href={"/login"} onClick={Auth.logout} id={"logout"}><FontAwesomeIcon icon={"sign-out-alt"}/> Sign out</NavLink>
-        ) : (
-            ""
-        )
-    ));
+export const NavButton =
+    withRouter((props) => (Auth.isAuthenticated() ? (
+        <NavLink onClick={props.onClick}> {props.icon} {props.text}  </NavLink>) : ("")));

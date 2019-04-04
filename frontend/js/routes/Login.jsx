@@ -34,7 +34,7 @@ export default class Login extends React.Component {
     render(){
         return (
             <Fragment>
-                <Container>
+                <Container style={{paddingTop: "100px"}}>
                     <Alert color={"danger"} style={{visibility: "hidden"}} id="alert">
                         Invalid Login Credentials. Try Again
                     </Alert>

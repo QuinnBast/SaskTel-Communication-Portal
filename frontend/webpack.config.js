@@ -31,14 +31,21 @@ const config = {
             },
             {
                 test:/\.(s*)css$/,
-                use:['css-loader', 'sass-loader']
+                include: '/css/',
+                use:['style-loader', {
+                    loader: 'css-loader',
+                    options: {
+                        modules: true,
+                    },
+                },
+                ],
             },
             {
                 test: /\.less$/,
                 use     : [ MiniCssExtractPlugin.loader, 'css-loader', 'resolve-url-loader', 'less-loader']
             },
             {
-                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/, /\.ogg$/],
                 loader: require.resolve("url-loader"),
                 options: {
                     limit: 10000,

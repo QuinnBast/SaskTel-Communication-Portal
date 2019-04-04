@@ -18,7 +18,6 @@ install:
   - cd frontend
   - npm install
   - npm install newman
-  - npm run dev
 before_script:
   - cd ..
   - set FLASK_APP=REST/server.py
