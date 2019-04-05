@@ -122,7 +122,7 @@ describe("ProfileSettings", () => {
 
         expect(broadsoftNoUri.calledOnce).toEqual(true);
         expect(wrapper.children()).toHaveLength(0);
-    })
+    });
 
     afterAll(() => {
        BroadSoft.sendRequest.restore();

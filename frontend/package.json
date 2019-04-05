@@ -11,6 +11,10 @@
     "prod": "webpack -p --config webpack.config.js --progress --hide-modules --host 127.0.0.1 --port 80"
   },
   "jest": {
+    "moduleNameMapper":{
+             "\\.(css|less|sass|scss)$": "<rootDir>/tests/__mocks__/styleMock.js",
+             "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
+        },
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
     },

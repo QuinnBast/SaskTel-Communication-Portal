@@ -1,9 +1,7 @@
 import React from 'react';
 import sinon from 'sinon';
-import { mount, shallow } from 'enzyme';
 import Auth from '../../js/router/Auth';
 import BroadSoft from '../../js/broadsoft/BroadSoft';
-import Login from "../../js/routes/Login";
 require('babel-polyfill');
 let xmljs = require('xml-js');
 
