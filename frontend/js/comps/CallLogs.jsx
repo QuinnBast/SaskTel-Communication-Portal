@@ -32,7 +32,7 @@ export default class CallLogs extends React.Component {
         this.loadAsync();
     }
 
-    handleSort = clickedColumn => () => {
+    handleSort = clickedColumn => {
         let column = this.state.column;
         let logs = [];
         let direction = null;

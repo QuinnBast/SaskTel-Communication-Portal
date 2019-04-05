@@ -25,6 +25,8 @@ Auth.sessionSetup();
 let name = "Some Editable Property";
 let tooltip = "Fake tooltip";
 
+global.sendMessage = function(){};
+
 describe("XmlEditable", () => {
 
     it('creates a boolean', () => {
@@ -39,7 +41,7 @@ describe("XmlEditable", () => {
         let fakeGetValue = sinon.fake(function(){
             return 3333333333;
         });
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"phone"} XmlLocation={['phone']} getValue={fakeGetValue}/>);
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"phone"} XmlLocation={['phone']} getValue={fakeGetValue} hideTitle/>);
         sinon.restore();
     });
 
@@ -47,7 +49,7 @@ describe("XmlEditable", () => {
         let fakeGetValue = sinon.fake(function(){
             return 4;
         });
-        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} range={[2, 20]} getValue={fakeGetValue}/>);
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} XmlLocation={['range']} range={[2, 20]} getValue={fakeGetValue} locked/>);
         sinon.restore();
     })
 
@@ -80,9 +82,143 @@ describe("XmlEditable", () => {
         // Block test until event loop has processed any queued work (including our data retrieval)
         await new Promise((resolve) => setTimeout(resolve, 0));
 
-        wrapper.find("#" + wrapper.instance().props.name.replace(/\s+/g, '') + "Switch").simulate('change', true);
+        wrapper.instance().inputChange(false)
         sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
 
-        expect(wrapper.instance().state.value).toEqual(true);
+        expect(wrapper.instance().state.value).toEqual(false);
+    })
+
+    it('can edit a phone', async () => {
+
+        let fakeGetValue = sinon.fake(function(){
+            return 3333333333;
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve(false);
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"phone"} XmlLocation={['service', 'phone']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().inputChange({"target": {"value": "1111111111"}});
+        sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
+
+        expect(wrapper.instance().state.value).toEqual("1111111111");
+    })
+
+    it('can edit a number', async () => {
+        let fakeGetValue = sinon.fake(function(){
+            return 5;
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve(5);
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"number"} XmlLocation={['service', 'number']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().inputChange({"target": {"value": "5"}});
+        sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
+
+        expect(wrapper.instance().state.value).toEqual("5");
+    })
+
+    it('can edit a range', async () => {
+
+        let fakeGetValue = sinon.fake(function(){
+            return 5;
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve(5);
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} range={[1, 20]} XmlLocation={['service', 'number']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().inputChange({"target": {"value": "5"}});
+        sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
+
+        expect(wrapper.instance().state.value).toEqual("5");
+    })
+
+    it('can edit a string', async () => {
+
+        let fakeGetValue = sinon.fake(function(){
+            return "T";
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve("T");
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['service', 'value']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().inputChange({"target": {"value": "Test"}});
+        sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
+
+        expect(wrapper.instance().state.value).toEqual("Test");
+    })
+
+    it('updates on range slide', async () => {
+
+        let fakeGetValue = sinon.fake(function(){
+            return 5;
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.resolve(5);
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} range={[1, 20]} XmlLocation={['service', 'number']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().onRangeSlide({"target": {"value": "6"}});
+        sinon.restore();
+        broadsoft.restore();
+        wrapper.instance().validate();
+
+        expect(wrapper.instance().state.value).toEqual("6");
+    })
+
+    it('shows a tooltip', async () => {
+
+
+        let fakeGetValue = sinon.fake(function(){
+            return 5;
+        });
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"range"} range={[1, 20]} XmlLocation={['service', 'number']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().togglePopover();
+        wrapper.instance().toggleStatusPopover();
+        sinon.restore();
+    })
+
+    it('sends error messages when problems', async () => {
+
+
+        let fakeGetValue = sinon.fake(function(){
+            return "T";
+        });
+        let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
+            return Promise.reject("T");
+        })
+        let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['service', 'value']} getValue={fakeGetValue}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.instance().inputChange({"target": {"value": "Test"}});
+        sinon.restore();
+        broadsoft.restore();
     })
 });

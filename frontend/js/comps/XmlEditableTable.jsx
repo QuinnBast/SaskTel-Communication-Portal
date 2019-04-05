@@ -11,7 +11,7 @@ import {Container, Popover, PopoverHeader, PopoverBody, Table, Button} from "rea
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import { getTag, generateKeyValueXml } from "../broadsoft/xmlParse";
 import XmlEditable from "./XmlEditable";
-import MaskedInput from "./PersonalContacts";
+import MaskedInput from 'react-text-mask';
 import Broadsoft from "../broadsoft/BroadSoft";
 
 

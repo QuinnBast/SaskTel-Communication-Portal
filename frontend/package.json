@@ -16,6 +16,9 @@
     },
     "setupFilesAfterEnv": [
       "<rootDir>/tests/enzyme/enzymesetup.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/js/broadsoft/BroadSoft.jsx"
     ]
   },
   "author": "",
