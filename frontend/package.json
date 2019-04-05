@@ -13,7 +13,7 @@
   "jest": {
     "moduleNameMapper":{
              "\\.(css|less|sass|scss)$": "<rootDir>/tests/__mocks__/styleMock.js",
-             "\\.(gif|ttf|eot|svg)$": "<rootDir>/tests/__mocks__/fileMock.js"
+             "\\.(gif|ttf|eot|svg|ogg)$": "<rootDir>/tests/__mocks__/fileMock.js"
         },
     "transform": {
       "^.+\\.(js|jsx|ts)$": "babel-jest"
