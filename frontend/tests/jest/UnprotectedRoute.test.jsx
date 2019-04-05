@@ -5,7 +5,7 @@ import Auth from "../../js/router/Auth";
 import history from "../../js/router/history"
 import {UnprotectedRoute} from "../../js/router/UnprotectedRoute";
 import {MemoryRouter, Switch} from "react-router";
-import NavBar from "../../js/comps/NavBar";
+import { Route } from "react-router-dom";
 require('babel-polyfill');
 let xmljs = require('xml-js');
 

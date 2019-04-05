@@ -165,8 +165,9 @@ describe("XmlEditable", () => {
         sinon.restore();
         broadsoft.restore();
         wrapper.instance().validate();
+        wrapper.instance().inputChange({"target": {"value": "    T "}});
 
-        expect(wrapper.instance().state.value).toEqual("Test");
+        expect(wrapper.instance().state.value).toEqual("T");
     })
 
     it('updates on range slide', async () => {
@@ -206,12 +207,11 @@ describe("XmlEditable", () => {
 
     it('sends error messages when problems', async () => {
 
-
         let fakeGetValue = sinon.fake(function(){
             return "T";
         });
         let broadsoft = sinon.stub(BroadSoft, "sendRequest").callsFake(function(){
-            return Promise.reject("T");
+            return Promise.reject(xmljs.xml2js("<ErrorInfo><summary>Error occurred</summary><errorCode>123</errorCode></ErrorInfo>"));
         })
         let wrapper = shallow(<XmlEditable name={name} tooltip={tooltip} type={"string"} XmlLocation={['service', 'value']} getValue={fakeGetValue}/>);
 

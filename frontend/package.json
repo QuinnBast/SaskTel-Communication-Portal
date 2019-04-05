@@ -22,7 +22,11 @@
       "<rootDir>/tests/enzyme/enzymesetup.js"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/js/broadsoft/BroadSoft.jsx"
+      "<rootDir>/js/broadsoft/BroadSoft.jsx",
+      "<rootDir>/js/comps/Sip.jsx",
+      "<rootDir>/js/comps/XmlEditableTable.jsx",
+      "<rootDir>/js/router/UnprotectedRoute.jsx",
+      "<rootDir>/js/router/ProtectedRoute.jsx"
     ]
   },
   "author": "",

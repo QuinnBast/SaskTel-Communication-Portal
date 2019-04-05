@@ -44,6 +44,36 @@ describe("ProfileSettings", () => {
         broadsoftRequest.resetHistory();
     });
 
+    it('sets timeout if not authorized', async () => {
+        authSetupStub.restore();
+        // Setup the session
+        let badAuth = sinon.stub(Auth, "sessionSetup").callsFake(function() {
+            this.authenticated = false;
+            this.username = "(111)111-1111";
+            this.password = "fakepassword";
+        });
+
+        // setup the auth component
+        Auth.sessionSetup();
+        // Reset function spies
+        let wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        badAuth.restore();
+
+        // Setup the session
+        authSetupStub = sinon.stub(Auth, "sessionSetup").callsFake(function() {
+            this.authenticated = true;
+            this.username = "(111)111-1111";
+            this.password = "fakepassword";
+        })
+        // setup the auth component
+        Auth.sessionSetup();
+        broadsoftRequest.resetHistory();
+    })
+
     it('shows loading while waiting for a response', () => {
         let wrapper = shallow(<ProfileSettings onEdit={() => {return true}}/>);
         expect(wrapper.find("#ProfileServices").html()).toMatch("Loading");
@@ -56,7 +86,7 @@ describe("ProfileSettings", () => {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         wrapper.update();
-        expect(broadsoftRequest.calledOnce).toEqual(true);
+        expect(broadsoftRequest.callCount).toBeGreaterThan(0);
     });
 
     it('renders new services', async () => {
@@ -102,7 +132,7 @@ describe("ProfileSettings", () => {
         let broadsoftNoUri = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint']).toBe("/user/<user>/services");
 
-            let fakeResponse = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><Services xmlns=\"http://schema.broadsoft.com/xsi\"><service><name>ServiceWithNoUri</name><uri>FakeUri</uri></service></Services>";
+            let fakeResponse = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?><Services xmlns=\"http://schema.broadsoft.com/xsi\"><service><name>ServiceWithNoUri</name><uri>FakeUri</uri></service><service><name>Do Not Disturn</name><uri>FakeUri</uri></service><service><name>Call Forwarding Selective</name><uri>FakeUri</uri></service><service><name>Calling Name Delivery</name><uri>FakeUri</uri></service><service><name>Call Waiting</name><uri>FakeUri</uri></service></Services>";
 
             // Convert the response into xml object.
             let response = xmljs.xml2js(fakeResponse);
@@ -121,12 +151,12 @@ describe("ProfileSettings", () => {
         wrapper.update();
 
         expect(broadsoftNoUri.calledOnce).toEqual(true);
-        expect(wrapper.children()).toHaveLength(0);
+        expect(wrapper.children()).toHaveLength(4);
     });
 
     afterAll(() => {
-       BroadSoft.sendRequest.restore();
-       Auth.sessionSetup.restore();
+        BroadSoft.sendRequest.restore();
+        Auth.sessionSetup.restore();
     });
 
 });

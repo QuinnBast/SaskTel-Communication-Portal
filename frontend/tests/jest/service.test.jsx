@@ -138,7 +138,7 @@ describe("Service", () => {
         // Create broadsoft stub to prevent server calls
         let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
             expect(args['endpoint'] === uri);
-            return Promise.resolve(xmljs.xml2js("<active>false</active>"));
+            return Promise.resolve(xmljs.xml2js("<active>true</active>"));
         });
 
         let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
@@ -149,6 +149,7 @@ describe("Service", () => {
         // Block test until event loop has processed any queued work (including our data retrieval)
         await new Promise((resolve) => setTimeout(resolve, 0));
         wrapper.update();
+        expect(wrapper.instance().getValue(["active"])).toEqual("true");
 
         wrapper.instance().togglePopover();
 
@@ -158,5 +159,53 @@ describe("Service", () => {
         servicePopupToggle.restore();
         broadsoftStub.restore();
     });
+
+    it('doesnt load if errored async', async () => {
+
+        global.sendMessage = function(){};
+
+        // Create broadsoft stub to prevent server calls
+        let broadsoftStub = sinon.stub(BroadSoft, "sendRequest").callsFake(function(args){
+            expect(args['endpoint'] === uri);
+            return Promise.reject( xmljs.xml2js("<error>false</error>"));
+        });
+
+        let wrapper = shallow(<Service name={serviceName} uri={uri} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.update();
+
+        broadsoftStub.restore();
+    })
+
+    it('service with no uri shows not configured', async () => {
+
+        global.sendMessage = function(){};
+
+        let wrapper = shallow(<Service name={serviceName} uri={""} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.update();
+    })
+
+    it('edits on failed load sends a message', async () => {
+
+        global.sendMessage = function(){};
+
+        let wrapper = shallow(<Service name={serviceName} uri={""} onEdit={onEdit} tooltip={tooltip} hasEdit hasToggle activePath={['active']}/>);
+        let failedLoad = sinon.stub(wrapper.instance(), "loadAsync").callsFake(function(){
+            return Promise.reject("Oh No");
+        })
+
+        // Block test until event loop has processed any queued work (including our data retrieval)
+        await new Promise((resolve) => setTimeout(resolve, 0));
+        wrapper.update();
+
+        wrapper.instance().edit();
+    })
 
 });
